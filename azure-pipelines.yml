@@ -31,9 +31,4 @@ steps:
     replaceExistingArchive: true
     verbose: true
 
-- task: AzureFileCopy@4
-  inputs:
-    SourcePath: '$(Build.ArtifactStagingDirectory)/*.zip'
-    Destination: 'AzureBlob'
-    storage: 'visiophonewebstoreage'
-    
+
