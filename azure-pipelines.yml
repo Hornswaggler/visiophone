@@ -23,8 +23,7 @@ steps:
 
 - task: AzureFileCopy@4
   inputs:
-    BlobPrefix: '*/**'
-    SourcePath: '$(Build.ArtifactStagingDirectory)'
+    SourcePath: '$(Build.ArtifactStagingDirectory)/*'
     azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
     Destination: 'AzureBlob'
     storage: 'visiophonewebstoreage'
