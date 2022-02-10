@@ -3,7 +3,7 @@
     <div class="container-content" style="height:100%;display:flex;flex-direction:column;">
       
       <!-- Header -->
-      <div style="flex:0.25;height:100%;width:100%;padding-top:1em;">
+      <div style="flex:0.15;height:100%;width:100%;padding-top:1em;">
         <div style="display:flex;flex-direction:column">
           <div style="flex:1;display:block;height:100%;width:100%;font-size: 0.75em;padding-bottom:0;">"GTS? That stands for Get That Shit" - @Paul Nation</div>
           <div style="flex:1;display:block;display:flex;justify-content: center">
@@ -48,13 +48,13 @@
     <Carousel style="flex:0.5;background-color:black;display:flex;justify-content:space-evenly;align-items:center;position:relative; width:100%;"></Carousel>
 
     <!-- Footer -->
-    <div style="flex: 0.25;height:100%;width:100%;display:flex;align-items:flex-end;justify-content:flex-end;padding-bottom:1em;">
+    <div style="flex: 0.35;height:100%;width:100%;display:flex;align-items:flex-end;justify-content:flex-end;padding-bottom:1em;">
       <div style="flex:1;"></div>
       <div style="flex:1;"></div>
       <div style="flex:1;display:flex;justify-content:flex-end;padding-right: 1em;">
-        <img style="width:3em;display:inline-block;padding-left:1em;" src="../assets/Discord-Logo-Green.png"/>
-        <img style="width:3em;display:inline-block;padding-left:1em;" src="../assets/Discord-Logo-Green.png"/>
-        <img style="width:3em;display:inline-block;padding-left:1em;" src="../assets/Discord-Logo-Green.png"/>
+        <img class="icon hover-zoom" src="../assets/Discord-Logo-Green.png"/>
+        <img class="icon hover-zoom" src="../assets/Instagram-logo-Green.png"/>
+        <img class="icon hover-zoom" src="../assets/Facebook-Logo-Green.png"/>
       </div>
     </div>
   </div>
@@ -110,9 +110,16 @@ export default {
   }
 }
 
+.icon {
+  width:2.5em;
+  display:inline-block;
+  padding-left:1em;
+  cursor:pointer;
+}
+
 .hover-zoom {
     cursor: pointer;
-    transition: transform 0.24s linear 0s;
+    transition: transform 0.1s linear 0s;
 
     &:hover{
       transform: scale(1.25, 1.25);
