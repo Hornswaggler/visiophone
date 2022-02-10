@@ -27,7 +27,7 @@ steps:
     rootFolderOrFile: '$(Build.BinariesDirectory)'
     includeRootFolder: true
     archiveType: 'zip'
-    archiveFile: '
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
     verbose: true
     
@@ -37,5 +37,6 @@ steps:
     azureSubscription: 'jaredlinde-VisioPhone-e1896010-0921-499e-a947-f5aef5306277'
     Destination: 'AzureBlob'
     storage: 'visiophonewebstoreage'
-    ContainerName: '$web''
+    ContainerName: '$web'
+
 
