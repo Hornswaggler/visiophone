@@ -36,3 +36,4 @@ steps:
     SourcePath: '$(Build.ArtifactStagingDirectory)/*.zip'
     Destination: 'AzureBlob'
     storage: 'visiophonewebstoreage'
+    
