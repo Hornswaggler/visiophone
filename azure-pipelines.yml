@@ -11,6 +11,7 @@ pool:
   vmImage: windows-latest
 
 steps:
+
 - task: NodeTool@0
   inputs:
     versionSpec: '12.x'
@@ -20,6 +21,15 @@ steps:
     yarn install
     yarn build
   displayName: 'yarn install and build'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+    verbose: true
 
 - task: AzureFileCopy@4
   inputs:
