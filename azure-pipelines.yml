@@ -38,3 +38,4 @@ steps:
     Destination: 'AzureBlob'
     storage: 'visiophonewebstoreage'
     ContainerName: '$web'
+

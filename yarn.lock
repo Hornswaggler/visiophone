@@ -8641,6 +8641,11 @@ vue-eslint-parser@^7.0.0:
     lodash "^4.17.21"
     semver "^6.3.0"
 
+vue-glitch@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue-glitch/-/vue-glitch-1.0.1.tgz#eebec4602e771d2a4670a6c15abb8502fa0fed7e"
+  integrity sha1-7r7EYC53HSpGcKbBWruFAvoP7X4=
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"

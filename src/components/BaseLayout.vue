@@ -14,7 +14,7 @@
             <div class="button" style="display:inline-block;position:relative;">
               <img  style="height:100%;width:120%;"  src="../assets/Button.png"/>
               <div class="button-text" style="">
-                Plugins
+                <glitch text="Plugins"></glitch>
               </div>
             </div>
 
@@ -63,11 +63,13 @@
 
 <script>
 import Carousel from './Carousel.vue';
+import Glitch from 'vue-glitch';
 
 export default {
   name: 'BaseLayout',
   components:{
-    Carousel
+    Carousel,
+    Glitch
   },
   props: {
     msg: String
