@@ -23,6 +23,11 @@ steps:
   displayName: 'yarn install and build'
   workingDirectory: '$(Build.SourcesDirectory)'
 
+- task: CopyFiles@2
+  inputs:
+    Contents: 'dist/**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
 - task: AzureFileCopy@4
   inputs:
     SourcePath: '$(Build.ArtifactStagingDirectory)'
