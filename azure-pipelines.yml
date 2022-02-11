@@ -11,6 +11,7 @@ pool:
   vmImage: windows-latest
 
 steps:
+
 - task: NodeTool@0
   inputs:
     versionSpec: '12.x'
@@ -21,10 +22,21 @@ steps:
     yarn build
   displayName: 'yarn install and build'
 
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+    verbose: true
+    
 - task: AzureFileCopy@4
   inputs:
-    SourcePath: '$(Build.ArtifactStagingDirectory)'
-    azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
+    SourcePath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    azureSubscription: 'jaredlinde-VisioPhone-e1896010-0921-499e-a947-f5aef5306277'
     Destination: 'AzureBlob'
     storage: 'visiophonewebstoreage'
     ContainerName: '$web'
+
+
