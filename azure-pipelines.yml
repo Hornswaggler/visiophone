@@ -15,8 +15,8 @@ steps:
 
 ## Run the npm install/build
 - script: |
-    pushd $(projectFolder) && yarn install && popd
-    pushd $(projectFolder) && yarn build && popd
+    yarn install
+    yarn build
 ## Copy the client to the staging directory
 - task: CopyFiles@2
   inputs:
