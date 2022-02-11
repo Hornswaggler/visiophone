@@ -34,9 +34,7 @@ steps:
 - task: AzureFileCopy@4
   inputs:
     SourcePath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    azureSubscription: 'jaredlinde-VisioPhone-e1896010-0921-499e-a947-f5aef5306277'
     Destination: 'AzureBlob'
     storage: 'visiophonewebstoreage'
     ContainerName: '$web'
-
 
