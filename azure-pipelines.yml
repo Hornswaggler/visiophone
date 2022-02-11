@@ -21,6 +21,7 @@ steps:
     yarn install
     yarn build
   displayName: 'yarn install and build'
+  workingDirectory: '$(Build.SourcesDirectory)'
 
 - task: ArchiveFiles@2
   inputs:
