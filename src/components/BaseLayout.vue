@@ -8,33 +8,33 @@
           <div style="flex:1;display:block;height:100%;width:100%;font-size: 0.75em;padding-bottom:0;">"GTS? That stands for Get That Shit" - @Paul Nation</div>
           <div style="flex:1;display:block;display:flex;justify-content: center">
             <img style="max-width:10em;" alt="Visiophone logo" src="../assets/Animated-Visio-Man.gif">
-            <img style="max-width:25em;"  alt="Visiophone logo" src="../assets/crispy.png">
+            <img style="max-width:39em;"  alt="Visiophone logo" src="../assets/crispy.png">
           </div>
-          <div style="flex:1;display:block;padding:1em;">
-            <div class="button" style="max-width:7em;display:inline-block;position:relative;">
-              <img  style="height:100%;width:100%;"  src="../assets/Button.png"/>
+          <div style="flex:1;display:flex;padding:1em;justify-content: center;">
+            <div class="button" style="display:inline-block;position:relative;">
+              <img  style="height:100%;width:120%;"  src="../assets/Button.png"/>
               <div class="button-text" style="">
                 Plugins
               </div>
             </div>
 
-            <div class="button" style="max-width:7em;display:inline-block;position:relative;">
-              <img  style="height:100%;width:100%;"  src="../assets/Button.png"/>
+            <div class="button" style="display:inline-block;position:relative;">
+              <img  style="height:100%;width:120%;"  src="../assets/Button.png"/>
               <div class="button-text" style="">
                 Samples
               </div>
             </div>
 
-            <div class="button" style="max-width:7em;display:inline-block;position:relative;">
-              <img  style="height:100%;width:100%;"  src="../assets/Button.png"/>
+            <div class="button" style="display:inline-block;position:relative;">
+              <img  style="height:100%;width:120%;"  src="../assets/Button.png"/>
               <div class="button-text" style="">
                 Videos
               </div>
             </div>
 
 
-            <div class="button" style="max-width:7em;display:inline-block;position:relative;">
-              <img  style="height:100%;width:100%;"  src="../assets/Button.png"/>
+            <div class="button" style="display:inline-block;position:relative;">
+              <img  style="height:100%;width:120%;"  src="../assets/Button.png"/>
               <div class="button-text" style="">
                 Services
               </div>
@@ -127,7 +127,7 @@ export default {
 }
 
 .button {
-  max-width:7em;
+  max-width:15em;
   display:inline-block;
   position:relative;
 
