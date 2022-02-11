@@ -17,6 +17,9 @@ steps:
 - script: |
     yarn install
     yarn build
+  displayName: 'yarn install and build'
+  workingDirectory: '$(Build.SourcesDirectory)'
+
 ## Copy the client to the staging directory
 - task: CopyFiles@2
   inputs:
