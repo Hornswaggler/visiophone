@@ -20,9 +20,11 @@ steps:
   displayName: 'yarn install and build'
   workingDirectory: '$(Build.SourcesDirectory)'
 
+
+    
 - task: AzureFileCopy@4
   inputs:
-    SourcePath: '$(buildOutputFolder)/.*/**'
+    SourcePath: '$(buildOutputFolder)/*'
     azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
     Destination: 'AzureBlob'
     storage: 'visiophonewebstoreage'
