@@ -15,8 +15,8 @@ steps:
 
 ## Run the npm install/build
 - script: |
-    yarn install
-    yarn build
+    call yarn install
+    call yarn build
   displayName: 'yarn install and build'
   workingDirectory: '$(Build.SourcesDirectory)'
 
