@@ -40,13 +40,6 @@
               </div>
             </div>
 
-            <div class="button" style="display:inline-block;position:relative;">
-              <img  style="height:100%;width:120%;"  src="../assets/Button.png"/>
-              <div class="button-text" style="">
-                Did id Work?
-              </div>
-            </div>
-            
           </div>
         </div>
       </div>
