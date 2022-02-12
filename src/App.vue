@@ -26,13 +26,14 @@ export default {
 }
 
 html{
-  background-color: #333333;
+  background-color: black;
   height:100%;
   
   body{
     margin:0;
     height:100%;
     color: #65FE00;
+    overflow:hidden;
   }
 }
 

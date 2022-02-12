@@ -36,18 +36,18 @@ export default {
     animation: hue-rotate 3s linear infinite;
 }
 
-@keyframes hue-rotate {
-  from {
-    -webkit-filter: hue-rotate(0);
-    -moz-filter: hue-rotate(0);
-    -ms-filter: hue-rotate(0);
-    filter: hue-rotate(0);
-  }
-  to {
-    -webkit-filter: hue-rotate(360deg);
-    -moz-filter: hue-rotate(360deg);
-    -ms-filter: hue-rotate(360deg);
-    filter: hue-rotate(360deg);
-  }
-}
+// @keyframes hue-rotate {
+//   from {
+//     -webkit-filter: hue-rotate(0);
+//     -moz-filter: hue-rotate(0);
+//     -ms-filter: hue-rotate(0);
+//     filter: hue-rotate(0);
+//   }
+//   to {
+//     -webkit-filter: hue-rotate(360deg);
+//     -moz-filter: hue-rotate(360deg);
+//     -ms-filter: hue-rotate(360deg);
+//     filter: hue-rotate(360deg);
+//   }
+// }
 </style>
