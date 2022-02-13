@@ -1,10 +1,10 @@
 <template>
-<div style="color:#66FF00;">
+<div style="color:#66FF00;" @mousemove="onMouseMove">
  
- <div>
+ <div class="css-selector">
 
     <!-- header -->
-    <div style="height:100px;width:100%;display:flex;justify-content:flex-left;padding:1em;">
+    <div class="fred" style="height:100px;width:100%;display:flex;justify-content:flex-left;padding:1em;">
       <img style="height:100%;" src="../assets/Animated-Visio-Man.gif"/>
       
       <!-- xp bar -->
@@ -14,11 +14,16 @@
           <div style="height:100%;width:75%;background-color:#FF3399"></div>
         </div>
       </div>
+      <div style="flex:0.3"></div>
+      <div style="width:15em;display:flex;flex-direction:column;align-items:flex-start;padding-left:1em;justify-content:center;">
+        <input style="height:2em;width:25em;" type="text"/>
+      </div>
     </div>
+
     <!-- Nav -->
     <div style="width:100%;">
       <!-- <div style="width:100%;height:2em;background-color:rgb(56 56 56);"></div> -->
-      <div style="width:100%;height:2em;background-color:rgb(42 42 42);color:white;padding-top:0.5em;">
+      <div style="width:100%;height:2em;color:white;padding-top:0.5em;">
         <div style="display:flex;justify-content:space-around; font-family: 'Helvetica', 'Arial', sans-serif;">
           <div class="hover-zoom" style="color:#66FF00;">loops</div>
           <div class="hover-zoom">one-shots</div>
@@ -35,33 +40,12 @@
 
   <!-- Body -->
   <div 
+    class="css-selector"
     style="width:100%;display:flex;flex-direction:column;overflow-y:auto;height: calc(100vh - 132px)"
   >
-    <div style="display:flex;" v-for="item in items" :key="item.id" class="alt-list">
-      <div
-        class="fancy"
-        style="height:10em;width:10em;background-size:cover;"
-        :style="{backgroundImage: 'url(\'' + require('@/assets/visioland_edit.png') + '\')'}"
-      ></div>
-
-      <div
-        style="flex:1;padding-left: 2em;display:flex;align-items:center;flex-direction:column;align-items:flex-start;justify-content:space-around;"
-      >
-        <div style="font-size:0.75em;">
-          <span >New!</span>
-          <span style="margin-left:7em;">900 downloads</span>
-          <span style="margin-left:7em;">100 visiobucks</span>
-          <span style="margin-left:7em;">&#9733;&#9733;&#9733;&#9733;</span>
-        </div>
-        <div style="display:flex;align-items:center;">
-          <div
-            class="play"
-          >
-          </div>
-          <div style="margin-left:0.5em;color:#ffffff9e;font-size:4em;">{{item.name}}</div>
-          </div>
-      </div>
-    </div>
+      <DragBubble/>
+      <DragBubble/>
+      <DragBubble/>
   </div>
 
 
@@ -69,13 +53,18 @@
 </template>
 
 <script>
+import DragBubble from './DragBubble.vue';
 
 export default {
   name: 'BaseLayout',
+  components: {
+    DragBubble
+  },
   props: {
     msg: String
   },
   data: () => ({
+    position:{x:0,y:0},
     items: [
       { id: 1, name:'Green Streets'},
       { id: 2, name:'Purple Streets'},
@@ -84,7 +73,12 @@ export default {
       { id: 5, name:'Swanky Salmon'},
       { id: 6, name:'Sick Smoke'}
     ]
-  })
+  }),
+  methods:{
+    onMouseMove(){
+
+    }
+  }
 }
 </script>
 

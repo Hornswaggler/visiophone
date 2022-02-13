@@ -1,6 +1,28 @@
 <template>
   <div id="app" >
-    <BaseLayout msg="Welcome to Your Vue.js App"/>
+    <div style="position:absolute;height:100vh;width:100vw;z-index:50;opacity:0.9;">
+      <BaseLayout/>
+    </div>
+    <vue-particles
+      color="#dedede"
+      :particleOpacity="0.7"
+      :particlesNumber="50"
+      shapeType="circle"
+      :particleSize="80"
+      linesColor="#dedede"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="3"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+      style="opacity:0.25"
+    >
+    </vue-particles>
+    
   </div>
 </template>
 
@@ -28,7 +50,17 @@ export default {
 html{
   background-color: black;
   height:100%;
-  
+
+  .css-selector {
+    // opacity:0.5;
+    background: linear-gradient(270deg, #00ffbd, #ff00f5);
+    background-size: 1200% 1200%;
+
+    -webkit-animation: animation-name 20s ease infinite;
+    -moz-animation: animation-name 20s ease infinite;
+    animation: animation-name 20s ease infinite;
+  }
+
   body{
     margin:0;
     height:100%;
@@ -60,5 +92,20 @@ a {
   src: url("./assets/VCR_OSD_MONO_1.001.ttf");
 }
 
+@-webkit-keyframes animation-name {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes animation-name {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes animation-name {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
 
 </style>
