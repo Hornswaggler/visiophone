@@ -35,7 +35,7 @@
 
   <!-- Body -->
   <div 
-    style="width:100%;display:flex;flex-direction:column;overflow-y:auto;height: calc(100vh - 100px)"
+    style="width:100%;display:flex;flex-direction:column;overflow-y:auto;height: calc(100vh - 132px)"
   >
     <div style="display:flex;" v-for="item in items" :key="item.id" class="alt-list">
       <div
@@ -90,6 +90,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+
+
 .alt-list {
   &:nth-child(even) {
     background-color:#323232;
