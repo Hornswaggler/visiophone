@@ -16,12 +16,14 @@
       </div>
       <div style="flex:0.3"></div>
       <div style="width:15em;display:flex;flex-direction:column;align-items:flex-start;padding-left:1em;justify-content:center;">
-        <input style="height:2em;width:25em;" type="text"/>
+        <visio-man>
+          <input style="height:2em;width:25em;" type="text"/>
+        </visio-man>
       </div>
     </div>
 
     <!-- Nav -->
-    <div style="width:100%;">
+    <div style="width:100%;" class="HereIam">
       <!-- <div style="width:100%;height:2em;background-color:rgb(56 56 56);"></div> -->
       <div style="width:100%;height:2em;color:white;padding-top:0.5em;">
         <div style="display:flex;justify-content:space-around; font-family: 'Helvetica', 'Arial', sans-serif;">
@@ -43,9 +45,9 @@
     class="css-selector"
     style="width:100%;display:flex;flex-direction:column;overflow-y:auto;height: calc(100vh - 132px)"
   >
-      <DragBubble/>
-      <DragBubble/>
-      <DragBubble/>
+    <DragBubble/>
+    <DragBubble/>
+    <DragBubble/>
   </div>
 
 
@@ -54,11 +56,13 @@
 
 <script>
 import DragBubble from './DragBubble.vue';
+import VisioMan from './VisioMan.vue';
 
 export default {
   name: 'BaseLayout',
   components: {
-    DragBubble
+    DragBubble,
+    VisioMan
   },
   props: {
     msg: String

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" >
+  <div id="app" style="height:100vh;">
     <div style="position:absolute;height:100vh;width:100vw;z-index:50;opacity:0.9;">
       <BaseLayout/>
     </div>
@@ -19,7 +19,7 @@
       hoverMode="grab"
       :clickEffect="true"
       clickMode="push"
-      style="opacity:0.25"
+      style="height:100%"
     >
     </vue-particles>
     
@@ -27,12 +27,12 @@
 </template>
 
 <script>
- import BaseLayout from './components/BaseLayout.vue'
+ import BaseLayout from './components/BaseLayout.vue';
 
 export default {
   name: 'App',
   components: {
-    BaseLayout
+    BaseLayout  
   }
 }
 </script>
@@ -45,6 +45,7 @@ export default {
   text-align: center;
   margin:0;
   color:white;
+  background:url('./assets/purpletown.jpg')
 }
 
 html{
