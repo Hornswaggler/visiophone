@@ -38,7 +38,6 @@ export default {
     draggableMap(state, {uuid, value}) {
       console.log('Updating Map');
       Vue.set(state.draggableMap, uuid, value);
-      // Object.assign(state.draggableMap, {...state.draggableMap, ...{ [uuid]: value}});
     }
   }
 };

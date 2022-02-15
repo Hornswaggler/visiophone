@@ -5,7 +5,7 @@
 
     <!-- header -->
     <div class="fred" style="height:100px;width:100%;display:flex;justify-content:flex-left;padding:1em;">
-      <img style="height:100%;" src="../assets/Animated-Visio-Man.gif"/>
+      <img style="height:100%;" src="../assets/Face_Icon.png"/>
       
       <!-- xp bar -->
       <div style="width:15em;display:flex;flex-direction:column;align-items:flex-start;padding-left:1em;justify-content:center;">
@@ -22,34 +22,15 @@
       </div>
     </div>
 
-    <!-- Nav -->
-    <div style="width:100%;" class="HereIam">
-      <!-- <div style="width:100%;height:2em;background-color:rgb(56 56 56);"></div> -->
-      <div style="width:100%;height:2em;color:white;padding-top:0.5em;">
-        <div style="display:flex;justify-content:space-around; font-family: 'Helvetica', 'Arial', sans-serif;">
-          <div class="hover-zoom" style="color:#66FF00;">loops</div>
-          <div class="hover-zoom">one-shots</div>
-          <div class="hover-zoom">packs</div>
-          <div class="hover-zoom">featured</div>
-          <div class="hover-zoom">tags</div>
-          <div class="hover-zoom">most downloaded</div>
-          <div class="hover-zoom">random</div>
-          <div class="hover-zoom">submit</div>
-        </div>
-      </div>
-    </div>
+    <Navigation/>
   </div>
 
   <!-- Body -->
   <div 
     class="css-selector"
-    style="width:100%;display:flex;flex-direction:column;overflow-y:auto;height: calc(100vh - 132px)"
+    style="width:100%;display:flex;flex-direction:column;overflow-y:auto;height: calc(100vh - 172px)"
   >
-    <drag-bubble-container>
-      <drag-bubble/>
-      <drag-bubble/>
-      <drag-bubble/>
-    </drag-bubble-container>
+    <VisioConsole/>
   </div>
 
 
@@ -57,16 +38,16 @@
 </template>
 
 <script>
-import DragBubble from './DragBubble.vue';
-import DragBubbleContainer from './DragBubbleContainer.vue';
 import VisioMan from './VisioMan.vue';
+import Navigation from './Navigation.vue';
+import VisioConsole from './VisioConsole.vue';
 
 export default {
   name: 'BaseLayout',
   components: {
-    DragBubble,
-    DragBubbleContainer,
-    VisioMan
+    Navigation,
+    VisioMan,
+    VisioConsole
   },
   props: {
     msg: String
@@ -82,6 +63,10 @@ export default {
       { id: 6, name:'Sick Smoke'}
     ]
   }),
+  async mounted(){
+    const response = await this.$http.get("http://visiophone.wtf/search/asdf");
+    console.log(response);
+  },
   methods:{
     onMouseMove(){
 
@@ -153,7 +138,7 @@ export default {
 
     &:hover{
       transform: scale(1.25, 1.25);
-      color:#66FF00;
+      color: rgb(255, 51, 153);
     }
 }
 

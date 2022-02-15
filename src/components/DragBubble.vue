@@ -1,5 +1,5 @@
 <template>
-  <movable :style={zIndex} @start="onMouseDown" posTop="100" posLeft="200" style="justify-content:center;align-items:flex-start;height:25em;width:25em; border-radius: 75px;display:flex;font-family: 'Helvetica', 'Arial', sans-serif;color:white;" class="bubble">
+  <movable :style={zIndex} @start="onMouseDown" posTop="100" posLeft="200" style="justify-content:center;align-items:flex-start;height:25em;width:25em; border-radius: 75px;display:flex;color:white;" class="bubble">
     <div style="position:relative;padding-top:1.75em;z-index:2;width:100%;height:100%;"
     >
       <visio-man>
@@ -48,7 +48,6 @@ export default {
         shadowEnable: true,
         shadowColor: '#000000',
         fontSize: 14,
-        fontFamily: 'Helvetica',
         dynamicPosition: false,
         hideText: false
       },
