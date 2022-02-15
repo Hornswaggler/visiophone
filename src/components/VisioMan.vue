@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="display:flex;">
-      <div ref="flexEl" style="flex-grow: 0" :style="currentFlexStyle"></div>
+      <div ref="flexEl" :style="currentFlexStyle"></div>
       <img :style="currentImgStyle" :src="require(`@/assets/${currentImgSrc}`)"/>
     </div>
     <div>
@@ -14,8 +14,8 @@ export default {
   name:'VisioMan',
   data: () => ({
     isGrow: false,
-    currentFrame: 0,
-    currentFlexStyle: {flexGrow: '0', transition: 'flex-grow 3s linear 0s'},
+    currentFrame: 3,
+    currentFlexStyle: {flexGrow: 0, transition: 'flex-grow 3s linear 0s'},
     currentImgStyle: {transform: 'scaleX(1)'},
     currentImgSrc: 'Walking_Animation_Visio_Lad.gif',
     frames: [
@@ -57,7 +57,7 @@ export default {
       this.cueFrame(this.currentFrame + 1 >= this.frames.length ? 0 : this.currentFrame + 1);
     },
     cueFrame(index) {
-      const nextFrame = this.frames[index]
+      const nextFrame = this.frames[index];
       this.currentFrame = index;
       this.currentFlexStyle = nextFrame.flexStyle;
       this.currentImgStyle = nextFrame.imgStyle;

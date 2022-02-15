@@ -53,13 +53,13 @@ html{
   height:100%;
 
   .css-selector {
-    // opacity:0.5;
-    background: linear-gradient(270deg, #00ffbd, #ff00f5);
-    background-size: 1200% 1200%;
+      // opacity:0.95;
+      background: linear-gradient(270deg, #21151f, #161a18);
+      background-size: 400% 400%;
 
-    -webkit-animation: animation-name 20s ease infinite;
-    -moz-animation: animation-name 20s ease infinite;
-    animation: animation-name 20s ease infinite;
+      -webkit-animation: AnimationName 45s ease infinite;
+      -moz-animation: AnimationName 45s ease infinite;
+      animation: AnimationName 45s ease infinite;
   }
 
   body{

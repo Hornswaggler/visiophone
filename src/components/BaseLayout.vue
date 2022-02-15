@@ -45,9 +45,11 @@
     class="css-selector"
     style="width:100%;display:flex;flex-direction:column;overflow-y:auto;height: calc(100vh - 132px)"
   >
-    <DragBubble/>
-    <DragBubble/>
-    <DragBubble/>
+    <drag-bubble-container>
+      <drag-bubble/>
+      <drag-bubble/>
+      <drag-bubble/>
+    </drag-bubble-container>
   </div>
 
 
@@ -56,12 +58,14 @@
 
 <script>
 import DragBubble from './DragBubble.vue';
+import DragBubbleContainer from './DragBubbleContainer.vue';
 import VisioMan from './VisioMan.vue';
 
 export default {
   name: 'BaseLayout',
   components: {
     DragBubble,
+    DragBubbleContainer,
     VisioMan
   },
   props: {
