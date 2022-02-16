@@ -22,9 +22,6 @@ Vue.config.productionTip = false;
 
 const store = new Vuex.Store(rootStore);
 
-
-console.log('Here');
-
 new Vue({
   render: h => h(App),
   store

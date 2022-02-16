@@ -18,11 +18,9 @@ export default {
    elements: []
   }),
   created(){
-    console.log('Here we are..');
     for(let i = 0; i < 3; i ++) {
       this.elements.push({id: i,  path: '@/assets/visioland_edit.png'});
     }
-    console.log(this.elements);
   }
 }
 </script>
@@ -35,19 +33,4 @@ export default {
     background-blend-mode: hard-light;
     animation: hue-rotate 3s linear infinite;
 }
-
-// @keyframes hue-rotate {
-//   from {
-//     -webkit-filter: hue-rotate(0);
-//     -moz-filter: hue-rotate(0);
-//     -ms-filter: hue-rotate(0);
-//     filter: hue-rotate(0);
-//   }
-//   to {
-//     -webkit-filter: hue-rotate(360deg);
-//     -moz-filter: hue-rotate(360deg);
-//     -ms-filter: hue-rotate(360deg);
-//     filter: hue-rotate(360deg);
-//   }
-// }
 </style>

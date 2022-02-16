@@ -2,30 +2,10 @@
 <div style="color:#66FF00;" @mousemove="onMouseMove">
  
  <div class="css-selector">
-
-    <!-- header -->
-    <div class="fred" style="height:100px;width:100%;display:flex;justify-content:flex-left;padding:1em;">
-      <img style="height:100%;" src="../assets/Face_Icon.png"/>
-      
-      <!-- xp bar -->
-      <div style="width:15em;display:flex;flex-direction:column;align-items:flex-start;padding-left:1em;justify-content:center;">
-        <div>Visiodiamonds:420&#9830;</div>
-        <div style="width:75%;height:1em;background-color:grey;margin-top:0.25em;">
-          <div style="height:100%;width:75%;background-color:#FF3399"></div>
-        </div>
-      </div>
-      <div style="flex:0.3"></div>
-      <div style="width:15em;display:flex;flex-direction:column;align-items:flex-start;padding-left:1em;justify-content:center;">
-        <visio-man>
-          <input style="height:2em;width:25em;" type="text"/>
-        </visio-man>
-      </div>
-    </div>
-
+    <Header/>
     <Navigation/>
   </div>
 
-  <!-- Body -->
   <div 
     class="css-selector"
     style="width:100%;display:flex;flex-direction:column;overflow-y:auto;height: calc(100vh - 172px)"
@@ -38,16 +18,16 @@
 </template>
 
 <script>
-import VisioMan from './VisioMan.vue';
 import Navigation from './Navigation.vue';
 import VisioConsole from './VisioConsole.vue';
+import Header from './Header.vue'
 
 export default {
   name: 'BaseLayout',
   components: {
     Navigation,
-    VisioMan,
-    VisioConsole
+    VisioConsole,
+    Header 
   },
   props: {
     msg: String
@@ -64,8 +44,11 @@ export default {
     ]
   }),
   async mounted(){
-    const response = await this.$http.get("http://visiophone.wtf/search/asdf");
-    console.log(response);
+    // Query Backend
+    // const {data} = await this.$http.request({
+    //   url: "http://visiophone.wtf/search/asdf",
+    //   headers: {'Access-Control-Allow-Origin': '*'}
+    // });
   },
   methods:{
     onMouseMove(){
@@ -75,7 +58,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- TODO Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 
 
@@ -84,6 +67,7 @@ export default {
     background-color:#323232;
   }
 }
+
 .play {
   box-sizing: border-box;
   height: 74px;

@@ -1,7 +1,7 @@
-import dragBubble from "./dragBubble";
+import draggable from "./draggable";
 
 export default {
   modules:{
-    dragBubble
+    draggable
   }
 }
