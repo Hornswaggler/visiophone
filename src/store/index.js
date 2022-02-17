@@ -1,7 +1,11 @@
-import draggable from "./draggable";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import modules from './modules'
 
-export default {
-  modules:{
-    draggable
-  }
-}
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+  modules
+});
+
+export default store;

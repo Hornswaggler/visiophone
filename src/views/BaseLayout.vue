@@ -1,66 +1,15 @@
 <template>
-<div style="color:#66FF00;" @mousemove="onMouseMove">
- 
- <div class="css-selector">
-    <Header/>
-    <Navigation/>
-  </div>
-
-  <div 
-    class="css-selector"
-    style="width:100%;display:flex;flex-direction:column;overflow-y:auto;height: calc(100vh - 172px)"
-  >
-    <VisioConsole/>
-  </div>
-
-
-</div>
+ <router-view></router-view>
 </template>
 
 <script>
-import Navigation from './Navigation.vue';
-import VisioConsole from './VisioConsole.vue';
-import Header from './Header.vue'
-
 export default {
   name: 'BaseLayout',
-  components: {
-    Navigation,
-    VisioConsole,
-    Header 
-  },
-  props: {
-    msg: String
-  },
-  data: () => ({
-    position:{x:0,y:0},
-    items: [
-      { id: 1, name:'Green Streets'},
-      { id: 2, name:'Purple Streets'},
-      { id: 3, name:'Blue Cubic Kit'},
-      { id: 4, name:'Neon Vegetable'},
-      { id: 5, name:'Swanky Salmon'},
-      { id: 6, name:'Sick Smoke'}
-    ]
-  }),
-  async mounted(){
-    // Query Backend
-    // const {data} = await this.$http.request({
-    //   url: "http://visiophone.wtf/search/asdf",
-    //   headers: {'Access-Control-Allow-Origin': '*'}
-    // });
-  },
-  methods:{
-    onMouseMove(){
-
-    }
-  }
 }
 </script>
 
 <!-- TODO Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-
 
 .alt-list {
   &:nth-child(even) {

@@ -27,7 +27,7 @@
 </template>
 
 <script>
- import BaseLayout from './components/BaseLayout.vue';
+ import BaseLayout from '@/views/BaseLayout.vue';
 
 export default {
   name: 'App',
