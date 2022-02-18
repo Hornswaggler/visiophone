@@ -3,7 +3,7 @@
     <div style="position:absolute;height:100vh;width:100vw;z-index:50;opacity:0.9;">
       <BaseLayout/>
     </div>
-    <vue-particles
+    <!-- <vue-particles
       color="#dedede"
       :particleOpacity="0.7"
       :particlesNumber="50"
@@ -21,13 +21,13 @@
       clickMode="push"
       style="height:100%"
     >
-    </vue-particles>
+    </vue-particles> -->
     
   </div>
 </template>
 
 <script>
- import BaseLayout from './components/BaseLayout.vue';
+ import BaseLayout from '@/views/BaseLayout.vue';
 
 export default {
   name: 'App',
@@ -45,7 +45,7 @@ export default {
   text-align: center;
   margin:0;
   color:white;
-  background:url('./assets/purpletown.jpg')
+  // background:url('./assets/purpletown.jpg')
 }
 
 html{

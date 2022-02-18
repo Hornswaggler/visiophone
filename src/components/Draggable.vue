@@ -1,5 +1,5 @@
 <template>
-  <movable :style={zIndex} @start="onMouseDown" posTop="100" posLeft="200" style="justify-content:center;align-items:flex-start;height:25em;width:25em; border-radius: 75px;display:flex;font-family: 'Helvetica', 'Arial', sans-serif;color:white;" class="bubble">
+  <movable :style={zIndex} @start="onStart" posTop="100" posLeft="200" style="justify-content:center;align-items:flex-start;height:25em;width:25em; border-radius: 75px;display:flex;color:white;" class="bubble">
     <div style="position:relative;padding-top:1.75em;z-index:2;width:100%;height:100%;"
     >
       <visio-man>
@@ -22,19 +22,18 @@ import VisioMan from './VisioMan.vue';
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name:"DragBubble",
+  name:"Draggable",
   components:{
     VisioMan
   },
   computed: {
-    ...mapState('dragBubble', ['draggableMap']),
+    ...mapState('draggable', ['draggableMap']),
     zIndex(){
       return this.draggableMap[this.uuid] && this.draggableMap[this.uuid].zIndex;
     }
   },
   async mounted() {
-    this.uuid = await this['dragBubble/registerDraggable']();
-    console.log('UUID:', this.uuid);
+    this.uuid = await this['draggable/registerDraggable']();
   },
   data: () => ({
     uuid: '',
@@ -48,7 +47,6 @@ export default {
         shadowEnable: true,
         shadowColor: '#000000',
         fontSize: 14,
-        fontFamily: 'Helvetica',
         dynamicPosition: false,
         hideText: false
       },
@@ -70,42 +68,12 @@ export default {
     }
   }),
   methods: {
-    ...mapActions(['dragBubble/registerDraggable', 'dragBubble/onDraggableSelected']),
-    onMouseDown({x,y}) {
-      console.log('MouseDown');
-      this['dragBubble/onDraggableSelected'](this.uuid);
+    ...mapActions(['draggable/registerDraggable', 'draggable/onDraggableSelected']),
+    onStart({x,y}) {
+      this['draggable/onDraggableSelected'](this.uuid);
       this.isMouseDown = true;
       this.position = {x,y};
 
-    },
-    onMouseMove(event){
-      // console.log(event.x, event.y);
-      if(this.isMouseDown){
-        console.log(`move: ${event.x}, ${this.offset.x}, ${event.offsetX}}`);
-
-        // const previousPosition = { x: this.position.x, y: this.position.y };
-        //const previous
-
-
-
-        // this.offset.x += this.previousPosition >= event.x;
-        // this.offset.y += this.previousPosition
-
-        // if(event.x)
-
-        this.offset.x = event.offsetX ;
-
-        this.position.x = event.x;
-        this.position.y = event.y;
-      }
-      
-    },
-    onMouseUp() {
-      console.log('asdfasdfasdf');
-      // this.isMouseDown = false;
-    },
-    onMouseLeave() {
-      // this.isMouseDown = false;
     }
   }
 }

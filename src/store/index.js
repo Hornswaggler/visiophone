@@ -1,7 +1,11 @@
-import dragBubble from "./dragBubble";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import modules from './modules'
 
-export default {
-  modules:{
-    dragBubble
-  }
-}
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+  modules
+});
+
+export default store;

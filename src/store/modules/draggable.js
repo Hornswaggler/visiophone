@@ -14,9 +14,6 @@ export default {
       return uuid;
     },
     onDraggableSelected({state, getters, commit }, uuid ){
-      console.log('changed',state,uuid,state.draggableMap);
-      console.log('REg', getters.maxZIndex);
-
       commit('draggableMap', {uuid, value:{top: true, zIndex: getters.maxZIndex}});
 
       Object
@@ -33,12 +30,9 @@ export default {
   mutations: {
     registerDraggable(state, id) {
       Vue.set(state.draggableMap, id, {top: false, zIndex: 0 });
-      console.log('Registered');
     },
     draggableMap(state, {uuid, value}) {
-      console.log('Updating Map');
       Vue.set(state.draggableMap, uuid, value);
-      // Object.assign(state.draggableMap, {...state.draggableMap, ...{ [uuid]: value}});
     }
   }
 };

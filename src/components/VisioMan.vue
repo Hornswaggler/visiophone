@@ -53,7 +53,6 @@ export default {
   },
   methods: {
     cueNextFrame() {
-      console.log('cuing next frame');
       this.cueFrame(this.currentFrame + 1 >= this.frames.length ? 0 : this.currentFrame + 1);
     },
     cueFrame(index) {
