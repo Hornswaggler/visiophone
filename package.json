@@ -18,7 +18,8 @@
     "uuid": "8.3.2",
     "axios": "0.26.0",
     "vue-router": "3^",
-    "@sendgrid/mail": "7.6.1"
+    "@sendgrid/mail": "7.6.1",
+    "rot-js":"2.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

@@ -9,7 +9,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/console'
+      redirect: '/gamecube'
     }
   ].concat(routes)
 });
@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
 
   if (!isPublic && !authenticated) {
     return next({
-      path: '/login',
+      path: '/gamecube',
       query: { redirect: to.fullPath }
     });
   }
@@ -31,6 +31,15 @@ router.beforeEach((to, from, next) => {
   }
 
   next();
+});
+
+const DEFAULT_TITLE = "Visiophone";
+router.afterEach((to) => {
+  // Use next tick to handle router history correctly
+  // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
+  Vue.nextTick(() => {
+      document.title = to.meta.title || DEFAULT_TITLE;
+  });
 });
 
 export default router;  

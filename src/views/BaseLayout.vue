@@ -1,10 +1,18 @@
 <template>
- <router-view></router-view>
+  <div>
+    <Loading/>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
+import Loading from '@/components/Loading.vue';
+
 export default {
   name: 'BaseLayout',
+  components: {
+    Loading
+  }
 }
 </script>
 
@@ -106,7 +114,7 @@ export default {
 
 .fancy{
     background-blend-mode: hard-light;
-    animation: hue-rotate 3s linear infinite;
+    animation: hue-rotate 30s linear infinite;
 }
 
 @keyframes hue-rotate {
@@ -115,12 +123,14 @@ export default {
     -moz-filter: hue-rotate(0);
     -ms-filter: hue-rotate(0);
     filter: hue-rotate(0);
+    // transform: rotate3d(1, 1, 1, 360deg);
   }
   to {
     -webkit-filter: hue-rotate(360deg);
     -moz-filter: hue-rotate(360deg);
     -ms-filter: hue-rotate(360deg);
     filter: hue-rotate(360deg);
+    // transform: rotate3d(1, 1, 1, 0deg);
   }
 }
 
