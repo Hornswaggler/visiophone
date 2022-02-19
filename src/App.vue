@@ -1,111 +1,22 @@
 <template>
-  <div id="app" style="height:100vh;">
+  <div id="app">
     <div style="position:absolute;height:100vh;width:100vw;z-index:50;opacity:0.9;">
       <BaseLayout/>
     </div>
-    <!-- <vue-particles
-      color="#dedede"
-      :particleOpacity="0.7"
-      :particlesNumber="50"
-      shapeType="circle"
-      :particleSize="80"
-      linesColor="#dedede"
-      :linesWidth="1"
-      :lineLinked="true"
-      :lineOpacity="0.4"
-      :linesDistance="150"
-      :moveSpeed="3"
-      :hoverEffect="true"
-      hoverMode="grab"
-      :clickEffect="true"
-      clickMode="push"
-      style="height:100%"
-    >
-    </vue-particles> -->
   </div>
 </template>
 
 <script>
- import BaseLayout from '@/views/BaseLayout.vue';
+ import BaseLayout from '@/components/layout/BaseLayout.vue';
 
 export default {
   name: 'App',
   components: {
-    BaseLayout  
+    BaseLayout
   }
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: "VCR_OSD_MONO";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  margin:0;
-  color:white;
-  // background:url('./assets/purpletown.jpg')
-}
-
-html{
-  background-color: black;
-  height:100%;
-
-  .css-selector {
-      // opacity:0.95;
-      background: linear-gradient(270deg, #21151f, #161a18);
-      background-size: 400% 400%;
-
-      -webkit-animation: AnimationName 45s ease infinite;
-      -moz-animation: AnimationName 45s ease infinite;
-      animation: AnimationName 45s ease infinite;
-  }
-
-  body{
-    margin:0;
-    height:100%;
-    color: #65FE00;
-    overflow:hidden;
-  }
-}
-
-h3 {
-  margin: 40px 0 0;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-
-@font-face {
-  font-family: "VCR_OSD_MONO";
-  src: url("./assets/VCR_OSD_MONO_1.001.ttf");
-}
-
-@-webkit-keyframes animation-name {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@-moz-keyframes animation-name {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@keyframes animation-name {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-
+@import "@/styles/main.scss";
 </style>

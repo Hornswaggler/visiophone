@@ -1,5 +1,5 @@
-import Console from '@/views/Console.vue';
-import Game from '@/views/Game.vue';
+import Console from '@/components/console/Console.vue';
+import Game from '@/components/game/Game.vue';
 
 
 const routes = [

@@ -20,53 +20,12 @@
 </div>
 </template>
 <script>
-import Header from '@/components/Header.vue'
-import Navigation from '@/components/Navigation.vue';
-// import Player from '@/components/Player.vue';
-// import {GIFEncoder} from '../ext/jsgif/GIFEncoder';
+import Header from '@/components/layout/Header.vue'
+import Navigation from '@/components/layout/Navigation.vue';
 
 import {Map} from 'rot-js';
 
-// console.log('encoder',GIFEncoder);
-
 const IMAGE_SCALAR = 0.75;
-
-class Players {
-  constructor( { x, y, width } ) {
-    this.x = x;
-    this.y = y;
-    const imageWidth = IMAGE_SCALAR * width;
-    this.image = new Image(imageWidth, imageWidth);
-    this.image.src = require(`@/assets/Comp_boi_walkin.gif`);
-    
-
-    // const encoder = new GIFEncoder();
-    // encoder.setRepeat(0);
-    // encoder.setQuality(1);
-    // encoder.setSize(imageWidth, imageWidth);
-    // console.log('Encoder', encoder);
-  }
-
-  setLocation({x,y}){
-    this.x = x;
-    this.y = y;
-  }
-
-  draw({ width, ctx }) {
-    const imageWidth = IMAGE_SCALAR * width;
-    
-    const xoffset = 5;
-    const yoffset = 7
-
-    const {x, y} = this;
-
-    try{
-      ctx.drawImage(this.image, xoffset + (width * x), yoffset + (width * y), imageWidth, imageWidth);
-    }catch(e){
-      console.error(e);
-    }
-  }
-}
 
 export default {
   name: 'Game',
@@ -108,7 +67,6 @@ export default {
     window.addEventListener('resize', this.onResize);
     this.$nextTick(()=> {
       this.initMap();
-      // this.player = new Player({...this.getPlayerSpawn(), width: this.tilesize, ctx: this.$refs.canvas.getContext('2d')});
       const spawn = this.getPlayerSpawn();
       this.playerX = spawn.x;
       this.playerY = spawn.y;
@@ -133,7 +91,6 @@ export default {
       const template = { dx: 0, dy: 0 };
       const delta = handlers[key] ? { ...template, ...handlers[key]() } : template;
 
-      // const { x, y } = this.player;
       const { dx, dy } = delta;
       const destination = { x: this.playerX + dx, y: this.playerY + dy};
       

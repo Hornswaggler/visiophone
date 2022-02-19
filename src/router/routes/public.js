@@ -1,5 +1,5 @@
-import Login from '@/views/Login.vue';
-import GameCube from '@/views/GameCube.vue'
+import Login from '@/components/login/Login.vue';
+import GameCube from '@/components/game/GameCube.vue'
 
 const routes = [
   {

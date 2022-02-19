@@ -1,0 +1,33 @@
+.fill{
+  height:100%;
+  width:100%;
+}
+
+.flex{
+  display:flex;
+}
+
+.flex-column {
+  flex-direction:column
+}
+
+.align-start {
+  align-items:flex-start;
+}
+
+.justify-center {
+  justify-content:center;
+}
+
+.justify-left {
+  justify-content:flex-left
+}
+
+.p1{
+  padding:1em;
+}
+
+.pl1{
+  padding-left:1em;
+}
+
