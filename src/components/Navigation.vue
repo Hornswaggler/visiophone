@@ -10,13 +10,18 @@
           <div class="hover-zoom" style="width:100%;">tags</div>
           <div class="hover-zoom" style="width:100%;">most downloaded</div>
           <div class="hover-zoom" style="width:100%;">random</div>
-          <div class="hover-zoom" style="width:100%;">submit</div>
+          <div @click="onGame" class="hover-zoom" style="width:100%;">???</div>
         </div>
       </div>
     </div>
 </template>
 <script>
 export default {
-  name: 'Navigation'
+  name: 'Navigation',
+  methods:{
+    onGame(){
+      this.$router.push('/game')
+    }
+  }
 }
 </script>

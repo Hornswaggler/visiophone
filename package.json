@@ -19,7 +19,8 @@
     "axios": "0.26.0",
     "vue-router": "3^",
     "@sendgrid/mail": "7.6.1",
-    "rot-js":"2.2.0"
+    "rot-js":"2.2.0",
+    "jsgif": "1.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -45,7 +46,9 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-unused-vars": "off"
+    }
   },
   "browserslist": [
     "> 1%",

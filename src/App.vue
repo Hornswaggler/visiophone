@@ -22,7 +22,6 @@
       style="height:100%"
     >
     </vue-particles> -->
-    
   </div>
 </template>
 
