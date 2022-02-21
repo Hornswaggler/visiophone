@@ -76,7 +76,7 @@ export default {
 
     async spawnSpikes({commit, dispatch}){
       const {x,y} = await dispatch('findRandomAvailable');
-      const spikes = new Entity({x:1, y:0});
+      const spikes = new Entity({x, y});
       commit('addAll', {
         key: 'entities',
         values: [spikes]
@@ -117,9 +117,9 @@ export default {
       });
 
       let {x:_x,y:_y} = getRandom();
-      let found = await dispatch('checkMapLocation',{x:_x, y:_y});
+      let found = !await dispatch('checkMapLocation',{x:_x, y:_y});
       while(!found){
-        found = await dispatch('checkMapLocation',{x:_x, y:_y});
+        found = !await dispatch('checkMapLocation',{x:_x, y:_y});
         if(!found) {
           const {x,y} = getRandom();
           _x = x;
