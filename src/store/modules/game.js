@@ -76,7 +76,7 @@ export default {
 
     async spawnSpikes({commit, dispatch}){
       const {x,y} = await dispatch('findRandomAvailable');
-      const spikes = new Entity({x, y});
+      const spikes = new Entity({x:1, y:0});
       commit('addAll', {
         key: 'entities',
         values: [spikes]
@@ -117,9 +117,9 @@ export default {
       });
 
       let {x:_x,y:_y} = getRandom();
-      let found = await dispatch('checkMapLocation',{x:_x,y:_y});
+      let found = await dispatch('checkMapLocation',{x:_x, y:_y});
       while(!found){
-        found = await dispatch('checkMapLocation',{x:_x,y:_y});
+        found = await dispatch('checkMapLocation',{x:_x, y:_y});
         if(!found) {
           const {x,y} = getRandom();
           _x = x;
@@ -132,10 +132,12 @@ export default {
 
     checkMapLocation({state:{width, height, mapData, entities}}, {x, y}){
       try {
-        const isWall = (x < 0 || y < 0)  || (x > width || y > height) ? false : mapData[x][y] === 1;
-        const isEntity = entities.find(({x:_x,y:_y}) => _x === x && _y === y) || false;
+        const isWall = (x < 0 || y < 0)  || (x >= width || y >= height) ? true : mapData[x][y] === 0;
+        const es = entities.some(({x:_x,y:_y}) => _x === x && _y === y);
+        const isEntity = es|| false;
         return isWall || isEntity;
       } catch(e) {
+        console.error(e);
         return true;
       }
     }

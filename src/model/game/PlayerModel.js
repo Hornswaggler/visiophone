@@ -29,8 +29,8 @@ export default ({x,y}) => {
 
       const { dx, dy } = delta;
       const destination = { x: x + dx, y: y + dy};
-      const canMove = await dispatch('checkMapLocation', destination);
-      if(canMove) {
+
+      if(!await dispatch('checkMapLocation', destination)) {
         this.path = frames[key];
         this.x = destination.x;
         this.y = destination.y;
