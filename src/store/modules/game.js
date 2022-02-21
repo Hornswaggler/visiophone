@@ -1,23 +1,23 @@
 import Vue from 'vue';
 import {Map} from 'rot-js';
-import Player from '@/model/game/Player.js';
+import PlayerModel from '@/model/game/PlayerModel.js';
+import Entity from '@/model/game/SpikesModel.js';
 
-const MARGIN = 5;
-
-export const ENTITY_TYPE = {
-  PLAYER:'PLAYER'
-};
+const MARGIN = 11;
 
 export default {
   namespaced: true,
+
   state: () => ({
     mapData: [],
     entities: [],
     height: 20,
     width: 20,
     tilesize: 40,
-    map: {}
+    map: {},
+    resizing: false
   }),
+
   actions:{
     async initMap({commit, state:{width, height}}){
       const map = new Map.EllerMaze(width, height);
@@ -35,11 +35,11 @@ export default {
           }
           mapData[x][y] = value === 0 ? 1 : 0;
         };
-  
+
         map.create(callback);
         return resolve(mapData);
       }))();
-      
+
       commit('addAll', {
         key: 'mapData',
         values: mapData
@@ -48,25 +48,51 @@ export default {
       return result;
     },
 
-    resizeMap({commit,state:{tilesize}}, {clientHeight}){
-      commit('setPrimitive',{
-        key:'tileSize',
-        value: Math.floor((clientHeight/tilesize) - MARGIN)
+    resizeMap({commit,state:{width}}, {clientHeight}){
+      commit('setPrimitive', {
+        key:'tilesize',
+        value: Math.floor((clientHeight/width) - MARGIN)
       });
     },
 
-    async spawnPlayer({commit, dispatch}){
-      const player = [new Player()];
+    spawnEntity({commit}, {type}){
+      const entity = new type();
       commit('addAll', {
         key: 'entities',
-        values: player
+        values: [entity]
+      });
+      return entity;
+    },
+
+    async spawnPlayer({commit, dispatch}){
+      const {x,y} = await dispatch('findFirstAvailable');
+      const player = new PlayerModel({x,y});
+      commit('addAll', {
+        key: 'entities',
+        values: [player]
       });
       return player;
     },
 
-    handleInput({state:{entities}, dispatch}, {key}) {
+    async spawnSpikes({commit, dispatch}){
+      const {x,y} = await dispatch('findRandomAvailable');
+      const spikes = new Entity({x, y});
+      commit('addAll', {
+        key: 'entities',
+        values: [spikes]
+      });
+      return spikes;
+    },
+
+    handleInputOn({state:{entities}, dispatch}, {key}) {
       entities.forEach(entity =>{
-        entity.handleInput({dispatch},{key});
+        entity.handleInput && entity.handleInput({dispatch},{key});
+      });
+    },
+
+    stopEntity({commit, state:{entities}}, {key}){
+      entities.forEach(entity =>{
+        entity.handleOffput && entity.handleOffput({key});
       });
     },
 
@@ -84,32 +110,57 @@ export default {
       return coords;
     },
 
-    checkMapLocation({state:{width, height, mapData}}, {x, y}){
+    async findRandomAvailable({state:{mapData, height}, dispatch}) {
+      const getRandom = () => ({
+        x:Math.floor(Math.random() * height, mapData),
+        y:Math.floor(Math.random() * height, mapData)
+      });
+
+      let {x:_x,y:_y} = getRandom();
+      let found = await dispatch('checkMapLocation',{x:_x,y:_y});
+      while(!found){
+        found = await dispatch('checkMapLocation',{x:_x,y:_y});
+        if(!found) {
+          const {x,y} = getRandom();
+          _x = x;
+          _y = y;
+        }
+      }
+
+      return {x:_x,y:_y};
+    },
+
+    checkMapLocation({state:{width, height, mapData, entities}}, {x, y}){
       try {
-        return (x < 0 || y < 0)  || (x > width || y > height) ? 0 : mapData[x][y];
+        const isWall = (x < 0 || y < 0)  || (x > width || y > height) ? false : mapData[x][y] === 1;
+        const isEntity = entities.find(({x:_x,y:_y}) => _x === x && _y === y) || false;
+        return isWall || isEntity;
       } catch(e) {
-        return 0;
+        return true;
       }
     }
   },
+
   getters:{
     getEntityById: (state) => (id) => {
       return state.entities.find(({id:_id}) => _id === id);
     }
   },
+
   mutations:{
     setPrimitive(state, {key, value}){
       state[key] = value;
     },
+
     addAll(state, {key, values}){
-      console.log('Adding all');
       values.forEach(value => {
-        console.log('ADDING:', value);
         state[key].push(value);
       });
     },
-    assignObject(state, {key, value}){
-      Vue.set(state[key], value);
+
+    assignObject(state, {key, attr, value}){
+      Vue.set(state[key],attr, value);
     }
   }
+
 }

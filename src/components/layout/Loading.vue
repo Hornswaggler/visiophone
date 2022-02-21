@@ -34,11 +34,6 @@ export default {
         this.fade = false;
       }
     }
-  },
-  methods:{
-    addRemoveElement() {
-      console.log('Adding / removing element...');
-    }
   }
 }
 </script>

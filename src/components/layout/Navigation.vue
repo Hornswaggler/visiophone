@@ -6,9 +6,6 @@
           <div class="hover-zoom" style="color:#66FF00;width:100%;">loops</div>
           <div class="hover-zoom" style="width:100%;">one-shots</div>
           <div class="hover-zoom" style="width:100%;">packs</div>
-          <div class="hover-zoom" style="width:100%;">featured</div>
-          <div class="hover-zoom" style="width:100%;">tags</div>
-          <div class="hover-zoom" style="width:100%;">most downloaded</div>
           <div class="hover-zoom" style="width:100%;">random</div>
           <div @click="onGame" class="hover-zoom" style="width:100%;">???</div>
         </div>
