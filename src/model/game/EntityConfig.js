@@ -1,4 +1,5 @@
 export const ENTITY_TYPE = {
   PLAYER:'PLAYER',
-  SPIKES:'SPIKES'
+  SPIKES:'SPIKES',
+  HEART: 'HEART'
 };

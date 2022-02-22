@@ -6,11 +6,12 @@ export default ({x,y}) => {
     ...makeEntity({
       x, y, 
       clip: false,
-      type: ENTITY_TYPE.SPIKES,
-      path: 'Spikes.png'
+      type: ENTITY_TYPE.HEART
     }),
+    path: 'Heart.png',
+    uses: 1,
     effect: (entity) => {
-      entity.affect({hp: -1})
+      entity.affect({hp: 1})
     }
   })) ({x,y});
 }

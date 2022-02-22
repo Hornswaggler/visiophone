@@ -3,7 +3,7 @@ import {Map} from 'rot-js';
 import PlayerModel from '@/model/game/PlayerModel.js';
 import SpikesModel from '@/model/game/SpikesModel.js';
 
-const MARGIN = 11;
+const MARGIN = 0;
 
 export default {
   namespaced: true,
@@ -11,8 +11,8 @@ export default {
   state: () => ({
     mapData: [],
     entities: [],
-    height: 20,
-    width: 20,
+    height: 30,
+    width: 40,
     tilesize: 40,
     map: {},
     resizing: false
@@ -55,8 +55,9 @@ export default {
       });
     },
 
-    spawnEntity({commit}, {type}){
-      const entity = new type();
+    async spawnEntity({commit, dispatch}, {type}){
+      const {x, y} = await dispatch('findRandomAvailable');
+      const entity = type({x,y});
       commit('addAll', {
         key: 'entities',
         values: [entity]
@@ -76,13 +77,16 @@ export default {
 
     async spawnSpikes({commit, dispatch}){
       const {x, y} = await dispatch('findRandomAvailable');
-      console.log('ARE WE THERE YET?');
       const spikes = new SpikesModel({x, y});
       commit('addAll', {
         key: 'entities',
         values: [spikes]
       });
       return spikes;
+    },
+
+    removeEntity({commit}, {id}){
+      commit('removeEntity', {id});
     },
 
     handleInputOn({state:{entities}, dispatch}, {key}) {
@@ -119,20 +123,12 @@ export default {
 
       let {x:_x,y:_y} = getRandom();
       let found = await dispatch('checkMapLocation',{x:_x, y:_y});
-      console.log('asdf', found);
-
-
-
 
       while(!found.clip){
-        console.log('asdf', found);
-
         try{
           found = await dispatch('checkMapLocation',{x: _x, y: _y});
-          console.log('Result:', found);
 
           if(!found.clip) {
-            console.log('HIT ME!');
             const {x,y} = getRandom();
             _x = x;
             _y = y;
@@ -141,8 +137,6 @@ export default {
           console.error(e);
         }
       }
-
-      console.log(found);
 
       return {x:_x,y:_y};
     },
@@ -157,16 +151,12 @@ export default {
         const entity = entities.find(
           ({x:_x,y:_y}) => _x === x && _y === y);
 
-        // const isEntity = es || {};
-
         result = {
           clip: !isWall,
           entity
         };
-        console.log(result);
-        return result;
 
-        // return isWall ? false : (isEntity ? es : false);
+        return result;
       } catch(e) {
         console.error(e);
       } 
@@ -184,6 +174,11 @@ export default {
   mutations:{
     setPrimitive(state, {key, value}){
       state[key] = value;
+    },
+
+    removeEntity(state, {id}){
+      const removeIndex = state.entities.findIndex(({id:_id}) => _id === id);
+      state.entities.splice(removeIndex, 1)
     },
 
     addAll(state, {key, values}){

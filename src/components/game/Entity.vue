@@ -33,6 +33,7 @@ export default {
         return require(`@/assets/${this.entity.path ? this.entity.path : defaultPath}`);
       }
       catch(e){
+        console.error(e);
         return defaultPath;
       }
     },

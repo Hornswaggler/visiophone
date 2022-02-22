@@ -22,8 +22,7 @@ export default ({x,y}) => {
   return new (({x,y}) => ({
     ...makeEntity({x,y, type: ENTITY_TYPE.PLAYER}),
     async handleInput({dispatch, self},{key}) {
-      console.log('Handling Input: ', self);
-      const {x, y, handlers} = this;
+      const {x, y, handlers} = self;
       const template = { dx: 0, dy: 0 };
       const delta = handlers[key] ? { ...template, ...handlers[key]() } : template;
 
@@ -33,7 +32,10 @@ export default ({x,y}) => {
       const result = await dispatch('checkMapLocation', destination);
 
       if(result.entity){
-        result.entity.effect(this);
+        result.entity.effect(self);
+        if(result.entity.uses === 1){
+          dispatch('removeEntity', {id: result.entity.id} )
+        }
       }
 
       if(result.clip) {

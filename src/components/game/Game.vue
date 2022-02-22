@@ -15,6 +15,9 @@
     <div style="position:relative;">
       <Player style="position:absolute;flex:1" v-for='player in players' :key="player.id" :id="player.id"></Player>
       <Entity style="position:absolute;flex:1" v-for='spike in spikes' :key="spike.id" :id="spike.id"></Entity>
+
+      <Entity style="position:absolute;flex:1" v-for='ent in ents' :key="ent.id" :id="ent.id"></Entity>
+
       <canvas ref="canvas" style="background-color:red;" :height="tilesize * height" :width="tilesize * width"></canvas>
     </div>
     <div style="flex:1;height:100%;"></div>
@@ -29,6 +32,7 @@ import Entity from '@/components/game/Entity';
 import Header from '@/components/layout/Header.vue';
 import Navigation from '@/components/layout/Navigation.vue';
 import {ENTITY_TYPE} from '../../model/game/EntityConfig';
+import HeartsModel from '../../model/game/HeartsModel';
 
 const MAX_SPIKES = 11;
 
@@ -54,6 +58,12 @@ export default {
       if(!this.initialized) return [];
       return this.entities.filter(entity=>entity.type === ENTITY_TYPE.SPIKES)
     },
+
+    ents(){
+      if(!this.initialized) return [];
+      return this.entities.filter(e=>e.type === ENTITY_TYPE.HEART);
+    },
+
     playerOne(){
       return this.players.length < 1 ? {} : this.players[0];
     },
@@ -76,6 +86,9 @@ export default {
 
       for(let i = 0; i < MAX_SPIKES; i++)
         await this.$store.dispatch('game/spawnSpikes');
+
+      for(let i = 0; i < MAX_SPIKES; i++)
+        this.$store.dispatch('game/spawnEntity',{type: HeartsModel});
 
       this.initialized = true;
       this.resizeCanvas();
