@@ -15,7 +15,7 @@
     <div style="position:relative;">
       <Player style="position:absolute;flex:1" v-for='player in players' :key="player.id" :id="player.id"></Player>
       <Entity style="position:absolute;flex:1" v-for='spike in spikes' :key="spike.id" :id="spike.id"></Entity>
-      <canvas ref="canvas" style="background-color:red;" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <canvas ref="canvas" style="background-color:red;" :height="tilesize * height" :width="tilesize * width"></canvas>
     </div>
     <div style="flex:1;height:100%;"></div>
   </div>
@@ -29,6 +29,8 @@ import Entity from '@/components/game/Entity';
 import Header from '@/components/layout/Header.vue';
 import Navigation from '@/components/layout/Navigation.vue';
 import {ENTITY_TYPE} from '../../model/game/EntityConfig';
+
+const MAX_SPIKES = 11;
 
 export default {
   name: 'Game',
@@ -68,8 +70,13 @@ export default {
     window.addEventListener('resize', this.onResize);
     this.$nextTick(async ()=> {
       await this.initMap();
+
+      // todo refactor
       await this.$store.dispatch('game/spawnPlayer');
-      await this.$store.dispatch('game/spawnSpikes');
+
+      for(let i = 0; i < MAX_SPIKES; i++)
+        await this.$store.dispatch('game/spawnSpikes');
+
       this.initialized = true;
       this.resizeCanvas();
       

@@ -3,7 +3,7 @@
     <img
       ref="image"
       :src="path" 
-      style="transition: transform 1.24s linear 0s;"
+      style="transition: transform 0.33s linear 0s;"
       :style="{transform: transform, height: `${tilesize}px`, width: `${tilesize}px`}"
   />
   </div>

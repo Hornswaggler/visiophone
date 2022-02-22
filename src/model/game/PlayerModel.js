@@ -1,6 +1,6 @@
 import { makeEntity } from './Entity';
-import {ENTITY_TYPE} from './EntityConfig';
-import { KEYS, STATE_MAP, STATE } from './PlayerConfig';
+import { ENTITY_TYPE } from './EntityConfig';
+import { STATE_MAP, STATE } from './PlayerConfig';
 
 const handlers = 
   Object.keys(STATE_MAP)
@@ -20,9 +20,9 @@ const frames =
 
 export default ({x,y}) => {
   return new (({x,y}) => ({
-    ...makeEntity(),
-    type: ENTITY_TYPE.PLAYER,
-    async handleInput({dispatch},{key}) {
+    ...makeEntity({x,y, type: ENTITY_TYPE.PLAYER}),
+    async handleInput({dispatch, self},{key}) {
+      console.log('Handling Input: ', self);
       const {x, y, handlers} = this;
       const template = { dx: 0, dy: 0 };
       const delta = handlers[key] ? { ...template, ...handlers[key]() } : template;
@@ -30,7 +30,13 @@ export default ({x,y}) => {
       const { dx, dy } = delta;
       const destination = { x: x + dx, y: y + dy};
 
-      if(!await dispatch('checkMapLocation', destination)) {
+      const result = await dispatch('checkMapLocation', destination);
+
+      if(result.entity){
+        result.entity.effect(this);
+      }
+
+      if(result.clip) {
         this.path = frames[key];
         this.x = destination.x;
         this.y = destination.y;
@@ -40,9 +46,11 @@ export default ({x,y}) => {
     handleOffput(){
       this.path = frames[STATE.IDLE];
     },
+    affect({hp}){
+      this.hp += hp;
+    },
     handlers,
     path:'',
     hp: 10,
-    ...{x,y}
   }))({x,y});
 }

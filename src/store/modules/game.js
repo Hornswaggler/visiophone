@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import {Map} from 'rot-js';
 import PlayerModel from '@/model/game/PlayerModel.js';
-import Entity from '@/model/game/SpikesModel.js';
+import SpikesModel from '@/model/game/SpikesModel.js';
 
 const MARGIN = 11;
 
@@ -75,8 +75,9 @@ export default {
     },
 
     async spawnSpikes({commit, dispatch}){
-      const {x,y} = await dispatch('findRandomAvailable');
-      const spikes = new Entity({x, y});
+      const {x, y} = await dispatch('findRandomAvailable');
+      console.log('ARE WE THERE YET?');
+      const spikes = new SpikesModel({x, y});
       commit('addAll', {
         key: 'entities',
         values: [spikes]
@@ -85,8 +86,8 @@ export default {
     },
 
     handleInputOn({state:{entities}, dispatch}, {key}) {
-      entities.forEach(entity =>{
-        entity.handleInput && entity.handleInput({dispatch},{key});
+      entities.forEach(entity => {
+        entity.handleInput && entity.handleInput({dispatch, self: entity},{key});
       });
     },
 
@@ -117,29 +118,60 @@ export default {
       });
 
       let {x:_x,y:_y} = getRandom();
-      let found = !await dispatch('checkMapLocation',{x:_x, y:_y});
-      while(!found){
-        found = !await dispatch('checkMapLocation',{x:_x, y:_y});
-        if(!found) {
-          const {x,y} = getRandom();
-          _x = x;
-          _y = y;
+      let found = await dispatch('checkMapLocation',{x:_x, y:_y});
+      console.log('asdf', found);
+
+
+
+
+      while(!found.clip){
+        console.log('asdf', found);
+
+        try{
+          found = await dispatch('checkMapLocation',{x: _x, y: _y});
+          console.log('Result:', found);
+
+          if(!found.clip) {
+            console.log('HIT ME!');
+            const {x,y} = getRandom();
+            _x = x;
+            _y = y;
+          }
+        }catch(e){
+          console.error(e);
         }
       }
+
+      console.log(found);
 
       return {x:_x,y:_y};
     },
 
-    checkMapLocation({state:{width, height, mapData, entities}}, {x, y}){
+    checkMapLocation({state:{width, height, mapData, entities}}, {x, y}) {
+      let result = {
+        clip: false,
+      };
+
       try {
         const isWall = (x < 0 || y < 0)  || (x >= width || y >= height) ? true : mapData[x][y] === 0;
-        const es = entities.some(({x:_x,y:_y}) => _x === x && _y === y);
-        const isEntity = es|| false;
-        return isWall || isEntity;
+        const entity = entities.find(
+          ({x:_x,y:_y}) => _x === x && _y === y);
+
+        // const isEntity = es || {};
+
+        result = {
+          clip: !isWall,
+          entity
+        };
+        console.log(result);
+        return result;
+
+        // return isWall ? false : (isEntity ? es : false);
       } catch(e) {
         console.error(e);
-        return true;
-      }
+      } 
+
+      return result;
     }
   },
 

@@ -1,14 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import {ENTITY_TYPE} from './EntityConfig';
 
-export const makeEntity =() => ({
-  id: uuidv4(),
-  x: 0,
-  y: 0
+export const makeEntity = ({x, y, type}) => ({
+  id: uuidv4(), 
+  x, y,
+  clip: true,
+  type
 });
-
-export default () => 
-  new (() => ({
-    ...makeEntity(),
-    type: ENTITY_TYPE.SPIKES,
-  }));
