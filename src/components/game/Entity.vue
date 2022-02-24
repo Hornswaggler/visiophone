@@ -1,9 +1,10 @@
 <template>
   <img
     ref="frame"
-    :src="path" 
+    :src="path"
+    :aria="entity.type"
     style="transition: transform 1.24s linear 0s;"
-    :style="{transform: transform, height: `${tilesize}px`, width: `${tilesize}px`}"
+    :style="{transform: transform, height: `${tilesize}px`, width: `${tilesize}px`, zIndex: `${entity.zIndex}`}"
   />
 </template>
 <script>
@@ -33,12 +34,17 @@ export default {
         return require(`@/assets/${this.entity.path ? this.entity.path : defaultPath}`);
       }
       catch(e){
-        console.error(e);
+        console.error(this, e);
         return defaultPath;
       }
     },
     transform() {
-      return `translate(${this.entity.x * this.tilesize}px, ${this.entity.y * this.tilesize}px)`;
+      try{
+        return `translate(${this.entity.x * this.tilesize}px, ${this.entity.y * this.tilesize}px)`;
+      }catch(e) {
+        console.error(e);
+        return `translate(${this.entity.x * this.tilesize}px, ${this.entity.y * this.tilesize}px)`
+      }
     }
   },
   methods:{

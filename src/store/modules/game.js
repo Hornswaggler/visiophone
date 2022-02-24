@@ -11,11 +11,12 @@ export default {
   state: () => ({
     mapData: [],
     entities: [],
-    height: 30,
-    width: 40,
+    height: 20,
+    width: 30,
     tilesize: 40,
     map: {},
-    resizing: false
+    resizing: false,
+    tileset: []
   }),
 
   actions:{
@@ -28,17 +29,23 @@ export default {
       }
 
       const result = await (() => new Promise((resolve, reject) => {
+        const mapTile = {isBoundary:true, tile:{path: 'Rock_Block.png'}};
         const callback = (x, y, value) => {
           if(x === 0 || y === 0 || x === width -1 || y === height -1) {
-            mapData[x][y] = 1;
+            mapData[x][y] = {...mapTile, ...{tile:{ path: 'Floor_Tile.png'}}};
             return;
           }
-          mapData[x][y] = value === 0 ? 1 : 0;
+          const isBoundary = value === 0 ? true : false;
+          // const mapTile = {isBoundary}};
+
+          mapData[x][y] = {...mapTile, ...{isBoundary,tile:{ path: !isBoundary ? 'Rock_Block.png' : 'Floor_Tile.png'}}};
         };
 
         map.create(callback);
         return resolve(mapData);
       }))();
+
+      console.log('Adding map data...');
 
       commit('addAll', {
         key: 'mapData',
@@ -55,9 +62,16 @@ export default {
       });
     },
 
-    async spawnEntity({commit, dispatch}, {type}){
-      const {x, y} = await dispatch('findRandomAvailable');
-      const entity = type({x,y});
+    getTileForMapPosition({mapData, x, y}){
+      try{
+        return mapData[x][y]
+      }catch(e){
+        console.error(e);
+      }
+      return -1;
+    },
+
+    async spawnEntity({commit, dispatch}, {entity}){      
       commit('addAll', {
         key: 'entities',
         values: [entity]
@@ -105,7 +119,7 @@ export default {
       let coords;
       for(let x = 0; x < mapData.length; x++){
         for(let y = 0; y < mapData[x].length; y++){
-          if(mapData[x][y] === 1){
+          if(mapData[x][y].isBoundary){
             coords = {x,y};
             break;
           }
@@ -147,7 +161,7 @@ export default {
       };
 
       try {
-        const isWall = (x < 0 || y < 0)  || (x >= width || y >= height) ? true : mapData[x][y] === 0;
+        const isWall = (x < 0 || y < 0)  || (x >= width || y >= height) ? true : !mapData[x][y].isBoundary;
         const entity = entities.find(
           ({x:_x,y:_y}) => _x === x && _y === y);
 

@@ -1,12 +1,10 @@
 <template>
-  <div>
     <img
       ref="image"
       :src="path" 
       style="transition: transform 0.33s linear 0s;"
-      :style="{transform: transform, height: `${tilesize}px`, width: `${tilesize}px`}"
+      :style="{transform: transform, height: `${tilesize}px`, width: `${tilesize}px`, zIndex: 3}"
   />
-  </div>
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex';

@@ -12,13 +12,12 @@
         <div>HP: {{playerOne.hp}}</div>
       </div>
     </div>
-    <div style="position:relative;">
+    <div style="position:relative;"  >
       <Player style="position:absolute;flex:1" v-for='player in players' :key="player.id" :id="player.id"></Player>
       <Entity style="position:absolute;flex:1" v-for='spike in spikes' :key="spike.id" :id="spike.id"></Entity>
-
-      <Entity style="position:absolute;flex:1" v-for='ent in ents' :key="ent.id" :id="ent.id"></Entity>
-
-      <canvas ref="canvas" style="background-color:red;" :height="tilesize * height" :width="tilesize * width"></canvas>
+      <Entity style="position:absolute;flex:1" v-for='ent in hearts' :key="ent.id" :id="ent.id"></Entity>
+      <Entity style="position:absolute;flex:1" v-for='tile in tiles' :key="tile.id" :id="tile.id"></Entity>
+      <canvas ref="canvas" style="background-color:grey;" :height="tilesize * height" :width="tilesize * width"></canvas>
     </div>
     <div style="flex:1;height:100%;"></div>
   </div>
@@ -33,6 +32,9 @@ import Header from '@/components/layout/Header.vue';
 import Navigation from '@/components/layout/Navigation.vue';
 import {ENTITY_TYPE} from '../../model/game/EntityConfig';
 import HeartsModel from '../../model/game/HeartsModel';
+import TileModel from '../../model/game/TileModel';
+import PlayerModel from '../../model/game/PlayerModel';
+import SpikesModel from '../../model/game/SpikesModel';
 
 const MAX_SPIKES = 11;
 
@@ -42,7 +44,7 @@ export default {
     Header,
     Navigation,
     Player,
-    Entity
+    Entity,
   },
   data:()=>({
     color:'#FFFFFF',
@@ -51,7 +53,6 @@ export default {
   computed: {
     ...mapState('game',['mapData', 'height', 'width', 'tilesize', 'entities']),
     players() {
-      if(!this.initialized) return [];
       return this.entities.filter(entity=>entity.type === ENTITY_TYPE.PLAYER)
     },
     spikes(){
@@ -59,9 +60,13 @@ export default {
       return this.entities.filter(entity=>entity.type === ENTITY_TYPE.SPIKES)
     },
 
-    ents(){
+    hearts(){
       if(!this.initialized) return [];
       return this.entities.filter(e=>e.type === ENTITY_TYPE.HEART);
+    },
+
+    tiles(){
+      return this.entities.filter(e => e.type === ENTITY_TYPE.TILE);
     },
 
     playerOne(){
@@ -78,17 +83,45 @@ export default {
 
     this.resizeCanvas();
     window.addEventListener('resize', this.onResize);
+
     this.$nextTick(async ()=> {
       await this.initMap();
 
       // todo refactor
-      await this.$store.dispatch('game/spawnPlayer');
+      const {x, y} = await this.$store.dispatch('game/findFirstAvailable');
+      await this.$store.dispatch('game/spawnEntity', {entity: PlayerModel({x, y})});
 
-      for(let i = 0; i < MAX_SPIKES; i++)
-        await this.$store.dispatch('game/spawnSpikes');
+      for(let i = 0; i < MAX_SPIKES; i++){
+        const {x, y} = await this.$store.dispatch('game/findRandomAvailable');
+        await this.$store.dispatch('game/spawnEntity', {entity: SpikesModel({x, y})});
+      }
 
-      for(let i = 0; i < MAX_SPIKES; i++)
-        this.$store.dispatch('game/spawnEntity',{type: HeartsModel});
+      for(let i = 0; i < MAX_SPIKES; i++){
+        const {x, y} = await this.$store.dispatch('game/findRandomAvailable');
+        this.$store.dispatch('game/spawnEntity',{ entity: HeartsModel({ x, y })});
+
+      }
+
+      // TODO: No need for reduce
+      const self = this;
+      this.mapData.reduce((acc, x, i) => {
+        try {
+          x.map((entity, j) => {
+            if(entity.tile){ 
+              self.$store.dispatch('game/spawnEntity', { entity: TileModel({x: i, y: j, path: entity.tile.path}) });
+            }
+            return { id: 2 };
+          });
+        } catch(e){
+          console.error('error:', e);
+          return acc;
+        }
+
+
+
+        return acc;
+
+      },[])
 
       this.initialized = true;
       this.resizeCanvas();
@@ -125,7 +158,7 @@ export default {
         context.clearRect(0,0,this.width * this.tilesize, this.height * this.tilesize)
         for (let x = 0; x < this.width; x++) {
           for (let y = 0; y < this.height; y++) {
-            if(this.mapData[x][y] === 1) this.drawTile(context, x,y);
+            if(this.mapData[x][y].isBoundary) this.drawTile(context, x,y);
           }
         }
       });

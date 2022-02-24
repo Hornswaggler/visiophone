@@ -4,5 +4,7 @@ export const makeEntity = ({x, y, type}) => ({
   id: uuidv4(), 
   x, y,
   clip: true,
-  type
+  type,
+  effect: () => {},
+  zIndex: 2
 });
