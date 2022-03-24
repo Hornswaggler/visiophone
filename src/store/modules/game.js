@@ -1,9 +1,23 @@
 import Vue from 'vue';
 import {Map} from 'rot-js';
-import PlayerModel from '@/model/game/PlayerModel.js';
-import SpikesModel from '@/model/game/SpikesModel.js';
 
-const MARGIN = 0;
+const MARGIN = 18;
+
+const TILE_TYPE = {
+  WALL:'WALL',
+  FLOOR: 'FLOOR'
+}
+
+const TILESET = {
+  [TILE_TYPE.WALL]:{
+    isBoundary: true,
+    path: 'Grass_Block.png'
+  },
+  [TILE_TYPE.FLOOR]: {
+    isBoundary: false,
+    path: 'Floor_Tile.png'
+  }
+}
 
 export default {
   namespaced: true,
@@ -13,15 +27,28 @@ export default {
     entities: [],
     height: 20,
     width: 30,
-    tilesize: 40,
+    tilesize: 20,
     map: {},
     resizing: false,
-    tileset: []
+    imageCache: {}
   }),
 
   actions:{
     async initMap({commit, state:{width, height}}){
       const map = new Map.EllerMaze(width, height);
+
+      let cache = {};
+      let key = Object.keys(TILE_TYPE)[0];
+      for(let i = 0; i < Object.keys(TILE_TYPE).length; i ++, key = Object.keys(TILE_TYPE)[i]) {
+        const sprite = new Image();
+        sprite.src = require(`@/assets/${TILESET[key].path}`);
+
+        await (() => 
+          new Promise((resolve) => 
+            sprite.addEventListener("load", () => resolve('loaded'))))();
+
+        cache[key] = {...TILESET[key], sprite: sprite}
+      }
 
       const mapData = new Array(width);
       for (let x = 0; x < width; x++) {
@@ -29,23 +56,14 @@ export default {
       }
 
       const result = await (() => new Promise((resolve, reject) => {
-        const mapTile = {isBoundary:true, tile:{path: 'Rock_Block.png'}};
         const callback = (x, y, value) => {
-          if(x === 0 || y === 0 || x === width -1 || y === height -1) {
-            mapData[x][y] = {...mapTile, ...{tile:{ path: 'Floor_Tile.png'}}};
-            return;
-          }
-          const isBoundary = value === 0 ? true : false;
-          // const mapTile = {isBoundary}};
-
-          mapData[x][y] = {...mapTile, ...{isBoundary,tile:{ path: !isBoundary ? 'Rock_Block.png' : 'Floor_Tile.png'}}};
+          const isBoundary = (x === 0 || y === 0 || x === width -1 || y === height -1) || value === 0;
+          mapData[x][y] = isBoundary ? cache[TILE_TYPE.FLOOR] : cache[TILE_TYPE.WALL];
         };
 
         map.create(callback);
         return resolve(mapData);
       }))();
-
-      console.log('Adding map data...');
 
       commit('addAll', {
         key: 'mapData',
@@ -55,10 +73,18 @@ export default {
       return result;
     },
 
-    resizeMap({commit,state:{width}}, {clientHeight}){
+    resizeMap({commit,state:{width, height}}, {clientHeight, clientWidth}) {
+      console.log('Resizign Maps');
+      const dy = Math.floor((clientHeight/height) - MARGIN);
+      const dx = Math.floor((clientWidth/width) - MARGIN);
+
+
+
+      const tilesize = dy > dx ? dy: dx;
+
       commit('setPrimitive', {
         key:'tilesize',
-        value: Math.floor((clientHeight/width) - MARGIN)
+        value: tilesize
       });
     },
 
@@ -79,26 +105,6 @@ export default {
       return entity;
     },
 
-    async spawnPlayer({commit, dispatch}){
-      const {x,y} = await dispatch('findFirstAvailable');
-      const player = new PlayerModel({x,y});
-      commit('addAll', {
-        key: 'entities',
-        values: [player]
-      });
-      return player;
-    },
-
-    async spawnSpikes({commit, dispatch}){
-      const {x, y} = await dispatch('findRandomAvailable');
-      const spikes = new SpikesModel({x, y});
-      commit('addAll', {
-        key: 'entities',
-        values: [spikes]
-      });
-      return spikes;
-    },
-
     removeEntity({commit}, {id}){
       commit('removeEntity', {id});
     },
@@ -116,10 +122,12 @@ export default {
     },
 
     findFirstAvailable({state:{mapData}}) {
+      console.log('looking', mapData.map(d => TILE_TYPE));
       let coords;
+
       for(let x = 0; x < mapData.length; x++){
         for(let y = 0; y < mapData[x].length; y++){
-          if(mapData[x][y].isBoundary){
+          if(!mapData[x][y].isBoundary){
             coords = {x,y};
             break;
           }
@@ -161,7 +169,7 @@ export default {
       };
 
       try {
-        const isWall = (x < 0 || y < 0)  || (x >= width || y >= height) ? true : !mapData[x][y].isBoundary;
+        const isWall = (x < 0 || y < 0)  || (x >= width || y >= height) ? true : mapData[x][y].isBoundary;
         const entity = entities.find(
           ({x:_x,y:_y}) => _x === x && _y === y);
 

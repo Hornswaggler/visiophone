@@ -1,21 +1,22 @@
 <template>
-  <div class="fill flex justify-left p1">
-    <img class="h100" :src="require(`@/assets/Face_Icon.png`)"/>
-    
-    <!-- xp bar -->
-    <div class="xp-container flex flex-column align-start">
-      <div>Visiodiamonds:420&#9830;</div>
-      <div class="status-bg">
-        <div class="status-progress"></div>
+  <div class="fill flex" style="height:6em;justify-content:space-between;">
+
+    <div class="flex align-center" style=";flex:1;">
+      <img :src="require(`@/assets/Face_Icon.png`)" style="height:100%;"/>
+      <div class="xp-container flex flex-column align-start">
+        <div>Visiodiamonds:420&#9830;</div>
+        <div class="status-bg">
+          <div class="status-progress"></div>
+        </div>
       </div>
     </div>
-    <div class="spacer"></div>
-    <div class="xp-container flex flex-column align-start justify-center pl1">
+    <div style="flex:1;" class="xp-container flex align-center justify-center pl1">
       <visio-man>
         <!-- todo refactor -->
         <input style="height:2em;width:25em;" type="text"/>
       </visio-man>
     </div>
+    <div style="flex:1;">&nbsp;</div>
   </div>
 </template>
 <script>

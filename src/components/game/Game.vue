@@ -1,25 +1,28 @@
 <template>
 <div style="height: 100vh;width: 100vw;display: flex;flex-direction: column;">
-   <div class="css-selector">
+   <div>
     <Header/>
     <Navigation/>
   </div>
 
   <!-- map container -->
   <div ref="container" class="flex" style="height:100%;align-items:center;position:relative;">
-    <div style="flex:1;height:100%;display:flex;margin-top:11em;margin-right:2em;justify-content:flex-end;">
-      <div style="height:10em;width:20em;border: solid #65FE00 4px; border-radius:12px;display:flex;padding:1em;">
+
+    <div style="height:100%;display:flex;margin-top:11em;margin-right:2em;justify-content:flex-end;">
+      <div style="height:10em;width:5em;border: solid #65FE00 4px; border-radius:12px;display:flex;padding:1em;">
         <div>HP: {{playerOne.hp}}</div>
       </div>
     </div>
-    <div style="position:relative;"  >
-      <Player style="position:absolute;flex:1" v-for='player in players' :key="player.id" :id="player.id"></Player>
-      <Entity style="position:absolute;flex:1" v-for='spike in spikes' :key="spike.id" :id="spike.id"></Entity>
-      <Entity style="position:absolute;flex:1" v-for='ent in hearts' :key="ent.id" :id="ent.id"></Entity>
-      <Entity style="position:absolute;flex:1" v-for='tile in tiles' :key="tile.id" :id="tile.id"></Entity>
-      <canvas ref="canvas" style="background-color:grey;" :height="tilesize * height" :width="tilesize * width"></canvas>
+
+    <div style="flex:2">
+      <div style="position:relative;"  >
+        <Player style="position:absolute;flex:1" v-for='player in players' :key="player.id" :id="player.id"></Player>
+        <Entity style="position:absolute;flex:1" v-for='spike in spikes' :key="spike.id" :id="spike.id"></Entity>
+        <Entity style="position:absolute;flex:1" v-for='ent in hearts' :key="ent.id" :id="ent.id"></Entity>
+        <!-- <Entity style="position:absolute;flex:1" v-for='tile in tiles' :key="tile.id" :id="tile.id"></Entity> -->
+        <canvas ref="canvas" style="background-color:grey;" :height="tilesize * height" :width="tilesize * width"></canvas>
+      </div>
     </div>
-    <div style="flex:1;height:100%;"></div>
   </div>
 
 </div>
@@ -77,7 +80,7 @@ export default {
       return this.$refs.container;
     }
   },
-  mounted(){
+  async mounted(){
     window.addEventListener("keydown", this.onKeyDown);
     window.addEventListener("keyup", this.onKeyUp);
 
@@ -86,9 +89,13 @@ export default {
 
     this.$nextTick(async ()=> {
       await this.initMap();
+     
+      console.log('Was map initiated???');
 
       // todo refactor
       const {x, y} = await this.$store.dispatch('game/findFirstAvailable');
+      // console.log('THE RESULT', result);
+      // const x = 0; const y = 0;
       await this.$store.dispatch('game/spawnEntity', {entity: PlayerModel({x, y})});
 
       for(let i = 0; i < MAX_SPIKES; i++){
@@ -108,7 +115,7 @@ export default {
         try {
           x.map((entity, j) => {
             if(entity.tile){ 
-              self.$store.dispatch('game/spawnEntity', { entity: TileModel({x: i, y: j, path: entity.tile.path}) });
+              self.$store.dispatch('game/spawnEntity', { entity: TileModel({x: i, y: j, path: entity.path}) });
             }
             return { id: 2 };
           });
@@ -134,7 +141,6 @@ export default {
     window.removeEventListener('keydown', this.onKeyUp);
   },
   methods: {
-    // TODO refactor
     onKeyDown({key}) {
       this.$store.dispatch('game/handleInputOn', {key});
     },
@@ -142,13 +148,14 @@ export default {
     onResize(){
       this.resizeCanvas();
     },
+
     resizeCanvas(){
-      this.$store.dispatch('game/resizeMap', {clientHeight: this.$refs.container.clientHeight});
+      this.$store.dispatch('game/resizeMap', {clientHeight: this.$refs.container.clientHeight, clientWidth: this.$refs.container.clientWidth});
       this.drawMap();
     },
 
     initMap(){
-      this.$store.dispatch('game/initMap');
+      return this.$store.dispatch('game/initMap');
     },
 
     drawMap(){
@@ -158,14 +165,24 @@ export default {
         context.clearRect(0,0,this.width * this.tilesize, this.height * this.tilesize)
         for (let x = 0; x < this.width; x++) {
           for (let y = 0; y < this.height; y++) {
-            if(this.mapData[x][y].isBoundary) this.drawTile(context, x,y);
+            this.drawTile(context, x,y, this.mapData[x][y]);
           }
         }
       });
     },
-    drawTile(context, x, y) {
-      context.fillStyle = this.color;
-      context.fillRect(x  * this.tilesize, y * this.tilesize, this.tilesize, this.tilesize);
+
+    drawTile(context, x, y, {path}) {
+      // console.log('Drawing Tile: ', tile);
+      // context.fillStyle = this.color;
+      // context.fillRect(x  * this.tilesize, y * this.tilesize, this.tilesize, this.tilesize);
+      const dx = x * this.tilesize;
+      const dy = y * this.tilesize;
+      const sprite = new Image();
+      sprite.src = require(`@/assets/${path}`);
+      sprite.addEventListener("load", () => {
+        context.drawImage(sprite, dx, dy, this.tilesize, this.tilesize);
+      });
+
     }
   }
 }
