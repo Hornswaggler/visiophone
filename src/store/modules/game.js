@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import {Map} from 'rot-js';
+import {ENTITY_TYPE} from '../../model/game/EntityConfig.js';
 
 const MARGIN = 18;
 
@@ -11,7 +12,7 @@ const TILE_TYPE = {
 const TILESET = {
   [TILE_TYPE.WALL]:{
     isBoundary: true,
-    path: 'Grass_Block.png'
+    path: 'Rock_Block.png'
   },
   [TILE_TYPE.FLOOR]: {
     isBoundary: false,
@@ -25,8 +26,8 @@ export default {
   state: () => ({
     mapData: [],
     entities: [],
-    height: 20,
-    width: 30,
+    height: 40,
+    width: 60,
     tilesize: 20,
     map: {},
     resizing: false,
@@ -34,7 +35,7 @@ export default {
   }),
 
   actions:{
-    async initMap({commit, state:{width, height}}){
+    async initMap({commit, state:{width, height}}) {
       const map = new Map.EllerMaze(width, height);
 
       let cache = {};
@@ -55,7 +56,7 @@ export default {
         mapData[x] = new Array(height);
       }
 
-      const result = await (() => new Promise((resolve, reject) => {
+      const result = await (() => new Promise((resolve) => {
         const callback = (x, y, value) => {
           const isBoundary = (x === 0 || y === 0 || x === width -1 || y === height -1) || value === 0;
           mapData[x][y] = isBoundary ? cache[TILE_TYPE.FLOOR] : cache[TILE_TYPE.WALL];
@@ -74,17 +75,12 @@ export default {
     },
 
     resizeMap({commit,state:{width, height}}, {clientHeight, clientWidth}) {
-      console.log('Resizign Maps');
       const dy = Math.floor((clientHeight/height) - MARGIN);
       const dx = Math.floor((clientWidth/width) - MARGIN);
 
-
-
-      const tilesize = dy > dx ? dy: dx;
-
       commit('setPrimitive', {
         key:'tilesize',
-        value: tilesize
+        value: dy
       });
     },
 
@@ -97,7 +93,7 @@ export default {
       return -1;
     },
 
-    async spawnEntity({commit, dispatch}, {entity}){      
+    async spawnEntity({commit, dispatch}, {entity}){     
       commit('addAll', {
         key: 'entities',
         values: [entity]
@@ -109,10 +105,27 @@ export default {
       commit('removeEntity', {id});
     },
 
-    handleInputOn({state:{entities}, dispatch}, {key}) {
-      entities.forEach(entity => {
-        entity.handleInput && entity.handleInput({dispatch, self: entity},{key});
+    async handleInputOn({state:{ entities, mapData }, dispatch}, {key}) {
+      let activate = false;
+      for(let i = 0; i < entities.length; i++){
+        const entity = entities[i];
+        if(!entity.handleInput) continue;
+        activate = await entity.handleInput({dispatch, self: entity},{key})
+      }
+
+      if(activate) dispatch('activateEntities');
+    },
+
+    activateEntities({dispatch, state:{entities, mapData}}){
+
+      ENTITY_TYPE
+      const target = entities.find(({type}) => {
+        return type === ENTITY_TYPE.PLAYER;
       });
+
+      entities
+        .filter(e => e.activate)
+        .map(e => e.activate({dispatch, mapData, self: e, target}))
     },
 
     stopEntity({commit, state:{entities}}, {key}){

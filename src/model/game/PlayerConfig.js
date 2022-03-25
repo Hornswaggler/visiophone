@@ -10,7 +10,8 @@ export const KEYS = {
   UP: "ArrowUp",
   DOWN: "ArrowDown",
   LEFT: "ArrowLeft",
-  RIGHT: "ArrowRight"
+  RIGHT: "ArrowRight",
+  IDLE: "IDLE"
 };
 
 export const STATE_MAP = {
@@ -35,6 +36,7 @@ export const STATE_MAP = {
     path: 'Comp_boi_walkin_left.gif'
   },
   [STATE.IDLE]: {
+    key: KEYS.IDLE, 
     path: 'Comp_boi_idle.gif'
   }
 };

@@ -16,11 +16,13 @@
 
     <div style="flex:2">
       <div style="position:relative;"  >
-        <Player style="position:absolute;flex:1" v-for='player in players' :key="player.id" :id="player.id"></Player>
-        <Entity style="position:absolute;flex:1" v-for='spike in spikes' :key="spike.id" :id="spike.id"></Entity>
-        <Entity style="position:absolute;flex:1" v-for='ent in hearts' :key="ent.id" :id="ent.id"></Entity>
-        <!-- <Entity style="position:absolute;flex:1" v-for='tile in tiles' :key="tile.id" :id="tile.id"></Entity> -->
-        <canvas ref="canvas" style="background-color:grey;" :height="tilesize * height" :width="tilesize * width"></canvas>
+        <Entity 
+          style="position:absolute;flex:1"
+          v-for='entity in entities' 
+          :key="entity.id" 
+          :id="entity.id"
+        ></Entity>
+        <canvas ref="canvas" :height="tilesize * height" :width="tilesize * width"></canvas>
       </div>
     </div>
   </div>
@@ -29,7 +31,6 @@
 </template>
 <script>
 import {mapState} from 'vuex';
-import Player from '@/components/game/Player';
 import Entity from '@/components/game/Entity';
 import Header from '@/components/layout/Header.vue';
 import Navigation from '@/components/layout/Navigation.vue';
@@ -37,6 +38,7 @@ import {ENTITY_TYPE} from '../../model/game/EntityConfig';
 import HeartsModel from '../../model/game/HeartsModel';
 import TileModel from '../../model/game/TileModel';
 import PlayerModel from '../../model/game/PlayerModel';
+import MonkeyModel from '../../model/game/MonkeyModel';
 import SpikesModel from '../../model/game/SpikesModel';
 
 const MAX_SPIKES = 11;
@@ -46,7 +48,6 @@ export default {
   components:{
     Header,
     Navigation,
-    Player,
     Entity,
   },
   data:()=>({
@@ -55,9 +56,11 @@ export default {
   }),
   computed: {
     ...mapState('game',['mapData', 'height', 'width', 'tilesize', 'entities']),
+  
     players() {
       return this.entities.filter(entity=>entity.type === ENTITY_TYPE.PLAYER)
     },
+  
     spikes(){
       if(!this.initialized) return [];
       return this.entities.filter(entity=>entity.type === ENTITY_TYPE.SPIKES)
@@ -75,6 +78,7 @@ export default {
     playerOne(){
       return this.players.length < 1 ? {} : this.players[0];
     },
+  
     container(){
       if(!this.$refs.container) return '';
       return this.$refs.container;
@@ -92,11 +96,15 @@ export default {
      
       console.log('Was map initiated???');
 
-      // todo refactor
-      const {x, y} = await this.$store.dispatch('game/findFirstAvailable');
-      // console.log('THE RESULT', result);
-      // const x = 0; const y = 0;
-      await this.$store.dispatch('game/spawnEntity', {entity: PlayerModel({x, y})});
+      await (async () => {
+        const {x, y} = await this.$store.dispatch('game/findFirstAvailable');
+        return this.$store.dispatch('game/spawnEntity', {entity: PlayerModel({x, y})});
+      })();
+
+      for(let i = 0; i < MAX_SPIKES; i++){
+        let {x, y} = await this.$store.dispatch('game/findRandomAvailable');
+        await this.$store.dispatch('game/spawnEntity', {entity: MonkeyModel({x, y})});
+      }
 
       for(let i = 0; i < MAX_SPIKES; i++){
         const {x, y} = await this.$store.dispatch('game/findRandomAvailable');
@@ -114,7 +122,7 @@ export default {
       this.mapData.reduce((acc, x, i) => {
         try {
           x.map((entity, j) => {
-            if(entity.tile){ 
+            if(entity.tile) { 
               self.$store.dispatch('game/spawnEntity', { entity: TileModel({x: i, y: j, path: entity.path}) });
             }
             return { id: 2 };
@@ -123,16 +131,14 @@ export default {
           console.error('error:', e);
           return acc;
         }
-
-
-
         return acc;
-
-      },[])
+      },[]);
 
       this.initialized = true;
       this.resizeCanvas();
       
+      console.log('Loaded, entities are:', this.entities);
+
     });
   },
   beforeDestroy() {
@@ -172,9 +178,6 @@ export default {
     },
 
     drawTile(context, x, y, {path}) {
-      // console.log('Drawing Tile: ', tile);
-      // context.fillStyle = this.color;
-      // context.fillRect(x  * this.tilesize, y * this.tilesize, this.tilesize, this.tilesize);
       const dx = x * this.tilesize;
       const dy = y * this.tilesize;
       const sprite = new Image();
