@@ -50,7 +50,7 @@ export default ({ x, y }) => {
           path.push({x,y});
         });
 
-        if(path.length >= 1){
+        if(path.length >= 2){
           const {x:dx, y:dy} = path[1];
           this.x = dx;
           this.y = dy;

@@ -5,25 +5,28 @@
     <Navigation/>
   </div>
 
-  <!-- map container -->
-  <div ref="container" class="flex" style="height:100%;align-items:center;position:relative;">
+  <div  class="flex" style="height:100%;align-items:center;position:relative;">
 
     <div style="height:100%;display:flex;margin-top:11em;margin-right:2em;justify-content:flex-end;">
-      <div style="height:10em;width:5em;border: solid #65FE00 4px; border-radius:12px;display:flex;padding:1em;">
+      <div style="height:10em;width:8em;border: solid #65FE00 4px; border-radius:12px;display:flex;padding:1em;">
         <div>HP: {{playerOne.hp}}</div>
       </div>
     </div>
 
-    <div style="flex:2">
-      <div style="position:relative;"  >
-        <Entity 
-          style="position:absolute;flex:1"
-          v-for='entity in entities' 
-          :key="entity.id" 
-          :id="entity.id"
-        ></Entity>
-        <canvas ref="canvas" :height="tilesize * height" :width="tilesize * width"></canvas>
-      </div>
+    <div style="flex:2;height:100%;display:flex;">
+        <div ref="container" style="position:relative;flex:1;">
+          <canvas ref="canvas" style="position:absolute;display:flex;" :height="`${tilesize * height * scaleFactor}px`" :width="`${tilesize * width * scaleFactor}px`"></canvas>
+
+            <div style="position:absolute;display:flex;" :style="{height: `${tilesize * height * scaleFactor}px`, width: `${tilesize * width * scaleFactor}px`}">
+              <div style="flex:1; position:relative;display:flex;">
+                <Entity
+                  v-for='entity in entities' 
+                  :key="entity.id"
+                  :id="entity.id"
+                ></Entity>
+              </div>
+            </div>
+        </div>
     </div>
   </div>
 
@@ -41,7 +44,8 @@ import PlayerModel from '../../model/game/PlayerModel';
 import MonkeyModel from '../../model/game/MonkeyModel';
 import SpikesModel from '../../model/game/SpikesModel';
 
-const MAX_SPIKES = 11;
+const MAX_SPIKES = 10;
+export const SCALE_FACTOR = 4;
 
 export default {
   name: 'Game',
@@ -52,10 +56,11 @@ export default {
   },
   data:()=>({
     color:'#FFFFFF',
-    initialized: false
+    initialized: false,
+    scaleFactor: SCALE_FACTOR
   }),
   computed: {
-    ...mapState('game',['mapData', 'height', 'width', 'tilesize', 'entities']),
+    ...mapState('game',['mapData', 'height', 'width', 'tilesize', 'entities', 'clientWidth', 'clientHeight']),
   
     players() {
       return this.entities.filter(entity=>entity.type === ENTITY_TYPE.PLAYER)
@@ -84,9 +89,24 @@ export default {
       return this.$refs.container;
     }
   },
+
   async mounted(){
     window.addEventListener("keydown", this.onKeyDown);
     window.addEventListener("keyup", this.onKeyUp);
+
+    let x = 0;
+    let y = 0;
+
+    const animationLoop = timeStamp => {
+      const context = this.$refs.canvas.getContext('2d');
+      x+=1;
+      y+=1;
+      context.setTransform(SCALE_FACTOR,0,0,SCALE_FACTOR,x,y);
+
+      window.requestAnimationFrame(animationLoop);
+
+    }
+
 
     this.resizeCanvas();
     window.addEventListener('resize', this.onResize);
@@ -94,17 +114,14 @@ export default {
     this.$nextTick(async ()=> {
       await this.initMap();
      
-      console.log('Was map initiated???');
-
       await (async () => {
         const {x, y} = await this.$store.dispatch('game/findFirstAvailable');
         return this.$store.dispatch('game/spawnEntity', {entity: PlayerModel({x, y})});
       })();
 
-      for(let i = 0; i < MAX_SPIKES; i++){
-        let {x, y} = await this.$store.dispatch('game/findRandomAvailable');
-        await this.$store.dispatch('game/spawnEntity', {entity: MonkeyModel({x, y})});
-      }
+      let {x, y} = await this.$store.dispatch('game/findRandomAvailable');
+      await this.$store.dispatch('game/spawnEntity', {entity: MonkeyModel({x, y})});
+
 
       for(let i = 0; i < MAX_SPIKES; i++){
         const {x, y} = await this.$store.dispatch('game/findRandomAvailable');
@@ -117,27 +134,37 @@ export default {
 
       }
 
-      // TODO: No need for reduce
       const self = this;
-      this.mapData.reduce((acc, x, i) => {
+      this.mapData.map((x, i) => {
         try {
           x.map((entity, j) => {
             if(entity.tile) { 
               self.$store.dispatch('game/spawnEntity', { entity: TileModel({x: i, y: j, path: entity.path}) });
             }
-            return { id: 2 };
           });
         } catch(e){
           console.error('error:', e);
-          return acc;
         }
-        return acc;
-      },[]);
+      });
 
       this.initialized = true;
       this.resizeCanvas();
       
-      console.log('Loaded, entities are:', this.entities);
+      const fps = 30;
+      const SCROLL_SPEED = 1.0; //bps
+      let offset = {
+        x:0.0,
+        y:0.0
+      };
+      let ticks = 0;
+      // animationLoop();
+
+      // setInterval(() =>{
+      //   ticks++;
+      //   if(ticks%fps === 0)
+      //   const { x, y } = offset;
+      //   offset = {...offset, }
+      // }, 1000/fps)
 
     });
   },
@@ -164,6 +191,10 @@ export default {
       return this.$store.dispatch('game/initMap');
     },
 
+    redrawMap(){
+
+    },
+
     drawMap(){
       this.$nextTick(()=> {
         if(!this.initialized) return false;
@@ -174,6 +205,7 @@ export default {
             this.drawTile(context, x,y, this.mapData[x][y]);
           }
         }
+        context.setTransform(SCALE_FACTOR,0,0,SCALE_FACTOR,0,0);
       });
     },
 

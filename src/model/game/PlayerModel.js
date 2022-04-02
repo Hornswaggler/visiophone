@@ -54,7 +54,6 @@ export default ({x,y}) => {
         return true;
       },
       handleOffput(){
-        console.log(frames);
         this.path = frames[STATE.IDLE];
       },
       affect({hp}){

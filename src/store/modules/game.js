@@ -2,8 +2,6 @@ import Vue from 'vue';
 import {Map} from 'rot-js';
 import {ENTITY_TYPE} from '../../model/game/EntityConfig.js';
 
-const MARGIN = 18;
-
 const TILE_TYPE = {
   WALL:'WALL',
   FLOOR: 'FLOOR'
@@ -26,12 +24,14 @@ export default {
   state: () => ({
     mapData: [],
     entities: [],
-    height: 40,
-    width: 60,
+    height: 20,
+    width: 40,
     tilesize: 20,
     map: {},
     resizing: false,
-    imageCache: {}
+    imageCache: {},
+    clientHeight: 100,
+    clientWidth:100
   }),
 
   actions:{
@@ -75,12 +75,23 @@ export default {
     },
 
     resizeMap({commit,state:{width, height}}, {clientHeight, clientWidth}) {
-      const dy = Math.floor((clientHeight/height) - MARGIN);
-      const dx = Math.floor((clientWidth/width) - MARGIN);
 
       commit('setPrimitive', {
-        key:'tilesize',
-        value: dy
+        key: 'clientHeight',
+        value: clientHeight
+      });
+
+      commit('setPrimitive', {
+        key: 'clientWidth',
+        value: clientWidth
+      });
+
+      const dy = Math.abs(Math.floor(clientHeight/height)) - 2;
+      const dx = Math.abs(Math.floor(clientWidth/width)) - 2;
+
+      commit('setPrimitive', {
+        key: 'tilesize',
+        value: dy > dx ? dx : dy
       });
     },
 
@@ -135,7 +146,6 @@ export default {
     },
 
     findFirstAvailable({state:{mapData}}) {
-      console.log('looking', mapData.map(d => TILE_TYPE));
       let coords;
 
       for(let x = 0; x < mapData.length; x++){

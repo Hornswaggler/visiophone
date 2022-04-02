@@ -5,4 +5,5 @@ export const ENTITY_TYPE = {
   SPIKES:'SPIKES',
   HEART: 'HEART',
   TILE: 'TILE',
+  HADOOKEN: 'HADOOKEN'
 };
