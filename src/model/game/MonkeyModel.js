@@ -55,7 +55,6 @@ export default ({ x, y }) => {
           this.x = dx;
           this.y = dy;
         }
-
       },
       path:'monkeh.gif',
       hp: 10,

@@ -4,8 +4,9 @@ import {ENTITY_TYPE} from '../../model/game/EntityConfig.js';
 
 const TILE_TYPE = {
   WALL:'WALL',
-  FLOOR: 'FLOOR'
-}
+  FLOOR: 'FLOOR',
+  DARK: 'DARK'
+};
 
 const TILESET = {
   [TILE_TYPE.WALL]:{
@@ -14,9 +15,13 @@ const TILESET = {
   },
   [TILE_TYPE.FLOOR]: {
     isBoundary: false,
-    path: 'Floor_Tile.png'
+    path: 'Ground_Tile_Variation.png'
+  },
+  [TILE_TYPE.DARK]:{
+    isBoundary: false,
+    path: 'Dark_Block.png'
   }
-}
+};
 
 export default {
   namespaced: true,
@@ -24,14 +29,17 @@ export default {
   state: () => ({
     mapData: [],
     entities: [],
-    height: 20,
-    width: 40,
-    tilesize: 20,
+    height: 500,
+    width: 500,
+    tilesize: 1,
     map: {},
     resizing: false,
     imageCache: {},
     clientHeight: 100,
-    clientWidth:100
+    clientWidth: 100,
+    offSetX: 0,
+    offSetY: 0,
+    scaleFactor: 75
   }),
 
   actions:{
@@ -58,8 +66,7 @@ export default {
 
       const result = await (() => new Promise((resolve) => {
         const callback = (x, y, value) => {
-          const isBoundary = (x === 0 || y === 0 || x === width -1 || y === height -1) || value === 0;
-          mapData[x][y] = isBoundary ? cache[TILE_TYPE.FLOOR] : cache[TILE_TYPE.WALL];
+          mapData[x][y] = value ? cache[TILE_TYPE.FLOOR] : cache[TILE_TYPE.WALL];
         };
 
         map.create(callback);
@@ -74,8 +81,7 @@ export default {
       return result;
     },
 
-    resizeMap({commit,state:{width, height}}, {clientHeight, clientWidth}) {
-
+    resizeMap({commit,state:{width, height, scaleFactor}}, {clientHeight, clientWidth}) {
       commit('setPrimitive', {
         key: 'clientHeight',
         value: clientHeight
@@ -85,19 +91,11 @@ export default {
         key: 'clientWidth',
         value: clientWidth
       });
-
-      const dy = Math.abs(Math.floor(clientHeight/height)) - 2;
-      const dx = Math.abs(Math.floor(clientWidth/width)) - 2;
-
-      commit('setPrimitive', {
-        key: 'tilesize',
-        value: dy > dx ? dx : dy
-      });
     },
 
     getTileForMapPosition({mapData, x, y}){
       try{
-        return mapData[x][y]
+        return mapData[x][y];
       }catch(e){
         console.error(e);
       }
@@ -116,20 +114,19 @@ export default {
       commit('removeEntity', {id});
     },
 
-    async handleInputOn({state:{ entities, mapData }, dispatch}, {key}) {
-      let activate = false;
+    async handleInputOn({state:{ entities }, dispatch, commit}, {key}) {
+      const activatedEntities = [];
       for(let i = 0; i < entities.length; i++){
         const entity = entities[i];
         if(!entity.handleInput) continue;
-        activate = await entity.handleInput({dispatch, self: entity},{key})
+        activatedEntities.push({...await entity.handleInput({dispatch, self: entity, commit}, {key}), entity: entity });
       }
 
-      if(activate) dispatch('activateEntities');
+      if(activatedEntities.length > 0) dispatch('activateEntities');
+      return activatedEntities;
     },
 
     activateEntities({dispatch, state:{entities, mapData}}){
-
-      ENTITY_TYPE
       const target = entities.find(({type}) => {
         return type === ENTITY_TYPE.PLAYER;
       });
@@ -192,7 +189,7 @@ export default {
       };
 
       try {
-        const isWall = (x < 0 || y < 0)  || (x >= width || y >= height) ? true : mapData[x][y].isBoundary;
+        const isWall = mapData[x] && mapData[x][y] != undefined ? mapData[x][y].isBoundary : true;
         const entity = entities.find(
           ({x:_x,y:_y}) => _x === x && _y === y);
 
@@ -207,7 +204,24 @@ export default {
       } 
 
       return result;
-    }
+    },
+
+    updateOffsetX({commit}, offSetX) {
+      commit('setPrimitive', {
+        key: 'offSetX',
+        value: offSetX
+      });
+      return offSetX;
+    },
+
+    updateOffsetY({commit}, offSetY) {
+      console.log('Updating offsetY: ', offSetY);
+      commit('setPrimitive', {
+        key: 'offSetY',
+        value: offSetY
+      });
+      return offSetY;
+    },
   },
 
   getters:{

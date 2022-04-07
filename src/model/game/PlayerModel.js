@@ -1,6 +1,7 @@
 import { makeEntity } from './Entity';
 import { ENTITY_TYPE } from './EntityConfig';
 import { STATE_MAP, STATE } from './PlayerConfig';
+import store from '../../store/';
 
 const handlers = 
   Object.keys(STATE_MAP)
@@ -33,25 +34,26 @@ export default ({x,y}) => {
           const { dx, dy } = delta;
           const destination = { x: x + dx, y: y + dy};
   
-          const result = await dispatch('checkMapLocation', destination);
+          const mapTile = await dispatch('checkMapLocation', destination);
   
-          if(result.entity){
-            result.entity.effect(self);
-            if(result.entity.uses === 1){
-              await dispatch('removeEntity', {id: result.entity.id} )
+          if(mapTile.entity){
+            mapTile.entity.effect(self);
+            if(mapTile.entity.uses === 1){
+              await dispatch('removeEntity', {id: mapTile.entity.id} )
             }
           }
   
-          if(result.clip) {
+          
+
+          if(mapTile.clip) {
             this.path = frames[key];
             this.x = destination.x;
             this.y = destination.y;
           }
         }catch(e){
           console.error(e);
-          return false;
         }
-        return true;
+        // return result;
       },
       handleOffput(){
         this.path = frames[STATE.IDLE];

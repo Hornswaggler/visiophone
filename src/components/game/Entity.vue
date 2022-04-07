@@ -1,8 +1,10 @@
 <template>
   <div
-    style="transition: transform 1.24s linear 0s;position:absolute;"
+    style="position:absolute;"
     :style="{transform: transform, zIndex: `${entity.zIndex}`}"
   >
+      <!-- style="transition: transform 1.24s linear 0s;position:absolute;" -->
+
     <img
       ref="frame"
       :src="path"
@@ -13,15 +15,11 @@
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex';
-import {SCALE_FACTOR} from './Game.vue';
 
 const defaultPath = 'Spikes.png';
 
 export default {
   name: 'Entity',
-  data: () => ({
-    scaleFactor: SCALE_FACTOR,
-  }),
   props:{
     id: String
   },
@@ -32,7 +30,7 @@ export default {
     this.$refs.frame.removeEventListener('transitionend', this.setIdle);
   },
   computed:{
-    ...mapState('game',['tilesize']),
+    ...mapState('game',['tilesize', 'scaleFactor', 'offSetX', 'offSetY']),
     ...mapGetters('game',['getEntityById']),
     entity(){
       return this.getEntityById(this.id);
@@ -51,7 +49,7 @@ export default {
     },
     transform() {
       try{
-        return `translate(${this.entity.x * (this.tilesize * this.scaleFactor)}px, ${this.entity.y * (this.tilesize * this.scaleFactor)}px)`;
+        return `translate(${this.entity.x * (this.tilesize * this.scaleFactor) + this.offSetX}px, ${this.entity.y * (this.tilesize * this.scaleFactor) + this.offSetY}px)`;
       }catch(e) {
         console.error(e);
         return `translate(${this.entity.x * this.tilesize}px, ${this.entity.y * this.tilesize}px)`
