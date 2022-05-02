@@ -10,7 +10,7 @@ export default {
     async login({commit}, {username, password}) {
       const {data} = await axios.request({
         method: 'post',
-        url: "https://visiophone.wtf/api/login",
+        url: "api/login",
         timeout: 10000,
         data: {username, password}
       });

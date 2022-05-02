@@ -22,6 +22,9 @@
 <script>
 export default {
   name:'Login',
+  mounted(){
+    console.log('mounted', process.env.VUE_APP_BASE_URL);
+  },
   data:() => ({
     username:'',
     password:'',
