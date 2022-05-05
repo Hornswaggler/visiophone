@@ -22,6 +22,10 @@
 <script>
 export default {
   name:'Login',
+  async mounted(){
+    console.log('mounted', process.env.VUE_APP_BASE_URL);
+    await this.$store.dispatch('user/initialize')
+  },
   data:() => ({
     username:'',
     password:'',
@@ -42,9 +46,9 @@ export default {
         } else{
           this.error = 'Supplied credentials were incorrect.';
         }
-      }catch(e){
+      } catch(e) {
         console.error('Login failed', e);
-      }finally{
+      } finally {
         this.$store.commit('app/isLoading', false);
       }
     }

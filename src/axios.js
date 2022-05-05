@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
+  baseURL: `${process.env.VUE_APP_BASE_URL}`,
   timeout: 1000,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
