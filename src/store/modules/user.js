@@ -1,47 +1,15 @@
-import axios from '@/axios.js';
-import msal from '@azure/msal-browser';
+import * as msal from '@azure/msal-browser';
 
-export default {
-  namespaced: true,
-  state: () => ({
-    authenticated: false,
-    username: ''
-  }),
-  actions:{
-    async login({commit}, {username, password}) {
-      const {data} = await axios.request({
-        method: 'post',
-        url: "api/login",
-        timeout: 10000,
-        data: {username, password}
-      });
-
-      if(data) commit('authenticated', data);
-      
-      console.log('API returned  ', data);
-      return data;
-    },
-  },
-  mutations:{
-    authenticated(state, authenticated){
-      state.authenticated = authenticated;
-    }
-  }
-};
-
-
-
-
-
-
+// Todo: code should come from configuration layer
 const msalConfig = {
   auth: {
       clientId: "20a08db6-2b1a-4e7d-87c1-fcd9e6e8de70",
-      authority: "https://login.windows-ppe.net/common/"
+      authority: "https://login.microsoftonline.com/2d1e671b-65ba-40be-b119-5cb56ca78e80/",
+      redirectUri: "http://localhost:8080/#/console/"
   },
   cache: {
-      cacheLocation: "sessionStorage", // This configures where your cache will be stored
-      storeAuthStateInCookie: false, // Set this to "true" if you are having issues on IE11 or Edge
+      cacheLocation: "sessionStorage",
+      storeAuthStateInCookie: false,
   }
   ,system: {
       loggerOptions: {
@@ -73,28 +41,50 @@ const msalConfig = {
   }
 };
 
-
-
-
-// let signInType;
-let accountId = "";
-
-// Create the main myMSALObj instance
-// configuration parameters are located at authConfig.js
 const myMSALObj = new msal.PublicClientApplication(msalConfig);
-myMSALObj.initialize().then(() => {
-    // Redirect: once login is successful and redirects with tokens, call Graph API
-    myMSALObj.handleRedirectPromise().then(handleResponse).catch(err => {
-        console.error(err);
-    });
-});
+
+export default {
+  namespaced: true,
+  state: () => ({
+    authenticated: true,
+    username: ''
+  }),
+  actions:{
+    initialize({commit}) {
+      myMSALObj.initialize().then(() => {
+        myMSALObj
+          .handleRedirectPromise()
+          .then(resp => handleResponse(resp, commit)).catch(err => {
+            console.error(err);
+        });
+      });
+    },
+
+    async login() {
+
+      const loginRequest = {
+        scopes: ["User.Read"]
+      };
+      myMSALObj.loginPopup(loginRequest);
+    },
+  },
+  mutations:{
+    authenticated(state, authenticated){
+      state.authenticated = authenticated;
+    }
+  }
+};
 
 
-function handleResponse(resp) {
+
+function handleResponse(resp, commit) {
+  console.log('Handling MSAL response', resp);
+  let accountId = "";
+
     if (resp !== null) {
         accountId = resp.account.homeAccountId;
         myMSALObj.setActiveAccount(resp.account);
-        // showWelcomeMessage(resp.account);
+        commit('authenticated', true);
     } else {
         // need to call getAccount here?
         const currentAccounts = myMSALObj.getAllAccounts();
@@ -106,51 +96,54 @@ function handleResponse(resp) {
             const activeAccount = currentAccounts[0];
             myMSALObj.setActiveAccount(activeAccount);
             accountId = activeAccount.homeAccountId;
+            console.log(activeAccount, accountId);
+            commit('authenticated', true);
+
             // showWelcomeMessage(activeAccount);
         }
     }
 }
 
-async function signIn(signInType) {
-    if (signInType === "popup") {
-        return myMSALObj.loginPopup(loginRequest).then(handleResponse).catch(function (error) {
-            console.log({...error});
-            console.log(error);
-        });
-    } else if (signInType === "redirect") {
-        return myMSALObj.loginRedirect(loginRequest)
-    }
-}
+// async function signIn(signInType) {
+//     if (signInType === "popup") {
+//         return myMSALObj.loginPopup(loginRequest).then(handleResponse).catch(function (error) {
+//             console.log({...error});
+//             console.log(error);
+//         });
+//     } else if (signInType === "redirect") {
+//         return myMSALObj.loginRedirect(loginRequest)
+//     }
+// }
 
-function signOut(interactionType) {
-    const logoutRequest = {
-        account: myMSALObj.getAccountByHomeId(accountId)
-    };
+// function signOut(interactionType) {
+//     const logoutRequest = {
+//         account: myMSALObj.getAccountByHomeId(accountId)
+//     };
 
-    if (interactionType === "popup") {
-        myMSALObj.logoutPopup(logoutRequest).then(() => {
-            window.location.reload();
-        });
-    } else {
-        myMSALObj.logoutRedirect(logoutRequest);
-    }
-}
+//     if (interactionType === "popup") {
+//         myMSALObj.logoutPopup(logoutRequest).then(() => {
+//             window.location.reload();
+//         });
+//     } else {
+//         myMSALObj.logoutRedirect(logoutRequest);
+//     }
+// }
 
-async function getTokenPopup(request, account) {
-    const startTime = Date.now();
-    return await myMSALObj.acquireTokenSilent(request).then((response) => {
-        console.log(`Token acquisition time elapsed: ${Date.now() - startTime}ms`);
-        console.log(response);
-        return response;
-    }).catch(async (error) => {
-        console.log("silent token acquisition fails.");
-        if (error instanceof msal.InteractionRequiredAuthError) {
-            console.log("acquiring token using popup");
-            return myMSALObj.acquireTokenPopup(request).catch(error => {
-                console.error(error);
-            });
-        } else {
-            console.error(error);
-        }
-    });
-}
+// async function getTokenPopup(request, account) {
+//     const startTime = Date.now();
+//     return await myMSALObj.acquireTokenSilent(request).then((response) => {
+//         console.log(`Token acquisition time elapsed: ${Date.now() - startTime}ms`);
+//         console.log(response);
+//         return response;
+//     }).catch(async (error) => {
+//         console.log("silent token acquisition fails.");
+//         if (error instanceof msal.InteractionRequiredAuthError) {
+//             console.log("acquiring token using popup");
+//             return myMSALObj.acquireTokenPopup(request).catch(error => {
+//                 console.error(error);
+//             });
+//         } else {
+//             console.error(error);
+//         }
+//     });
+// }

@@ -22,8 +22,9 @@
 <script>
 export default {
   name:'Login',
-  mounted(){
+  async mounted(){
     console.log('mounted', process.env.VUE_APP_BASE_URL);
+    await this.$store.dispatch('user/initialize')
   },
   data:() => ({
     username:'',
