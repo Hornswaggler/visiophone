@@ -1,0 +1,38 @@
+#app{
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  margin:0;
+  height:100vh;
+  width:100vw;
+}
+
+html{
+  background-color: $black;
+  height:100%;
+
+  body {
+    margin:0;
+    height:100%;
+    color: $primary-color;
+    overflow:hidden;
+  }
+
+  h3 {
+    margin: 40px 0 0;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  
+  a {
+    color: $link-color;
+  }
+}

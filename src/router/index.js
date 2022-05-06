@@ -9,7 +9,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/gamecube'
+      redirect: '/console'
     }
   ].concat(routes)
 });
@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
   }
 
   if (authenticated && onlyLoggedOut) {
-    return next('/');
+    return next();
   }
 
   next();

@@ -109,21 +109,14 @@ export default {
       this.showFront = !this.showFront;
     },
     initMap(){
-      
-      // const refCount = Object.keys(this.$refs).length;
-      // this.mapData = {};
-      // new Array(refCount);
-
       const self = this;
       Object.keys(this.$refs).map(key=>{
-        console.log(key);
         self.$set(self.maps, key, new Map.EllerMaze(this.width, this.height));
         self.$set(self.mapData, key, new Array(this.width));
         for (let x = 0; x < this.width; x++) {
           this.mapData[key][x] = new Array(this.height);
         }
         const callback = (x, y, value) => {
-        // console.log(x,y,value);
           if(x === 0 || y === 0 || x === self.width -1 || y === self.height -1) {
               self.mapData[key][x][y] = 1; //create walls around edges of map
               return;
@@ -133,29 +126,8 @@ export default {
 
         this.maps[key].create(callback);
       });
-
-
-
-
-
-      // this.map.randomize(0.5);
-      // const self = this;
-      // const callback = (x, y, value) => {
-      //     // console.log(x,y,value);
-      //      if(x === 0 || y === 0 || x === self.width -1 || y === self.height -1) {
-      //          self.mapData[x][y] = 1; //create walls around edges of map
-      //          return;
-      //      }
-      //      self.mapData[x][y] = value === 0 ? 1 : 0;
-      // };
-
-      // this.map.create(callback);
-      // this.map.connect(callback, 1);
     },
     drawMap(){
-      console.log('About to draw map');
-      // const context = this.$refs.canvas.getContext('2d');
-
       const self = this;
       Object.keys(this.$refs).map(key=>{
         const context = self.$refs[key][0].getContext('2d');
@@ -166,21 +138,9 @@ export default {
           }                
         }
       })
-
-      // context.clearRect(0,0,this.width * this.tilesize, this.height * this.tilesize)
-      // for (let x = 0; x < this.width; x++) {
-      //   for (let y = 0; y < this.height; y++) {
-      //     if(this.mapData[x][y] === 1) this.drawWall(context, x,y);
-      //   }                
-      // }
-
-      // this.entities.forEach(entity => {
-      //     entity.draw(context);
-      // });
     },
     nextColor(){
       this.color = this.color === '#66FF00'  ? '#FFA500' : '#66FF00';
-      console.log();
       return this.color;
     },
     drawWall(context, x, y) {
@@ -196,7 +156,6 @@ export default {
 .fancy-cube{
   animation: rotate-cube 30s linear infinite;
 }
-
 
 @keyframes rotate-cube {
   0% {

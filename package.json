@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode dev",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -19,12 +19,14 @@
     "axios": "0.26.0",
     "vue-router": "3^",
     "@sendgrid/mail": "7.6.1",
-    "rot-js":"2.2.0"
+    "rot-js":"2.2.0",
+    "jsgif": "1.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "@azure/msal-browser": "2.24.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
@@ -45,7 +47,9 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-unused-vars": "off"
+    }
   },
   "browserslist": [
     "> 1%",

@@ -34,11 +34,6 @@ export default {
         this.fade = false;
       }
     }
-  },
-  methods:{
-    addRemoveElement() {
-      console.log('Adding / removing element...');
-    }
   }
 }
 </script>
@@ -59,13 +54,13 @@ export default {
   }
 }
 
-
 .lds-facebook {
   display: inline-block;
   position: relative;
   width: 80px;
   height: 80px;
 }
+
 .lds-facebook div {
   display: inline-block;
   position: absolute;
@@ -74,18 +69,22 @@ export default {
   background: #fff;
   animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
 }
+
 .lds-facebook div:nth-child(1) {
   left: 8px;
   animation-delay: -0.24s;
 }
+
 .lds-facebook div:nth-child(2) {
   left: 32px;
   animation-delay: -0.12s;
 }
+
 .lds-facebook div:nth-child(3) {
   left: 56px;
   animation-delay: 0;
 }
+
 @keyframes lds-facebook {
   0% {
     top: 8px;

@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div style="height:100%;">
     <Loading/>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Loading from '@/components/Loading.vue';
+import Loading from '@/components/layout/Loading.vue';
 
 export default {
   name: 'BaseLayout',

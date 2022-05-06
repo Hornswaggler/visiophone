@@ -18,7 +18,7 @@
   </movable>
 </template>
 <script>
-import VisioMan from './VisioMan.vue';
+import VisioMan from '@/components/common/VisioMan.vue';
 import { mapState, mapActions } from 'vuex'
 
 export default {

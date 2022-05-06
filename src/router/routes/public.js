@@ -1,5 +1,7 @@
-import Login from '@/views/Login.vue';
-import GameCube from '@/views/GameCube.vue'
+import Login from '@/components/login/Login.vue';
+import Logout from '@/components/login/Logout.vue';
+import GameCube from '@/components/game/GameCube.vue';
+import Console from '@/components/console/Console.vue';
 
 const routes = [
   {
@@ -9,10 +11,21 @@ const routes = [
     component: Login
   },
   {
+    path: '/logout',
+    name: 'logout',
+    title: 'Visiophone- Logout',
+    component: Logout
+  },
+  {
     path: '/gamecube',
     name: 'gamecube',
     title:'???',
     component: GameCube
+  },
+  {
+    path: '/console',
+    name: 'console',
+    component: Console
   },
 ];
 
