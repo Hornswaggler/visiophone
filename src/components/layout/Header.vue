@@ -12,20 +12,25 @@
     </div>
     <div style="flex:1;" class="xp-container flex align-center justify-center pl1">
       <visio-man>
-        <!-- todo refactor -->
         <input style="height:2em;width:25em;" type="text"/>
       </visio-man>
     </div>
-    <div style="flex:1;">&nbsp;</div>
+    <div class="justify-end flex" style="flex:1;height:100%;width:100%;margin: 2em;">&nbsp;
+      <!-- <img class="button" style="height:2em;cursor:pointer;" :src="require(`@/assets/${userIcon}`)"/> -->
+    </div>
   </div>
 </template>
 <script>
 import VisioMan from '@/components/common/VisioMan.vue';
+import { mapState, mapActions } from 'vuex'
 
 export default{
   name:'Header',
   components:{
     VisioMan
+  },
+  computed: {
+    ...mapState('user', ['userIcon']),
   }
 }
 </script>

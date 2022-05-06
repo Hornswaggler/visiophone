@@ -1,10 +1,7 @@
 # Build ASP.NET Core project using Azure Pipelines
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
 
-trigger:
-  branches:
-    include:
-    - master
+trigger: none
 
 pool:
   vmImage: windows-latest
@@ -47,10 +44,10 @@ stages:
      runOnce:
        deploy:
          steps:
-          - script: echo Running in the Dev environment as deployment job
-            displayName: 'Dev based stage'
-          - task: AzureFileCopy@4
-            inputs:
+           - script: echo Running in the Dev environment as deployment job
+              displayName: 'Dev based stage'
+           - task: AzureFileCopy@4
+              inputs:
               SourcePath: '$(buildOutputFolder)/*'
               azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
               Destination: 'AzureBlob'

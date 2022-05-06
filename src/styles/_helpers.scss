@@ -19,12 +19,20 @@
   align-items:center;
 }
 
+.align-end {
+  align-items:flex-end;
+}
+
 .justify-center {
   justify-content:center;
 }
 
 .justify-left {
-  justify-content:flex-left
+  justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
 }
 
 .p1{

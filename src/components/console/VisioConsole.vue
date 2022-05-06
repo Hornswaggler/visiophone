@@ -3,35 +3,70 @@
     <div style="flex:1;background-color:black;margin:2em;display:flex;flex-direction:column;justify-content:flex-end;padding:1em;">
 
       <div  style="flex:1;text-align:left;">
-        <span style="font-size:1.1em;">&lt;&quot;Trade Samples?&quot;&gt;</span><br/>
-        <div class="choices">
-          <span>&nbsp;&lt;&quot;Trade Samples&quot;&gt;</span><br/>
-          <span>&nbsp;&lt;&quot;Buy Tokens&quot;&gt;</span><br/>
-          <span>&nbsp;&lt;&quot;Sell Tokens&quot;&gt;</span><br/>
-          <span>&nbsp;&lt;&quot;Play Game&quot;&gt;</span><br/>
+        <div class="choices" v-if="authenticated">
+          <span class="button">&nbsp;&lt;&quot;Trade Samples&quot;&gt;</span><br/>
+          <span class="button">&nbsp;&lt;&quot;Buy Tokens&quot;&gt;</span><br/>
+          <span class="button">&nbsp;&lt;&quot;Sell Tokens&quot;&gt;</span><br/>
+          <span @click="onLogout" class="button">&nbsp;&lt;&quot;Logout&quot;&gt;</span><br/>
+        </div>
+        <div class="choices" v-else>
+          <span class="button" @click="onLogin">&nbsp;&lt;&quot;Login&quot;&gt;</span><br/>
+          <span>&nbsp;&lt;&quot;Sign Up&quot;&gt;</span><br/>
         </div>
 
         <br/>
-        <!-- <VisioCostCalculator/> -->
       </div>
 
       <div style="height:25px;width:100%;display:flex;">
-        <img style="height:25px;width:25px;" :src="require(`@/assets/visiolad_walking_with_torch.gif`)"/><input v-model="consoleInput" class="consoleInput" type="text" style="color: #66FF00;border-top:solid 1px #66FF00;background-color:black;border:0;margin-left:0.25em;"/>
+        <img 
+          style="height:25px;width:25px;"
+          :src="require(`@/assets/visiolad_walking_with_torch.gif`)
+        "/>
+        <input 
+          v-model="consoleInput"
+          class="consoleInput"
+          type="text"
+          style="color: #66FF00;border-top:solid 1px #66FF00;background-color:black;border:0;margin-left:0.25em;"
+        />
       </div>
     </div>
   </div>
 </template>
 <script>
-// import VisioCostCalculator from '@/components/VisioCostCalculator.vue';
+import {mapState} from 'vuex';
 
 export default {
   name: 'VisioConsole',
-  components:{
-    // VisioCostCalculator
+
+  computed: {
+    ...mapState('user',['authenticated'])
   },
   data:()=>({
     consoleInput:'>'
   }),
+  methods:{
+    async onLogin() {
+      try{
+        this.$store.commit('app/isLoading', true);
+        const valid = await this.$store.dispatch('user/login');
+        if(valid) {
+          this.error = '';
+          this.$store.commit('user/authenticated', true);
+        } else{
+          this.error = 'Supplied credentials were incorrect.';
+        }
+      } catch(e) {
+        console.error('Login failed', e);
+      } finally {
+        this.$store.commit('app/isLoading', false);
+      }
+    },
+    async onLogout(){
+      await this.$store.dispatch('user/logout');
+      this.$store.commit('user/authenticated', false);
+
+    }
+  }
 }
 </script>
 <style lang="scss">

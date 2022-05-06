@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
   }
 
   if (authenticated && onlyLoggedOut) {
-    return next('/');
+    return next();
   }
 
   next();

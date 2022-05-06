@@ -3,7 +3,6 @@
 
   <div class="css-selector">
       <Header/>
-      <Navigation/>
     </div>
 
     <div 
@@ -16,14 +15,12 @@
 </div>
 </template>
 <script>
-import Navigation from '@/components/layout/Navigation.vue';
 import VisioConsole from '@/components/console/VisioConsole.vue';
 import Header from '@/components/layout/Header.vue'
 
 export default {
   name:'Console',
    components: {
-    Navigation,
     VisioConsole,
     Header
   },

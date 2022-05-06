@@ -13,6 +13,11 @@ export default {
   name: 'App',
   components: {
     BaseLayout
+  },
+
+  async mounted(){
+    console.log('mounted', process.env.VUE_APP_BASE_URL);
+    await this.$store.dispatch('user/initialize');
   }
 }
 </script>
