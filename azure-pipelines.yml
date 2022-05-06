@@ -30,10 +30,10 @@ stages:
     displayName: Build the application
     steps:
     - script: |
-        echo Running all builds commands...
-        echo ... commands successfully completed.
-      displayName: 'Run build scripts & tasks'
-    
+        call yarn install
+        call yarn build
+      displayName: 'yarn install and build'
+      workingDirectory: '$(Build.SourcesDirectory)'
 
 - stage: dev
   dependsOn:
