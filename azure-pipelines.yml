@@ -34,6 +34,8 @@ stages:
         call yarn build
       displayName: 'yarn install and build'
       workingDirectory: '$(Build.SourcesDirectory)'
+    - publish: $(buildOutputFolder)/*
+      artifact: WebApp
 
 - stage: dev
   dependsOn:
