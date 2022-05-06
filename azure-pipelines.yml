@@ -34,7 +34,7 @@ stages:
         call yarn build
       displayName: 'yarn install and build'
       workingDirectory: '$(Build.SourcesDirectory)'
-    - publish: './dist/*'
+    - publish: '$(buildOutputFolder)/dist/*'
       artifact: WebApp
 
 - stage: dev
