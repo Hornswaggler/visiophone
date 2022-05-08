@@ -10,18 +10,18 @@ pool:
   vmImage: windows-latest
 
 stages:
-- stage: Tests
-  jobs:
-  - job: 
-    displayName: Unit tests
-    steps:
-    - script: echo simulate running your unit tests!
-      displayName: 'Run unit tests'
-  - job: 
-    displayName: UI tests
-    steps:
-    - script:  echo simulate running your ui tests!
-      displayName: 'Run unit tests'
+# - stage: Tests
+#   jobs:
+#   - job: 
+#     displayName: Unit tests
+#     steps:
+#     - script: echo simulate running your unit tests!
+#       displayName: 'Run unit tests'
+#   - job: 
+#     displayName: UI tests
+#     steps:
+#     - script:  echo simulate running your ui tests!
+#       displayName: 'Run unit tests'
 
 - stage: Build
   dependsOn: [] # This will remove implicit dependency and run in parallel with the stage: Tests above 
