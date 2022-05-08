@@ -34,8 +34,16 @@ stages:
         call yarn build
       displayName: 'yarn install and build'
       workingDirectory: '$(Build.SourcesDirectory)'
-    - publish: '$(Build.SourcesDirectory)/dist/*'
-      artifact: WebApp
+
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: |
+          $(System.DefaultWorkingDirectory)/server/dist/**/*.js
+          $(System.DefaultWorkingDirectory)/server/package.json
+          $(System.DefaultWorkingDirectory)/server/yarn.lock
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/output'
+      displayName: 'Copy SERVER files to artifact directory'
 
 - stage: dev
   dependsOn:
