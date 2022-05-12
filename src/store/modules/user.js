@@ -8,7 +8,7 @@ const msalConfig = {
       redirectUri: "https://visiophone.wtf/"
   },
   cache: {
-      cacheLocation: "sessionStorage",
+      cacheLocation: "localstorage",
       storeAuthStateInCookie: false,
   }
   ,system: {
