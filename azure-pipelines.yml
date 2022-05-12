@@ -37,13 +37,22 @@ stages:
 
     - task: CopyFiles@2
       inputs:
-        SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: |
-          $(System.DefaultWorkingDirectory)/server/dist/**/*.js
-          $(System.DefaultWorkingDirectory)/server/package.json
-          $(System.DefaultWorkingDirectory)/server/yarn.lock
-        TargetFolder: '$(Build.ArtifactStagingDirectory)/output'
-      displayName: 'Copy SERVER files to artifact directory'
+        sourceFolder: '$(buildOutputFolder)' 
+        contents: '**/*' 
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
+        cleanTargetFolder: true
+    ## Archive the files into a zip file for publishing
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: $(Build.ArtifactStagingDirectory)
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        includeRootFolder: false
+
+    ## Publish the zip file
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
 
 - stage: dev
   dependsOn:
@@ -60,7 +69,7 @@ stages:
             displayName: 'Dev based stage'
           - task: AzureFileCopy@4
             inputs:
-              SourcePath: '$(Build.ArtifactStagingDirectory)/output'
+              SourcePath: '$(Build.ArtifactStagingDirectory)'
               azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
               Destination: 'AzureBlob'
               storage: 'visiophonewebstoreage'
