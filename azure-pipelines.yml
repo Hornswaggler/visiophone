@@ -37,22 +37,11 @@ stages:
 
     - task: CopyFiles@2
       inputs:
-        sourceFolder: '$(buildOutputFolder)' 
-        contents: '**/*' 
-        targetFolder: '$(Build.ArtifactStagingDirectory)'
-        cleanTargetFolder: true
-    ## Archive the files into a zip file for publishing
-    - task: ArchiveFiles@2
-      inputs:
-        rootFolderOrFile: $(Build.ArtifactStagingDirectory)
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-        includeRootFolder: false
-
-    ## Publish the zip file
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        SourceFolder: '$(System.DefaultWorkingDirectory)/dist'
+        Contents: |
+          $(System.DefaultWorkingDirectory)/server/dist/**/*
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      displayName: 'Copy SERVER files to artifact directory'
 
 - stage: dev
   dependsOn:
