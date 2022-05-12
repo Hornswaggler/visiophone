@@ -35,14 +35,13 @@ stages:
       displayName: 'yarn install and build'
       workingDirectory: '$(System.DefaultWorkingDirectory)'
 
+## Copy the client to the staging directory
     - task: CopyFiles@2
       inputs:
-        SourceFolder: '$(System.DefaultWorkingDirectory)/dist'
-        Contents: |
-          $(System.DefaultWorkingDirectory)/server/dist/**/*
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
-      displayName: 'Copy SERVER files to artifact directory'
-
+        sourceFolder: '$(System.DefaultWorkingDirectory)/server/dist' 
+        contents: '**/*' 
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
+        cleanTargetFolder: true
 - stage: dev
   dependsOn:
   - Build
