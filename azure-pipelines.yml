@@ -38,7 +38,7 @@ stages:
 ## Copy the client to the staging directory
     - task: CopyFiles@2
       inputs:
-        sourceFolder: '$(System.DefaultWorkingDirectory)/server/dist' 
+        sourceFolder: '$(buildOutputFolder)' 
         contents: '**/*' 
         targetFolder: '$(Build.ArtifactStagingDirectory)'
         cleanTargetFolder: true
