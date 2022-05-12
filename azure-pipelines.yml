@@ -60,7 +60,7 @@ stages:
             displayName: 'Dev based stage'
           - task: AzureFileCopy@4
             inputs:
-              SourcePath: '$(buildOutputFolder)/*'
+              SourcePath: '$(Build.ArtifactStagingDirectory)/output'
               azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
               Destination: 'AzureBlob'
               storage: 'visiophonewebstoreage'
