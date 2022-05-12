@@ -33,32 +33,11 @@ stages:
         call yarn install
         call yarn build
       displayName: 'yarn install and build'
-      workingDirectory: '$(System.DefaultWorkingDirectory)'
-
-## Copy the client to the staging directory
-    - task: CopyFiles@2
+      workingDirectory: '$(Build.SourcesDirectory)/src/'
+    - task: AzureFileCopy@4
       inputs:
-        sourceFolder: '$(buildOutputFolder)' 
-        contents: '**/*' 
-        targetFolder: '$(Build.ArtifactStagingDirectory)'
-        cleanTargetFolder: true
-- stage: dev
-  dependsOn:
-  - Build
-  jobs:
-  - deployment:
-    displayName: dev deploy
-    environment: dev
-    strategy:
-     runOnce:
-       deploy:
-         steps:
-          - script: echo Running in the Dev environment as deployment job
-            displayName: 'Dev based stage'
-          - task: AzureFileCopy@4
-            inputs:
-              SourcePath: '$(Build.ArtifactStagingDirectory)'
-              azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
-              Destination: 'AzureBlob'
-              storage: 'visiophonewebstoreage'
-              ContainerName: '$web'
+        sourcePath: '$(Build.SourcesDirectory)/dist/**/*'
+        azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
+        destination: azureBlob
+        storage: 'visiophonewebstoreage'
+        containerName: '$web'
