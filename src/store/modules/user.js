@@ -48,14 +48,12 @@ export default {
   namespaced: true,
   state: () => ({
     accountId: '',
-    authenticated: false,
+    authenticated: true,
     username: '',
     userIcon: 'Comp_boi_idle.gif'
   }),
   actions:{
     initialize({commit}) {
-
-      console.log('Initializing User...');
 
       myMSALObj.initialize().then(() => {
         myMSALObj
