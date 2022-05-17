@@ -4,7 +4,10 @@
 
       <div  style="flex:1;text-align:left;">
         <div class="choices" v-if="authenticated">
-          <span class="button">&nbsp;&lt;&quot;Trade Samples&quot;&gt;</span><br/>
+          <span 
+            class="button"
+            @click="navTradeSamples"
+          >&nbsp;&lt;&quot;Trade Samples&quot;&gt;</span><br/>
           <span class="button">&nbsp;&lt;&quot;Buy Tokens&quot;&gt;</span><br/>
           <span class="button">&nbsp;&lt;&quot;Sell Tokens&quot;&gt;</span><br/>
           <span @click="onLogout" class="button">&nbsp;&lt;&quot;Logout&quot;&gt;</span><br/>
@@ -65,6 +68,9 @@ export default {
       await this.$store.dispatch('user/logout');
       this.$store.commit('user/authenticated', false);
 
+    },
+    navTradeSamples () {
+      this.$router.push('/upload');
     }
   }
 }

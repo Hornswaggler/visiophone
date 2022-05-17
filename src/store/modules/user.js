@@ -50,7 +50,8 @@ export default {
     accountId: '',
     authenticated: true,
     username: '',
-    userIcon: 'Comp_boi_idle.gif'
+    userIcon: 'Comp_boi_idle.gif',
+    shelfCapacity: 25
   }),
   actions:{
     initialize({commit}) {

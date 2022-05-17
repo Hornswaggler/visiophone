@@ -35,4 +35,15 @@ html{
   a {
     color: $link-color;
   }
+
+  input, textarea {
+    &:focus-visible {
+      outline: none;
+    }
+    box-shadow: none;
+  }
+
+  textarea {
+    resize: none;
+  }
 }
