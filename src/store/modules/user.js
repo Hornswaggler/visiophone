@@ -1,4 +1,4 @@
-import * as msal from '@azure/msal-react';
+import * as msal from '@azure/msal-browser';
 import axios from 'axios';
 
 // TODO: code should come from configuration layer
