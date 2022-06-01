@@ -7,7 +7,7 @@ const msalConfig = {
     // "20a08db6-2b1a-4e7d-87c1-fcd9e6e8de70"
     clientId: "2d47b47e-21c1-4d58-9122-c8eb0337b611",
     authority: "https://login.microsoftonline.com/2d1e671b-65ba-40be-b119-5cb56ca78e80/",
-    redirectUri: "https://visiophone.wtf/"
+    redirectUri: "https://visiophone.wtf/console"
   },
   cache: {
     cacheLocation: "sessionStorage",
