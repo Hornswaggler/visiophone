@@ -3,13 +3,14 @@
     <div style="flex:1;background-color:black;margin:2em;display:flex;flex-direction:column;justify-content:flex-end;padding:1em;">
 
       <div  style="flex:1;text-align:left;">
+        <div>Hello {{userName}}</div>
         <div class="choices" v-if="authenticated">
           <span 
             class="button"
             @click="navTradeSamples"
           >&nbsp;&lt;&quot;Trade Samples&quot;&gt;</span><br/>
           <span class="button">&nbsp;&lt;&quot;Buy Tokens&quot;&gt;</span><br/>
-          <span class="button">&nbsp;&lt;&quot;Sell Tokens&quot;&gt;</span><br/>
+          <span class="button" @click="sendAsdf">&nbsp;&lt;&quot;Sell Tokens&quot;&gt;</span><br/>
           <span @click="onLogout" class="button">&nbsp;&lt;&quot;Logout&quot;&gt;</span><br/>
         </div>
         <div class="choices" v-else>
@@ -36,18 +37,25 @@
   </div>
 </template>
 <script>
-import {mapState} from 'vuex';
+import axios from 'axios';
+import {mapState, mapGetters} from 'vuex';
 
 export default {
   name: 'VisioConsole',
 
   computed: {
-    ...mapState('user',['authenticated'])
+    ...mapState('user',['authenticated', 'msal']),
+    ...mapGetters('user',['userName', 'accessToken', 'idToken'])
   },
   data:()=>({
     consoleInput:'>'
   }),
   methods:{
+    sendAsdf(){
+      this.$store.dispatch('user/callMSGraph');
+      // console.log('sending', this.idToken);
+      // axios.get('https://visiophone-east-us2-functions.azurewebsites.net/api/asdf', {headers: {'Access-Control-Allow-Origin': '*',}} )
+    },
     async onLogin() {
       try{
         this.$store.commit('app/isLoading', true);

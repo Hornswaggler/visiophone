@@ -29,8 +29,8 @@ export default {
   state: () => ({
     mapData: [],
     entities: [],
-    height: 500,
-    width: 500,
+    height: 1000,
+    width: 1000,
     tilesize: 1,
     map: {},
     resizing: false,

@@ -2,14 +2,13 @@
  <div style="color:#66FF00;">
 
   <div class="css-selector">
-      <Header/>
+      <Header />
     </div>
-
     <div 
       class="css-selector"
       style="width:100%;display:flex;flex-direction:column;overflow-y:auto;height: calc(100vh - 172px)"
     >
-      <VisioConsole/>
+      <VisioConsole />
     </div>
   
 </div>
@@ -20,7 +19,7 @@ import Header from '@/components/layout/Header.vue'
 
 export default {
   name:'Console',
-   components: {
+  components: {
     VisioConsole,
     Header
   },

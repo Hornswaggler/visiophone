@@ -23,6 +23,10 @@
   flex:3;
 }
 
+.hidden {
+  display:none;
+}
+
 .align-start {
   align-items:flex-start;
 }
@@ -49,6 +53,10 @@
 
 .p1{
   padding:1em;
+}
+
+.pt1 {
+  padding-top: 1em;
 }
 
 .pl1{

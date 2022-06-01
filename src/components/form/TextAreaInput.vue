@@ -31,6 +31,8 @@ export default {
   width:100%;
   height:100%;
   background-color:transparent;
+  color:white;
+  padding: 0.5em 0.5em;
 }
 .vp-text-area-input {
   flex:1;
