@@ -1,4 +1,4 @@
-import * as msal from '@azure/msal-browser';
+import * as msal from '@azure/msal-react';
 import axios from 'axios';
 
 // TODO: code should come from configuration layer
@@ -99,7 +99,7 @@ export default {
       const resp = await myMSALObj.acquireTokenSilent(tokenRequest);
 
       console.log('Responded: ', resp);
-      await axios.get('https://visiophone-east-us2-functions.azurewebsites.net/api/asdf', { headers: {"Authorization": `Bearer ${resp.accessToken}` }} );
+      await axios.get('https://visiophone.wtf/api/asdf', { headers: {"Authorization": `Bearer ${resp.accessToken}` }} );
       // }
 
 
