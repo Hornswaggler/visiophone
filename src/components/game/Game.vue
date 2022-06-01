@@ -126,10 +126,10 @@ export default {
       return this.$store.dispatch('game/spawnEntity', {entity: PlayerModel({x, y})});
     })();
 
-    await (async () => {
-      let {x, y} = await this.$store.dispatch('game/findRandomAvailable');
-      await this.$store.dispatch('game/spawnEntity', {entity: MonkeyModel({x, y})});
-    })();
+    // await (async () => {
+    //   let {x, y} = await this.$store.dispatch('game/findRandomAvailable');
+    //   await this.$store.dispatch('game/spawnEntity', {entity: MonkeyModel({x, y})});
+    // })();
 
     for(let i = 0; i < MAX_SPIKES; i++){
       const {x, y} = await this.$store.dispatch('game/findRandomAvailable');
@@ -283,13 +283,13 @@ export default {
       const targetStartX =  Math.floor(0 - (this.offSetX/(this.tilesize * this.scaleFactor)));
       const xStart = targetStartX < 0 ? 0 : targetStartX;
       const targetEndX = (xStart + this.xVisible);
-      const xEnd = targetEndX >= lastIndexX ? lastIndexX: targetEndX;
+      const xEnd = (targetEndX >= lastIndexX ? lastIndexX: targetEndX) + 1;
 
       const lastIndexY = (this.height * this.tilesize) - 1;
       const targetStartY =  Math.floor(0 - (this.offSetY/(this.tilesize * this.scaleFactor)));
       const yStart = targetStartY < 0 ? 0 : targetStartY;
       const targetEndY = (yStart + this.yVisible);
-      const yEnd = targetEndY >= lastIndexY ? lastIndexY: targetEndY;
+      const yEnd = (targetEndY >= lastIndexY ? lastIndexY: targetEndY) + 1;
 
       console.log(xStart, xEnd, yStart, yEnd, dx, dy);
 

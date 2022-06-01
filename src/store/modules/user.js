@@ -1,15 +1,17 @@
 import * as msal from '@azure/msal-browser';
+import axios from 'axios';
 
-// Todo: code should come from configuration layer
+// TODO: code should come from configuration layer
 const msalConfig = {
   auth: {
-      clientId: "20a08db6-2b1a-4e7d-87c1-fcd9e6e8de70",
-      authority: "https://login.microsoftonline.com/2d1e671b-65ba-40be-b119-5cb56ca78e80/",
-      redirectUri: "https://visiophone.wtf/"
+    // "20a08db6-2b1a-4e7d-87c1-fcd9e6e8de70"
+    clientId: "2d47b47e-21c1-4d58-9122-c8eb0337b611",
+    authority: "https://login.microsoftonline.com/2d1e671b-65ba-40be-b119-5cb56ca78e80/",
+    redirectUri: "https://visiophone.wtf/"
   },
   cache: {
-      cacheLocation: "localstorage",
-      storeAuthStateInCookie: false,
+    cacheLocation: "sessionStorage",
+    storeAuthStateInCookie: false,
   }
   ,system: {
       loggerOptions: {
@@ -19,8 +21,8 @@ const msalConfig = {
               }
               switch (level) {
                   case msal.LogLevel.Error:
-                      console.error(message);
-                      return;
+                    console.error(message);
+                    return;
                   case msal.LogLevel.Info:
                       console.info(message);
                       return;
@@ -50,12 +52,12 @@ export default {
     accountId: '',
     authenticated: false,
     username: '',
-    userIcon: 'Comp_boi_idle.gif'
+    userIcon: 'Comp_boi_idle.gif',
+    shelfCapacity: 75,
+    msal:{}
   }),
   actions:{
     initialize({commit}) {
-
-      console.log('Initializing User...');
 
       myMSALObj.initialize().then(() => {
         myMSALObj
@@ -67,11 +69,14 @@ export default {
       });
     },
 
-    async login() {
+    async login({commit}) {
       const loginRequest = {
-        scopes: ["User.Read"]
+        scopes: ["User.Read","openid", "profile"],
       };
-      return await myMSALObj.loginPopup(loginRequest);
+      const result = await myMSALObj.acquireTokenPopup(loginRequest);
+      console.log('Login', result);
+      commit('assignObject', { key: 'msal', value: result });
+      return result;
     },
 
     async logout({state:{accountId}}) {
@@ -87,6 +92,20 @@ export default {
       }
     },
 
+    async callMSGraph({state:{msal, accountId}}) {
+      console.log('Calling Graph', msal);
+      // if (myMSALObj.account()) {
+      const tokenRequest = {account: msal.idToken, scopes: ["api://2d47b47e-21c1-4d58-9122-c8eb0337b611/user_impersonation"] };
+      const resp = await myMSALObj.acquireTokenSilent(tokenRequest);
+
+      console.log('Responded: ', resp);
+      await axios.get('https://visiophone-east-us2-functions.azurewebsites.net/api/asdf', { headers: {"Authorization": `Bearer ${resp.accessToken}` }} );
+      // }
+
+
+      console.log('Graph Response: '. resp);
+    },
+
     logoutRedirect(){
       console.log('logout redirect');
       myMSALObj.logoutRedirect({
@@ -96,6 +115,22 @@ export default {
       })
     }
 
+  },
+  getters: {
+    userName: (state) => {
+      console.log('Getting user Name',state.msal);
+      const {msal:{account:{name = ''} = {}}} = state;
+      return name;
+    },
+    accessToken: (state) => {
+      const { msal: { accessToken = ''} } = state;
+      console.log('accessToken', accessToken);
+      return accessToken;
+    },
+    idToken: (state) => {
+      const { msal: { idToken = ''} } = state;
+      return idToken;
+    }
   },
   mutations:{
     authenticated(state, authenticated){
@@ -112,30 +147,36 @@ export default {
 function handleResponse(resp, commit) {
   let accountId = "";
 
-    if (resp !== null) {
-        accountId = resp.account.homeAccountId;
-        myMSALObj.setActiveAccount(resp.account);
-        commit('authenticated', true);
-        commit('accountId', resp.account.homeAccountId);
-    } else {
-        // need to call getAccount here?
-        const currentAccounts = myMSALObj.getAllAccounts();
-        if (!currentAccounts || currentAccounts.length < 1) {
-            return;
-        } else if (currentAccounts.length > 1) {
-            // Add choose account code here
-        } else if (currentAccounts.length === 1) {
-            const activeAccount = currentAccounts[0];
-            myMSALObj.setActiveAccount(activeAccount);
-            accountId = activeAccount.homeAccountId;
-            // console.log(activeAccount, accountId);
-            commit('authenticated', true);
-            commit('accountId', activeAccount.homeAccountId);
+  console.log('Handling Response..');
+
+  if (resp !== null) {
+      accountId = resp.account.homeAccountId;
+      myMSALObj.setActiveAccount(resp.account);
+      console.log('AUTHENTICATED');
+      commit('authenticated', true);
+      commit('accountId', resp.account.homeAccountId);
+      console.log('MSAL', myMSALObj);
+  } else {
+      // need to call getAccount here?
+      const currentAccounts = myMSALObj.getAllAccounts();
+      if (!currentAccounts || currentAccounts.length < 1) {
+          return;
+      } else if (currentAccounts.length > 1) {
+          // TODO Add choose account code here
+      } else if (currentAccounts.length === 1) {
+          const activeAccount = currentAccounts[0];
+          myMSALObj.setActiveAccount(activeAccount);
+          accountId = activeAccount.homeAccountId;
+          // console.log(activeAccount, accountId);
+          commit('authenticated', true);
+          commit('accountId', activeAccount.homeAccountId);
+          console.log('MSAL', myMSALObj);
+          
 
 
-            // showWelcomeMessage(activeAccount);
-        }
-    }
+          // showWelcomeMessage(activeAccount);
+      }
+  }
 }
 
 // async function signIn(signInType) {

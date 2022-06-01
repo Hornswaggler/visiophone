@@ -2,6 +2,7 @@ import Login from '@/components/login/Login.vue';
 import Logout from '@/components/login/Logout.vue';
 import GameCube from '@/components/game/GameCube.vue';
 import Console from '@/components/console/Console.vue';
+import Upload from '@/components/upload/Upload.vue';
 
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
     name: 'console',
     component: Console
   },
+  {
+    path: '/upload',
+    name: 'upload',
+    component: Upload
+  }
 ];
 
 export default routes.map(route => {
