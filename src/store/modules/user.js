@@ -1,13 +1,15 @@
 import * as msal from '@azure/msal-browser';
-import axios from 'axios';
+import {axios, secureGet} from '@/axios.js';
+import {config} from '@/config.js';
+
+console.log('LOADED CONFIG:', config, [config.VUE_APP_READ_SCOPE]);
 
 // TODO: code should come from configuration layer
 const msalConfig = {
   auth: {
-    // "20a08db6-2b1a-4e7d-87c1-fcd9e6e8de70"
-    clientId: "2d47b47e-21c1-4d58-9122-c8eb0337b611",
-    authority: "https://login.microsoftonline.com/2d1e671b-65ba-40be-b119-5cb56ca78e80/",
-    redirectUri: "https://visiophone.wtf/console"
+    clientId: config.VUE_APP_AUTH_CLIENT_ID,
+    authority: config.VUE_APP_AUTH_AUTHORITY,
+    redirectUri: config.VUE_APP_API_REDIRECT_URI
   },
   cache: {
     cacheLocation: "sessionStorage",
@@ -15,34 +17,36 @@ const msalConfig = {
   }
   ,system: {
       loggerOptions: {
-          loggerCallback: (level, message, containsPii) => {
-              if (containsPii) {
-                  return;
-              }
-              switch (level) {
-                  case msal.LogLevel.Error:
-                    console.error(message);
-                    return;
-                  case msal.LogLevel.Info:
-                      console.info(message);
-                      return;
-                  case msal.LogLevel.Verbose:
-                      console.debug(message);
-                      return;
-                  case msal.LogLevel.Warning:
-                      console.warn(message);
-                      return;
-                  case msal.LogLevel.Trace:
-                      console.log(message);
-                      return;
-              }
-          },
+          // loggerCallback: (level, message, containsPii) => {
+          //     if (containsPii) {
+          //         return;
+          //     }
+          //     switch (level) {
+          //         case msal.LogLevel.Error:
+          //           console.error(message);
+          //           return;
+          //         case msal.LogLevel.Info:
+          //             console.info(message);
+          //             return;
+          //         case msal.LogLevel.Verbose:
+          //             console.debug(message);
+          //             return;
+          //         case msal.LogLevel.Warning:
+          //             console.warn(message);
+          //             return;
+          //         case msal.LogLevel.Trace:
+          //             console.log(message);
+          //             return;
+          //     }
+          // },
           logLevel: msal.LogLevel.Trace
       },
       allowNativeBroker: true,
       allowRedirectInIframe: true
   }
 };
+
+console.log('MsalConfig:', msalConfig);
 
 const myMSALObj = new msal.PublicClientApplication(msalConfig);
 
@@ -57,14 +61,18 @@ export default {
     msal:{}
   }),
   actions:{
-    initialize({commit}) {
-
-      myMSALObj.initialize().then(() => {
+    async initialize({commit}) {
+      await myMSALObj.initialize().then(() => {
         myMSALObj
           .handleRedirectPromise()
-          .then(resp => handleResponse(resp, commit))
+          .then(async resp => {
+            handleResponse(resp, commit);
+            const tokenRequest = {account: myMSALObj.idToken, scopes: [config.VUE_APP_READ_SCOPE] };
+            const result = await myMSALObj.acquireTokenSilent(tokenRequest);
+            commit('assignObject', { key: 'msal', value: result });
+          })
           .catch(err => {
-            console.error(err);
+            //consume console.error(err);
           });
       });
     },
@@ -93,17 +101,24 @@ export default {
     },
 
     async callMSGraph({state:{msal, accountId}}) {
+
+
+      
+
       console.log('Calling Graph', msal);
-      // if (myMSALObj.account()) {
-      const tokenRequest = {account: msal.idToken, scopes: ["api://2d47b47e-21c1-4d58-9122-c8eb0337b611/user_impersonation"] };
+ 
+      const tokenRequest = {account: msal.idToken, scopes: [config.VUE_APP_READ_SCOPE] };
+
+      console.log('TOKEN REQUEST:', tokenRequest);
+
       const resp = await myMSALObj.acquireTokenSilent(tokenRequest);
 
       console.log('Responded: ', resp);
-      await axios.get('https://visiophone.wtf/api/asdf', { headers: {"Authorization": `Bearer ${resp.accessToken}` }} );
+      const result = await secureGet(axios, {slug: 'secure/testapi'});
       // }
 
 
-      console.log('Graph Response: '. resp);
+      console.log('Graph Response: ', result);
     },
 
     logoutRedirect(){

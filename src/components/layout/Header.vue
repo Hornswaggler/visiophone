@@ -15,14 +15,14 @@
         <input style="height:2em;width:25em;" type="text"/>
       </visio-man>
     </div>
-    <div class="justify-end flex" style="flex:1;height:100%;width:100%;margin: 2em;">&nbsp;
-      <!-- <img class="button" style="height:2em;cursor:pointer;" :src="require(`@/assets/${userIcon}`)"/> -->
+    <div class="justify-end flex" style="flex:1;height:100%;width:100%;margin: 2em;">
+      {{userName}}
     </div>
   </div>
 </template>
 <script>
 import VisioMan from '@/components/common/VisioMan.vue';
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default{
   name:'Header',
@@ -31,6 +31,7 @@ export default{
   },
   computed: {
     ...mapState('user', ['userIcon']),
+    ...mapGetters('user',['userName'])
   }
 }
 </script>

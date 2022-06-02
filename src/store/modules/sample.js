@@ -1,4 +1,4 @@
-import axios from 'axios';
+import {axios, securePost} from '@/axios.js';
 
 export default {
   namespaced: true,
@@ -24,7 +24,10 @@ export default {
         let fd = new FormData();
         fd.append('file',fileBuffer)
 
-        const {status} = await axios.post('http://localhost:7071/api/upload_sample', fd, { headers });
+        // const {status} = await axios.post('http://localhost:7071/api/upload_sample', fd, { headers });
+        
+        const result = await securePost(axios, fd, {slug: 'secure/upload_sample'});
+        
         // res.data.files;
         // res.status;
         console.log('status: ', status);

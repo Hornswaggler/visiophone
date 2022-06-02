@@ -19,7 +19,6 @@
         flex-direction:column;
         background-color:grey;"
       >
-      {{accessToken}}
         <div class="vp-form-row">
           <StatusBar style="flex:3"
             :percentComplete="shelfCapacity"
