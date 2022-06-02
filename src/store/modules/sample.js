@@ -12,25 +12,25 @@ export default {
     }
   },
   actions:{
-    async uploadBuffer({state:{fileBuffer}}, accessToken) {
+    uploadBuffer({state:{fileBuffer}}, accessToken) {
       console.log('Uploading Buffer', fileBuffer);
-      const headers = { 'Content-Type': 'multipart/form-data' };
+      // const headers = { 'Content-Type': 'multipart/form-data' };
       try {
 
-        const config = { headers: { 
-          'Content-Type': 'multipart/form-data',
-          'Authorization:': `Bearer ${accessToken}`
-        } };
+        // const config = { headers: { 
+        //   'Content-Type': 'multipart/form-data',
+        //   'Authorization:': `Bearer ${accessToken}`
+        // } };
         let fd = new FormData();
         fd.append('file',fileBuffer)
 
         // const {status} = await axios.post('http://localhost:7071/api/upload_sample', fd, { headers });
         
-        const result = await securePost(axios, fd, {slug: 'secure/upload_sample'});
+        return securePost(axios, fd, {slug: 'secure/upload_sample'});
         
         // res.data.files;
         // res.status;
-        console.log('status: ', status);
+        // console.log('status: ', status);
       } catch(e) {
         console.error(e);
       }

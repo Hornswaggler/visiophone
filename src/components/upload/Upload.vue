@@ -87,10 +87,18 @@ export default {
     TextAreaInput
   },
   methods: {
-    handleSubmitForm() {
+    async handleSubmitForm() {
       console.log('Uploading');
 
-      this.$store.dispatch('sample/uploadBuffer', this.accessToken);
+      try {
+        this.$store.commit('app/isLoading', true);
+        const result = await this.$store.dispatch('sample/uploadBuffer', this.accessToken);
+        console.log('file transfer completed', result);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.$store.commit('app/isLoading', false);
+      }
 
       // const headers = { 'Content-Type': 'multipart/form-data' };
       // axios.post('http://localhost:7071/api/upload-sample', formData, { headers }).then((res) => {

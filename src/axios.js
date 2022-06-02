@@ -5,7 +5,6 @@ import store from '@/store';
 export const axios = new (() => ({
   ..._axios.create({
     baseURL: `${process.env.VUE_APP_API_BASE_URL}`,
-    timeout: 20000,
     headers: {"Access-Control-Allow-Origin": 'https://visiophone.wtf'}
   })
 }));
@@ -29,11 +28,17 @@ export const secureGet = async (_axios, {slug}) => {
 
 export const securePost = async (_axios, body, {slug}) => {
   console.log('Sending Secure Post');
-  const result = await _axios.post(`${slug}`, body, {headers: {
-    ..._axios.defaults.headers,
-    "Content-Type": 'multipart/form-data'
-  }});
-  return result;
+  try{
+    const result = await _axios.post(`${slug}`, body, {
+      headers: {
+        ..._axios.defaults.headers,
+        "Content-Type": 'multipart/form-data'
+      }
+    });
+    return result;
+  }catch(e){
+    console.error('Secure Post Failed: ', e);
+  }
 };
 
 export default {
