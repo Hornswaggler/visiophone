@@ -13,11 +13,8 @@ const store = {
   sample
 };
 
-console.log('Building Store');
-
 const mutations = {
   setPrimitive(state, {key, value}){
-    console.log('mutating primitive:', key, value, state);
     state[key] = value;
   },
 
@@ -44,7 +41,5 @@ const result = Object.keys(store).reduce((acc, key) => {
   };
   return acc;
 },{});
-
-console.log('asdf', result);
 
 export default result;

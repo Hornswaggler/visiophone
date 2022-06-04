@@ -191,7 +191,6 @@ export default {
   },
   methods: {
     scrollCameraX({_dx, _dy}) {
-      console.log('ASDF');
       return new Promise((resolve, reject) => {
         try {
           let dx = _dx;
@@ -218,7 +217,6 @@ export default {
       })
     },
     scrollCameraY({_dx, _dy}) {
-      console.log('ASDF');
       return new Promise((resolve, reject) => {
         try {
           // let dx = _dx;
@@ -291,8 +289,6 @@ export default {
       const targetEndY = (yStart + this.yVisible);
       const yEnd = (targetEndY >= lastIndexY ? lastIndexY: targetEndY) + 1;
 
-      console.log(xStart, xEnd, yStart, yEnd, dx, dy);
-
       for (let x = xStart; x < xEnd; x++) {
         for (let y = yStart; y < yEnd; y++) {
           if(!this.mapData[x] || !this.mapData[x][y]){
@@ -329,7 +325,6 @@ export default {
         sprite.src = require(`@/assets/${path}`);
         this.tileSet.push({sprite: await this.loadTile({sprite}), path});
       });
-      console.log('Tileset', this.mapData);
     },
     
     loadTile({sprite}){
