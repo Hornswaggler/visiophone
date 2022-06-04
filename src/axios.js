@@ -27,9 +27,8 @@ export const secureGet = async (_axios, {slug}) => {
 };
 
 export const securePost = async (_axios, body, {slug}) => {
-  console.log('Sending Secure Post');
   try{
-    const result = await _axios.post(`${slug}`, body, {
+    const result = await _axios.post(`http://localhost:7071/api/upload_sample`, body, {
       headers: {
         ..._axios.defaults.headers,
         "Content-Type": 'multipart/form-data'

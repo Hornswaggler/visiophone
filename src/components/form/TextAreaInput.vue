@@ -3,10 +3,11 @@
     <template v-slot:title>{{title}}</template>
     <template v-slot:input style="height:initial;">
       <div class="vp-text-area-input">
-      <textarea 
+      <textarea
+        v-model="internalValue"
         class="vp-textarea"
         rows="3" 
-        type="text" 
+        type="text"
       ></textarea>
       </div>
     </template>
@@ -18,11 +19,35 @@ import FormInput from './FormInput.vue';
 export default {
   name: "TextAreaInput",
   components: { FormInput },
+  data: () => ({
+    internalValue:''
+  }),
   props: {
     title: {
       type: String,
       default: '',
     },
+    value: {
+      type: String,
+      default: ''
+    },
+    changeHandler: {
+      type: Function,
+      default: () => {}
+    }
+  },
+  watch:{
+    internalValue(val){
+      this.changeHandler(val);
+    }
+  },
+  mounted() {
+    this.internalValue = this.value;
+  },
+  methods:{
+    emitOnChange(){
+      this.changeHandler();
+    }
   }
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- TODO inline Styles -->
     <div style="position:absolute;height:100vh;width:100vw;z-index:50;opacity:0.9;">
       <BaseLayout/>
     </div>
@@ -8,10 +9,7 @@
 
 <script>
  import BaseLayout from '@/components/layout/BaseLayout.vue';
- import config from '@/config.js';
- import {axios, axiosInit} from '@/axios.js';
-
- console.log('Loaded config:', config, axios);
+ import { axiosInit } from '@/axios.js';
 
 export default {
   name: 'App',
@@ -22,10 +20,6 @@ export default {
   async mounted(){
     await this.$store.dispatch('user/initialize');
     const result = await axiosInit();
-    console.log('Axios Init', result);
-    // const response = await axios.get('https://visiophone.wtf/secure/testapi');
-    // console.log('RESPONSE FROM visiophone', response);
-    // console.log('mounted', process.env.VUE_APP_BASE_URL);
   }
 }
 </script>

@@ -14,8 +14,6 @@ export const config = properties.reduce((acc, prop) => {
   return acc;
 },{})
 
-console.log('configuration: ', config );
-
 export default {
   config
 };

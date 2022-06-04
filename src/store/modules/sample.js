@@ -1,5 +1,10 @@
 import {axios, securePost} from '@/axios.js';
 
+export const makeNewSample = () => ({
+  tag: '',
+  description: ''
+});
+
 export default {
   namespaced: true,
   state: () => ({
@@ -12,27 +17,17 @@ export default {
     }
   },
   actions:{
-    uploadBuffer({state:{fileBuffer}}, accessToken) {
-      console.log('Uploading Buffer', fileBuffer);
-      // const headers = { 'Content-Type': 'multipart/form-data' };
+    uploadBuffer({state:{fileBuffer},dispatch}, sampleData) {
       try {
-
-        // const config = { headers: { 
-        //   'Content-Type': 'multipart/form-data',
-        //   'Authorization:': `Bearer ${accessToken}`
-        // } };
         let fd = new FormData();
         fd.append('file',fileBuffer)
+        fd.append('data', JSON.stringify(sampleData));
 
-        // const {status} = await axios.post('http://localhost:7071/api/upload_sample', fd, { headers });
-        
         return securePost(axios, fd, {slug: 'secure/upload_sample'});
-        
-        // res.data.files;
-        // res.status;
-        // console.log('status: ', status);
       } catch(e) {
         console.error(e);
+      } finally {
+        dispatch('setFileBuffer', {});
       }
     },
     setFileBuffer({commit}, fileBuffer){

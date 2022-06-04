@@ -10,7 +10,7 @@
             @click="navTradeSamples"
           >&nbsp;&lt;&quot;Trade Samples&quot;&gt;</span><br/>
           <span class="button">&nbsp;&lt;&quot;Buy Tokens&quot;&gt;</span><br/>
-          <span class="button" @click="sendAsdf">&nbsp;&lt;&quot;Sell Tokens&quot;&gt;</span><br/>
+          <span class="button">&nbsp;&lt;&quot;Sell Tokens&quot;&gt;</span><br/>
           <span @click="onLogout" class="button">&nbsp;&lt;&quot;Logout&quot;&gt;</span><br/>
         </div>
         <div class="choices" v-else>
@@ -37,7 +37,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
 import {mapState, mapGetters} from 'vuex';
 
 export default {
@@ -51,11 +50,6 @@ export default {
     consoleInput:'>'
   }),
   methods:{
-    sendAsdf(){
-      this.$store.dispatch('user/callMSGraph');
-      // console.log('sending', this.idToken);
-      // axios.get('https://visiophone-east-us2-functions.azurewebsites.net/api/asdf', {headers: {'Access-Control-Allow-Origin': '*',}} )
-    },
     async onLogin() {
       try{
         this.$store.commit('app/isLoading', true);

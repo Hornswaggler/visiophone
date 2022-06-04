@@ -12,7 +12,7 @@
         </span>
         <div class="vp-upload-button-spacer">{{fileName}}</div>
       </div>
-      <input type="file" class="hidden" accept="audio/wav"  @change="prepareUpload"  ref="file"/>
+      <input type="file" class="hidden" accept="audio/*"  @change="prepareUpload"  ref="file"/>
 
     </template>
   </FormInput>
@@ -24,11 +24,6 @@ import axios from 'axios';
 
 export default {
   name: 'UploadFile',
-  mounted() {
-  },
-  data:() => ({
-    fileBuffer: null,
-  }),
   computed:{
     ...mapGetters('sample',['fileName']),
   },
@@ -46,16 +41,6 @@ export default {
     prepareUpload() {
       this.$store.dispatch('sample/setFileBuffer', this.$refs.file.files[0]);
     },
-    uploadFile() {
-      const formData = new FormData();
-      formData.append('file', this.fileBuffer);
-
-      const headers = { 'Content-Type': 'multipart/form-data' };
-      axios.post('http://localhost:7071/api/upload_sample', formData, { headers }).then((res) => {
-        res.data.files;
-        res.status;
-      });
-    }
   }
 }
 </script>

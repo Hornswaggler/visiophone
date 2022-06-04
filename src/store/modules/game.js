@@ -102,7 +102,7 @@ export default {
       return -1;
     },
 
-    async spawnEntity({commit, dispatch}, {entity}){     
+    async spawnEntity({commit}, {entity}){     
       commit('addAll', {
         key: 'entities',
         values: [entity]
@@ -215,7 +215,6 @@ export default {
     },
 
     updateOffsetY({commit}, offSetY) {
-      console.log('Updating offsetY: ', offSetY);
       commit('setPrimitive', {
         key: 'offSetY',
         value: offSetY
