@@ -1,6 +1,6 @@
 <template>
   <div style="height:100%;">
-    <!-- <Loading/> -->
+    <Loading/>
     <router-view></router-view>
   </div>
 </template>
