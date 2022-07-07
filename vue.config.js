@@ -1,11 +1,9 @@
 module.exports = {
-    outputDir : 'dist',
-    runtimeCompiler: true,
-    pluginOptions: {
-      webpack: {
-        dir: [
-          './webpack'
-        ]
-      }
+  outputDir: "dist",
+  runtimeCompiler: true,
+  pluginOptions: {
+    webpack: {
+      dir: ["./webpack"],
     },
-  }
+  },
+};

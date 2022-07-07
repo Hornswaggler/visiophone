@@ -1,8 +1,11 @@
 <template>
   <div>
-    <div style="display:flex;">
+    <div style="display: flex">
       <div ref="flexEl" :style="currentFlexStyle"></div>
-      <img :style="currentImgStyle" :src="require(`@/assets/${currentImgSrc}`)"/>
+      <img
+        :style="currentImgStyle"
+        :src="require(`@/assets/${currentImgSrc}`)"
+      />
     </div>
     <div>
       <slot></slot>
@@ -11,49 +14,54 @@
 </template>
 <script>
 export default {
-  name:'VisioMan',
+  name: "VisioMan",
   data: () => ({
     isGrow: false,
     currentFrame: 3,
-    currentFlexStyle: {flexGrow: 0, transition: 'flex-grow 3s linear 0s'},
-    currentImgStyle: {transform: 'scaleX(1)'},
-    currentImgSrc: 'Walking_Animation_Visio_Lad.gif',
+    currentFlexStyle: { flexGrow: 0, transition: "flex-grow 3s linear 0s" },
+    currentImgStyle: { transform: "scaleX(1)" },
+    currentImgSrc: "Walking_Animation_Visio_Lad.gif",
     frames: [
-      { 
-        imgSrc: 'Walking_Animation_Visio_Lad.gif',
-        flexStyle:{flexGrow: 1, transition: 'flex-grow 3s linear 0s'},
-        imgStyle: {transform: 'scaleX(1)'}
+      {
+        imgSrc: "Walking_Animation_Visio_Lad.gif",
+        flexStyle: { flexGrow: 1, transition: "flex-grow 3s linear 0s" },
+        imgStyle: { transform: "scaleX(1)" },
       },
       {
-        imgSrc: 'boy_idle_anim.gif',
-        flexStyle:{flexGrow: 1, transition: 'flex-grow 3s linear 0s'},
-        imgStyle: {transform: 'scaleX(1)'},
-        idle: 5000
-      },
-      { 
-        imgSrc: 'Walking_Animation_Visio_Lad.gif',
-        transition: 'flex-grow 3s linear 0s',
-        flexStyle:{flexGrow: 0, transition: 'flex-grow 3s linear 0s'},
-        imgStyle: {transform: 'scaleX(-1)'},
+        imgSrc: "boy_idle_anim.gif",
+        flexStyle: { flexGrow: 1, transition: "flex-grow 3s linear 0s" },
+        imgStyle: { transform: "scaleX(1)" },
+        idle: 5000,
       },
       {
-        imgSrc: 'boy_idle_anim.gif',
-        flexStyle:{flexGrow: 0, transition: 'flex-grow 3s linear 0s'},
-        imgStyle: {transform: 'scaleX(-1)'},
-        idle: 5000
+        imgSrc: "Walking_Animation_Visio_Lad.gif",
+        transition: "flex-grow 3s linear 0s",
+        flexStyle: { flexGrow: 0, transition: "flex-grow 3s linear 0s" },
+        imgStyle: { transform: "scaleX(-1)" },
       },
-    ]
+      {
+        imgSrc: "boy_idle_anim.gif",
+        flexStyle: { flexGrow: 0, transition: "flex-grow 3s linear 0s" },
+        imgStyle: { transform: "scaleX(-1)" },
+        idle: 5000,
+      },
+    ],
   }),
   mounted() {
-    this.$refs.flexEl.addEventListener('transitionend', this.cueNextFrame);
+    this.$refs.flexEl.addEventListener("transitionend", this.cueNextFrame);
     this.cueFrame(this.currentFrame);
   },
   unmounted() {
-    this.$refs.flexEl.removeEventListener('transitionend', () => this.cueNextFrame);
+    this.$refs.flexEl.removeEventListener(
+      "transitionend",
+      () => this.cueNextFrame
+    );
   },
   methods: {
     cueNextFrame() {
-      this.cueFrame(this.currentFrame + 1 >= this.frames.length ? 0 : this.currentFrame + 1);
+      this.cueFrame(
+        this.currentFrame + 1 >= this.frames.length ? 0 : this.currentFrame + 1
+      );
     },
     cueFrame(index) {
       const nextFrame = this.frames[index];
@@ -62,16 +70,16 @@ export default {
       this.currentImgStyle = nextFrame.imgStyle;
       this.currentImgSrc = nextFrame.imgSrc;
 
-      if(nextFrame.idle) setTimeout(() => {
-        this.cueNextFrame();
-      }, nextFrame.idle)
-    }
-  }
-
-}
+      if (nextFrame.idle)
+        setTimeout(() => {
+          this.cueNextFrame();
+        }, nextFrame.idle);
+    },
+  },
+};
 </script>
 <style lang="scss">
 .flex-spacer {
-  background-color:orange;
+  background-color: orange;
 }
 </style>

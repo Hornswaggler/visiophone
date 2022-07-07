@@ -1,55 +1,55 @@
 <template>
-  <div 
-    v-if="show" class="loading"
-    :class="{ show: fade }"
-  >
-    <div class="lds-facebook"><div></div><div></div><div></div></div>
+  <div v-if="show" class="loading" :class="{ show: fade }">
+    <div class="lds-facebook">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </div>
 </template>
 <script>
-import {mapState} from 'vuex';
+import { mapState } from "vuex";
 
 export default {
   name: "Loading",
   data: () => ({
     show: false,
-    fade:false
+    fade: false,
   }),
-  computed:{
-    ...mapState('app', ['isLoading'])
+  computed: {
+    ...mapState("app", ["isLoading"]),
   },
-  watch:{
-    isLoading(value){
-      if(value){
+  watch: {
+    isLoading(value) {
+      if (value) {
         this.show = true;
-          // This is a hack... :| :| :(
-          this.$nextTick(()=>{
-            setTimeout(()=>{
-              this.fade = true;
-            }, 0);
-          })
-
+        // This is a hack... :| :| :(
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.fade = true;
+          }, 0);
+        });
       } else {
         this.show = false;
         this.fade = false;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="scss">
 .loading {
-  position:absolute;
-  width:100%;
-  height:100%;
-  z-index:100;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
   opacity: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: opacity 0.5s linear 0s;
-  background-color:black;
-  &.show{
+  background-color: black;
+  &.show {
     opacity: 0.75;
   }
 }
@@ -90,10 +90,10 @@ export default {
     top: 8px;
     height: 64px;
   }
-  50%, 100% {
+  50%,
+  100% {
     top: 24px;
     height: 32px;
   }
 }
-
 </style>

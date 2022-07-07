@@ -1,16 +1,17 @@
-import { makeEntity } from './Entity';
-import {ENTITY_TYPE} from './EntityConfig';
+import { makeEntity } from "./Entity";
+import { ENTITY_TYPE } from "./EntityConfig";
 
-export default ({x,y}) => {
-  return new (({x,y}) => ({
+export default ({ x, y }) => {
+  return new (({ x, y }) => ({
     ...makeEntity({
-      x, y, 
+      x,
+      y,
       clip: false,
       type: ENTITY_TYPE.HADOOKEN,
-      path: 'Spikes.png'
+      path: "Spikes.png",
     }),
     effect: (entity) => {
-      entity.affect({hp: -1})
-    }
-  })) ({x,y});
-}
+      entity.affect({ hp: -1 });
+    },
+  }))({ x, y });
+};

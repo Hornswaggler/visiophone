@@ -1,14 +1,15 @@
-import { makeEntity } from './Entity';
-import {ENTITY_TYPE} from './EntityConfig';
+import { makeEntity } from "./Entity";
+import { ENTITY_TYPE } from "./EntityConfig";
 
-export default ({x,y, path}) => {
-  return new (({x,y, path}) => ({
+export default ({ x, y, path }) => {
+  return new (({ x, y, path }) => ({
     ...makeEntity({
-      x, y, 
+      x,
+      y,
       clip: false,
-      type: ENTITY_TYPE.TILE
+      type: ENTITY_TYPE.TILE,
     }),
     path,
-    zIndex: 1
-  })) ({x,y, path});
-}
+    zIndex: 1,
+  }))({ x, y, path });
+};

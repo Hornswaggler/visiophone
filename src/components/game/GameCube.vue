@@ -1,125 +1,255 @@
 <template>
-<div @click="clickMe" style="height:100vh;width:100vw;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;">
-  <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
-    </div>
-  </div>
+  <div
+    @click="clickMe"
+    style="
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    "
+  >
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
-  </div>  <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+    <div class="scene fancy">
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
-  </div>
+    <div class="scene fancy">
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
+    </div>
 
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          :height="tilesize * height"
+          :width="tilesize * width"
+        ></canvas>
+      </div>
     </div>
   </div>
-</div>
 </template>
 <script>
-import {Map} from 'rot-js';
+import { Map } from "rot-js";
 
 export default {
-  name: 'Game',
-  data:()=>({
+  name: "Game",
+  data: () => ({
     showFront: true,
     mapLimit: 5000,
     maps: {},
-    mapData:{},
+    mapData: {},
     height: 20,
     width: 20,
     tilesize: 16,
-    color:'#66FF00',
-    cube:{
-      front:{class:{'cube__face--front':true, 'cube.show-front':true,}},
-      right:{class:{'cube__face--right':true, 'cube.show-right':true}},
-      back:{class:{'cube__face--back':true, 'cube.show-back':true}},
-      left:{class:{'cube__face--left':true, 'cube.show-left':true}},
-      top:{class:{'cube__face--top':true, 'cube.show-top':true}},
-      bottom:{class:{'cube__face--bottom':true, 'cube.show-bottom':true}}
-    }
+    color: "#66FF00",
+    cube: {
+      front: { class: { "cube__face--front": true, "cube.show-front": true } },
+      right: { class: { "cube__face--right": true, "cube.show-right": true } },
+      back: { class: { "cube__face--back": true, "cube.show-back": true } },
+      left: { class: { "cube__face--left": true, "cube.show-left": true } },
+      top: { class: { "cube__face--top": true, "cube.show-top": true } },
+      bottom: {
+        class: { "cube__face--bottom": true, "cube.show-bottom": true },
+      },
+    },
   }),
-  computed:{
-    cubeKeys(){
+  computed: {
+    cubeKeys() {
       return Object.keys(this.cube);
-    }
+    },
   },
-  mounted(){
+  mounted() {
     this.initMap();
     this.drawMap();
   },
-  methods:{
-    clickMe(){
+  methods: {
+    clickMe() {
       this.showFront = !this.showFront;
     },
-    initMap(){
+    initMap() {
       const self = this;
-      Object.keys(this.$refs).map(key=>{
+      Object.keys(this.$refs).map((key) => {
         self.$set(self.maps, key, new Map.EllerMaze(this.width, this.height));
         self.$set(self.mapData, key, new Array(this.width));
         for (let x = 0; x < this.width; x++) {
           this.mapData[key][x] = new Array(this.height);
         }
         const callback = (x, y, value) => {
-          if(x === 0 || y === 0 || x === self.width -1 || y === self.height -1) {
-              self.mapData[key][x][y] = 1; //create walls around edges of map
-              return;
+          if (
+            x === 0 ||
+            y === 0 ||
+            x === self.width - 1 ||
+            y === self.height - 1
+          ) {
+            self.mapData[key][x][y] = 1; //create walls around edges of map
+            return;
           }
           self.mapData[key][x][y] = value === 0 ? 1 : 0;
         };
@@ -127,85 +257,124 @@ export default {
         this.maps[key].create(callback);
       });
     },
-    drawMap(){
+    drawMap() {
       const self = this;
-      Object.keys(this.$refs).map(key=>{
-        const context = self.$refs[key][0].getContext('2d');
-        context.clearRect(0,0,this.width * this.tilesize, this.height * this.tilesize)
+      Object.keys(this.$refs).map((key) => {
+        const context = self.$refs[key][0].getContext("2d");
+        context.clearRect(
+          0,
+          0,
+          this.width * this.tilesize,
+          this.height * this.tilesize
+        );
         for (let x = 0; x < this.width; x++) {
           for (let y = 0; y < this.height; y++) {
-            if(this.mapData[key][x][y] === 1) this.drawWall(context, x,y);
-          }                
+            if (this.mapData[key][x][y] === 1) this.drawWall(context, x, y);
+          }
         }
-      })
+      });
     },
-    nextColor(){
-      this.color = this.color === '#66FF00'  ? '#FFA500' : '#66FF00';
+    nextColor() {
+      this.color = this.color === "#66FF00" ? "#FFA500" : "#66FF00";
       return this.color;
     },
     drawWall(context, x, y) {
       context.fillStyle = this.nextColor();
-      context.fillRect(x  * this.tilesize, y * this.tilesize, this.tilesize, this.tilesize);
-    }
-  }
-}
+      context.fillRect(
+        x * this.tilesize,
+        y * this.tilesize,
+        this.tilesize,
+        this.tilesize
+      );
+    },
+  },
+};
 </script>
 <style lang="scss">
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-.fancy-cube{
+.fancy-cube {
   animation: rotate-cube 30s linear infinite;
 }
 
 @keyframes rotate-cube {
   0% {
-    transform: translateZ(-100px) rotateY(   0deg);
+    transform: translateZ(-100px) rotateY(0deg);
   }
 
   16% {
-    transform: translateZ(-100px) rotateY( -90deg);
+    transform: translateZ(-100px) rotateY(-90deg);
   }
 
-  32%{
-    transform: translateZ(-100px) rotateY(-180deg); 
+  32% {
+    transform: translateZ(-100px) rotateY(-180deg);
   }
 
-  48%{
-    transform: translateZ(-100px) rotateY(  90deg);
+  48% {
+    transform: translateZ(-100px) rotateY(90deg);
   }
 
-  64%{
-    transform: translateZ(-100px) rotateX( -90deg);
+  64% {
+    transform: translateZ(-100px) rotateX(-90deg);
   }
 
-  80%{
-    transform: translateZ(-100px) rotateX(  90deg);
+  80% {
+    transform: translateZ(-100px) rotateX(90deg);
   }
 }
 
+.cube.show-front {
+}
+.cube.show-right {
+}
+.cube.show-back {
+}
+.cube.show-left {
+}
+.cube.show-top {
+}
+.cube.show-bottom {
+}
 
+.cube__face--front {
+  background: hsla(0, 100%, 50%, 0.7);
+}
+.cube__face--right {
+  background: hsla(60, 100%, 50%, 0.7);
+}
+.cube__face--back {
+  background: hsla(120, 100%, 50%, 0.7);
+}
+.cube__face--left {
+  background: hsla(180, 100%, 50%, 0.7);
+}
+.cube__face--top {
+  background: hsla(240, 100%, 50%, 0.7);
+}
+.cube__face--bottom {
+  background: hsla(300, 100%, 50%, 0.7);
+}
 
-
-.cube.show-front  {  }
-.cube.show-right  {  }
-.cube.show-back   { }
-.cube.show-left   {  }
-.cube.show-top    {  }
-.cube.show-bottom {  }
-
-.cube__face--front  { background: hsla(  0, 100%, 50%, 0.7); }
-.cube__face--right  { background: hsla( 60, 100%, 50%, 0.7); }
-.cube__face--back   { background: hsla(120, 100%, 50%, 0.7); }
-.cube__face--left   { background: hsla(180, 100%, 50%, 0.7); }
-.cube__face--top    { background: hsla(240, 100%, 50%, 0.7); }
-.cube__face--bottom { background: hsla(300, 100%, 50%, 0.7); }
-
-.cube__face--front  { transform: rotateY(  0deg) translateZ(100px); }
-.cube__face--right  { transform: rotateY( 90deg) translateZ(100px); }
-.cube__face--back   { transform: rotateY(180deg) translateZ(100px); }
-.cube__face--left   { transform: rotateY(-90deg) translateZ(100px); }
-.cube__face--top    { transform: rotateX( 90deg) translateZ(100px); }
-.cube__face--bottom { transform: rotateX(-90deg) translateZ(100px); }
+.cube__face--front {
+  transform: rotateY(0deg) translateZ(100px);
+}
+.cube__face--right {
+  transform: rotateY(90deg) translateZ(100px);
+}
+.cube__face--back {
+  transform: rotateY(180deg) translateZ(100px);
+}
+.cube__face--left {
+  transform: rotateY(-90deg) translateZ(100px);
+}
+.cube__face--top {
+  transform: rotateX(90deg) translateZ(100px);
+}
+.cube__face--bottom {
+  transform: rotateX(-90deg) translateZ(100px);
+}
 
 .scene {
   width: 200px;

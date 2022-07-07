@@ -1,45 +1,45 @@
-import Vue from 'vue';
-import draggable from './draggable';
-import user from './user';
-import app from './app';
-import game from './game';
-import sample from './sample';
+import Vue from "vue";
+import draggable from "./draggable";
+import user from "./user";
+import app from "./app";
+import game from "./game";
+import sample from "./sample";
 
 const store = {
   draggable,
   user,
   app,
   game,
-  sample
+  sample,
 };
 
 const mutations = {
-  setPrimitive(state, {key, value}){
+  setPrimitive(state, { key, value }) {
     state[key] = value;
   },
 
-  addAll(state, {key, values}){
-    values.forEach(value => {
+  addAll(state, { key, values }) {
+    values.forEach((value) => {
       state[key].push(value);
     });
   },
 
-  assignObject(state, {key, value}){
+  assignObject(state, { key, value }) {
     Vue.set(state, key, value);
-  }
+  },
 };
 
 const result = Object.keys(store).reduce((acc, key) => {
   acc[key] = {
     ...store[key],
     ...{
-      mutations:{
+      mutations: {
         ...mutations,
-        ...store[key].mutations
-      }
-    }
+        ...store[key].mutations,
+      },
+    },
   };
   return acc;
-},{});
+}, {});
 
 export default result;

@@ -1,11 +1,11 @@
 export default {
   namespaced: true,
   state: () => ({
-    isLoading: false
+    isLoading: false,
   }),
-  mutations:{
-    isLoading(state, isLoading){
+  mutations: {
+    isLoading(state, isLoading) {
       state.isLoading = isLoading;
-    }
-  }
-}
+    },
+  },
+};
