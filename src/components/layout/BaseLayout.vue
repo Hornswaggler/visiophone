@@ -1,35 +1,35 @@
 <template>
-  <div style="height:100%;">
-    <Loading/>
+  <div style="height: 100%">
+    <Loading />
+
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Loading from '@/components/layout/Loading.vue';
+import Loading from "@/components/layout/Loading.vue";
 
 export default {
-  name: 'BaseLayout',
+  name: "BaseLayout",
   components: {
-    Loading
-  }
-}
+    Loading,
+  },
+};
 </script>
 
 <!-- TODO Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-
 .alt-list {
   &:nth-child(even) {
-    background-color:#323232;
+    background-color: #323232;
   }
 }
 
 .play {
   box-sizing: border-box;
   height: 74px;
-  
-  border-color: transparent transparent transparent #66FF00;
+
+  border-color: transparent transparent transparent #66ff00;
   transition: 100ms all ease;
   will-change: border-width;
   cursor: pointer;
@@ -40,71 +40,76 @@ export default {
 }
 
 .container {
-  position:absolute;
-  top:0;left:0;bottom:0;right:0;
-  display:flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
   align-items: center;
-  background-color:rgba(252, 252, 252, 0);
+  background-color: rgba(252, 252, 252, 0);
 
-  &> *{
-    flex:1;
+  & > * {
+    flex: 1;
   }
 
-  .container-content{
-    background-color:rgba(252, 252, 252, 0);
-    display:flex;
+  .container-content {
+    background-color: rgba(252, 252, 252, 0);
+    display: flex;
     align-items: center;
   }
 }
 
 .image {
-  flex:1;
-  background-color:rgba(252, 252, 252, 0);
+  flex: 1;
+  background-color: rgba(252, 252, 252, 0);
   transition: transform 0.24s linear 0s;
-  &:hover{
+  &:hover {
     transform: scale(1.25, 1.25);
   }
 }
 
 .icon {
-  width:2.5em;
-  display:inline-block;
-  padding-left:1em;
-  cursor:pointer;
+  width: 2.5em;
+  display: inline-block;
+  padding-left: 1em;
+  cursor: pointer;
 }
 
 .hover-zoom {
-    cursor: pointer;
-    transition: transform 0.1s linear 0s;
+  cursor: pointer;
+  transition: transform 0.1s linear 0s;
 
-    &:hover{
-      transform: scale(1.25, 1.25);
-      color: rgb(255, 51, 153);
-    }
+  &:hover {
+    transform: scale(1.25, 1.25);
+    color: rgb(255, 51, 153);
+  }
 }
 
 .button {
-  max-width:15em;
-  display:inline-block;
-  position:relative;
+  max-width: 15em;
+  display: inline-block;
+  position: relative;
 
-  cursor:pointer;
+  cursor: pointer;
   transition: transform 0.24s linear 0s;
 
-  .button-text{
+  .button-text {
     font-size: 0.75em;
-    position:absolute;
-    top:0;bottom:0;left:0;right:0;
-    display:flex;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
     justify-content: center;
     align-items: center;
     padding-bottom: 0.1em;
   }
 
-  &:hover{
+  &:hover {
     transform: scale(1.25, 1.25);
   }
-  
 }
 
 .card {
@@ -112,9 +117,9 @@ export default {
   min-height: 1em;
 }
 
-.fancy{
-    background-blend-mode: hard-light;
-    animation: hue-rotate 30s linear infinite;
+.fancy {
+  background-blend-mode: hard-light;
+  animation: hue-rotate 30s linear infinite;
 }
 
 @keyframes hue-rotate {
@@ -133,5 +138,4 @@ export default {
     // transform: rotate3d(1, 1, 1, 0deg);
   }
 }
-
 </style>
