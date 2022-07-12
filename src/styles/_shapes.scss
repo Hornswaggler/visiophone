@@ -1,0 +1,13 @@
+.circle {
+  width: 2.5em;
+  height: 2.5em;
+  background-color: #5246b3;
+  border-radius: 50%;
+  transition: all 0.5s ease-out;
+  transform: scale(1);
+  cursor:pointer;
+  &:hover{
+    background-color:yellow;
+    transform: scale(1.2);
+  }
+}

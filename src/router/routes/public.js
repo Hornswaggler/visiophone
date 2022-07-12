@@ -1,21 +1,14 @@
-import Login from '@/components/login/Login.vue';
-import Logout from '@/components/login/Logout.vue';
 import GameCube from '@/components/game/GameCube.vue';
 import Console from '@/components/console/Console.vue';
 import Upload from '@/components/upload/Upload.vue';
+import LandingPage from '@/components/layout/LandingPage.vue';
 
 const routes = [
   {
-    path: '/login',
-    name: 'login',
-    title:'Visiophone- Login',
-    component: Login
-  },
-  {
-    path: '/logout',
-    name: 'logout',
-    title: 'Visiophone- Logout',
-    component: Logout
+    path: '/landingPage',
+    name: 'landingPage',
+    title: 'Visiophone',
+    component: LandingPage
   },
   {
     path: '/gamecube',

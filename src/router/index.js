@@ -9,7 +9,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/console'
+      redirect: '/landingPage'
     }
   ].concat(routes)
 });
@@ -35,6 +35,7 @@ router.beforeEach((to, from, next) => {
 
 const DEFAULT_TITLE = "Visiophone";
 router.afterEach((to) => {
+
   // Use next tick to handle router history correctly
   // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
   Vue.nextTick(() => {
