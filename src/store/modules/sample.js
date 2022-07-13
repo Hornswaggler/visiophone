@@ -45,7 +45,7 @@ export default {
     async getAll(){
       const {data} = await secureGet(axios, {slug: '/sample'});
 
-      // const result = ;
+      //TODO: refactor to function that adds ids to stuff, this will be used extensively
 
       return data
       .map(sample => ({
