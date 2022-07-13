@@ -1,5 +1,5 @@
 import Game from '@/components/game/Game.vue';
-
+import SampleSearch from '@/components/sampleSearch/SampleSearch.vue';
 
 const routes = [
   {
@@ -7,6 +7,11 @@ const routes = [
     name: 'game',
     component: Game
   },
+  {
+    path: '/sample-search',
+    name: 'sampleSearch',
+    component: SampleSearch
+  }
 ];
 
 export default routes.map(route => {

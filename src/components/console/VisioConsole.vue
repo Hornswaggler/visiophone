@@ -3,7 +3,9 @@
     <div style="flex:1;background-color:black;margin:2em;display:flex;flex-direction:column;justify-content:flex-end;padding:1em;">
 
       <div  style="flex:1;text-align:left;">
+      
         <div>Hello {{userName}}</div>
+
         <div class="choices" v-if="authenticated">
           <span 
             class="button"
@@ -13,6 +15,7 @@
           <span class="button">&nbsp;&lt;&quot;Sell Tokens&quot;&gt;</span><br/>
           <span @click="onLogout" class="button">&nbsp;&lt;&quot;Logout&quot;&gt;</span><br/>
         </div>
+
         <div class="choices" v-else>
           <span class="button" @click="onLogin">&nbsp;&lt;&quot;Login&quot;&gt;</span><br/>
           <span>&nbsp;&lt;&quot;Sign Up&quot;&gt;</span><br/>
@@ -57,6 +60,7 @@ export default {
         if(valid) {
           this.error = '';
           this.$store.commit('user/authenticated', true);
+          this.$router.push('/sample-search');
         } else{
           this.error = 'Supplied credentials were incorrect.';
         }
