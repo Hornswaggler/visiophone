@@ -1,7 +1,10 @@
 <template>
 <div 
   class="flex align-center" 
-  :style="{fontSize: `${iconSize}`}">
+  :style="{
+    fontSize: `${iconSize}`,
+    color: `${color}`
+  }">
   <slot name="content"></slot>
   <font-awesome-icon 
     class="form-icon" 
@@ -22,6 +25,10 @@ export default {
     icon: {
       type: String,
       default:'fas fa-play'
+    },
+    color: {
+      type: String,
+      default: 'white'
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="centered-responsive-layout">
     <div class="responsive-margin"></div>
-    <div style="display:flex;" class="layout-centered-body">
+    <div class="flex layout-centered-body">
       <side-navigation style="flex:0.25"></side-navigation>
       <slot name="content"></slot>
     </div>

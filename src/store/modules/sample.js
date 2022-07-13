@@ -11,6 +11,7 @@ export const makeNewSample = () => ({
   tags: ['jazz','rnb','smooth influencercore'], //string
   cost: 0,
   slug:'',
+  imgUrl: 'CaptAhab.jpg'
 });
 
 export default {

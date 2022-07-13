@@ -1,50 +1,26 @@
 <template>
-  <div
-    class="scrollbar"
-    style="flex:1;
-      width:100%;
-      display:flex;
-      flex-direction: column;
-      background-color:rgb(33, 35, 35);
-      overflow-y:auto;"
-  >
-  <div
-    style="
-      display:flex;
-      flex-direction: column;
-      justify-content: flex-start;"
-  >
+<div class="scrollbar">
+  <div class="flex flex-column justify-start">
     <slot name="scrolling-content"></slot>
-
-  </div></div>
+  </div>
+</div>
 </template>
 
 <script>
 export default {
-
+  name: 'ScrollingContainer'
 }
 </script>
 
 <style lang="scss">
 .scrollbar
 {
-
-
   flex:1;
-  // width:100%;
+  width:100%;
   display:flex;
   flex-direction: column;
   background-color:rgb(33, 35, 35);
   overflow-y:auto;
-
-
-
-	float: left;
-	height: 300px;
-	width: 65px;
-	// background: #F5F5F5;
-	// overflow-y: scroll;
-	margin-bottom: 25px;
 
   &::-webkit-scrollbar-track
   {
