@@ -115,10 +115,13 @@ export default {
     }
     
     .sample-card-description {
-      max-height: 2em;
       overflow: hidden;
       text-overflow: ellipsis;
       text-align: left;
+      color:#ffffffad;
+      font-size:0.75em;
+      max-height:3em;
+      word-break: break-all
     }
 
     .sample-card-tag-container {

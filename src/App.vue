@@ -21,7 +21,6 @@ export default {
   async mounted(){
     await this.$store.dispatch('user/initialize');
     const result = await axiosInit();
-    console.log('Mounted', config);
   }
 }
 </script>

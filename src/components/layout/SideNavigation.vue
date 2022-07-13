@@ -45,7 +45,6 @@ export default {
     ...mapGetters('user',['userName'])
   },
   mounted(){
-    console.log('SideNav mounted');
   }
 }
 </script>

@@ -30,9 +30,6 @@ export default {
         let fd = new FormData();
         fd.append('file',fileBuffer)
         fd.append('data', JSON.stringify(sampleData));
-
-        // console.log('config', config,  {slug: config.VUE_APP_API_UPLOAD_SAMPLE_URI});
-
         return securePost(axios, fd, {slug: `${config.VUE_APP_API_UPLOAD_SAMPLE_URI}`});
       } catch(e) {
         console.error(e);
@@ -46,7 +43,6 @@ export default {
     },
 
     async getAll(){
-      console.log('Getting all samples');
       const {data} = await secureGet(axios, {slug: '/sample'});
 
       // const result = ;
