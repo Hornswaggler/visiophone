@@ -1,12 +1,6 @@
-import Game from '@/components/game/Game.vue';
 import SampleSearch from '@/components/sampleSearch/SampleSearch.vue';
 
 const routes = [
-  {
-    path: '/game',
-    name: 'game',
-    component: Game
-  },
   {
     path: '/sample-search',
     name: 'sampleSearch',
