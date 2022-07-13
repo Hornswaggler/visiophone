@@ -26,7 +26,7 @@ export default {
   namespaced: true,
   state: () => ({
     accountId: '',
-    authenticated: true,
+    authenticated: false,
     username: '',
     userIcon: 'Comp_boi_idle.gif',
     shelfCapacity: 75,
