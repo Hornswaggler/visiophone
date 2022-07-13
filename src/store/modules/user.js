@@ -34,19 +34,23 @@ export default {
   }),
   actions:{
     async initialize({commit}) {
-      await myMSALObj.initialize().then(() => {
-        myMSALObj
-          .handleRedirectPromise()
-          .then(async resp => {
-            handleResponse(resp, commit);
-            const tokenRequest = {account: myMSALObj.idToken, scopes: [config.VUE_APP_READ_SCOPE] };
-            const result = await myMSALObj.acquireTokenSilent(tokenRequest);
-            commit('assignObject', { key: 'msal', value: result });
-          })
-          .catch(err => {
-            //consume console.error(err);
-          });
-      });
+      try {
+        await myMSALObj.initialize();
+        const resp = await myMSALObj.handleRedirectPromise();
+        handleResponse(resp, commit);
+
+        const tokenRequest = {account: myMSALObj.idToken, scopes: [config.VUE_APP_READ_SCOPE] };
+        commit('assignObject', 
+          {
+            key: 'msal',
+            value: await myMSALObj.acquireTokenSilent(tokenRequest)
+        });
+        return true;
+      } catch (e) {
+        //consume console.error('Login failed?', e);
+      }
+
+      return false;
     },
 
     async login({commit}) {
