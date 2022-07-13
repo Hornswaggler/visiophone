@@ -44,7 +44,8 @@ export default {
     },
 
     async getAll(){
-      const {data} = await secureGet(axios, {slug: '/sample'});
+      //TODO: Refactor uri management, the only required one is the api, should be auto injected
+      const {data} = await secureGet(axios, {slug: `${config.VUE_APP_API_SAMPLE_URI}`});
 
       //TODO: refactor to function that adds ids to stuff, this will be used extensively
 
