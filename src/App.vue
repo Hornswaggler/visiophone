@@ -10,7 +10,6 @@
 <script>
  import BaseLayout from '@/components/layout/BaseLayout.vue';
  import { axiosInit } from '@/axios.js';
- import {config} from '@/config.js';
 
 export default {
   name: 'App',
@@ -19,8 +18,15 @@ export default {
   },
 
   async mounted(){
-    await this.$store.dispatch('user/initialize');
-    const result = await axiosInit();
+    await axiosInit();
+    try{
+      // TODO Standardize / templatize route names "magic number" 
+      if(await this.$store.dispatch('user/initialize')) {
+        this.$router.push('/sample-search');
+      }
+    } catch(err){
+      //consume console.error('Error occurred in auth check', err);
+    }
   }
 }
 </script>
