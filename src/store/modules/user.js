@@ -30,7 +30,7 @@ export default {
     username: '',
     userIcon: 'Comp_boi_idle.gif',
     shelfCapacity: 75,
-    msal:{}
+    msal: {}
   }),
   actions:{
     async initialize({commit}) {
