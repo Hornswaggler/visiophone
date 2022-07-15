@@ -1,9 +1,10 @@
 <template>
-  <div 
+  <div
+    @click="onOverlayClicked"
     v-if="show" class="loading"
     :class="{ show: fade }"
   >
-    <div class="lds-facebook"><div></div><div></div><div></div></div>
+    <div v-if="loading" class="lds-facebook"><div></div><div></div><div></div></div>
   </div>
 </template>
 <script>
@@ -15,24 +16,35 @@ export default {
     show: false,
     fade:false
   }),
-  computed:{
-    ...mapState('app', ['isLoading'])
+  computed: {
+    ...mapState('app', [
+      'isLoading', 
+      'opacity', 
+      'loading',
+      'showOverlay',
+      'closeOverlayOnclick'
+    ]),
+    ...mapState('dropdown', ['onChanged'])
   },
   watch:{
-    isLoading(value){
+    showOverlay(value){
       if(value){
         this.show = true;
-          // This is a hack... :| :| :(
-          this.$nextTick(()=>{
-            setTimeout(()=>{
-              this.fade = true;
-            }, 0);
-          })
-
+        this.$nextTick(()=>{
+          setTimeout(()=>{
+            this.fade = true;
+          }, 0);
+        });
       } else {
         this.show = false;
         this.fade = false;
       }
+    },
+  },
+  methods: {
+    onOverlayClicked() {
+      this.onChanged({value: false});
+      if(this.closeOverlayOnclick) this.$store.dispatch('app/hideOverlay');
     }
   }
 }

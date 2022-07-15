@@ -46,7 +46,7 @@
           icon="fa-solid fa-gem"
           color="rgb(96, 239, 48)"
         >
-          <template v-slot:content>
+          <template v-slot:pre-content>
             <span style="padding-right:0.5em;">3</span>
           </template>
         </form-icon>

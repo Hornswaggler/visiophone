@@ -5,11 +5,12 @@
     fontSize: `${iconSize}`,
     color: `${color}`
   }">
-  <slot name="content"></slot>
+  <slot name="pre-content"></slot>
   <font-awesome-icon 
     class="form-icon" 
     :icon="icon" 
   />
+  <slot name="post-content"></slot>
 </div>
 </template>
 <script>

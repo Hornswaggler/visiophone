@@ -80,8 +80,8 @@ export default {
   opacity: 0.75;
   cursor:pointer;
   z-index:1;
-  height:6em;
-  width:6em;
+  height:12em;
+  width:12em;
 }
 
 .gradient-background {
