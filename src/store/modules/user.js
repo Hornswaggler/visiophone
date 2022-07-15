@@ -1,6 +1,15 @@
 import * as msal from '@azure/msal-browser';
 import {config} from '@/config.js';
 
+export const makeNewUser = () => ({
+  accountId: '',
+  authenticated: false,
+  username: '',
+  userIcon: 'Comp_boi_idle.gif',
+  shelfCapacity: 75,
+  msal: {}
+});
+
 const msalConfig = {
   auth: {
     clientId: config.VUE_APP_AUTH_CLIENT_ID,
@@ -24,14 +33,7 @@ const myMSALObj = new msal.PublicClientApplication(msalConfig);
 
 export default {
   namespaced: true,
-  state: () => ({
-    accountId: '',
-    authenticated: false,
-    username: '',
-    userIcon: 'Comp_boi_idle.gif',
-    shelfCapacity: 75,
-    msal: {}
-  }),
+  state: () => makeNewUser(),
   actions:{
     async initialize({commit}) {
       try {
@@ -40,10 +42,12 @@ export default {
         handleResponse(resp, commit);
 
         const tokenRequest = {account: myMSALObj.idToken, scopes: [config.VUE_APP_READ_SCOPE] };
+        const token = await myMSALObj.acquireTokenSilent(tokenRequest);
+
         commit('assignObject', 
           {
             key: 'msal',
-            value: await myMSALObj.acquireTokenSilent(tokenRequest)
+            value: token
         });
         return true;
       } catch (e) {
@@ -63,12 +67,11 @@ export default {
     },
 
     async logout({state:{accountId}}) {
-      const logoutRequest = {
-        account: myMSALObj.getAccountByHomeId(accountId)
-      };
-        
       try{
-        await myMSALObj.logoutPopup(logoutRequest);
+        await myMSALObj.logoutPopup({
+          account: myMSALObj.getAccountByHomeId(accountId)
+        });
+        return true;
       } catch(e){
         console.error(e);
         throw e;

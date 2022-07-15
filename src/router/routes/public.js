@@ -9,22 +9,6 @@ const routes = [
     name: 'landingPage',
     title: 'Visiophone',
     component: LandingPage
-  },
-  {
-    path: '/gamecube',
-    name: 'gamecube',
-    title:'???',
-    component: GameCube
-  },
-  {
-    path: '/console',
-    name: 'console',
-    component: Console
-  },
-  {
-    path: '/upload',
-    name: 'upload',
-    component: Upload
   }
 ];
 

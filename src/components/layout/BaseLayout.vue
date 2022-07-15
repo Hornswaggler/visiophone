@@ -1,17 +1,20 @@
 <template>
   <div style="height:100%;">
-    <Loading/>
+    <form-dropdown></form-dropdown>
+    <loading></loading>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 import Loading from '@/components/layout/Loading.vue';
+import FormDropdown from '../form/FormDropdown.vue';
 
 export default {
   name: 'BaseLayout',
   components: {
-    Loading
+    Loading,
+    FormDropdown
   }
 }
 </script>
@@ -104,7 +107,6 @@ export default {
   &:hover{
     transform: scale(1.25, 1.25);
   }
-  
 }
 
 .card {
@@ -113,8 +115,8 @@ export default {
 }
 
 .fancy{
-    background-blend-mode: hard-light;
-    animation: hue-rotate 30s linear infinite;
+  background-blend-mode: hard-light;
+  animation: hue-rotate 30s linear infinite;
 }
 
 @keyframes hue-rotate {

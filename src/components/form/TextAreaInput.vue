@@ -31,7 +31,7 @@ export default {
       type: String,
       default: ''
     },
-    changeHandler: {
+    onChanged: {
       type: Function,
       default: () => {}
     }
