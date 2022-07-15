@@ -62,7 +62,7 @@ export default {
   margin:0.5em 1em;
   background-color:transparent;
   cursor:pointer;
-  transition: all 0.5s ease-out;
+  transition: all 0.5s ease-in-out;
   border-radius: 10px;
 
   &:hover {

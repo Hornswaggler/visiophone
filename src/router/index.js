@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
 
   if (!isPublic && !authenticated) {
     return next({
-      path: '/gamecube',
+      path: '/landingPage',
       query: { redirect: to.fullPath }
     });
   }

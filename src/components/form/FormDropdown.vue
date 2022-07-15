@@ -9,11 +9,11 @@
   >
     <div class="flex flex-column form-dropdown-item-container" >
       <div
-        @click="onItemClicked"
         class="form-dropdown-item"
         v-for="each in menuItemsComputed" 
-        :key="each.id" 
-        :style="{width, transform}"
+        :key="each.id"
+        @click="((e) => onItemClicked(e, each))"
+        :style="{width, transform, opacity}"
       >
         <div class="form-dropdown-item-name"
           :style="{width:itemWidth}"
@@ -31,7 +31,7 @@ export default {
   name:'FormDropDown',
   data: () => ({
     showInternal: false,
-    opacityMax: 0.5,
+    opacityMax: 0.78,
     opacityMin: 0,
     animating:false,
     referenceName: REF_DROPDOWN,
@@ -52,7 +52,7 @@ export default {
       return `scale(${this.show?1:0})`;
     },
     zIndex(){
-      return this.show?'200': '-1';
+      return this.show|| (!this.show && this.animating)?'200': '-1';
     },
     opacity(){
       return `${(this.show?this.opacityMax:this.opacityMin)}`;
@@ -85,12 +85,10 @@ export default {
     onCssEvent(e){
       this.animating = false;
     },
-    async onItemClicked(e){
+    async onItemClicked(e, item){
       e.stopPropagation();
-      if(await this.$store.dispatch('user/logout')) {
-        
-        this.$router.push('landing-page');
-      }
+      item.handler(this);
+      this.onChanged(false);
     },
   }
 }
@@ -110,15 +108,17 @@ export default {
 
 .form-dropdown-item-container {
   width: 10em;
-    align-items: center;
+  align-items: center;
   .form-dropdown-item:nth-child(odd){
     background-color:rgb(158, 158, 158);
   }
 
   .form-dropdown-item {
+    border: solid 2px white;
+
     padding:0;
     overflow:hidden;
-    transition: width 0.25s, transform 0.25s;
+    transition: width 0.25s, color 0.2s, opacity 0.5s, transform 0.25s;
     opacity: 0.9;
     cursor:pointer;
     background-color:grey;
@@ -126,14 +126,14 @@ export default {
     display:flex;
     justify-content: center;
     align-items: center;
-    color:white;
+    color:black;
 
     &:hover{
       transform: scale(1.2);
       opacity: 1;
       z-index:1;
       background-color:rgb(189, 189, 189);
-      color:#65FE00;
+      color:white;
     }
 
     &>*{

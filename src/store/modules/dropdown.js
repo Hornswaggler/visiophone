@@ -15,12 +15,10 @@ export default {
       commit('setPrimitive',{key: 'clientY', value: clientY});
       commit('setPrimitive',{key: 'menuItems', value: menuItems});
       commit('assignObject', {key: 'onChanged', value: onChanged});
-      // commit('setPrimitive',{key: 'show', value: true});
-      // commit('setPrimitive',{key: 'itemWidth', value: itemWidth});
+      commit('setPrimitive',{key: 'itemWidth', value: itemWidth});
 
     },
     hideDropdown({commit}){
-      console.log('hiding dropdown');
       commit('setPrimitive',{key: 'show', value: false});
     }
   },

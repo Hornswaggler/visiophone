@@ -26,8 +26,8 @@ export default {
     }
   },
   mutations:{
-    isLoading(state, isLoading){
-      state.isLoading = isLoading;
+    isLoading(state, loading){
+      state.loading = loading;
     },
     setLoading(state, loading){
       state.loading = loading;

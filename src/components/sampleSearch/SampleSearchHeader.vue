@@ -45,9 +45,12 @@ export default {
     menuItems: {
       logout:{
         displayName: 'Log Out',
-        handler: context => {
-          // TODO Handler logic should be here, not in the drop down
-          console.log(context, this);
+        handler: async ({$store, $router}) => {
+          await $store.dispatch('app/hideOverlay');
+          await $store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
+          if (await $store.dispatch('user/logout')) {
+            $router.push('landingPage');
+          }
         }
       }
     },
@@ -68,7 +71,7 @@ export default {
     // TODO: refactor this nonsense into the part and make it more elegant... :|
     //Initialize the menu
     await this.onUserMenuClicked({clientX: 0, clientY: 0});
-    await this.onFormDropdownChanged({value:'YES PLEASE'});
+    await this.onFormDropdownChanged(true);
     await this.$store.dispatch('app/hideOverlay');
   },
   methods: {
@@ -87,8 +90,9 @@ export default {
 
       this.$store.dispatch('app/showOverlay', {showLoading: false, opacity: '0.9'});
     },
-    onFormDropdownChanged({value}) {
-      return this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
+    async onFormDropdownChanged(value) {
+      await this.$store.dispatch('app/hideOverlay');
+      await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
     }
   }
 }
