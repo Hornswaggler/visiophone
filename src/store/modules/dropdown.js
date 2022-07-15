@@ -10,7 +10,6 @@ export default {
   }),
   actions:{
     showDropdown({commit},{clientX, clientY, menuItems, itemWidth, onChanged}) {
-      console.log('showing the dropdown');
       commit('setPrimitive',{key: 'clientX', value: clientX});
       commit('setPrimitive',{key: 'clientY', value: clientY});
       commit('setPrimitive',{key: 'menuItems', value: menuItems});
@@ -24,7 +23,6 @@ export default {
   },
   mutations:{
     setItemWidth(state, itemWidth){
-      console.log('setting item width;');
       state.show = true;
       state.itemWidth = itemWidth;
     }
