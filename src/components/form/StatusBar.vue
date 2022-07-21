@@ -1,6 +1,6 @@
 <template>
 <div>
-<FormInput>
+<form-input-base>
   <template v-slot:info>
     <div>{{info}}</div>
   </template>
@@ -12,15 +12,15 @@
       ></div>
     </div>  
   </template>
-</FormInput>
+</form-input-base>
 </div>
 </template>
 <script>
-import FormInput from '@/components/form/FormInput';
+import FormInputBase from '@/components/form/FormInputBase';
 
 export default {
   name: 'StatusBar',
-  components:{ FormInput },
+  components:{ FormInputBase },
   props: {
     percentComplete: {
       type: Number,

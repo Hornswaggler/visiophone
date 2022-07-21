@@ -20,6 +20,5 @@ export default {
 .centered-responsive-layout {
   display:flex;
   height:100vh;
-  background-color:rgb(17, 17, 17);
 }
 </style>

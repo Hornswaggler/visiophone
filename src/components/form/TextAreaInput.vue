@@ -1,5 +1,5 @@
 <template>
-  <FormInput>
+  <form-input-base>
     <template v-slot:title>{{title}}</template>
     <template v-slot:input style="height:initial;">
       <div class="vp-text-area-input">
@@ -11,14 +11,14 @@
       ></textarea>
       </div>
     </template>
-  </FormInput>
+  </form-input-base>
 </template>
 
 <script>
-import FormInput from './FormInput.vue';
+import FormInputBase from './FormInputBase.vue';
 export default {
   name: "TextAreaInput",
-  components: { FormInput },
+  components: { FormInputBase },
   data: () => ({
     internalValue:''
   }),

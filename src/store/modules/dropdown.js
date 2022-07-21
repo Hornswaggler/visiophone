@@ -6,22 +6,23 @@ export default {
     clientX:'0',
     clientY: '0',
     onChanged: () => {},
-    menuItems: () => ({})
+    menuItems: {}
   }),
+
   actions:{
     showDropdown({commit},{clientX, clientY, menuItems, itemWidth, onChanged}) {
       commit('setPrimitive',{key: 'clientX', value: clientX});
       commit('setPrimitive',{key: 'clientY', value: clientY});
-      commit('setPrimitive',{key: 'menuItems', value: menuItems});
+      commit('assignObject',{key: 'menuItems', value: menuItems});
       commit('assignObject', {key: 'onChanged', value: onChanged});
       commit('setPrimitive',{key: 'itemWidth', value: itemWidth});
-
     },
-    hideDropdown({commit}){
+
+    hideDropdown({commit}) {
       commit('setPrimitive',{key: 'show', value: false});
     }
   },
-  mutations:{
+  mutations: {
     setItemWidth(state, itemWidth){
       state.show = true;
       state.itemWidth = itemWidth;

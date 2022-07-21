@@ -1,5 +1,5 @@
 <template>
-  <FormInput>
+  <form-input-base>
     <template 
       v-slot:title>
       {{title}}
@@ -15,10 +15,10 @@
         </option>
       </select>
     </template>
-  </FormInput>
+  </form-input-base>
 </template>
 <script>
-import FormInput from '@/components/form/FormInput';
+import FormInputBase from '@/components/form/FormInputBase';
 
 const TAG_TYPES = [
   {name: 'InfluencerCore'}
@@ -26,7 +26,7 @@ const TAG_TYPES = [
 
 export default {
   name: 'FormSelect',
-  components: { FormInput },
+  components: { FormInputBase },
   data: () => ({
     tagTypes: TAG_TYPES,
     internalValue: ''
@@ -68,7 +68,6 @@ export default {
   width: 100%;
   font-size: 1.25em;
   background-color:#333333;
-  border: solid 1px white;
   color:white;
   cursor:pointer;
 

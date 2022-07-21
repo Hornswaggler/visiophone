@@ -5,7 +5,7 @@ const overlayOptionDefaults = () => ({
 
 export default {
   namespaced: true,
-  // TODO: Needs some refactoring still
+  
   state: () => ({
     isLoading: false,
     loading: false,
@@ -13,18 +13,20 @@ export default {
     closeOverlayOnclick: true,
     opacity: '0',
   }),
-  actions:{
-    showOverlay({commit}, {showLoading, opacity} = overlayOptionDefaults()){
+  actions: {
+    showOverlay({commit}, {showLoading, opacity} = overlayOptionDefaults()) {
       commit('setLoading', showLoading);
       commit('setOpacity', opacity);
       commit('setShowOverlay', true);
     },
-    hideOverlay({commit}){
+
+    hideOverlay({commit}) {
       commit('setLoading', false);
       commit('setOpacity', false);
       commit('setShowOverlay', false);
     }
   },
+
   mutations:{
     isLoading(state, loading){
       state.loading = loading;
@@ -38,6 +40,5 @@ export default {
     setShowOverlay(state, showOverlay){
       state.showOverlay = showOverlay;
     }
-    
   }
 }

@@ -13,13 +13,15 @@ export default {
 </script>
 
 <style lang="scss">
+
 .scrollbar
 {
+  margin-top:1em;
   flex:1;
   width:100%;
   display:flex;
   flex-direction: column;
-  background-color:rgb(33, 35, 35);
+  background-color: rgba(33, 35, 35, 0.9);
   overflow-y:auto;
 
   &::-webkit-scrollbar-track
