@@ -1,6 +1,7 @@
 import SampleSearch from '@/components/sampleSearch/SampleSearch.vue';
 import Console from '@/components/console/Console.vue';
 import Upload from '@/components/upload/Upload.vue';
+import Game from '@/components/game/Game.vue';
 
 const routes = [
   {

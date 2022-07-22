@@ -1,5 +1,7 @@
 <template>
   <div class="form-card">
+    <div class='top-plane'></div>
+    <div class='bottom-plane'></div>
     <slot name="content"></slot>
   </div>
 </template>
@@ -11,12 +13,14 @@ export default {
 </script>
 
 <style lang="scss">
+
 .form-card {
   margin-left:1em;
   background-color:black;
   display:flex;
-  border-radius: 16px;
+  border-radius: 8px;
   flex:1;
   overflow-x:hidden;
 }
+
 </style>

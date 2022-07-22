@@ -59,7 +59,7 @@ export default {
 }
 
 .side-navigation-container {
-  background-color:rgb(33, 35, 35);
+  background-color: rgba(33, 35, 35, 0.9);
   margin: 0 1em;
   width:100%;
   color: rgb(161, 161, 162);

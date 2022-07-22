@@ -85,6 +85,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .sample-card-classification {
   height: 2em;
   display: flex;
@@ -153,4 +154,5 @@ export default {
 .vp-icon {
   height: 2em;
 }
+
 </style>

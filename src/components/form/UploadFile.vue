@@ -1,5 +1,5 @@
 <template>
-  <FormInput>
+  <form-input-base>
     <template v-slot:info>
       we accept .wav .mid
     </template>
@@ -15,11 +15,11 @@
       <input type="file" class="hidden" accept="audio/*"  @change="prepareUpload"  ref="file"/>
 
     </template>
-  </FormInput>
+  </form-input-base>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import FormInput from '@/components/form/FormInput';
+import FormInputBase from '@/components/form/FormInputBase';
 import axios from 'axios';
 
 export default {
@@ -27,7 +27,7 @@ export default {
   computed:{
     ...mapGetters('sample',['fileName']),
   },
-  components: { FormInput },
+  components: { FormInputBase },
   props: {
     buttonText: {
       type: String,

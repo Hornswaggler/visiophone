@@ -1,51 +1,115 @@
 <template>
-<div class="vp-input">
-  <div class="vp-input-info">
-    <div class="flex-1">&nbsp;</div>
-    <div class="flex-2">
-      <slot name="info"></slot>
-    </div>
-  </div>
-  <div class="vp-input-contaier">
-    <div class="vp-input-title">
-      <slot name="title"></slot>
-    </div>
-    <div class="vp-input-body">
-      <slot name="input"></slot>
-    </div>
-  </div>
-</div>
+  <form-input-base class="input-container">
+    <template
+      v-slot:title
+    >{{title}}</template>
+
+    <template v-slot:input style="height:initial;">
+      <input
+        style="border:none;width:100%;"
+        class="form-input-body"
+        @focus="internalShowPlaceholder = false"
+        @blur="internalShowPlaceholder = true"
+        v-model="internalValue"
+      />
+      <div
+        class="search-input-icon-underlay toggle-show"
+        :class="{ hide: !showPlaceholder }"
+      >
+        <form-icon
+          iconSize="1.25em"
+          icon="fa-solid fa-magnifying-glass">
+          <template v-slot:post-content>
+            <div>&nbsp;Search</div>
+          </template>
+        </form-icon>
+      </div>
+    </template>
+  </form-input-base>
 </template>
 
 <script>
+import FormInputBase from './FormInputBase.vue';
+import FormIcon from './FormIcon.vue';
+
 export default {
-  name: 'FormInput'
+  name:'FormInput',
+  components:{FormInputBase,FormIcon},
+  data: () => ({
+    internalValue:'This is some text',
+    internalShowPlaceholder: true,
+  }),
+  props:{
+    title: {
+      type: String,
+      default: ''
+    },
+    initialValue:{
+      type: String,
+      default: ''
+    }
+  },
+  computed:{
+    showPlaceholder(){
+      return this.internalShowPlaceholder && this.internalValue.length === 0;
+    }
+  },
+  mounted(){
+    this.internalValue = this.initialValue;
+  }
 }
 </script>
 
 <style lang="scss">
-.vp-input-info {
-  width:100%;
-  display:flex;
+
+.toggle-show {
+  opacity: 0.5;
+  transition: opacity 0.5s;
+  &.hide {
+    opacity:0;
+  }
 }
 
-.vp-input-contaier {
+.search-input-icon-underlay{
+  font-family: 'VCR_OSD_MONO';
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
   display:flex;
-  width:100%;
-}
-
-.vp-input-title {
-  flex:1;
-  display:flex;
-  padding-right: 1em;
   align-items: center;
-  justify-content:flex-end;
-  width:100%;
+  
+  z-index: -1;
 }
 
-.vp-input-body {
-  flex:2;
+.input-container {
+  width:100%;
   display:flex;
-  flex-direction:column;
 }
+
+.form-input-body {
+  color:rgb(96, 239, 48);
+  z-index:2;
+  flex:1;
+  background-color:transparent;
+  // border:solid grey;
+  // border-radius: 4px;
+  font-size: 2em;
+  min-width: 0;
+  font-family: 'VCR_OSD_MONO';
+  // padding: 0 0.2em;
+  transition: all 0.5s;
+
+  &:focus {
+    border:solid white;
+    // border-radius: 6px;
+  }
+
+  &::selection {
+    background: rgb(96, 239, 48);
+    color:black;
+  }
+}
+
 </style>

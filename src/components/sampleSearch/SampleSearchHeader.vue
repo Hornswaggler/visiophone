@@ -35,6 +35,7 @@
 <script>
 import {mapState} from 'vuex';
 import FormIcon from '../form/FormIcon.vue';
+import FormInput from '../form/FormInput.vue';
 
 export default {
   name:'SampleSearchHeader',
@@ -91,7 +92,6 @@ export default {
       this.$store.dispatch('app/showOverlay', {showLoading: false, opacity: '0.9'});
     },
     async onFormDropdownChanged(value) {
-      await this.$store.dispatch('app/hideOverlay');
       await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
     }
   }
@@ -106,22 +106,12 @@ export default {
 }
 
 .user-button {
-  flex:1;
   height:100%;
   display:flex;
   justify-content: flex-end;
   align-items: center;
 }
 
-.search-input-icon-underlay{
-  font-family: 'VCR_OSD_MONO';
-  position:absolute;
-  height:100%;
-  width:100%;
-  display:flex;
-  align-items: center;
-  margin-left:1em;
-}
 
 .search-input-container {
   position:relative;
@@ -154,11 +144,4 @@ export default {
   }
 }
 
-.toggle-show {
-  opacity: 0.5;
-  transition: opacity 0.5s;
-  &.hide {
-    opacity:0;
-  }
-}
 </style>

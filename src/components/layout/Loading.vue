@@ -16,6 +16,7 @@ export default {
     show: false,
     fade:false
   }),
+  
   computed: {
     ...mapState('app', [
       'isLoading', 
@@ -26,6 +27,7 @@ export default {
     ]),
     ...mapState('dropdown', ['onChanged'])
   },
+
   watch:{
     showOverlay(value){
       if(value){
@@ -41,6 +43,7 @@ export default {
       }
     },
   },
+
   methods: {
     onOverlayClicked() {
       this.onChanged({value: false});

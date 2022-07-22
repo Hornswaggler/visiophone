@@ -13,10 +13,10 @@
         v-for="each in menuItemsComputed" 
         :key="each.id"
         @click="((e) => onItemClicked(e, each))"
-        :style="{width, transform, opacity}"
+        :style="{width: itemWidth, transform, opacity}"
       >
         <div class="form-dropdown-item-name"
-          :style="{width:itemWidth}"
+          :style="{width: itemWidth}"
         >Log Out</div>
       </div>
     </div>
@@ -37,23 +37,17 @@ export default {
     referenceName: REF_DROPDOWN,
     width: initialWidth,
   }),
-  watch:{
-    show(show) {
-      this.$nextTick(() => {
-        this.animating = true;
-        this.showInternal=show;
-        this.width=show ? this.itemWidth : initialWidth;
-      })
-    }
-  },
   computed: {
     ...mapState('dropdown', ['show', 'itemWidth', 'clientX', 'clientY', 'onChanged', 'menuItems']),
+
     transform(){
       return `scale(${this.show?1:0})`;
     },
+
     zIndex(){
-      return this.show|| (!this.show && this.animating)?'200': '-1';
+      return this.show|| (!this.show && this.animating) ? '200' : '-1';
     },
+
     opacity(){
       return `${(this.show?this.opacityMax:this.opacityMin)}`;
     },
@@ -85,7 +79,7 @@ export default {
     onCssEvent(e){
       this.animating = false;
     },
-    async onItemClicked(e, item){
+    async onItemClicked(e, item) {
       e.stopPropagation();
       item.handler(this);
       this.onChanged(false);

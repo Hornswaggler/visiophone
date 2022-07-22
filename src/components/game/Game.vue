@@ -1,6 +1,6 @@
 <template>
 <div style="height: 100vh;width: 100vw;display: flex;flex-direction: column;">
-   <div>
+  <div>
     <Header/>
     <Navigation/>
     off:{{offSetX}}, {{offSetY}} &nbsp;clientHeight: {{clientHeight}} clientWidth: {{clientWidth}} P1pos {{playerOnePosition}} camera offset {{cameraOffsetX}}, {{cameraOffsetY}}
@@ -9,7 +9,7 @@
   <div  class="flex" style="height:100%;align-items:center;position:relative;">
 
     <div style="height:100%;display:flex;margin-top:11em;margin-right:2em;justify-content:flex-end;">
-      <div style="height:10em;width:8em;border: solid #65FE00 4px; border-radius:12px;display:flex;padding:1em;">
+      <div style="height:10em;width:8em;border: solid #65FE00 4px; border-radius:12px;display:flex;">
         <div>HP: {{playerOne.hp}}</div>
       </div>
     </div>
