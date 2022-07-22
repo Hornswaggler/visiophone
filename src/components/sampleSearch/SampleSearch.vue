@@ -10,39 +10,37 @@
         margin-right:1em;
         border:solid 2px grey;"
       >
-        <div style="display:flex;justify-content: flex-end;align-items: center;height: 100%;padding:1em;">
-          <div style="flex:1;display:flex;justify-content: flex-start;position:relative;">
-            <form-input style="border:none;"
-            ></form-input>
-          </div>
+        <div style="display:flex;justify-content: flex-end;align-items: center;height: 100%;">
+          <form-input style="border:none;position:relative;"
+          ></form-input>
           
-          <div>
-            <div class="sort-icon" style="padding-right:0.5em;display:flex;">
+          <div style="display:flex;justify-content: flex-end;margin: 0 1em" class="fill">
+            <div class="sort-icon" style="display:flex;">
               <font-awesome-icon icon="fas fa-grip-lines" style="margin-bottom:-0.5em;" />
               <font-awesome-icon icon="fas fa-grip-lines"/>
             </div>
-          </div>
-          
-          <div>
+ 
             <div class="sort-icon" style="">
               <font-awesome-icon icon="fas fa-grip" style="margin-bottom:-0.666em;" />
               <font-awesome-icon icon="fas fa-grip" />
             </div>
-          </div>
+  
+            <div class="sort-icon" style="">
+              <font-awesome-icon icon="fas fa-square-plus" />
+            </div>
 
-          <div class="user-button" style="padding:0;padding-left:1.7em;">
-            <div
-              @click="onUserMenuClicked"
-              class="circle user-icon"
-              style="
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: center center;"
-              :style="{backgroundImage: 'url(\'' + require('@/assets/FB_IMG_1566951363267.jpg') + '\')'}"
-            ></div>
+            <div class="user-button" style="padding:0;">
+              <div
+                @click="onUserMenuClicked"
+                class="circle user-icon"
+                style="
+                  background-size: cover;
+                  background-repeat: no-repeat;
+                  background-position: center center;"
+                :style="{backgroundImage: 'url(\'' + require('@/assets/FB_IMG_1566951363267.jpg') + '\')'}"
+              ></div>
+            </div>
           </div>
-
-        
         </div>
         <div
           style="
@@ -136,15 +134,14 @@ export default {
 }
 </script>
 <style lang="scss">
-
 $nodeStreak: #a2cef4;
 $computationalFogTop: #6084d7;
 $computationalFogBot: #6084d7;
 $visualDistortionZapper: 360px;
 $nanoVelocity: 2s;
 
-
 .sort-icon {
+  padding-right:0.5em;
   font-size:1.5em;
   justify-content: center;
   align-content: center;
@@ -193,6 +190,5 @@ $nanoVelocity: 2s;
   &.selected {
     background-color:rgb(17, 17, 17);
   }
-
 }
 </style>
