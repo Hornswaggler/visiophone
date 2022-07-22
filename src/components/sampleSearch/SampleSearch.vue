@@ -9,12 +9,12 @@
         border-radius:6px;
         margin-right:1em;
         border:solid 2px grey;"
-      >
-        <div style="display:flex;justify-content: flex-end;align-items: center;height: 100%;">
+        >
+        <div style="display:flex;justify-content: flex-end;align-items: center;height: 100%;padding: 0 1em;">
           <form-input style="border:none;position:relative;"
           ></form-input>
           
-          <div style="display:flex;justify-content: flex-end;margin: 0 1em" class="fill">
+          <div style="display:flex;justify-content: flex-end;" class="fill">
             <div class="sort-icon" style="display:flex;">
               <font-awesome-icon icon="fas fa-grip-lines" style="margin-bottom:-0.5em;" />
               <font-awesome-icon icon="fas fa-grip-lines"/>
