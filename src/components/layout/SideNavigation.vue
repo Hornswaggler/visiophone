@@ -1,21 +1,23 @@
 <template>
-<div class="side-navigation-container">
-   <!-- TODO: Logo Path Should be configurable -->
-  <div 
-    class="site-logo" 
-    :style="{backgroundImage: 'url(\'' + require('@/assets/glitchy.gif') + '\')'}"
-  ></div>
-  <div class="user-name-container">
-    {{userName}}
+  <div class="side-navigation-container">
+    <!-- TODO: Logo Path Should be configurable -->
+    <div 
+      class="site-logo" 
+      :style="{backgroundImage: 'url(\'' + require('@/assets/glitchy.gif') + '\')'}"
+    />
+    <div class="user-name-container">
+      {{ userName }}
+    </div>
+    <div
+      v-for="option in menuOptions" 
+      :key="option.id"
+      class="navigation-button"
+      :class="{selected: selectedMenuOption == option._id}"
+      @click="selectedMenuOption = option._id"
+    >
+      {{ option.name }}
+    </div>
   </div>
-  <div
-    v-for="option in menuOptions" 
-    :key="option.id"
-    @click="selectedMenuOption = option._id"
-    class="navigation-button"
-    :class="{selected: selectedMenuOption == option._id}"
-  >{{option.name}}</div>
-</div>
 </template>
 <script>
 import {mapGetters} from 'vuex';

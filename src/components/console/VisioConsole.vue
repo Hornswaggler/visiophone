@@ -1,40 +1,51 @@
 <template>
   <div style="height:100%;width:100%;display:flex;background-color:grey;">
     <div style="flex:1;background-color:black;margin:2em;display:flex;flex-direction:column;justify-content:flex-end;padding:1em;">
+      <div style="flex:1;text-align:left;">
+        <div>Hello {{ userName }}</div>
 
-      <div  style="flex:1;text-align:left;">
-      
-        <div>Hello {{userName}}</div>
-
-        <div class="choices" v-if="authenticated">
+        <div
+          v-if="authenticated"
+          class="choices"
+        >
           <span 
             class="button"
             @click="navTradeSamples"
-          >&nbsp;&lt;&quot;Trade Samples&quot;&gt;</span><br/>
-          <span class="button">&nbsp;&lt;&quot;Buy Tokens&quot;&gt;</span><br/>
-          <span class="button">&nbsp;&lt;&quot;Sell Tokens&quot;&gt;</span><br/>
-          <span @click="onLogout" class="button">&nbsp;&lt;&quot;Logout&quot;&gt;</span><br/>
+          >&nbsp;&lt;&quot;Trade Samples&quot;&gt;</span><br>
+          <span class="button">&nbsp;&lt;&quot;Buy Tokens&quot;&gt;</span><br>
+          <span class="button">&nbsp;&lt;&quot;Sell Tokens&quot;&gt;</span><br>
+          <span
+            class="button"
+            @click="onLogout"
+          >&nbsp;&lt;&quot;Logout&quot;&gt;</span><br>
         </div>
 
-        <div class="choices" v-else>
-          <span class="button" @click="onLogin">&nbsp;&lt;&quot;Login&quot;&gt;</span><br/>
-          <span>&nbsp;&lt;&quot;Sign Up&quot;&gt;</span><br/>
+        <div
+          v-else
+          class="choices"
+        >
+          <span
+            class="button"
+            @click="onLogin"
+          >&nbsp;&lt;&quot;Login&quot;&gt;</span><br>
+          <span>&nbsp;&lt;&quot;Sign Up&quot;&gt;</span><br>
         </div>
 
-        <br/>
+        <br>
       </div>
 
       <div style="height:25px;width:100%;display:flex;">
         <img 
           style="height:25px;width:25px;"
           :src="require(`@/assets/visiolad_walking_with_torch.gif`)
-        "/>
+          "
+        >
         <input 
           v-model="consoleInput"
           class="consoleInput"
           type="text"
           style="color: #66FF00;border-top:solid 1px #66FF00;background-color:black;border:0;margin-left:0.25em;"
-        />
+        >
       </div>
     </div>
   </div>

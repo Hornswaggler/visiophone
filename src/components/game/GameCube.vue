@@ -1,76 +1,191 @@
 <template>
-<div @click="clickMe" style="height:100vh;width:100vw;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;">
-  <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
-    </div>
-  </div>
+  <div
+    style="height:100vh;width:100vw;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;"
+    @click="clickMe"
+  >
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
-  </div>  <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+    <div class="scene fancy">
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
+    </div>  <div class="scene fancy">
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
-  </div>
 
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
-  </div>
     <div class="scene fancy">
-    <div class="cube fancy-cube">
-      <canvas v-for="(cubeKey, i) in cubeKeys" class="cube__face" :class="cube[cubeKey].class" :key="cubeKey" :ref="`canvas${i}`" :height="tilesize*height" :width="tilesize*width"></canvas>
+      <div class="cube fancy-cube">
+        <canvas
+          v-for="(cubeKey, i) in cubeKeys"
+          :key="cubeKey"
+          :ref="`canvas${i}`"
+          class="cube__face"
+          :class="cube[cubeKey].class"
+          :height="tilesize*height"
+          :width="tilesize*width"
+        />
+      </div>
     </div>
   </div>
-</div>
 </template>
 <script>
 import {Map} from 'rot-js';

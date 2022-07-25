@@ -1,10 +1,16 @@
 <template>
   <div
-    @click="onOverlayClicked"
-    v-if="show" class="loading"
+    v-if="show"
+    class="loading"
     :class="{ show: fade }"
+    @click="onOverlayClicked"
   >
-    <div v-if="loading" class="lds-facebook"><div></div><div></div><div></div></div>
+    <div
+      v-if="loading"
+      class="lds-facebook"
+    >
+      <div /><div /><div />
+    </div>
   </div>
 </template>
 <script>

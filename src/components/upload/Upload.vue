@@ -1,71 +1,85 @@
 <template>
-<div style="color:#66FF00;">
-  <div class="css-selector">
-    <Header></Header>
-  </div>
-  <div 
-    class="css-selector"
-    style="width:100%;
+  <div style="color:#66FF00;">
+    <div class="css-selector">
+      <Header />
+    </div>
+    <div 
+      class="css-selector"
+      style="width:100%;
     display:flex;
     flex-direction:column;
     overflow-y:auto;
     height: calc(100vh - 172px)"
-  >
-    <!-- TODO: Container Class -->
-    <div style="
+    >
+      <!-- TODO: Container Class -->
+      <div
+        style="
       height:100%;
       width:100%;
       display:flex;
       flex-direction:column;
       background-color:grey;"
-    >
-      <div class="vp-form-row">
-        <StatusBar style="flex:3"
-          :percentComplete="shelfCapacity"
-          :info="'shelf upload limit'"
-        ></StatusBar>
-        <div class="flex-1"></div>
-      </div>
-
-      <div class="vp-form-row">
-        <UploadFile
-          buttonText="Upload"
-          class="flex-3"
-        ></UploadFile>
-        <div class="flex-1"></div>
-      </div>
-
-      <div class="vp-form-row">
-        <FormSelect 
-          title="tag"
-          :value="tag"
-          class="flex-3"
-        ></FormSelect>
-        <div class="flex-1"></div>
-      </div>
-
-      <div class="vp-form-row">
-        <TextAreaInput
-          :changeHandler="(description) => this.description = description"
-          :value="description"
-          class="flex-3"
-          title="description"
-        ></TextAreaInput>
-        <div class="flex-1"></div>
-      </div>
-
-      <div class="vp-form-row pt1">
-        <div class="flex-3 flex justify-end">
-          <button @click="goBack" class="vp-button" type="button">Cancel</button>
-          <button @click="handleSubmitForm" class="vp-button ml1" type="button">Upload</button>
+      >
+        <div class="vp-form-row">
+          <StatusBar
+            style="flex:3"
+            :percent-complete="shelfCapacity"
+            :info="'shelf upload limit'"
+          />
+          <div class="flex-1" />
         </div>
-        <div class="flex-1"></div>
-      </div>
 
-      <div class="flex-1"></div>
+        <div class="vp-form-row">
+          <UploadFile
+            button-text="Upload"
+            class="flex-3"
+          />
+          <div class="flex-1" />
+        </div>
+
+        <div class="vp-form-row">
+          <FormSelect 
+            title="tag"
+            :value="tag"
+            class="flex-3"
+          />
+          <div class="flex-1" />
+        </div>
+
+        <div class="vp-form-row">
+          <TextAreaInput
+            :change-handler="onTextAreaInputChanged"
+            :value="description"
+            class="flex-3"
+            title="description"
+          />
+          <div class="flex-1" />
+        </div>
+
+        <div class="vp-form-row pt1">
+          <div class="flex-3 flex justify-end">
+            <button
+              class="vp-button"
+              type="button"
+              @click="goBack"
+            >
+              Cancel
+            </button>
+            <button
+              class="vp-button ml1"
+              type="button"
+              @click="handleSubmitForm"
+            >
+              Upload
+            </button>
+          </div>
+          <div class="flex-1" />
+        </div>
+
+        <div class="flex-1" />
+      </div>
     </div>
   </div>
-</div>
 </template>
 <script>
 import Header from '@/components/layout/Header.vue';
@@ -121,6 +135,9 @@ export default {
     },
     goBack() {
       this.$router.push('/console');
+    },
+    onTextAreaInputChanged(description){
+      this.description = description;
     }
   }
 }

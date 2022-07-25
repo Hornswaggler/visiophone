@@ -1,65 +1,68 @@
 <template>
-<div class="sample-card flex fill">
-  <form-image
-    :url="`${sample.imgUrl}`"
-  ></form-image>
+  <div class="sample-card flex fill">
+    <form-image
+      :url="`${sample.imgUrl}`"
+    />
 
-  <form-card>
-    <template v-slot:content>
-
-      <form-icon
-        class="flex align-center pl1 pr1" 
-        icon="fas fa-play"
-      ></form-icon>
-
-      <div class="sample-card-body">
-
-        <div class='sample-card-classification'>
-          <div class="sample-card-seller">{{sample.seller}}</div>
-          <div 
-            v-for="{id,name} in sample.categories"
-            :key="id"
-            class="ml1"
-          >{{name}}</div>
-        </div>
-
-        <div class="sample-card-description-container">
-          <div 
-            class="sample-card-description"
-          >{{sample.description}}</div>
-        </div>
-
-        <div class="sample-card-tag-container">
-          <span
-            v-for="{id, name} in sample.tags"
-            :key="id"
-            class="sample-card-tag"
-          >#{{name}}</span>
-        </div>
-
-      </div>
-
-      <div class="ml1 justify-space-between cost-container">
+    <form-card>
+      <template v-slot:content>
         <form-icon
-          iconSize="1em"
-          class="vp-icon flex justify-center align-center"
-          icon="fa-solid fa-gem"
-          color="rgb(96, 239, 48)"
-        >
-          <template v-slot:pre-content>
-            <span style="padding-right:0.5em;">3</span>
-          </template>
-        </form-icon>
+          class="flex align-center pl1 pr1" 
+          icon="fas fa-play"
+        />
 
-        <form-icon
-          iconSize="1em"
-          class="vp-icon flex justify-end align-end pb1"
-          icon="fa-solid fa-file-arrow-down"
-        ></form-icon>
-      </div>
-    </template>
-  </form-card>
-</div>
+        <div class="sample-card-body">
+          <div class="sample-card-classification">
+            <div class="sample-card-seller">
+              {{ sample.seller }}
+            </div>
+            <div 
+              v-for="{id,name} in sample.categories"
+              :key="id"
+              class="ml1"
+            >
+              {{ name }}
+            </div>
+          </div>
+
+          <div class="sample-card-description-container">
+            <div 
+              class="sample-card-description"
+            >
+              {{ sample.description }}
+            </div>
+          </div>
+
+          <div class="sample-card-tag-container">
+            <span
+              v-for="{id, name} in sample.tags"
+              :key="id"
+              class="sample-card-tag"
+            >#{{ name }}</span>
+          </div>
+        </div>
+
+        <div class="ml1 justify-space-between cost-container">
+          <form-icon
+            icon-size="1em"
+            class="vp-icon flex justify-center align-center"
+            icon="fa-solid fa-gem"
+            color="rgb(96, 239, 48)"
+          >
+            <template v-slot:pre-content>
+              <span style="padding-right:0.5em;">3</span>
+            </template>
+          </form-icon>
+
+          <form-icon
+            icon-size="1em"
+            class="vp-icon flex justify-end align-end pb1"
+            icon="fa-solid fa-file-arrow-down"
+          />
+        </div>
+      </template>
+    </form-card>
+  </div>
 </template>
 
 <script>

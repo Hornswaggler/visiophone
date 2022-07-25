@@ -1,6 +1,14 @@
 <template>
-  <movable :style={zIndex} @start="onStart" posTop="100" posLeft="200" style="justify-content:center;align-items:flex-start;height:25em;width:25em; border-radius: 75px;display:flex;color:white;" class="bubble">
-    <div style="position:relative;padding-top:1.75em;z-index:2;width:100%;height:100%;"
+  <movable
+    :style="{zIndex}"
+    pos-top="100"
+    pos-left="200"
+    style="justify-content:center;align-items:flex-start;height:25em;width:25em; border-radius: 75px;display:flex;color:white;"
+    class="bubble"
+    @start="onStart"
+  >
+    <div
+      style="position:relative;padding-top:1.75em;z-index:2;width:100%;height:100%;"
     >
       <visio-man>
         <div style="position:absolute;padding-left:33%;display:flex;justify-content:center">
@@ -12,8 +20,7 @@
         </div>
       </visio-man>
 
-      <div style="margin-top:50px;flex:1;padding-top: 10px;"></div>
-      
+      <div style="margin-top:50px;flex:1;padding-top: 10px;" />
     </div>
   </movable>
 </template>
@@ -25,15 +32,6 @@ export default {
   name:"Draggable",
   components:{
     VisioMan
-  },
-  computed: {
-    ...mapState('draggable', ['draggableMap']),
-    zIndex(){
-      return this.draggableMap[this.uuid] && this.draggableMap[this.uuid].zIndex;
-    }
-  },
-  async mounted() {
-    this.uuid = await this['draggable/registerDraggable']();
   },
   data: () => ({
     uuid: '',
@@ -67,6 +65,15 @@ export default {
       }
     }
   }),
+  async mounted() {
+    this.uuid = await this['draggable/registerDraggable']();
+  },
+  computed: {
+    ...mapState('draggable', ['draggableMap']),
+    zIndex(){
+      return this.draggableMap[this.uuid] && this.draggableMap[this.uuid].zIndex;
+    }
+  },
   methods: {
     ...mapActions(['draggable/registerDraggable', 'draggable/onDraggableSelected']),
     onStart({x,y}) {

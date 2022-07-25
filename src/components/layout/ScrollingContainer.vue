@@ -1,9 +1,9 @@
 <template>
-<div class="scrollbar">
-  <div class="flex flex-column justify-start">
-    <slot name="scrolling-content"></slot>
+  <div class="scrollbar">
+    <div class="flex flex-column justify-start">
+      <slot name="scrolling-content" />
+    </div>
   </div>
-</div>
 </template>
 
 <script>

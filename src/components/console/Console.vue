@@ -1,7 +1,6 @@
 <template>
- <div style="color:#66FF00;">
-
-  <div class="css-selector">
+  <div style="color:#66FF00;">
+    <div class="css-selector">
       <Header />
     </div>
     <div 
@@ -10,8 +9,7 @@
     >
       <VisioConsole />
     </div>
-  
-</div>
+  </div>
 </template>
 <script>
 import VisioConsole from '@/components/console/VisioConsole.vue';

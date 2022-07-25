@@ -2,7 +2,7 @@
   <div id="app">
     <!-- TODO inline Styles -->
     <div style="position:absolute;height:100vh;width:100vw;z-index:50;opacity:0.9;">
-      <BaseLayout/>
+      <BaseLayout />
     </div>
   </div>
 </template>

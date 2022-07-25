@@ -1,14 +1,19 @@
 <template>
   <form-input-base>
-    <template v-slot:title>{{title}}</template>
-    <template v-slot:input style="height:initial;">
+    <template v-slot:title>
+      {{ title }}
+    </template>
+    <template
+      v-slot:input
+      style="height:initial;"
+    >
       <div class="vp-text-area-input">
-      <textarea
-        v-model="internalValue"
-        class="vp-textarea"
-        rows="3" 
-        type="text"
-      ></textarea>
+        <textarea
+          v-model="internalValue"
+          class="vp-textarea"
+          rows="3" 
+          type="text"
+        />
       </div>
     </template>
   </form-input-base>
@@ -19,9 +24,6 @@ import FormInputBase from './FormInputBase.vue';
 export default {
   name: "TextAreaInput",
   components: { FormInputBase },
-  data: () => ({
-    internalValue:''
-  }),
   props: {
     title: {
       type: String,
@@ -36,6 +38,9 @@ export default {
       default: () => {}
     }
   },
+  data: () => ({
+    internalValue:''
+  }),
   watch:{
     internalValue(val){
       this.changeHandler(val);

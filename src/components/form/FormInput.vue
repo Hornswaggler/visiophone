@@ -2,23 +2,29 @@
   <form-input-base class="input-container">
     <template
       v-slot:title
-    >{{title}}</template>
+    >
+      {{ title }}
+    </template>
 
-    <template v-slot:input style="height:initial;">
+    <template
+      v-slot:input
+      style="height:initial;"
+    >
       <input
+        v-model="internalValue"
         style="border:none;width:100%;"
         class="form-input-body"
         @focus="internalShowPlaceholder = false"
         @blur="internalShowPlaceholder = true"
-        v-model="internalValue"
-      />
+      >
       <div
         class="search-input-icon-underlay toggle-show"
         :class="{ hide: !showPlaceholder }"
       >
         <form-icon
-          iconSize="1.25em"
-          icon="fa-solid fa-magnifying-glass">
+          icon-size="1.25em"
+          icon="fa-solid fa-magnifying-glass"
+        >
           <template v-slot:post-content>
             <div>&nbsp;Search</div>
           </template>
@@ -35,10 +41,6 @@ import FormIcon from './FormIcon.vue';
 export default {
   name:'FormInput',
   components:{FormInputBase,FormIcon},
-  data: () => ({
-    internalValue:'This is some text',
-    internalShowPlaceholder: true,
-  }),
   props:{
     title: {
       type: String,
@@ -49,6 +51,10 @@ export default {
       default: ''
     }
   },
+  data: () => ({
+    internalValue:'This is some text',
+    internalShowPlaceholder: true,
+  }),
   computed:{
     showPlaceholder(){
       return this.internalShowPlaceholder && this.internalValue.length === 0;

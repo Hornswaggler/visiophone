@@ -1,17 +1,18 @@
 <template>
-<div 
-  class="flex align-center" 
-  :style="{
-    fontSize: `${iconSize}`,
-    color: `${color}`
-  }">
-  <slot name="pre-content"></slot>
-  <font-awesome-icon 
-    class="form-icon" 
-    :icon="icon" 
-  />
-  <slot name="post-content"></slot>
-</div>
+  <div 
+    class="flex align-center" 
+    :style="{
+      fontSize: `${iconSize}`,
+      color: `${color}`
+    }"
+  >
+    <slot name="pre-content" />
+    <font-awesome-icon 
+      class="form-icon" 
+      :icon="icon" 
+    />
+    <slot name="post-content" />
+  </div>
 </template>
 <script>
 

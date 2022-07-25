@@ -1,14 +1,12 @@
 <template>
   <div>
-    Tokens: {{tokens}} <br/>
-    Dollars: ${{tokens * rate}} <br/>
-    Terrabyte Cost: ${{terrabyteCost}} / 1 <br/>
-    User Storage Costs: {{storageCostPerUser}}<br/>
-    Max Scarcity of an Item:{{maxScarcity}}<br/>
-    Events / event fee: {{50}} visiotokens<br/>
-    Event Cut: 50<br/>
-    
-
+    Tokens: {{ tokens }} <br>
+    Dollars: ${{ tokens * rate }} <br>
+    Terrabyte Cost: ${{ terrabyteCost }} / 1 <br>
+    User Storage Costs: {{ storageCostPerUser }}<br>
+    Max Scarcity of an Item:{{ maxScarcity }}<br>
+    Events / event fee: {{ 50 }} visiotokens<br>
+    Event Cut: 50<br>
   </div>
 </template>
 <script>

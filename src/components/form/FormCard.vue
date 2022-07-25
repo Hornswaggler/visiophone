@@ -1,8 +1,8 @@
 <template>
   <div class="form-card">
-    <div class='top-plane'></div>
-    <div class='bottom-plane'></div>
-    <slot name="content"></slot>
+    <div class="top-plane" />
+    <div class="bottom-plane" />
+    <slot name="content" />
   </div>
 </template>
 

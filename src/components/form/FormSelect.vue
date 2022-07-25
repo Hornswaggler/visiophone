@@ -1,8 +1,9 @@
 <template>
   <form-input-base>
     <template 
-      v-slot:title>
-      {{title}}
+      v-slot:title
+    >
+      {{ title }}
     </template>
     <template v-slot:input>
       <select 
@@ -11,7 +12,9 @@
       >
         <option 
           v-for="tagType in tagTypes" 
-          :key="tagType._id">{{tagType.name}}
+          :key="tagType._id"
+        >
+          {{ tagType.name }}
         </option>
       </select>
     </template>
@@ -27,10 +30,6 @@ const TAG_TYPES = [
 export default {
   name: 'FormSelect',
   components: { FormInputBase },
-  data: () => ({
-    tagTypes: TAG_TYPES,
-    internalValue: ''
-  }),
   props:{
     title: {
       type: String,
@@ -45,6 +44,10 @@ export default {
       default: () => {}
     }
   },
+  data: () => ({
+    tagTypes: TAG_TYPES,
+    internalValue: ''
+  }),
   watch:{
     internalValue(val) {
       this.changeHandler(val);

@@ -1,22 +1,39 @@
 <template>
-  <div class="fill flex" style="height:6em;justify-content:space-between;">
-
-    <div class="flex align-center" style=";flex:1;">
-      <img :src="require(`@/assets/Face_Icon.png`)" style="height:100%;"/>
+  <div
+    class="fill flex"
+    style="height:6em;justify-content:space-between;"
+  >
+    <div
+      class="flex align-center"
+      style=";flex:1;"
+    >
+      <img
+        :src="require(`@/assets/Face_Icon.png`)"
+        style="height:100%;"
+      >
       <div class="xp-container flex flex-column align-start">
         <div>Visiodiamonds:420&#9830;</div>
         <div class="status-bg">
-          <div class="status-progress"></div>
+          <div class="status-progress" />
         </div>
       </div>
     </div>
-    <div style="flex:1;" class="xp-container flex align-center justify-center pl1">
+    <div
+      style="flex:1;"
+      class="xp-container flex align-center justify-center pl1"
+    >
       <visio-man>
-        <input style="height:2em;width:25em;" type="text"/>
+        <input
+          style="height:2em;width:25em;"
+          type="text"
+        >
       </visio-man>
     </div>
-    <div class="justify-end flex" style="flex:1;height:100%;width:100%;margin: 2em;">
-      {{userName}}
+    <div
+      class="justify-end flex"
+      style="flex:1;height:100%;width:100%;margin: 2em;"
+    >
+      {{ userName }}
     </div>
   </div>
 </template>

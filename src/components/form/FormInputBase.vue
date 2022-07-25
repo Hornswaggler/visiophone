@@ -1,20 +1,23 @@
 <template>
-<div class="vp-input">
-  <div class="vp-input-info">
-    <span>
-      <slot name="info"></slot>
-    </span>
-  </div>
-  <div class="vp-input-contaier">
-    <div class="vp-input-title">
-      <slot name="title" style="width:100%;"></slot>
+  <div class="vp-input">
+    <div class="vp-input-info">
+      <span>
+        <slot name="info" />
+      </span>
     </div>
-    <!-- class="vp-input-body" -->
-    <div style="width:100%;">
-      <slot name="input"></slot>
+    <div class="vp-input-contaier">
+      <div class="vp-input-title">
+        <slot
+          name="title"
+          style="width:100%;"
+        />
+      </div>
+      <!-- class="vp-input-body" -->
+      <div style="width:100%;">
+        <slot name="input" />
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>

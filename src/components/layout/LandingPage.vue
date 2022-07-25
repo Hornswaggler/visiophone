@@ -3,18 +3,16 @@
     class="landing-page"
     :style="{backgroundImage: 'url(\'' + require('@/assets/Visioland.png') + '\')'}"
   >
-    <div class="gradient-background fill">
-    </div>
+    <div class="gradient-background fill" />
     <visio-man>
       <div
+        class="vp-button p0 login-button"
         @click="onLogin"
-        class="vp-button p0 login-button">
+      >
         LOGIN
       </div>
     </visio-man>
-
   </div>
-
 </template>
 
 <script>
