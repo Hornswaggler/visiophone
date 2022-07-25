@@ -1,8 +1,9 @@
 <template>
-<CenteredResponsiveLayoutVue>
-  <template v-slot:content>
-    <div class="sample-search-container mt1">
-      <div style="
+  <CenteredResponsiveLayoutVue>
+    <template v-slot:content>
+      <div class="sample-search-container mt1">
+        <div
+          style="
         position: relative;
         height:3em;
         width:calc(100% - 12px - 1em);
@@ -10,40 +11,62 @@
         margin-right:1em;
         border:solid 2px grey;"
         >
-        <div style="display:flex;justify-content: flex-end;align-items: center;height: 100%;padding: 0 1em;">
-          <form-input style="border:none;position:relative;"
-          ></form-input>
+          <div style="display:flex;justify-content: flex-end;align-items: center;height: 100%;padding: 0 1em;">
+            <form-input
+              style="border:none;position:relative;"
+            />
           
-          <div style="display:flex;justify-content: flex-end;" class="fill">
-            <div class="sort-icon" style="display:flex;">
-              <font-awesome-icon icon="fas fa-grip-lines" style="margin-bottom:-0.5em;" />
-              <font-awesome-icon icon="fas fa-grip-lines"/>
-            </div>
- 
-            <div class="sort-icon" style="">
-              <font-awesome-icon icon="fas fa-grip" style="margin-bottom:-0.666em;" />
-              <font-awesome-icon icon="fas fa-grip" />
-            </div>
-  
-            <div class="sort-icon" style="">
-              <font-awesome-icon icon="fas fa-square-plus" />
-            </div>
-
-            <div class="user-button" style="padding:0;">
+            <div
+              style="display:flex;justify-content: flex-end;"
+              class="fill"
+            >
               <div
-                @click="onUserMenuClicked"
-                class="circle user-icon"
-                style="
+                class="sort-icon"
+                style="display:flex;"
+              >
+                <font-awesome-icon
+                  icon="fas fa-grip-lines"
+                  style="margin-bottom:-0.5em;"
+                />
+                <font-awesome-icon icon="fas fa-grip-lines" />
+              </div>
+ 
+              <div
+                class="sort-icon"
+                style=""
+              >
+                <font-awesome-icon
+                  icon="fas fa-grip"
+                  style="margin-bottom:-0.666em;"
+                />
+                <font-awesome-icon icon="fas fa-grip" />
+              </div>
+  
+              <div
+                class="sort-icon"
+                style=""
+              >
+                <font-awesome-icon icon="fas fa-square-plus" />
+              </div>
+
+              <div
+                class="user-button"
+                style="padding:0;"
+              >
+                <div
+                  class="circle user-icon"
+                  style="
                   background-size: cover;
                   background-repeat: no-repeat;
                   background-position: center center;"
-                :style="{backgroundImage: 'url(\'' + require('@/assets/FB_IMG_1566951363267.jpg') + '\')'}"
-              ></div>
+                  :style="{backgroundImage: 'url(\'' + require('@/assets/FB_IMG_1566951363267.jpg') + '\')'}"
+                  @click="onUserMenuClicked"
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <div
-          style="
+          <div
+            style="
             position:absolute;
             top: 0;
             bottom:0;
@@ -51,21 +74,20 @@
             right:0;
             background-color:rgb(33, 35, 35);
             z-index:-2"
-        >
+          />
         </div>
+        <scrolling-container style="padding: 0.5em 0;border-radius:6px;">
+          <template v-slot:scrolling-content>
+            <sample-card
+              v-for="sample in samples" 
+              :key="sample.id"
+              :sample="sample"
+            />
+          </template>
+        </scrolling-container>
       </div>
-      <scrolling-container style="padding: 0.5em 0;border-radius:6px;">
-        <template v-slot:scrolling-content>
-          <sample-card
-            v-for="sample in samples" 
-            :key="sample.id"
-            :sample="sample"
-          ></sample-card>
-        </template>
-      </scrolling-container>
-    </div>
-  </template>
-</CenteredResponsiveLayoutVue>
+    </template>
+  </CenteredResponsiveLayoutVue>
 </template>
 <script>
 import {mapGetters, mapState} from 'vuex';
@@ -75,13 +97,13 @@ import SampleCard from './SampleCard.vue';
 import FormInput from '../form/FormInput.vue';
 
 export default {
+  name: 'SampleSearch',
   components: { 
     ScrollingContainer,
     CenteredResponsiveLayoutVue,
     SampleCard,
     FormInput
   },
-  name: 'SampleSearch',
   data: () => ({
     samples: [],
     inputWidth: '10em',

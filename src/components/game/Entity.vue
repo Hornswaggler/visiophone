@@ -3,14 +3,14 @@
     style="position:absolute;"
     :style="{transform: transform, zIndex: `${entity.zIndex}`}"
   >
-      <!-- style="transition: transform 1.24s linear 0s;position:absolute;" -->
+    <!-- style="transition: transform 1.24s linear 0s;position:absolute;" -->
 
     <img
       ref="frame"
       :src="path"
       :aria="entity.type"
       :style=" {height: `${tilesize * scaleFactor}px`, width: `${tilesize * scaleFactor}px`,}"
-    />
+    >
   </div>
 </template>
 <script>
@@ -21,7 +21,10 @@ const defaultPath = 'Spikes.png';
 export default {
   name: 'Entity',
   props:{
-    id: String
+    id:{
+      type: String,
+      default: ''
+    },
   },
   mounted() {
     this.$refs.frame.addEventListener('transitionend', this.setIdle);

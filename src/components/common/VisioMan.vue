@@ -1,11 +1,17 @@
 <template>
   <div>
     <div style="display:flex;">
-      <div ref="flexEl" :style="currentFlexStyle"></div>
-      <img :style="currentImgStyle" :src="require(`@/assets/${currentImgSrc}`)"/>
+      <div
+        ref="flexEl"
+        :style="currentFlexStyle"
+      />
+      <img
+        :style="currentImgStyle"
+        :src="require(`@/assets/${currentImgSrc}`)"
+      >
     </div>
     <div>
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

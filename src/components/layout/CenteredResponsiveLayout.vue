@@ -1,11 +1,11 @@
 <template>
   <div class="centered-responsive-layout">
-    <div class="responsive-margin"></div>
+    <div class="responsive-margin" />
     <div class="flex layout-centered-body">
-      <side-navigation style="flex:0.25"></side-navigation>
-      <slot name="content"></slot>
+      <side-navigation style="flex:0.25" />
+      <slot name="content" />
     </div>
-    <div class="responsive-margin"></div>
+    <div class="responsive-margin" />
   </div>
 </template>
 <script>

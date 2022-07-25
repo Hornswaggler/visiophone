@@ -1,38 +1,50 @@
 <template>
-<div style="height: 100vh;width: 100vw;display: flex;flex-direction: column;">
-  <div>
-    <Header/>
-    <Navigation/>
-    off:{{offSetX}}, {{offSetY}} &nbsp;clientHeight: {{clientHeight}} clientWidth: {{clientWidth}} P1pos {{playerOnePosition}} camera offset {{cameraOffsetX}}, {{cameraOffsetY}}
-  </div>
+  <div style="height: 100vh;width: 100vw;display: flex;flex-direction: column;">
+    <div>
+      <Header />
+      <Navigation />
+      off:{{ offSetX }}, {{ offSetY }} &nbsp;clientHeight: {{ clientHeight }} clientWidth: {{ clientWidth }} P1pos {{ playerOnePosition }} camera offset {{ cameraOffsetX }}, {{ cameraOffsetY }}
+    </div>
 
-  <div  class="flex" style="height:100%;align-items:center;position:relative;">
+    <div
+      class="flex"
+      style="height:100%;align-items:center;position:relative;"
+    >
+      <div style="height:100%;display:flex;margin-top:11em;margin-right:2em;justify-content:flex-end;">
+        <div style="height:10em;width:8em;border: solid #65FE00 4px; border-radius:12px;display:flex;">
+          <div>HP: {{ playerOne.hp }}</div>
+        </div>
+      </div>
 
-    <div style="height:100%;display:flex;margin-top:11em;margin-right:2em;justify-content:flex-end;">
-      <div style="height:10em;width:8em;border: solid #65FE00 4px; border-radius:12px;display:flex;">
-        <div>HP: {{playerOne.hp}}</div>
+      <div style="flex:1;height:100%;display:flex;">
+        <!-- Map -->
+        <div
+          ref="container"
+          style="position:relative;flex:1;"
+        >
+          <canvas
+            ref="canvas"
+            style="position:absolute;display:flex;"
+            :height="`${tilesize * yVisible * scaleFactor}px`"
+            :width="`${tilesize * xVisible * scaleFactor}px`"
+          />
+
+          <div
+            style="position:absolute;display:flex;"
+            :style="{height: `${tilesize * yVisible * scaleFactor}px`, width: `${tilesize * xVisible * scaleFactor}px`}"
+          >
+            <div style="flex:1; position:relative;display:flex;">
+              <Entity
+                v-for="entity in entities" 
+                :id="entity.id"
+                :key="entity.id"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div style="flex:1;height:100%;display:flex;">
-        <!-- Map -->
-        <div ref="container" style="position:relative;flex:1;">
-          <canvas ref="canvas" style="position:absolute;display:flex;" :height="`${tilesize * yVisible * scaleFactor}px`" :width="`${tilesize * xVisible * scaleFactor}px`"></canvas>
-
-            <div style="position:absolute;display:flex;" :style="{height: `${tilesize * yVisible * scaleFactor}px`, width: `${tilesize * xVisible * scaleFactor}px`}">
-              <div style="flex:1; position:relative;display:flex;">
-                <Entity
-                  v-for='entity in entities' 
-                  :key="entity.id"
-                  :id="entity.id"
-                ></Entity>
-              </div>
-            </div>
-        </div>
-    </div>
   </div>
-
-</div>
 </template>
 <script>
 import {mapState} from 'vuex';
@@ -111,6 +123,43 @@ export default {
       return this.$refs.container;
     }
   },
+  watch:{
+    playerOnePosition({x,y}, {x: oldX, y: oldY} = {x: 0, y: 0}){
+      const scalarX = oldX - x;
+      const scalarY = oldY - y;
+
+      const playerScreenPositionX = (x * this.tilesize * this.scaleFactor) - this.offSetX;
+      const playerScreenPositionY = (y * this.tilesize * this.scaleFactor) + this.offSetY;
+
+      if((scalarX < 0 && playerScreenPositionX > this.clientWidth/2)) {
+        const prevOffset = this.cameraOffsetX;
+        this.cameraOffsetX += (this.tilesize * this.scaleFactor * scalarX);
+      }
+
+      if(scalarX > 0 && playerScreenPositionX >= this.clientWidth/2 && this.cameraOffsetX != 0){
+        const prevOffset = this.cameraOffsetX;
+        this.cameraOffsetX += (this.tilesize * this.scaleFactor * scalarX)
+      }
+
+      if(scalarY < 0 
+          && (this.playerOnePosition.y * this.tilesize * this.scaleFactor) + this.offSetY > this.clientHeight/2 
+          && this.cameraOffsetY != this.height * this.tilesize * this.scaleFactor){
+        this.cameraOffsetY += (this.tilesize * this.scaleFactor * scalarY);
+      }
+
+      if(scalarY > 0 && (this.playerOnePosition.y * this.tilesize * this.scaleFactor) + this.offSetY <= this.clientHeight/2 && this.cameraOffsetY != 0){
+        this.cameraOffsetY += (this.tilesize * this.scaleFactor * scalarY);
+      }
+    },
+
+    cameraOffsetY(_y, _oldY) {
+      this.scrollCameraY({_dx:0, _dy: _y - _oldY});
+    },
+
+    cameraOffsetX(_x, _oldX) {
+      this.scrollCameraX({_dx: _x - _oldX, _dy: 0});
+    }
+  },
 
   async mounted(){
     window.addEventListener("keydown", this.onKeyDown);
@@ -151,43 +200,6 @@ export default {
     window.removeEventListener('resize', () => this.onResize);
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keydown', this.onKeyUp);
-  },
-  watch:{
-    playerOnePosition({x,y}, {x: oldX, y: oldY} = {x: 0, y: 0}){
-      const scalarX = oldX - x;
-      const scalarY = oldY - y;
-
-      const playerScreenPositionX = (x * this.tilesize * this.scaleFactor) - this.offSetX;
-      const playerScreenPositionY = (y * this.tilesize * this.scaleFactor) + this.offSetY;
-
-      if((scalarX < 0 && playerScreenPositionX > this.clientWidth/2)) {
-        const prevOffset = this.cameraOffsetX;
-        this.cameraOffsetX += (this.tilesize * this.scaleFactor * scalarX);
-      }
-
-      if(scalarX > 0 && playerScreenPositionX >= this.clientWidth/2 && this.cameraOffsetX != 0){
-        const prevOffset = this.cameraOffsetX;
-        this.cameraOffsetX += (this.tilesize * this.scaleFactor * scalarX)
-      }
-
-      if(scalarY < 0 
-          && (this.playerOnePosition.y * this.tilesize * this.scaleFactor) + this.offSetY > this.clientHeight/2 
-          && this.cameraOffsetY != this.height * this.tilesize * this.scaleFactor){
-        this.cameraOffsetY += (this.tilesize * this.scaleFactor * scalarY);
-      }
-
-      if(scalarY > 0 && (this.playerOnePosition.y * this.tilesize * this.scaleFactor) + this.offSetY <= this.clientHeight/2 && this.cameraOffsetY != 0){
-        this.cameraOffsetY += (this.tilesize * this.scaleFactor * scalarY);
-      }
-    },
-
-    cameraOffsetY(_y, _oldY) {
-      this.scrollCameraY({_dx:0, _dy: _y - _oldY});
-    },
-
-    cameraOffsetX(_x, _oldX) {
-      this.scrollCameraX({_dx: _x - _oldX, _dy: 0});
-    }
   },
   methods: {
     scrollCameraX({_dx, _dy}) {

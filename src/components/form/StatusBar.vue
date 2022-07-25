@@ -1,19 +1,19 @@
 <template>
-<div>
-<form-input-base>
-  <template v-slot:info>
-    <div>{{info}}</div>
-  </template>
-  <template v-slot:input>
-    <div class="vs-statusbar">
-      <div
-        class="vs-statusbar-percent-complete"
-        :style="{width: `${percentComplete}%`}"
-      ></div>
-    </div>  
-  </template>
-</form-input-base>
-</div>
+  <div>
+    <form-input-base>
+      <template v-slot:info>
+        <div>{{ info }}</div>
+      </template>
+      <template v-slot:input>
+        <div class="vs-statusbar">
+          <div
+            class="vs-statusbar-percent-complete"
+            :style="{width: `${percentComplete}%`}"
+          />
+        </div>  
+      </template>
+    </form-input-base>
+  </div>
 </template>
 <script>
 import FormInputBase from '@/components/form/FormInputBase';

@@ -1,23 +1,26 @@
 <template>
   <div
-    class="mouse-offset"
     :ref="referenceName"
+    class="mouse-offset"
     :style="{ 
       transform: `translate(${clientX}, ${clientY})`, 
       width: itemWidth,
       zIndex }"
   >
-    <div class="flex flex-column form-dropdown-item-container" >
+    <div class="flex flex-column form-dropdown-item-container">
       <div
+        v-for="each in menuItemsComputed"
+        :key="each.id" 
         class="form-dropdown-item"
-        v-for="each in menuItemsComputed" 
-        :key="each.id"
-        @click="((e) => onItemClicked(e, each))"
         :style="{width: itemWidth, transform, opacity}"
+        @click="((e) => onItemClicked(e, each))"
       >
-        <div class="form-dropdown-item-name"
+        <div
+          class="form-dropdown-item-name"
           :style="{width: itemWidth}"
-        >Log Out</div>
+        >
+          Log Out
+        </div>
       </div>
     </div>
   </div>

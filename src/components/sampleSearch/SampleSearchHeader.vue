@@ -1,20 +1,23 @@
 <template>
   <div class="sample-search-header">
-    <div class="flex-1">&nbsp;</div>
+    <div class="flex-1">
+&nbsp;
+    </div>
     <div class="search-input-container">
       <input
+        v-model="input"
         class="vp-search-input"
         @focus="show = false"
         @blur="show = true"
-        v-model="input"
-      />
+      >
       <div
         class="search-input-icon-underlay toggle-show"
         :class="{ hide: !showIcon }"
       >
         <form-icon
-          iconSize="1.25em"
-          icon="fa-solid fa-magnifying-glass">
+          icon-size="1.25em"
+          icon="fa-solid fa-magnifying-glass"
+        >
           <template v-slot:post-content>
             <div>&nbsp;Search</div>
           </template>
@@ -24,12 +27,11 @@
 
     <div class="user-button">
       <div
-        @click="onUserMenuClicked"
         class="circle user-icon"
         :style="{backgroundImage: 'url(\'' + require('@/assets/FB_IMG_1566951363267.jpg') + '\')'}"
-      ></div>
+        @click="onUserMenuClicked"
+      />
     </div>
-
   </div>
 </template>
 <script>

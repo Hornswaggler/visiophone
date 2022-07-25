@@ -3,17 +3,30 @@
     <template v-slot:info>
       we accept .wav .mid
     </template>
-    <template v-slot:input style="height:2em;">
+    <template
+      v-slot:input
+      style="height:2em;"
+    >
       <div class="vp-upload-file">
-        <span @click="handleBrowseUpload" class="vp-upload-button">
+        <span
+          class="vp-upload-button"
+          @click="handleBrowseUpload"
+        >
           <span>
             Browse
           </span>
         </span>
-        <div class="vp-upload-button-spacer">{{fileName}}</div>
+        <div class="vp-upload-button-spacer">
+          {{ fileName }}
+        </div>
       </div>
-      <input type="file" class="hidden" accept="audio/*"  @change="prepareUpload"  ref="file"/>
-
+      <input
+        ref="file"
+        type="file"
+        class="hidden"
+        accept="audio/*"
+        @change="prepareUpload"
+      >
     </template>
   </form-input-base>
 </template>

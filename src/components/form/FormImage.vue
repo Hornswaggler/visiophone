@@ -2,7 +2,7 @@
   <div 
     class="form-image"
     :style="{backgroundImage: `url('${url}')`}"
-  ></div> 
+  /> 
 </template>
 
 <script>
