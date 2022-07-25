@@ -14,7 +14,7 @@ const env = process.env;
 export const config = properties.reduce((acc, prop) => {
   acc[prop] = env[prop];
   return acc;
-},{})
+},{});
 
 export default {
   config

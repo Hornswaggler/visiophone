@@ -1,6 +1,3 @@
-import GameCube from '@/components/game/GameCube.vue';
-import Console from '@/components/console/Console.vue';
-import Upload from '@/components/upload/Upload.vue';
 import LandingPage from '@/components/layout/LandingPage.vue';
 
 const routes = [

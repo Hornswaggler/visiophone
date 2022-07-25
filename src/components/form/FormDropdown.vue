@@ -78,6 +78,7 @@ export default {
     this.$refs[this.referenceName]
       .removeEventListener('transitionend', this.onCssEvent);
   },
+  
   methods:{
     onCssEvent(e){
       this.animating = false;

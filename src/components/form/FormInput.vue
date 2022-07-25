@@ -14,8 +14,8 @@
         v-model="internalValue"
         style="border:none;width:100%;"
         class="form-input-body"
-        @focus="internalShowPlaceholder = false"
-        @blur="internalShowPlaceholder = true"
+        @focus="onShowPlaceholder(false)"
+        @blur="onShowPlaceholder(true)"
       >
       <div
         class="search-input-icon-underlay toggle-show"
@@ -44,7 +44,7 @@ export default {
   props:{
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     initialValue:{
       type: String,
@@ -55,13 +55,18 @@ export default {
     internalValue:'This is some text',
     internalShowPlaceholder: true,
   }),
-  computed:{
+  computed: {
     showPlaceholder(){
       return this.internalShowPlaceholder && this.internalValue.length === 0;
     }
   },
   mounted(){
     this.internalValue = this.initialValue;
+  },
+  methods: {
+    onShowPlaceholder(internalShowPlaceholder) {
+      this.internalShowPlaceholder = internalShowPlaceholder;
+    }
   }
 }
 </script>
@@ -76,11 +81,11 @@ export default {
   }
 }
 
-.search-input-icon-underlay{
+.search-input-icon-underlay {
   font-family: 'VCR_OSD_MONO';
   position:absolute;
   top:0;
-  left:0;
+  left:1em;
   bottom:0;
   right:0;
   display:flex;

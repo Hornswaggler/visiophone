@@ -5,7 +5,7 @@ export const makeNewUser = () => ({
   accountId: '',
   authenticated: false,
   username: '',
-  userIcon: 'Comp_boi_idle.gif',
+  userIcon: 'https://visiophone.wtf/FB_IMG_1566951363267.jpg',
   shelfCapacity: 75,
   msal: {}
 });
@@ -87,18 +87,15 @@ export default {
     }
   },
   getters: {
-    userName: (state) => {
-      const {msal:{account:{name = ''} = {}}} = state;
-      return name;
-    },
-    accessToken: (state) => {
-      const { msal: { accessToken = ''} } = state;
-      return accessToken;
-    },
-    idToken: (state) => {
-      const { msal: { idToken = ''} } = state;
-      return idToken;
-    }
+    // userName: (state) => {
+    //   const {msal:{account:{name = ''} = {}}} = state;
+    //   return name;
+    // },
+    userName: ({msal:{account:{name}} = {msal:{account:{name:''}}}}) => name,
+    idToken: ({msal:{idToken}} = {msal:{idToken:''}}) => idToken,
+    accessToken: ({msal:{accessToken}} = {msal:{accessToken:''}}) => accessToken
+
+
   },
   mutations:{
     authenticated(state, authenticated){

@@ -95,6 +95,7 @@ import ScrollingContainer from '../layout/ScrollingContainer.vue';
 import CenteredResponsiveLayoutVue from '../layout/CenteredResponsiveLayout.vue';
 import SampleCard from './SampleCard.vue';
 import FormInput from '../form/FormInput.vue';
+import BootlegListSortIcon from './BootlegListSortIcon.vue';
 
 export default {
   name: 'SampleSearch',
@@ -102,7 +103,8 @@ export default {
     ScrollingContainer,
     CenteredResponsiveLayoutVue,
     SampleCard,
-    FormInput
+    FormInput,
+    // BootlegListSortIcon
   },
   data: () => ({
     samples: [],
@@ -128,6 +130,7 @@ export default {
   }),
   computed:{
     ...mapGetters('user',['userName']),
+    ...mapState('user', ['userIcon']),
     ...mapState('dropdown', ['show', 'itemWidth', 'clientX', 'clientY', 'onChanged']),
   },
   async mounted(){
@@ -161,6 +164,34 @@ $computationalFogTop: #6084d7;
 $computationalFogBot: #6084d7;
 $visualDistortionZapper: 360px;
 $nanoVelocity: 2s;
+
+.user-icon {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.sample-search-action-container{
+  display:flex;
+  justify-content: flex-end;
+}
+
+.form-input-container {
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  padding: 0 1em;
+}
+
+.sample-search-input {
+  position: relative;
+  height:3em;
+  width:calc(100% - 12px - 1em);
+  border-radius:6px;
+  margin-right:1em;
+  border:solid 2px grey;
+}
 
 .sort-icon {
   padding-right:0.5em;
