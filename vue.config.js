@@ -1,5 +1,3 @@
-console.log(process.env);
-
 module.exports = {
   outputDir : 'dist',
   runtimeCompiler: true,

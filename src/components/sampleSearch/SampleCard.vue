@@ -145,7 +145,7 @@ export default {
 
 .sample-card {
   color: white;
-  padding: 0.5em 1em;
+  padding: 0.5em 0;
 }
 
 .cost-container {

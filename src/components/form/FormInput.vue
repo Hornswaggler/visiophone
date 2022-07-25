@@ -1,5 +1,5 @@
 <template>
-  <form-input-base class="input-container">
+  <form-input-base class="form-input">
     <template
       v-slot:title
     >
@@ -94,7 +94,7 @@ export default {
   z-index: -1;
 }
 
-.input-container {
+.form-input {
   width:100%;
   display:flex;
 }
@@ -104,17 +104,13 @@ export default {
   z-index:2;
   flex:1;
   background-color:transparent;
-  // border:solid grey;
-  // border-radius: 4px;
   font-size: 2em;
   min-width: 0;
   font-family: 'VCR_OSD_MONO';
-  // padding: 0 0.2em;
   transition: all 0.5s;
 
   &:focus {
     border:solid white;
-    // border-radius: 6px;
   }
 
   &::selection {

@@ -1,6 +1,6 @@
 <template>
   <div class="scrollbar">
-    <div class="flex flex-column justify-start">
+    <div class="flex flex-column justify-start p1">
       <slot name="scrolling-content" />
     </div>
   </div>
@@ -16,7 +16,6 @@ export default {
 
 .scrollbar
 {
-  margin-top:1em;
   flex:1;
   width:100%;
   display:flex;

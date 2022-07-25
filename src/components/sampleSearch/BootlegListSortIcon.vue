@@ -10,7 +10,6 @@
 
     <div
       class="sort-icon"
-      style=""
     >
       <font-awesome-icon 
         icon="fas fa-grip" 

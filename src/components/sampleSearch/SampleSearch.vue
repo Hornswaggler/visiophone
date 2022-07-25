@@ -1,89 +1,47 @@
 <template>
   <CenteredResponsiveLayoutVue>
     <template v-slot:content>
-      <div class="sample-search-container mt1">
-        <div
-          style="
-        position: relative;
-        height:3em;
-        width:calc(100% - 12px - 1em);
-        border-radius:6px;
-        margin-right:1em;
-        border:solid 2px grey;"
-        >
-          <div style="display:flex;justify-content: flex-end;align-items: center;height: 100%;padding: 0 1em;">
-            <form-input
-              style="border:none;position:relative;"
-            />
+      <div class="sample-search-container mt1 mb1">
+        <div class="sample-search-input">
+          <div class="sample-search-input-content">
+            <form-input />
           
             <div
-              style="display:flex;justify-content: flex-end;"
-              class="fill"
+              class="fill flex justify-end pr1"
             >
+              <bootleg-list-sort-icon />
+
+              <!-- todo merge these / use the component from the lib -->
               <div
                 class="sort-icon"
-                style="display:flex;"
-              >
-                <font-awesome-icon
-                  icon="fas fa-grip-lines"
-                  style="margin-bottom:-0.5em;"
-                />
-                <font-awesome-icon icon="fas fa-grip-lines" />
-              </div>
- 
-              <div
-                class="sort-icon"
-                style=""
-              >
-                <font-awesome-icon
-                  icon="fas fa-grip"
-                  style="margin-bottom:-0.666em;"
-                />
-                <font-awesome-icon icon="fas fa-grip" />
-              </div>
-  
-              <div
-                class="sort-icon"
-                style=""
               >
                 <font-awesome-icon icon="fas fa-square-plus" />
               </div>
 
               <div
                 class="user-button"
-                style="padding:0;"
               >
                 <div
                   class="circle user-icon"
-                  style="
-                  background-size: cover;
-                  background-repeat: no-repeat;
-                  background-position: center center;"
-                  :style="{backgroundImage: 'url(\'' + require('@/assets/FB_IMG_1566951363267.jpg') + '\')'}"
+                  :style="{backgroundImage: `url('${userIcon}')` }"
                   @click="onUserMenuClicked"
                 />
               </div>
             </div>
           </div>
           <div
-            style="
-            position:absolute;
-            top: 0;
-            bottom:0;
-            left:0;
-            right:0;
-            background-color:rgb(33, 35, 35);
-            z-index:-2"
+            class="sample-search-input-background"
           />
         </div>
-        <scrolling-container style="padding: 0.5em 0;border-radius:6px;">
-          <template v-slot:scrolling-content>
+        <scrolling-container style="border-radius:6px;">
+          <router-view />
+          <!-- <template v-slot:scrolling-content>
             <sample-card
               v-for="sample in samples" 
               :key="sample.id"
               :sample="sample"
             />
-          </template>
+          </template> -->
         </scrolling-container>
       </div>
     </template>
@@ -104,7 +62,8 @@ export default {
     CenteredResponsiveLayoutVue,
     SampleCard,
     FormInput,
-    // BootlegListSortIcon
+    BootlegListSortIcon,
+    BootlegListSortIcon
   },
   data: () => ({
     samples: [],
@@ -165,6 +124,42 @@ $computationalFogBot: #6084d7;
 $visualDistortionZapper: 360px;
 $nanoVelocity: 2s;
 
+.sample-search-action-panel {
+  padding:1em;
+}
+
+.sample-search-input-background {
+  position:absolute;
+  top: 0;
+  bottom:0;
+  left:0;
+  right:0;
+  background-color:rgb(33, 35, 35);
+  z-index:-2
+}
+
+.sample-search-input-content {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+}
+
+.sample-search-input {
+  margin: 1em 0;
+  position: relative;
+  height:3em;
+  width:calc(100% - 12px - 1em);
+  border-radius:6px;
+  margin-right:1em;
+  border:solid 2px grey;
+
+  .form-input {
+    border:none;
+    position:relative;
+  }
+}
+            
 .user-icon {
   background-size: cover;
   background-position: center;
@@ -184,14 +179,14 @@ $nanoVelocity: 2s;
   padding: 0 1em;
 }
 
-.sample-search-input {
-  position: relative;
-  height:3em;
-  width:calc(100% - 12px - 1em);
-  border-radius:6px;
-  margin-right:1em;
-  border:solid 2px grey;
-}
+// .sample-search-input {
+//   position: relative;
+//   height:3em;
+//   width:calc(100% - 12px - 1em);
+//   border-radius:6px;
+//   margin-right:1em;
+//   border:solid 2px grey;
+// }
 
 .sort-icon {
   padding-right:0.5em;
@@ -212,7 +207,6 @@ $nanoVelocity: 2s;
 }
 
 .sample-search-container {
-  margin-top:1em;
   flex: 1;
   display: flex;
   flex-direction: column;

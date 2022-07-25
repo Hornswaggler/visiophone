@@ -1,7 +1,7 @@
 <template>
   <div class="sample-search-header">
     <div class="flex-1">
-&nbsp;
+      &nbsp;
     </div>
     <div class="search-input-container">
       <input

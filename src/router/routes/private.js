@@ -7,7 +7,14 @@ const routes = [
   {
     path: '/sample-search',
     name: 'sampleSearch',
-    component: SampleSearch
+    component: SampleSearch,
+    children:[
+      {
+        path:'upload',
+        component:Upload
+      }
+      
+    ]
   },
   {
     path: '/console',
