@@ -22,7 +22,7 @@ export default {
     try{
       // TODO Standardize / templatize route names "magic number" 
       if(await this.$store.dispatch('user/initialize')) {
-        this.$router.push('/sample-search/upload');
+        this.$router.push('/sample');
       }
     } catch(err){
       //consume console.error('Error occurred in auth check', err);
@@ -33,7 +33,6 @@ export default {
 
 <style lang="scss">
 @import "@/styles/main.scss";
-
 
 // TODO: ^^^ file can only be imported into a single component, should probably resolve this...
 

@@ -8,12 +8,13 @@
     <div class="user-name-container">
       {{ userName }}
     </div>
+
     <div
       v-for="option in menuOptions" 
       :key="option.id"
       class="navigation-button"
       :class="{selected: selectedMenuOption == option._id}"
-      @click="selectedMenuOption = option._id"
+      @click="() => onMenuItemSelected(option._id)"
     >
       {{ option.name }}
     </div>
@@ -27,22 +28,44 @@ export default {
   data: () => ({
     selectedMenuOption: 0,
     menuOptions: [
-      {name: 'Browse'},
-      {name: 'Featured'},
-      {name: 'Random'},
-      {name: 'Free'},
-      {name: 'Presets'},
-      {name: 'Library'}
-    ].map((o,i) => ({...o,_id: i}))
+      {name: 'Browse', slug:'/sample/search'},
+      {name: 'Upload', slug:'/sample/upload'},
+      // {name: 'Random'},
+      // {name: 'Free'},
+      // {name: 'Presets'},
+      // {name: 'Library'}
+    ].map((o,i) => ({slug: '/sample/search', ...o,_id: i}))
   }),
   computed:{
     ...mapGetters('user',['userName'])
   },
-  mounted(){
+  methods:{
+    onMenuItemSelected(id){
+      this.selectedMenuOption = id;      
+      this.$router.push(this.menuOptions[id].slug);
+    }
   }
 }
 </script>
 <style lang="scss">
+
+.navigation-button {
+  margin:0.5em 1em;
+  background-color:transparent;
+  cursor:pointer;
+  transition: all 0.5s ease-in-out;
+  border-radius: 10px;
+
+  &:hover {
+    background-color:white;
+    color:black;
+    scale: 1.25;
+  }
+
+  &.selected {
+    background-color:rgb(17, 17, 17);
+  }
+}
 
 .user-name-container {
   height: 6.5em;

@@ -2,14 +2,27 @@
   color: white;
 }
 
-.vp-form-row {
-  background-color:grey;
-  display:flex;
-  justify-content:flex-start;
-  font-size: 0.75em;
-  color: white;
-}
+.vp-form {
 
+
+  .vp-form-row {
+    &:not:first-child {
+      // background-color:red;
+    }
+    margin-top: 1em;
+  }
+
+  .vp-form-row {
+
+
+
+    // background-color:grey;
+    display:flex;
+    justify-content:flex-start;
+    font-size: 0.75em;
+    color: white;
+  }
+}
 .vp-button {
   font: normal 100%/1.4 "VCR_OSD_MONO", "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Monaco", monospace;
   height:2em;

@@ -92,6 +92,7 @@ export default {
     //   return name;
     // },
     userName: ({msal:{account:{name}} = {msal:{account:{name:''}}}}) => name,
+    // userName: () => 'asdfasdf',
     idToken: ({msal:{idToken}} = {msal:{idToken:''}}) => idToken,
     accessToken: ({msal:{accessToken}} = {msal:{accessToken:''}}) => accessToken
 
