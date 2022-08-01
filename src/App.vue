@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- TODO inline Styles -->
-    <div style="position:absolute;height:100vh;width:100vw;z-index:50;opacity:0.9;">
+    <div class="app-content-container">
       <BaseLayout />
     </div>
   </div>
@@ -22,7 +22,7 @@ export default {
     try{
       // TODO Standardize / templatize route names "magic number" 
       if(await this.$store.dispatch('user/initialize')) {
-        this.$router.push('/sample-search');
+        this.$router.push('/sample');
       }
     } catch(err){
       //consume console.error('Error occurred in auth check', err);
@@ -45,6 +45,13 @@ export default {
 
 .layout-centered-body {
   width:100vw;
+}
+
+.app-content-container {
+  position:absolute;
+  height:100vh;
+  width:100vw;
+  z-index:50;
 }
 
 

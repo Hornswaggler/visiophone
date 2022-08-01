@@ -1,6 +1,10 @@
 <template>
-  <div class="scrollbar">
-    <div class="flex flex-column justify-start">
+  <div
+    class="scrollbar fill"
+  >
+    <div
+      class="flex flex-column justify-start p1" 
+    >
       <slot name="scrolling-content" />
     </div>
   </div>
@@ -16,9 +20,9 @@ export default {
 
 .scrollbar
 {
-  margin-top:1em;
+  max-height:calc(100vh - 5em);
+  border-radius:6px;
   flex:1;
-  width:100%;
   display:flex;
   flex-direction: column;
   background-color: rgba(33, 35, 35, 0.9);

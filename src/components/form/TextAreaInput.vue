@@ -69,7 +69,6 @@ export default {
   display:flex;
   justify-content: flex-start;
   align-items: center;
-  border: solid 1px white;
   padding:0;
   width: 100%;
 }

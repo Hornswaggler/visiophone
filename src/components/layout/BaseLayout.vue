@@ -2,6 +2,9 @@
   <div style="height:100%;">
     <div style="z-index:-1">
       <div class="overlay" />
+      
+      <background />
+
       <div class="container">
         <!-- Move this to a seperate file... this is absurd -->
         <svg
@@ -3681,12 +3684,14 @@
 <script>
 import Loading from '@/components/layout/Loading.vue';
 import FormDropdown from '../form/FormDropdown.vue';
+import Background from './Background.vue';
 
 export default {
   name: 'BaseLayout',
   components: {
     Loading,
-    FormDropdown
+    FormDropdown,
+    Background
   }
 }
 </script>

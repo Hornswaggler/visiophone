@@ -8,12 +8,13 @@
     <div class="user-name-container">
       {{ userName }}
     </div>
+
     <div
       v-for="option in menuOptions" 
       :key="option.id"
       class="navigation-button"
       :class="{selected: selectedMenuOption == option._id}"
-      @click="selectedMenuOption = option._id"
+      @click="() => onMenuItemSelected(option._id)"
     >
       {{ option.name }}
     </div>
@@ -22,27 +23,67 @@
 <script>
 import {mapGetters} from 'vuex';
 
+//TODO organize this...
+const DEFAULT_ROUTE = {name: 'Browse', slug:'/sample'};
+
 export default {
   name:'SideNavigation',
   data: () => ({
     selectedMenuOption: 0,
     menuOptions: [
-      {name: 'Browse'},
-      {name: 'Featured'},
-      {name: 'Random'},
-      {name: 'Free'},
-      {name: 'Presets'},
-      {name: 'Library'}
-    ].map((o,i) => ({...o,_id: i}))
+      DEFAULT_ROUTE,
+      {name: 'Upload', slug:'/sample/upload'},
+      // {name: 'Random'},
+      // {name: 'Free'},
+      // {name: 'Presets'},
+      // {name: 'Library'}
+    ].map((o,i) => ({slug: '/sample/search', ...o,_id: i}))
   }),
   computed:{
     ...mapGetters('user',['userName'])
   },
-  mounted(){
+  mounted() {
+    console.log('Router: ', this.$router);
+    this.$router.beforeEach(({fullPath}, from, next) => {
+      try {
+        this.$nextTick(() => {
+          this.selectedMenuOption = this.menuOptions.findIndex(({slug}) => slug === fullPath) || 0;
+        });
+      } finally {
+        next();
+      }
+    });
+  },
+  methods:{
+    onMenuItemSelected(id){
+      console.log(id, 'selected');
+      if(this.selectedMenuOption !== id) {
+        this.selectedMenuOption = id;
+        this.$router.push(this.menuOptions[id].slug);
+      }
+    }
   }
 }
 </script>
 <style lang="scss">
+
+.navigation-button {
+  margin:0.5em 1em;
+  background-color:transparent;
+  cursor:pointer;
+  transition: all 0.5s ease-in-out;
+  border-radius: 10px;
+
+  &:hover {
+    background-color:white;
+    color:black;
+    scale: 1.25;
+  }
+
+  &.selected {
+    background-color:rgb(17, 17, 17);
+  }
+}
 
 .user-name-container {
   height: 6.5em;

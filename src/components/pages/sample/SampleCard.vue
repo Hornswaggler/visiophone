@@ -69,7 +69,7 @@
 import FormCard from '@/components/form/FormCard.vue';
 import FormImage from '@/components/form/FormImage.vue';
 import FormIcon from '@/components/form/FormIcon.vue';
-import { makeNewSample } from '../../store/modules/sample';
+import { makeNewSample } from '../../../store/modules/sample';
 
 export default {
   name:'SampleCard',
@@ -145,7 +145,7 @@ export default {
 
 .sample-card {
   color: white;
-  padding: 0.5em 1em;
+  padding: 0.5em 0;
 }
 
 .cost-container {

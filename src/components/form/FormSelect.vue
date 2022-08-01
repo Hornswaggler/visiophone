@@ -67,10 +67,9 @@ export default {
   display:flex;
   justify-content: flex-start;
   align-items: center;
-  padding:0;
   width: 100%;
   font-size: 1.25em;
-  background-color:#333333;
+  background-color:transparent;
   color:white;
   cursor:pointer;
 

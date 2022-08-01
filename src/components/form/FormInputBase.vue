@@ -1,19 +1,23 @@
 <template>
   <div class="vp-input">
-    <div class="vp-input-info">
+    <!-- TODO do we need this? -->
+    <!-- <div class="vp-input-info">
       <span>
         <slot name="info" />
       </span>
-    </div>
-    <div class="vp-input-contaier">
-      <div class="vp-input-title">
-        <slot
-          name="title"
-          style="width:100%;"
-        />
+    </div> -->
+    <div
+      class="vp-input-container"
+    >
+      <div class="vp-input-title-container">
+        <div class="vp-input-title">
+          <slot
+            name="title"
+          />
+        </div>
       </div>
-      <!-- class="vp-input-body" -->
-      <div style="width:100%;">
+      
+      <div class="vp-input-body">
         <slot name="input" />
       </div>
     </div>
@@ -27,27 +31,35 @@ export default {
 </script>
 
 <style lang="scss">
-.vp-input-info {
-  width:0;
 
+.vp-input-container {
+  position:relative;
 }
 
-.vp-input-contaier {
-  display:flex;
-  width:100%;
-}
+.vp-input-title-container {
+  position:absolute;
+  top:0;
+  left:0;
+  display:flex; 
+  justify-content: flex-start;
+  align-content: flex-start;
 
-.vp-input-title {
-  // flex:1;
-  // display:flex;
-  // align-items: center;
-  // justify-content:flex-end;
-  width:0;
+
+  .vp-input-title {
+    margin-top: -0.75em;
+    margin-left: 1em;
+    color:white;
+  }
 }
 
 .vp-input-body {
   flex:2;
-  display:flex;
+  display: flex;
   flex-direction:column;
+  
+  &>* {
+    padding: 1em;
+  }
+
 }
 </style>

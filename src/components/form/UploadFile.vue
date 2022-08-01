@@ -1,7 +1,7 @@
 <template>
   <form-input-base>
-    <template v-slot:info>
-      we accept .wav .mid
+    <template v-slot:title>
+      upload audio file
     </template>
     <template
       v-slot:input

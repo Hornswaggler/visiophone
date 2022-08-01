@@ -19,6 +19,8 @@
 import {mapState, mapGetters} from 'vuex';
 import VisioMan from '@/components/common/VisioMan.vue';
 
+// TODO technically this should be a statically served asset that requires no vue to run...
+
 export default {
   name: 'LandingPage',
   components: {
@@ -37,7 +39,7 @@ export default {
         if(valid) {
           this.error = '';
           this.$store.commit('user/authenticated', true);
-          this.$router.push('/sample-search');
+          this.$router.push('/sample');
         } else{
           this.error = 'Supplied credentials were incorrect.';
         }
