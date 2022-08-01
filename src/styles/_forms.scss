@@ -3,20 +3,11 @@
 }
 
 .vp-form {
-
-
   .vp-form-row {
-    &:not:first-child {
-      // background-color:red;
-    }
     margin-top: 1em;
   }
 
   .vp-form-row {
-
-
-
-    // background-color:grey;
     display:flex;
     justify-content:flex-start;
     font-size: 0.75em;
