@@ -43,7 +43,6 @@ export default {
     ...mapGetters('user',['userName'])
   },
   mounted() {
-    console.log('Router: ', this.$router);
     this.$router.beforeEach(({fullPath}, from, next) => {
       try {
         this.$nextTick(() => {
@@ -56,7 +55,6 @@ export default {
   },
   methods:{
     onMenuItemSelected(id){
-      console.log(id, 'selected');
       if(this.selectedMenuOption !== id) {
         this.selectedMenuOption = id;
         this.$router.push(this.menuOptions[id].slug);

@@ -21,10 +21,7 @@ export const axiosInit = async () => {
   }) );
 };
 
-export const secureGet = async (_axios, {slug}) => {
-  const result = await _axios.get(`${config.VUE_APP_API_BASE_URL}${slug}`);
-  return result;
-};
+export const secureGet = (_axios, {slug}) => _axios.get(`${config.VUE_APP_API_BASE_URL}${slug}`);
 
 export const securePost = async (_axios, body, {slug}) => {
   try{

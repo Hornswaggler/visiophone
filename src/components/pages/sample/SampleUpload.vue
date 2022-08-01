@@ -19,8 +19,9 @@
     </div>
 
     <div class="vp-form-row">
-      <TextAreaInput
-        :change-handler="onTextAreaInputChanged"
+      description: asdf<div>{{ description }}</div>
+      <text-area-input
+        :on-changed="onTextAreaInputChanged"
         :value="description"
         class="flex-3"
         title="description"
@@ -86,7 +87,7 @@ export default {
 
         Object.keys(defaultSample).map(key => {
           this[key] = defaultSample[key];
-        })
+        });
 
         this.$router.push('/sample');
       } catch (e) {
