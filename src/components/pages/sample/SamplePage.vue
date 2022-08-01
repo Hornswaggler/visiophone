@@ -5,14 +5,9 @@
         <div class="sample-search-input">
           <div class="sample-search-input-content">
             <form-input />
-
+   
             <div class="fill flex justify-end pr1">
               <bootleg-list-sort-icon />
-
-              <!-- todo merge these / use the component from the lib -->
-              <div class="sort-icon">
-                <font-awesome-icon icon="fas fa-square-plus" />
-              </div>
 
               <div class="user-button">
                 <div
@@ -25,7 +20,6 @@
           </div>
           <div class="sample-search-input-background" />
         </div>
-
         <scrolling-container>
           <template v-slot:scrolling-content>
             <router-view />

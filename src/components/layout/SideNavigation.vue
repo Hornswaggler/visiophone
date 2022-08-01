@@ -23,12 +23,15 @@
 <script>
 import {mapGetters} from 'vuex';
 
+//TODO organize this...
+const DEFAULT_ROUTE = {name: 'Browse', slug:'/sample'};
+
 export default {
   name:'SideNavigation',
   data: () => ({
     selectedMenuOption: 0,
     menuOptions: [
-      {name: 'Browse', slug:'/sample/search'},
+      DEFAULT_ROUTE,
       {name: 'Upload', slug:'/sample/upload'},
       // {name: 'Random'},
       // {name: 'Free'},
@@ -39,10 +42,25 @@ export default {
   computed:{
     ...mapGetters('user',['userName'])
   },
+  mounted() {
+    console.log('Router: ', this.$router);
+    this.$router.beforeEach(({fullPath}, from, next) => {
+      try {
+        this.$nextTick(() => {
+          this.selectedMenuOption = this.menuOptions.findIndex(({slug}) => slug === fullPath) || 0;
+        });
+      } finally {
+        next();
+      }
+    });
+  },
   methods:{
     onMenuItemSelected(id){
-      this.selectedMenuOption = id;      
-      this.$router.push(this.menuOptions[id].slug);
+      console.log(id, 'selected');
+      if(this.selectedMenuOption !== id) {
+        this.selectedMenuOption = id;
+        this.$router.push(this.menuOptions[id].slug);
+      }
     }
   }
 }

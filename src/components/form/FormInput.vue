@@ -12,7 +12,6 @@
     >
       <input
         v-model="internalValue"
-        style="border:none;width:100%;"
         class="form-input-body"
         @focus="onShowPlaceholder(false)"
         @blur="onShowPlaceholder(true)"
@@ -100,6 +99,8 @@ export default {
 }
 
 .form-input-body {
+  border:none;
+  width:100%;
   color:rgb(96, 239, 48);
   z-index:2;
   flex:1;
@@ -110,7 +111,7 @@ export default {
   transition: all 0.5s;
 
   &:focus {
-    border:solid white;
+    // border:solid white;
   }
 
   &::selection {

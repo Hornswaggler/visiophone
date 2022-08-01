@@ -4,8 +4,7 @@
     style="height:6em;justify-content:space-between;"
   >
     <div
-      class="flex align-center"
-      style=";flex:1;"
+      class="flex align-center flex-1"
     >
       <img
         :src="require(`@/assets/Face_Icon.png`)"

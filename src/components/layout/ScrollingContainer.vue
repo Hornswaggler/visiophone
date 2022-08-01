@@ -1,8 +1,6 @@
 <template>
-  <!-- TODO Refactor the css to parent (not this components responsibility) -->
   <div
     class="scrollbar fill"
-    style="max-height:calc(100vh - 5em);"
   >
     <div
       class="flex flex-column justify-start p1" 
@@ -22,6 +20,7 @@ export default {
 
 .scrollbar
 {
+  max-height:calc(100vh - 5em);
   border-radius:6px;
   flex:1;
   display:flex;

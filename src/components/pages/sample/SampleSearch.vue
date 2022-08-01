@@ -1,13 +1,11 @@
 <template>
   <div
     class="flex flex-column"
-    style="display:flex; flex-direction: column;"
   >
     <sample-card
       v-for="sample in samples"
       :key="sample.id"
       :sample="sample"
-      style=""
     />
   </div>
 </template>
@@ -22,7 +20,6 @@ export default {
     samples: [],
   }),
   async mounted() {
-    console.log('About to retrieve samples...');
     this.samples = await this.$store.dispatch('sample/getAll');
   },
 }
