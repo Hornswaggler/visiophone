@@ -12,6 +12,7 @@
     >
       <input
         v-model="internalValue"
+        v-debounce="onChangeHandler"
         class="form-input-body"
         @focus="onShowPlaceholder(false)"
         @blur="onShowPlaceholder(true)"
@@ -48,10 +49,14 @@ export default {
     initialValue:{
       type: String,
       default: ''
+    },
+    onChanged: {
+      type: Function,
+      default: () => {}
     }
   },
   data: () => ({
-    internalValue:'This is some text',
+    internalValue:'',
     internalShowPlaceholder: true,
   }),
   computed: {
@@ -65,6 +70,9 @@ export default {
   methods: {
     onShowPlaceholder(internalShowPlaceholder) {
       this.internalShowPlaceholder = internalShowPlaceholder;
+    },
+    onChangeHandler(value){
+      this.onChanged(value);
     }
   }
 }

@@ -19,7 +19,6 @@
     </div>
 
     <div class="vp-form-row">
-      description: asdf<div>{{ description }}</div>
       <text-area-input
         :on-changed="onTextAreaInputChanged"
         :value="description"

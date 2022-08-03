@@ -18,7 +18,7 @@ export const axiosInit = async () => {
         Authorization: `Bearer ${store.getters['user/idToken']}`
       }
     }
-  }) );
+  }));
 };
 
 export const secureGet = (_axios, {slug}) => _axios.get(`${config.VUE_APP_API_BASE_URL}${slug}`);
@@ -31,6 +31,9 @@ export const securePost = async (_axios, body, {slug}) => {
         "Content-Type": 'multipart/form-data'
       }
     });
+
+    console.log('Post Result', result);
+
     return result;
   }catch(e){
     console.error('Secure Post Failed: ', e);

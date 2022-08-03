@@ -4,7 +4,9 @@
       <div style="height:100vh;width:100%;">
         <div class="sample-search-input">
           <div class="sample-search-input-content">
-            <form-input />
+            <form-input
+              :on-changed="onSearchChanged"
+            />
    
             <div class="fill flex justify-end pr1">
               <bootleg-list-sort-icon />
@@ -90,6 +92,10 @@ export default {
     },
     async onFormDropdownChanged(value) {
       await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
+    },
+    onSearchChanged(val) {
+      console.log('Value changed');
+      this.$store.dispatch('sample/search', {page: 0, description: val})
     }
   }
 }
