@@ -32,8 +32,6 @@ export const securePost = async (_axios, body, {slug}) => {
       }
     });
 
-    console.log('Post Result', result);
-
     return result;
   }catch(e){
     console.error('Secure Post Failed: ', e);

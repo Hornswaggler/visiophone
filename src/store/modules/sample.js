@@ -71,7 +71,6 @@ export default {
     },
 
     async search({commit}, {page, description}){
-      console.log('Searching', description);
       //TODO: Refactor uri management, the only required one is the api, should be auto injected
       const {data} = await securePost(axios, JSON.stringify({page, description}) , {slug: `${config.VUE_APP_API_SAMPLE_URI}`});
 

@@ -12,8 +12,6 @@ import { faPlay, faGem, faFileArrowDown, faMagnifyingGlass, faGrip, faGripLines,
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {config} from '@/config';
 
-console.log('Config', );
-
 library.add(faPlay);
 library.add(faGem);
 library.add(faFileArrowDown);

@@ -113,18 +113,15 @@ export default {
       await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
     },
     onSearchChanged(val) {
-      console.log('Value changed');
       this.$store.dispatch('sample/search', {page: 0, description: val})
     },
     onViewListClicked(){
       if(!this.isListTypeSelected){
-        console.log('View List Clicked');
         this.$store.dispatch('sample/setSortType', SORT_TYPES.LIST);
       }
     },
     onViewGroupClicked(){
       if(!this.isGroupTypeSelected){
-        console.log('View Group Clicked');
         this.$store.dispatch('sample/setSortType', SORT_TYPES.GROUP);
       }
     }
