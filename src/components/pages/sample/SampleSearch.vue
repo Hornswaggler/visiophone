@@ -1,8 +1,9 @@
 <template>
   <div
-    class="flex flex-column"
+    class="flex sample-search-container"
+    :class="{isCollapsed}"
   >
-    <sample-card
+    <sample-detail
       v-for="sample in samples"
       :key="sample._id"
       :sample="sample"
@@ -12,20 +13,30 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import SampleCard from './SampleCard.vue';
+import SampleDetail from './SampleDetail.vue';
+import {SORT_TYPES} from '@/store/modules/sample';
 
 const bufferLimit = 10;
 
 export default {
   name:'SampleSearch',
-  components:{SampleCard},
+  components:{SampleDetail},
   data: () => ({
     page: 0,
     bufferIndex:0,
   }),
   computed:{
     ...mapGetters('sample', ['sampleArray']),
-    ...mapState('sample', ['isLoaded']),
+    ...mapState('sample', ['isLoaded', 'sortType']),
+    isCollapsed(){
+      return this.sortType === SORT_TYPES.GROUP;
+    },
+    isListTypeSelected(){
+      return this.sortType === SORT_TYPES.LIST;
+    },
+    isGroupTypeSelected(){
+      return this.sortType === SORT_TYPES.GROUP;
+    },
     samples(){
       const {sampleArray, bufferIndex, bufferRemaining} = this;
       const length = bufferRemaining < bufferLimit ? bufferRemaining : bufferLimit; 
@@ -52,6 +63,14 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.sample-search-container {
+  transition: all 3s;
+  flex-direction: column;
+  flex-wrap: wrap;
+  &.isCollapsed {
+    flex-direction: row;
+  }
+}
 
 </style>

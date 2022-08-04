@@ -9,12 +9,20 @@
             />
    
             <div class="fill flex justify-end pr1">
-              <bootleg-list-sort-icon />
+              <bootleg-list-icon
+                :on-click="onViewListClicked"
+                :selected="isListTypeSelected"
+              />
+
+              <bootleg-group-icon 
+                :on-click="onViewGroupClicked"
+                :selected="isGroupTypeSelected"
+              />
 
               <div class="user-button">
                 <div
                   class="circle user-icon"
-                  :style="{ backgroundImage: `url('${userIcon}')` }"
+                  :style="{ background: `center / contain no-repeat  url('${userIcon}')` }"
                   @click="onUserMenuClicked"
                 />
               </div>
@@ -35,12 +43,21 @@
 <script>
 import { mapState } from 'vuex';
 import FormInput from '@/components/form/FormInput.vue';
-import BootlegListSortIcon from '@/components/form/BootlegListSortIcon.vue';
+import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
+import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
 import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayout.vue';
+import {SORT_TYPES} from '@/store/modules/sample';
 
 export default {
   name: 'SamplePage',
+  components: {
+    CenteredResponsiveLayout,
+    FormInput,
+    BootlegListIcon,
+    BootlegGroupIcon,
+    ScrollingContainer,
+  },
   data: () => ({
     samples: [],
     inputWidth: '10em',
@@ -63,14 +80,16 @@ export default {
       },
     } 
   }),
-  components: {
-    CenteredResponsiveLayout,
-    FormInput,
-    BootlegListSortIcon,
-    ScrollingContainer,
-  },
+
   computed: {
     ...mapState('user', ['userIcon']),
+    ...mapState('sample', ['sortType']),
+    isListTypeSelected(){
+      return this.sortType === SORT_TYPES.LIST;
+    },
+    isGroupTypeSelected(){
+      return this.sortType === SORT_TYPES.GROUP;
+    }
   },
 
   methods: {
@@ -96,6 +115,18 @@ export default {
     onSearchChanged(val) {
       console.log('Value changed');
       this.$store.dispatch('sample/search', {page: 0, description: val})
+    },
+    onViewListClicked(){
+      if(!this.isListTypeSelected){
+        console.log('View List Clicked');
+        this.$store.dispatch('sample/setSortType', SORT_TYPES.LIST);
+      }
+    },
+    onViewGroupClicked(){
+      if(!this.isGroupTypeSelected){
+        console.log('View Group Clicked');
+        this.$store.dispatch('sample/setSortType', SORT_TYPES.GROUP);
+      }
     }
   }
 }
@@ -130,7 +161,7 @@ export default {
   margin: 1em 0;
   position: relative;
   height: 3em;
-  width: calc(100% - 12px - 1em);
+  max-width: calc(100vw - 12em);
   border-radius: 6px;
   margin-right: 1em;
   border: solid 2px grey;
@@ -163,6 +194,11 @@ export default {
   &:hover {
     transform: scale(1.2);
     color: white;
+  }
+
+  &.selected {
+    transform:scale(1.1);
+    color:white;
   }
 }
 </style>

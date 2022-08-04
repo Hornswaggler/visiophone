@@ -14,8 +14,13 @@ export const makeNewSample = () => ({
   tags: ['jazz','rnb','smooth influencercore'], //string
   cost: 0,
   slug:'',
-  imgUrl:  require('@/assets/Animated-Visio-Man.gif')
+  imgUrl:  require('@/assets/46.-Funkadelic-‘Maggot-Brain-1971-album-art-billboard-1240.webp')
 });
+
+export const SORT_TYPES = {
+  LIST: 'LIST',
+  GROUP: 'GROUP'
+};
 
 export default {
   namespaced: true,
@@ -24,6 +29,7 @@ export default {
     formData: {},
     fileBuffer: {},
     samples: {},
+    sortType: SORT_TYPES.LIST,
   }),
   getters:{ 
     fileName({fileBuffer:{name = ''} }){
@@ -33,7 +39,7 @@ export default {
       return Object.values(samples);
     }
   },
-  actions:{ 
+  actions:{
     uploadBuffer({state:{fileBuffer},dispatch}, sampleData) {
       try {
         let fd = new FormData();
@@ -50,6 +56,14 @@ export default {
     // TODO: these can be generated ...
     setFileBuffer({commit}, fileBuffer){
       commit('assignObject', { key: 'fileBuffer', value: fileBuffer });
+    },
+
+    setIsLoaded({commit}, isLoaded){
+      commit('assignObject', {key: 'isLoaded', value: isLoaded});
+    },
+
+    setSortType({commit}, sortType){      
+      commit('assignObject', {key: 'sortType', value: sortType});
     },
 
     setIsLoaded({commit}, isLoaded){
