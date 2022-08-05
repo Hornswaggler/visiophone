@@ -3,7 +3,7 @@
     class="scrollbar fill"
   >
     <div
-      class="flex flex-column justify-start p1" 
+      class="scrolling-container flex flex-column"
     >
       <slot name="scrolling-content" />
     </div>
@@ -17,6 +17,10 @@ export default {
 </script>
 
 <style lang="scss">
+.scrolling-container {
+  padding: 1em;
+  justify-content: flex-start;
+}
 
 .scrollbar
 {

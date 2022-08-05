@@ -65,6 +65,7 @@ export default {
 
 <style lang="scss">
 .sample-search-container {
+  justify-content: flex-start;
   transition: all 3s;
   flex-direction: column;
   flex-wrap: wrap;

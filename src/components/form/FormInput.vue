@@ -107,6 +107,7 @@ export default {
 }
 
 .form-input-body {
+  padding-left:0.75em;
   border:none;
   width:100%;
   color:rgb(96, 239, 48);

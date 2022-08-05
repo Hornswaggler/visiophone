@@ -56,10 +56,5 @@ export default {
   flex:2;
   display: flex;
   flex-direction:column;
-  
-  &>* {
-    padding: 1em;
-  }
-
 }
 </style>

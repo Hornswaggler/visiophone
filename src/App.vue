@@ -44,6 +44,36 @@ export default {
 }
 
 .layout-centered-body {
+  .side-navigation-container {
+     @include for-size(xs) {
+      width: 0;
+      margin:0;
+    }
+  }
+
+  .sample-search-input {
+    @include for-size(xs) {
+      max-width: 100vw;
+      margin:0;
+    }
+  }
+
+  .sample-search-container {
+    @include for-size(xs) {
+      justify-content: flex-start;
+      flex-direction: row;
+    }
+    .scrolling-container {
+      @include for-size(xs) {
+        padding:0;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.layout-centered-body {
   width:100vw;
 }
 

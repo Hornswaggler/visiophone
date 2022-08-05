@@ -110,6 +110,7 @@ export default {
 
 <style lang="scss">
   .sample-detail-container {
+    width:100%;
     .sample-detail-image-card {
       padding: 0.5em 0.5em;
       cursor:pointer;
@@ -132,6 +133,8 @@ export default {
     }
 
     &.isCollapsed {
+      width:initial;
+
       .sample-details {
         width: 0;
       }
