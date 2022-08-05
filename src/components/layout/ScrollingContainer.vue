@@ -1,8 +1,11 @@
 <template>
   <div
+    ref="scrollingContainer"
     class="scrollbar fill"
+    style=""
   >
     <div
+      ref="cheese"
       class="scrolling-container flex flex-column"
     >
       <slot name="scrolling-content" />
@@ -11,8 +14,28 @@
 </template>
 
 <script>
+import { debounce } from 'vue-debounce'
+
 export default {
-  name: 'ScrollingContainer'
+  name: 'ScrollingContainer',
+  data: () => ({
+    debounce: debounce((callback, val) => callback(val), 200)
+  }),
+  mounted() {
+    this.$refs.scrollingContainer.onscroll = this.onScroll;
+  },
+  methods:{
+    onScroll(){
+      this.debounce(this.loadMoreSamples);
+    },
+    loadMoreSamples(){
+      const { scrollHeight , scrollTop , clientHeight } = this.$refs.scrollingContainer;
+
+      if(scrollHeight - scrollTop - clientHeight < 1 ) {
+        console.log('LOAD MORE SAMPLES FROM STORE');
+      }
+    }
+  }
 }
 </script>
 
