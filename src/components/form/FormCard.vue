@@ -15,7 +15,7 @@ export default {
 <style lang="scss">
 
 .form-card {
-  margin-left:1em;
+  padding: 0.5em 1em;
   background-color:black;
   display:flex;
   border-radius: 8px;

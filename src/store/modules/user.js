@@ -5,7 +5,7 @@ export const makeNewUser = () => ({
   accountId: '',
   authenticated: false,
   username: '',
-  userIcon: 'https://visiophone.wtf/FB_IMG_1566951363267.jpg',
+  userIcon: require('@/assets/Comp_boi_idle.gif'),
   shelfCapacity: 75,
   msal: {}
 });

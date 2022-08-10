@@ -1,30 +1,75 @@
 <template>
   <div
-    class="flex flex-column"
+    class="flex sample-search-container"
+    :class="{isCollapsed}"
   >
-    <sample-card
-      v-for="sample in samples"
-      :key="sample.id"
+    <sample-detail
+      v-for="sample in sampleArray"
+      :key="sample._id"
       :sample="sample"
     />
   </div>
 </template>
 
 <script>
-import SampleCard from './SampleCard.vue';
+import { mapGetters, mapState } from 'vuex';
+import SampleDetail from './SampleDetail.vue';
+import {SORT_TYPES} from '@/store/modules/sample';
 
 export default {
   name:'SampleSearch',
-  components:{SampleCard},
+  components:{SampleDetail},
   data: () => ({
-    samples: [],
+    page: 0,
+    bufferIndex:0,
   }),
+  computed:{
+    ...mapGetters('sample', ['sampleArray']),
+    ...mapState('sample', ['isLoaded', 'sortType']),
+    isCollapsed(){
+      return this.sortType === SORT_TYPES.GROUP;
+    },
+    isListTypeSelected(){
+      return this.sortType === SORT_TYPES.LIST;
+    },
+    isGroupTypeSelected(){
+      return this.sortType === SORT_TYPES.GROUP;
+    },
+    samples(){
+      const {sampleArray, bufferIndex, bufferRemaining} = this;
+      const length = bufferRemaining < bufferLimit ? bufferRemaining : bufferLimit; 
+      return sampleArray.slice(bufferIndex, length);
+    },
+    bufferLength(){
+      return this.sampleArray.length;
+    },
+    bufferRemaining(){
+      return this.sampleBufferLength - this.bufferIndex;
+    }
+  },
   async mounted() {
-    this.samples = await this.$store.dispatch('sample/getAll');
+    if(!this.isLoaded){
+      try{
+        await this.$store.dispatch(
+          'sample/search',
+          {page: this.page});
+      }finally{
+        this.$store.dispatch('sample/setIsLoaded', true);
+      }
+    }
   },
 }
 </script>
 
-<style>
+<style lang="scss">
+.sample-search-container {
+  justify-content: flex-start;
+  transition: all 0.2s;
+  flex-direction: column;
+  flex-wrap: wrap;
+  &.isCollapsed {
+    flex-direction: row;
+  }
+}
 
 </style>

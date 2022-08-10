@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" style="overflow:hidden;height:100vh; width: 100vw;">
     <svg
       class="shape"
       viewBox="0 0 100 115"

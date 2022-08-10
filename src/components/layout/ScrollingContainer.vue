@@ -1,9 +1,12 @@
 <template>
   <div
+    ref="scrollingContainer"
     class="scrollbar fill"
+    style=""
   >
     <div
-      class="flex flex-column justify-start p1" 
+      ref="cheese"
+      class="scrolling-container flex flex-column"
     >
       <slot name="scrolling-content" />
     </div>
@@ -11,12 +14,42 @@
 </template>
 
 <script>
+import { debounce } from 'vue-debounce'
+
 export default {
-  name: 'ScrollingContainer'
+  name: 'ScrollingContainer',
+  data: () => ({
+    debounce: debounce((callback, val) => callback(val), 200)
+  }),
+  props:{
+    onScrollLimitReached:{
+      type: Function,
+      default: () => {},
+    }
+  },
+  mounted() {
+    this.$refs.scrollingContainer.onscroll = this.onScroll;
+  },
+  methods:{
+    onScroll(){
+      this.debounce(this.loadMoreSamples);
+    },
+    loadMoreSamples(){
+      const { scrollHeight , scrollTop , clientHeight } = this.$refs.scrollingContainer;
+
+      if(scrollHeight - scrollTop - clientHeight < 1 ) {
+        this.onScrollLimitReached();
+      }
+    }
+  }
 }
 </script>
 
 <style lang="scss">
+.scrolling-container {
+  padding: 0.5em;
+  justify-content: flex-start;
+}
 
 .scrollbar
 {

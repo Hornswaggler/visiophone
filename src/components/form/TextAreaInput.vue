@@ -43,7 +43,7 @@ export default {
   }),
   watch:{
     internalValue(val){
-      this.changeHandler(val);
+      this.onChanged(val);
     }
   },
   mounted() {
@@ -51,7 +51,7 @@ export default {
   },
   methods:{
     emitOnChange(){
-      this.changeHandler();
+      this.onChanged();
     }
   }
 }

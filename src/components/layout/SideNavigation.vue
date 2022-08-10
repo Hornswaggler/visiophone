@@ -1,8 +1,10 @@
 <template>
-  <div class="side-navigation-container">
+  <div
+    class="side-navigation-container"
+  >
     <!-- TODO: Logo Path Should be configurable -->
-    <div 
-      class="site-logo" 
+    <div
+      class="site-logo"
       :style="{backgroundImage: 'url(\'' + require('@/assets/glitchy.gif') + '\')'}"
     />
     <div class="user-name-container">
@@ -43,7 +45,6 @@ export default {
     ...mapGetters('user',['userName'])
   },
   mounted() {
-    console.log('Router: ', this.$router);
     this.$router.beforeEach(({fullPath}, from, next) => {
       try {
         this.$nextTick(() => {
@@ -56,7 +57,6 @@ export default {
   },
   methods:{
     onMenuItemSelected(id){
-      console.log(id, 'selected');
       if(this.selectedMenuOption !== id) {
         this.selectedMenuOption = id;
         this.$router.push(this.menuOptions[id].slug);
@@ -102,9 +102,10 @@ export default {
 }
 
 .side-navigation-container {
+  max-width: 8em;
+  width:100%;
   background-color: rgba(33, 35, 35, 0.9);
   margin: 0 1em;
-  width:100%;
   color: rgb(161, 161, 162);
   display:flex;
   flex-direction: column;
