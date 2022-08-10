@@ -8,8 +8,8 @@
   >
     <slot name="pre-content" />
     <font-awesome-icon 
-      class="form-icon" 
-      :icon="icon" 
+      class="form-icon"
+      :icon="icon"
     />
     <slot name="post-content" />
   </div>

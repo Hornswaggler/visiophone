@@ -5,20 +5,44 @@
   >
     <div 
       class="sample-detail-image-card"
+      style="position:relative;"
     >
+      <div
+        class="play-sample-button"
+        style="
+          position:absolute;
+          top:0;
+          bottom:0;
+          left:0;
+          right:0;
+          display:flex;
+          align-items: center;
+          justify-content: center;"
+      >
+        <div
+          style="
+          z-index:1000;
+          border: solid 2px white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          " 
+          class="circle"
+        >
+          <form-icon
+            class="flex align-center pl1 pr1" 
+            icon="fas fa-play"
+          />
+        </div>
+      </div>
       <form-image
         :url="`${sample.imgUrl}`"
       />
     </div>
 
     <div class="sample-details">
-      <form-card>
+      <form-card class="fred">
         <template v-slot:content>
-          <form-icon
-            class="flex align-center pl1 pr1" 
-            icon="fas fa-play"
-          />
-
           <div class="sample-card-body">
             <div class="sample-card-classification">
               <div class="sample-card-seller">
@@ -63,8 +87,8 @@
             </form-icon>
 
             <form-icon
-              icon-size="1em"
-              class="vp-icon flex justify-end align-end pb1"
+              icon-size="2.5em"
+              class="vp-icon flex justify-end align-end download-icon"
               icon="fa-solid fa-file-arrow-down"
             />
           </div>
@@ -109,53 +133,73 @@ export default {
 </script>
 
 <style lang="scss">
-  .sample-detail-container {
-    width:100%;
-    .sample-detail-image-card {
-      padding: 0.5em 0.5em;
-      cursor:pointer;
-      transform: scale(1);
-      transition: all 0.1s;
-      &:hover {
-        transform: scale(1.2);
-      }
-    }
 
-    .sample-details {
-      transition: width 0.33s;
-      width: 100%;
-    }
+.download-icon {
+  transform: scale(1);
+  transition: transform 0.1s ease-in-out;
 
-    .form-image{
-      min-height:6.5em;
-      min-width:6.5em;
-      transition: min-width 0.33s, min-height 0.33s;
-    }
+  &:hover{
+    transform: scale(1.2);
+  }
+}
 
-    &.isCollapsed {
-      width:initial;
+.play-sample-button {
+  opacity:0.33;
+  transition: opacity 0.2s ease-in-out;
+  &:hover{
+    opacity: 1;
+  }
+}
 
-      .sample-details {
-        width: 0;
-      }
-
-      .sample-detail-image-card {
-        .form-image {
-          min-height:10em;
-          min-width:10em;
-        }
-      }
+.sample-detail-container {
+  width:100%;
+  transition: all 1s ease-in-out;
+  .sample-detail-image-card {
+    padding: 0.5em 0.5em;
+    cursor:pointer;
+    transform: scale(1);
+    transition: all 0.1s;
+    &:hover {
+      transform: scale(1.2);
     }
   }
 
+  .sample-details {
+    transition: width 0.33s;
+    width: 100%;
+    display:flex;
+    padding: 0.5em;
 
+  }
+
+  .form-image{
+    min-height:10em;
+    min-width:10em;
+    transition: min-width 0.33s, min-height 0.33s;
+  }
+
+  &.isCollapsed {
+    width:11em;
+
+    .sample-details {
+      width: 0;
+    }
+
+    .sample-detail-image-card {
+      .form-image {
+        min-height:10em;
+        min-width:10em;
+      }
+    }
+  }
+}
 
 .sample-card-classification {
   height: 2em;
   display: flex;
   justify-content: space-between;
   width: 100%;
-  align-items: center;
+  
 }
 
 .sample-card-seller {
@@ -163,10 +207,9 @@ export default {
 }
 
 .sample-card-description-container {
-  max-height: 2em;
-  height: 2em;
+  flex:1;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   font-size: 1.25em;
   width: 100%;
 }
@@ -184,7 +227,7 @@ export default {
 .sample-card-tag-container {
   height: 2em;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   color: rgb(117, 117, 117);
 
   .sample-card-tag:not(:first-child) {
@@ -207,11 +250,7 @@ export default {
 .cost-container {
   display: flex;
   flex-direction: column;
-  padding: 0 1em;
 }
 
-.vp-icon {
-  height: 2em;
-}
 
 </style>

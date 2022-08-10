@@ -93,12 +93,18 @@ export default {
   }
 
   .sample-detail-container {
-    .isCollapsed{
+    &.isCollapsed{
       .sample-detail-image-card {
         .form-image {
           @include for-size(xs) {
             min-height: 8em;
           }
+        }
+      }
+      .sample-details {
+        padding:0;
+        .form-card {
+          padding:0;
         }
       }
     }

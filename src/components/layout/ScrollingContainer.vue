@@ -21,6 +21,12 @@ export default {
   data: () => ({
     debounce: debounce((callback, val) => callback(val), 200)
   }),
+  props:{
+    onScrollLimitReached:{
+      type: Function,
+      default: () => {},
+    }
+  },
   mounted() {
     this.$refs.scrollingContainer.onscroll = this.onScroll;
   },
@@ -32,7 +38,7 @@ export default {
       const { scrollHeight , scrollTop , clientHeight } = this.$refs.scrollingContainer;
 
       if(scrollHeight - scrollTop - clientHeight < 1 ) {
-        console.log('LOAD MORE SAMPLES FROM STORE');
+        this.onScrollLimitReached();
       }
     }
   }
@@ -41,7 +47,7 @@ export default {
 
 <style lang="scss">
 .scrolling-container {
-  padding: 1em;
+  padding: 0.5em;
   justify-content: flex-start;
 }
 

@@ -4,7 +4,7 @@
     :class="{isCollapsed}"
   >
     <sample-detail
-      v-for="sample in samples"
+      v-for="sample in sampleArray"
       :key="sample._id"
       :sample="sample"
     />
@@ -15,8 +15,6 @@
 import { mapGetters, mapState } from 'vuex';
 import SampleDetail from './SampleDetail.vue';
 import {SORT_TYPES} from '@/store/modules/sample';
-
-const bufferLimit = 10;
 
 export default {
   name:'SampleSearch',
@@ -66,7 +64,7 @@ export default {
 <style lang="scss">
 .sample-search-container {
   justify-content: flex-start;
-  transition: all 3s;
+  transition: all 0.2s;
   flex-direction: column;
   flex-wrap: wrap;
   &.isCollapsed {

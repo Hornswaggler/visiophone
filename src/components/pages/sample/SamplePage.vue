@@ -30,7 +30,9 @@
           </div>
           <div class="sample-search-input-background" />
         </div>
-        <scrolling-container>
+        <scrolling-container
+          :on-scroll-limit-reached="onScrollLimitReached"
+        >
           <template v-slot:scrolling-content>
             <router-view />
           </template>
@@ -48,6 +50,9 @@ import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
 import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayout.vue';
 import {SORT_TYPES} from '@/store/modules/sample';
+
+// TODO should be configurable in the build
+const SAMPLE_BUFFER_SIZE = 10;
 
 export default {
   name: 'SamplePage',
@@ -93,6 +98,11 @@ export default {
   },
 
   methods: {
+    onScrollLimitReached(){
+      console.log('Scroll Limit Reached Callback...');
+      this.$store.dispatch('sample/loadMoreSamples');
+      
+    },
     async onUserMenuClicked(e) {
       const { clientX = 0, clientY = 0 } = e;
 
@@ -112,8 +122,8 @@ export default {
     async onFormDropdownChanged(value) {
       await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
     },
-    onSearchChanged(val) {
-      this.$store.dispatch('sample/search', {page: 0, description: val})
+    onSearchChanged(query) {
+      this.$store.dispatch('sample/search', {query})
     },
     onViewListClicked(){
       if(!this.isListTypeSelected){
