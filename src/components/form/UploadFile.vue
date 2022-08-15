@@ -59,11 +59,11 @@ export default {
 </script>
 <style lang="scss">
 .vp-upload-file {
-  background-color:rgb(51, 51, 51);
   display:flex;
   justify-content: flex-start;
   align-items: center;
-  height:2em
+  min-height:4em;
+  border: solid 1px rgb(118, 118, 118);
 }
 .vp-upload-button {
   padding: 0 0.5em;
@@ -72,6 +72,7 @@ export default {
   align-items: center;
   height:100%;
   transition: all 0.25s ease-in-out;
+  min-height: 4em;
 
   &:hover {
     background-color:white;
@@ -79,7 +80,7 @@ export default {
   }
 }
 .vp-upload-button-spacer {
-  height:100%;
+  height:2em;
   flex:1;
   border-left: solid 1px white;
   overflow: hidden;

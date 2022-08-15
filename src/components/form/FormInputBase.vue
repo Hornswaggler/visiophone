@@ -53,6 +53,7 @@ export default {
 }
 
 .vp-input-body {
+  min-height: 4em;
   flex:2;
   display: flex;
   flex-direction:column;
