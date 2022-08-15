@@ -41,7 +41,7 @@ export default {
         const resp = await myMSALObj.handleRedirectPromise();
         handleResponse(resp, commit);
 
-        const tokenRequest = {account: myMSALObj.idToken, scopes: [config.VUE_APP_READ_SCOPE] };
+        const tokenRequest = {account: myMSALObj.idToken, scopes: [config.VUE_APP_READ_SCOPE, config.VUE_APP_READ_BLOB_SCOPE] };
         const token = await myMSALObj.acquireTokenSilent(tokenRequest);
 
         commit('assignObject', 
