@@ -99,7 +99,6 @@ export default {
 
   methods: {
     onScrollLimitReached(){
-      console.log('Scroll Limit Reached Callback...');
       this.$store.dispatch('sample/loadMoreSamples');
       
     },
