@@ -66,7 +66,6 @@ export default {
       return name;
     },
     sampleArray({samples, loadedCount}){
-      console.log('Updating Sample Array...', loadedCount);
       return Object.values(samples).slice(0, loadedCount);
     },
   },
@@ -139,9 +138,6 @@ export default {
     },
 
     async search({commit, state:{nextResultIndex: _nextResultIndex}}, {query}){
-
-      console.log('Searching');
-
       //TODO: Refactor uri management, the only required one is the api, should be auto injected
       const {data:{samples, nextResultIndex}} = await securePost(axios, JSON.stringify({query, index: _nextResultIndex}) , {slug: `${config.VUE_APP_API_SAMPLE_URI}`});
 

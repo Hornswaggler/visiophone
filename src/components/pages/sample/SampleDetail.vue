@@ -152,7 +152,6 @@ export default {
 }
 
 .sample-detail-container {
-  width:100%;
   transition: all 1s ease-in-out;
   .sample-detail-image-card {
     padding: 0.5em 0.5em;
@@ -179,8 +178,7 @@ export default {
   }
 
   &.isCollapsed {
-    width:11em;
-
+  
     .sample-details {
       width: 0;
     }

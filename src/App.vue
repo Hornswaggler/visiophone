@@ -72,8 +72,8 @@ export default {
 
   .sample-detail-container.isCollapsed .sample-detail-image-card .form-image {
     @include for-size(xs) {
-      min-height: 8em;
-      min-width: 8em;
+      min-height: 6em;
+      min-width: 6em;
     }
   }
 
@@ -98,6 +98,7 @@ export default {
         .form-image {
           @include for-size(xs) {
             min-height: 8em;
+            min-width: 8em;
           }
         }
       }

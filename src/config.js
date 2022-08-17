@@ -7,7 +7,7 @@ const properties = [
   'VUE_APP_API_REDIRECT_URI',
   'VUE_APP_API_UPLOAD_SAMPLE_URI',
   'VUE_APP_API_SAMPLE_URI',
-  'VUE_APP_API_DEBOUNCE'
+  'VUE_APP_API_DEBOUNCE',
 ];
 
 const env = process.env;
