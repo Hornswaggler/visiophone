@@ -16,7 +16,9 @@ export const makeNewSample = () => ({
   tags: ['jazz','rnb','smooth influencercore'], //string
   cost: 0,
   slug:'',
-  imgUrl:  require('@/assets/46.-Funkadelic-‘Maggot-Brain-1971-album-art-billboard-1240.webp')
+  imgUrl:  require('@/assets/46.-Funkadelic-‘Maggot-Brain-1971-album-art-billboard-1240.webp'),
+  fileId:'',
+  clipUri:''
 });
 
 const makeSampleFromResult = ({samples}) => 
@@ -27,6 +29,7 @@ const makeSampleFromResult = ({samples}) =>
     }))
     .map((sample) => ({
       ...sample,
+      clipUri: `${config.VUE_APP_CLIP_URI}${sample.fileId}.mp3`,
       categories: sample.categories
         .map((category, id) => ({
           id,
@@ -75,7 +78,7 @@ export default {
       if(_nextResultIndex === -1) return;
 
       const {data: { nextResultIndex , samples }} = await securePost(axios, JSON.stringify({query, index: _nextResultIndex}) , {slug: `${config.VUE_APP_API_SAMPLE_URI}`});
-      
+
       const newSamples = makeSampleFromResult({samples});
 
       const value = {
@@ -108,12 +111,12 @@ export default {
       );
 
     },
-    uploadBuffer({state:{fileBuffer},dispatch}, sampleData) {
+    uploadBuffer({state:{fileBuffer},dispatch}, {sampleData, token}) {
       try {
         let fd = new FormData();
         fd.append('file',fileBuffer)
         fd.append('data', JSON.stringify(sampleData));
-        return securePost(axios, fd, {slug: `${config.VUE_APP_API_UPLOAD_SAMPLE_URI}`});
+        return securePost(axios, fd, {slug: `${config.VUE_APP_API_UPLOAD_SAMPLE_URI}`, token});
       } catch(e) {
         console.error(e);
       } finally {
@@ -151,6 +154,9 @@ export default {
       commit('assignObject', {key: 'loadedCount', value: nextResultIndex});
 
 
+      const massaged = makeSampleFromResult({samples});
+      console.log('Massaged', massaged);
+
       const value = samples
         .map(sample => ({
           ...makeNewSample(),
@@ -158,6 +164,8 @@ export default {
         }))
         .map((sample) => ({
           ...sample,
+          clipUri: `${config.VUE_APP_CLIP_URI}${sample.fileId}.mp3`,
+
           categories: sample.categories
             .map((category, id) => ({
               id,

@@ -19,6 +19,12 @@
           align-items: center;
           justify-content: center;"
       >
+        <audio
+          autoplay
+          controls="controls"
+        >  
+          <source :src="sample.clipUri"> 
+        </audio>
         <div
           style="
           z-index:1000;

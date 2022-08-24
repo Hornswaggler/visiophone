@@ -33,7 +33,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import FormInputBase from '@/components/form/FormInputBase';
-import axios from 'axios';
 
 export default {
   name: 'UploadFile',

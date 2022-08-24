@@ -23,12 +23,13 @@ export const axiosInit = async () => {
 
 export const secureGet = (_axios, {slug}) => _axios.get(`${config.VUE_APP_API_BASE_URL}${slug}`);
 
-export const securePost = async (_axios, body, {slug}) => {
+export const securePost = async (_axios, body, {slug, token}) => {
   try{
     const result = await _axios.post(slug, body, {
       headers: {
         ..._axios.defaults.headers,
-        "Content-Type": 'multipart/form-data'
+        "Content-Type": 'multipart/form-data',
+        Authorization: `Bearer ${token}`
       }
     });
 

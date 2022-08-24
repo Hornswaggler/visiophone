@@ -1,20 +1,25 @@
 import * as msal from '@azure/msal-browser';
 import {config} from '@/config.js';
 
+const API_SCOPES = ["User.Read","openid", "profile"];
+
 export const makeNewUser = () => ({
   accountId: '',
   authenticated: false,
   username: '',
   userIcon: require('@/assets/Comp_boi_idle.gif'),
   shelfCapacity: 75,
-  msal: {}
+  msal: {},
+  apiToken: {}
 });
 
 const msalConfig = {
   auth: {
     clientId: config.VUE_APP_AUTH_CLIENT_ID,
     authority: config.VUE_APP_AUTH_AUTHORITY,
-    redirectUri: config.VUE_APP_API_REDIRECT_URI
+    redirectUri: config.VUE_APP_API_REDIRECT_URI,
+    identityMetadata: 'https://login.microsoftonline.com/2d1e671b-65ba-40be-b119-5cb56ca78e80/v2.0/.well-known/openid-configuration',
+    issuer: 'https://login.microsoftonline.com/2d1e671b-65ba-40be-b119-5cb56ca78e80/v2.0'
   },
   cache: {
     cacheLocation: "sessionStorage",
@@ -35,23 +40,32 @@ export default {
   namespaced: true,
   state: () => makeNewUser(),
   actions:{
-    async initialize({commit}) {
+    async initialize({getters:{idToken},commit}) {
       try {
         await myMSALObj.initialize();
         const resp = await myMSALObj.handleRedirectPromise();
         handleResponse(resp, commit);
 
-        const tokenRequest = {account: myMSALObj.idToken, scopes: [config.VUE_APP_READ_SCOPE, config.VUE_APP_READ_BLOB_SCOPE] };
-        const token = await myMSALObj.acquireTokenSilent(tokenRequest);
+        const apiTokenRequest = {account: idToken, scopes: API_SCOPES };        
+        const apiToken = await myMSALObj.acquireTokenSilent(apiTokenRequest);
 
-        commit('assignObject', 
-          {
-            key: 'msal',
-            value: token
+        const publicStorageTokenRequest =  {account: myMSALObj.idToken, scopes: [config.VUE_APP_READ_BLOB_SCOPE] };
+        const publicStorageToken = await myMSALObj.acquireTokenSilent(publicStorageTokenRequest);
+
+        console.log('apiToken:',apiToken, 'Token 2:', publicStorageToken);
+
+        commit('assignObject', {
+          key:'apiToken',
+          value: apiToken
+        });
+
+        commit('assignObject',{
+          key: 'msal',
+          value: apiToken
         });
         return true;
       } catch (e) {
-        //consume console.error('Login failed?', e);
+        console.error('Login failed', e);
       }
 
       return false;

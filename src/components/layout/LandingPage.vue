@@ -27,8 +27,8 @@ export default {
     VisioMan
   },
   computed: {
-    ...mapState('user',['authenticated', 'msal']),
-    ...mapGetters('user',['userName', 'accessToken', 'idToken'])
+    //...mapState('user',['authenticated', 'msal']),
+    //...mapGetters('user',['userName', 'accessToken', 'idToken'])
 
   },
   methods:{
