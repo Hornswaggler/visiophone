@@ -69,7 +69,6 @@ export default {
       return name;
     },
     sampleArray({samples, loadedCount}){
-      console.log('Updating Sample Array...', loadedCount);
       return Object.values(samples).slice(0, loadedCount);
     },
   },
@@ -109,7 +108,6 @@ export default {
           value
         }
       );
-
     },
     uploadBuffer({state:{fileBuffer},dispatch}, {sampleData, token}) {
       try {
@@ -142,9 +140,6 @@ export default {
     },
 
     async search({commit, state:{nextResultIndex: _nextResultIndex}}, {query}){
-
-      console.log('Searching');
-
       //TODO: Refactor uri management, the only required one is the api, should be auto injected
       const {data:{samples, nextResultIndex}} = await securePost(axios, JSON.stringify({query, index: _nextResultIndex}) , {slug: `${config.VUE_APP_API_SAMPLE_URI}`});
 
@@ -153,9 +148,7 @@ export default {
       commit('assignObject', {key: 'nextResultIndex', value: nextResultIndex});
       commit('assignObject', {key: 'loadedCount', value: nextResultIndex});
 
-
       const massaged = makeSampleFromResult({samples});
-      console.log('Massaged', massaged);
 
       const value = samples
         .map(sample => ({

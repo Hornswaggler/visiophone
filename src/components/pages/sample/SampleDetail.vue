@@ -18,29 +18,7 @@
           display:flex;
           align-items: center;
           justify-content: center;"
-      >
-        <audio
-          autoplay
-          controls="controls"
-        >  
-          <source :src="sample.clipUri"> 
-        </audio>
-        <div
-          style="
-          z-index:1000;
-          border: solid 2px white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          " 
-          class="circle"
-        >
-          <form-icon
-            class="flex align-center pl1 pr1" 
-            icon="fas fa-play"
-          />
-        </div>
-      </div>
+      />
       <form-image
         :url="`${sample.imgUrl}`"
       />
@@ -64,10 +42,11 @@
             </div>
 
             <div class="sample-card-description-container">
-              <div 
+              <div
                 class="sample-card-description"
               >
                 {{ sample.description }}
+                <div ref="audio-player" />
               </div>
             </div>
 
@@ -110,6 +89,7 @@ import FormCard from '@/components/form/FormCard.vue';
 import FormImage from '@/components/form/FormImage.vue';
 import FormIcon from '@/components/form/FormIcon.vue';
 import { SORT_TYPES, makeNewSample } from '@/store/modules/sample';
+import { axios, secureGet } from '@/axios.js';
 
 export default {
   name:'SampleDetail',
@@ -126,9 +106,25 @@ export default {
   },
   computed:{
     ...mapState('sample', ['sortType']),
+    ...mapState('user', ['publicStorageToken']),
     isCollapsed() {
       return this.sortType == SORT_TYPES.GROUP;
     }
+  },
+  async mounted(){
+    const {sample:{clipUri: uri}, publicStorageToken:token} = this;
+    const result = await secureGet(axios, {uri, token});
+    const data = result.data;
+
+    const blob = new Blob([data], { type: "audio/wav" });
+    const blobUrl = URL.createObjectURL(blob);
+
+    const clip      = document.createElement('audio');
+    clip.id       = 'audio-player';
+    clip.controls = 'controls';
+    clip.src      = blobUrl;
+    clip.type     = 'audio/mpeg';
+    this.$refs['audio-player'].appendChild(clip);
   },
   methods:{
     onHandleImageClicked() {
@@ -137,9 +133,7 @@ export default {
   } 
 }
 </script>
-
 <style lang="scss">
-
 .download-icon {
   transform: scale(1);
   transition: transform 0.1s ease-in-out;
@@ -225,7 +219,10 @@ export default {
   color: #ffffffad;
   font-size: 0.75em;
   max-height: 3em;
-  word-break: break-all
+  word-break: break-all;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .sample-card-tag-container {
@@ -255,6 +252,4 @@ export default {
   display: flex;
   flex-direction: column;
 }
-
-
 </style>

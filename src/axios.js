@@ -5,7 +5,7 @@ import store from '@/store';
 export const axios = new (() => ({
   ..._axios.create({
     baseURL: `${process.env.VUE_APP_API_BASE_URL}`,
-    headers: {"Access-Control-Allow-Origin": 'https://visiophone.wtf'}
+    headers: {"Access-Control-Allow-Origin": '*'}
   })
 }));
 
@@ -15,13 +15,25 @@ export const axiosInit = async () => {
     ...{
       headers: {
         ...config.headers, 
-        Authorization: `Bearer ${store.getters['user/idToken']}`
       }
     }
   }));
 };
 
-export const secureGet = (_axios, {slug}) => _axios.get(`${config.VUE_APP_API_BASE_URL}${slug}`);
+export const secureGet = (_axios, {slug = '', uri = '', token = ''}) => {
+  const endpoint = uri ? uri : `${config.VUE_APP_API_BASE_URL}${slug}`;
+  return _axios.get(endpoint, {
+    responseType: 'blob',
+    headers: {
+      ..._axios.defaults.headers,
+      "Access-Control-Allow-Origin": '*',
+      Authorization: `Bearer ${token}`,
+      "x-ms-version": '2021-06-08',
+      'x-ms-date': (new Date()).toGMTString(),
+      Accept: '*/*',
+    }
+  });
+}
 
 export const securePost = async (_axios, body, {slug, token}) => {
   try{

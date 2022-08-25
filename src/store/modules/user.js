@@ -10,7 +10,8 @@ export const makeNewUser = () => ({
   userIcon: require('@/assets/Comp_boi_idle.gif'),
   shelfCapacity: 75,
   msal: {},
-  apiToken: {}
+  apiToken: {},
+  publicStorageToken: {}
 });
 
 const msalConfig = {
@@ -49,10 +50,17 @@ export default {
         const apiTokenRequest = {account: idToken, scopes: API_SCOPES };        
         const apiToken = await myMSALObj.acquireTokenSilent(apiTokenRequest);
 
-        const publicStorageTokenRequest =  {account: myMSALObj.idToken, scopes: [config.VUE_APP_READ_BLOB_SCOPE] };
-        const publicStorageToken = await myMSALObj.acquireTokenSilent(publicStorageTokenRequest);
+        const publicStorageTokenRequest =  {
+          account: myMSALObj.idToken,
+          scopes: [config.VUE_APP_READ_BLOB_SCOPE]
+        };
 
-        console.log('apiToken:',apiToken, 'Token 2:', publicStorageToken);
+        const {accessToken: publicStorageToken} = await myMSALObj.acquireTokenSilent(publicStorageTokenRequest);
+
+        commit('assignObject', {
+          key: 'publicStorageToken',
+          value: publicStorageToken
+        });
 
         commit('assignObject', {
           key:'apiToken',
@@ -63,6 +71,7 @@ export default {
           key: 'msal',
           value: apiToken
         });
+
         return true;
       } catch (e) {
         console.error('Login failed', e);

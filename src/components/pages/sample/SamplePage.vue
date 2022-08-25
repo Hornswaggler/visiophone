@@ -99,9 +99,7 @@ export default {
 
   methods: {
     onScrollLimitReached(){
-      console.log('Scroll Limit Reached Callback...');
       this.$store.dispatch('sample/loadMoreSamples');
-      
     },
     async onUserMenuClicked(e) {
       const { clientX = 0, clientY = 0 } = e;

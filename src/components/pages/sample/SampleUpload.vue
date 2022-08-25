@@ -83,9 +83,10 @@ export default {
       try {
         this.$store.commit('app/isLoading', true);
 
-        console.log('Passing apitoken / uploading sample');
-
-        const result = await this.$store.dispatch('sample/uploadBuffer', {sampleData: this.model, token: this.apiToken}, );
+        await this.$store.dispatch('sample/uploadBuffer', { 
+          sampleData: this.model,
+          token: this.apiToken
+        });
 
         Object.keys(defaultSample).map(key => {
           this[key] = defaultSample[key];
