@@ -16,20 +16,14 @@
 </template>
 
 <script>
-import {mapState, mapGetters} from 'vuex';
 import VisioMan from '@/components/common/VisioMan.vue';
 
-// TODO technically this should be a statically served asset that requires no vue to run...
+// TODO technically this should be a statically served asset that requires no vue to run... (SPA)
 
 export default {
   name: 'LandingPage',
   components: {
     VisioMan
-  },
-  computed: {
-    //...mapState('user',['authenticated', 'msal']),
-    //...mapGetters('user',['userName', 'accessToken', 'idToken'])
-
   },
   methods:{
     async onLogin() {
