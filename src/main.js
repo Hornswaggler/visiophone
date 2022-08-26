@@ -22,7 +22,6 @@ library.add(faSquarePlus);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 
-
 Vue.use(VueParticles);
 Vue.use(ProgressBar);
 Vue.use(movable);

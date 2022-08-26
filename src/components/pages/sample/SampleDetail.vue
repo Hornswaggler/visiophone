@@ -18,7 +18,24 @@
           display:flex;
           align-items: center;
           justify-content: center;"
-      />
+      >
+        <div
+          style="
+          z-index:1000;
+          border: solid 2px white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          " 
+          class="circle"
+          @click="onPlaySample"
+        >
+          <form-icon
+            class="flex align-center pl1 pr1" 
+            icon="fas fa-play"
+          />
+        </div>
+      </div>
       <form-image
         :url="`${sample.imgUrl}`"
       />
@@ -98,6 +115,9 @@ export default {
     FormImage,
     FormIcon
   },
+  data: () => ({
+    isClipLoaded: false
+  }),
   props: {
     sample: {
       type: Object,
@@ -112,23 +132,35 @@ export default {
     }
   },
   async mounted(){
-    const {sample:{clipUri: uri}, publicStorageToken:token} = this;
-    const result = await secureGet(axios, {uri, token});
-    const data = result.data;
 
-    const blob = new Blob([data], { type: "audio/wav" });
-    const blobUrl = URL.createObjectURL(blob);
 
-    const clip      = document.createElement('audio');
-    clip.id       = 'audio-player';
-    clip.controls = 'controls';
-    clip.src      = blobUrl;
-    clip.type     = 'audio/mpeg';
-    this.$refs['audio-player'].appendChild(clip);
+
   },
   methods:{
     onHandleImageClicked() {
       this.isCollapsed = !this.isCollapsed;
+    },
+    async onPlaySample(){
+      if(!this.isClipLoaded){
+        try{
+          const {sample:{clipUri: uri}, publicStorageToken:token} = this;
+          const result = await secureGet(axios, {uri, token});
+          const data = result.data;
+          const blob = new Blob([data], { type: "audio/wav" });
+          const blobUrl = URL.createObjectURL(blob);
+
+          const clip = document.createElement('audio');
+          clip.id = 'audio-player';
+          clip.controls = 'controls';
+          clip.src = blobUrl;
+          clip.type = 'audio/mpeg';
+          this.$refs['audio-player'].appendChild(clip);
+          this.isClipLoaded = true;
+        }catch(e){
+          // consume
+        }
+        
+      }
     }
   } 
 }

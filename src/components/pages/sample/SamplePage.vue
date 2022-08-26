@@ -87,7 +87,7 @@ export default {
   }),
 
   computed: {
-    ...mapState('user', ['userIcon']),
+    ...mapState('user', ['userIcon', 'apiToken']),
     ...mapState('sample', ['sortType']),
     isListTypeSelected(){
       return this.sortType === SORT_TYPES.LIST;
@@ -121,7 +121,9 @@ export default {
       await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
     },
     onSearchChanged(query) {
-      this.$store.dispatch('sample/search', {query})
+      console.log('Search Changed...');
+      const {apiToken:{accessToken: token}} = this;
+      this.$store.dispatch('sample/search', {query, token });
     },
     onViewListClicked(){
       if(!this.isListTypeSelected){

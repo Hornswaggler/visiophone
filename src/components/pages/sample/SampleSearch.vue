@@ -51,7 +51,7 @@ export default {
     if(!this.isLoaded){
       try{
         await this.$store.dispatch(
-          'sample/search',
+          'sample/initialize',
           {page: this.page});
       }finally{
         this.$store.dispatch('sample/setIsLoaded', true);

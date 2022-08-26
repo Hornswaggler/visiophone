@@ -1,9 +1,7 @@
 import {axios, securePost} from '@/axios.js';
 import {config} from '@/config.js';
 import { v4 as uuidv4 } from 'uuid';
-
-// TODO: Should be configurable
-const BUFFER_CHUNK_SIZE = 10;
+import moment from 'moment';
 
 export const makeNewSample = () => ({
   _id: uuidv4(),
@@ -26,6 +24,7 @@ const makeSampleFromResult = ({samples}) =>
     .map(sample => ({
       ...makeNewSample(),
       ...sample,
+      lastRefresh: moment().valueOf()
     }))
     .map((sample) => ({
       ...sample,
@@ -73,41 +72,12 @@ export default {
     },
   },
   actions:{
-    async loadMoreSamples({commit, state:{nextResultIndex: _nextResultIndex, query, samples: _samples}}) {
+    initialize({dispatch}, {page, token}){
+      return dispatch('search', {page, token});
+    },
+    async loadMoreSamples({dispatch, commit, state:{nextResultIndex: _nextResultIndex, query, samples: _samples}},{token}) {
       if(_nextResultIndex === -1) return;
-
-      const {data: { nextResultIndex , samples }} = await securePost(axios, JSON.stringify({query, index: _nextResultIndex}) , {slug: `${config.VUE_APP_API_SAMPLE_URI}`});
-
-      const newSamples = makeSampleFromResult({samples});
-
-      const value = {
-        ..._samples, 
-        ...newSamples
-      };
-
-      commit(
-        'assignObject', 
-        {
-          key: 'nextResultIndex', 
-          value: nextResultIndex
-        }
-      );
-
-      commit(
-        'assignObject', 
-        {
-          key: 'loadedCount', 
-          value: Object.keys(value).length
-        }
-      );
-
-      commit(
-        'assignObject', 
-        {
-          key: 'samples', 
-          value
-        }
-      );
+      await dispatch('search', {query, token, index: _nextResultIndex});
     },
     uploadBuffer({state:{fileBuffer},dispatch}, {sampleData, token}) {
       try {
@@ -139,46 +109,28 @@ export default {
       commit('assignObject', {key: 'isLoaded', value: isLoaded});
     },
 
-    async search({commit, state:{nextResultIndex: _nextResultIndex}}, {query}){
+    async search({commit, state:{nextResultIndex: _nextResultIndex, samples: _samples}}, {query, token, index = 0}){
       //TODO: Refactor uri management, the only required one is the api, should be auto injected
-      const {data:{samples, nextResultIndex}} = await securePost(axios, JSON.stringify({query, index: _nextResultIndex}) , {slug: `${config.VUE_APP_API_SAMPLE_URI}`});
+
+       const {data:{samples, nextResultIndex}} = await securePost(
+        axios,
+        JSON.stringify({query, index}),
+        {slug: `${config.VUE_APP_API_SAMPLE_URI}`, token}
+      );
 
       //TODO: refactor to function that adds ids to stuff, this will be used extensively
       commit('assignObject', {key: 'query', value: query});
       commit('assignObject', {key: 'nextResultIndex', value: nextResultIndex});
       commit('assignObject', {key: 'loadedCount', value: nextResultIndex});
 
-      const massaged = makeSampleFromResult({samples});
+      const newSamples = makeSampleFromResult({samples});
 
-      const value = samples
-        .map(sample => ({
-          ...makeNewSample(),
-          ...sample,
-        }))
-        .map((sample) => ({
-          ...sample,
-          clipUri: `${config.VUE_APP_CLIP_URI}${sample.fileId}.mp3`,
+      const value = index > 0 ? {..._samples,  ...newSamples } : {...newSamples};
 
-          categories: sample.categories
-            .map((category, id) => ({
-              id,
-              name: category
-            })),
-          tags: sample.tags
-            .map((tag, id) => ({
-              id,
-              name: tag
-            }))
-        }))
-        .reduce((acc, sample) => {
-          acc[sample._id] = sample;
-          return acc;
-        }, {});
-        
-        commit('assignObject', {
-          key: 'samples',
-          value
-        });
+      commit('assignObject', {
+        key: 'samples',
+        value
+      });
     }
   },
 }
