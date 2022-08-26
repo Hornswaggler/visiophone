@@ -1,12 +1,12 @@
 import * as msal from '@azure/msal-browser';
 import {config} from '@/config.js';
 
+//TODO Move to configuration
 const API_SCOPES = ["User.Read","openid", "profile"];
 
 export const makeNewUser = () => ({
   accountId: '',
   authenticated: false,
-  username: '',
   userIcon: require('@/assets/Comp_boi_idle.gif'),
   shelfCapacity: 75,
   msal: {},
@@ -112,7 +112,6 @@ export default {
   getters: {
     userName: ({msal:{account:{name}} = {msal:{account:{name:''}}}}) => name,
     idToken: ({msal:{idToken}} = {msal:{idToken:''}}) => idToken,
-    accessToken: ({msal:{accessToken}} = {msal:{accessToken:''}}) => accessToken
   },
   mutations:{
     authenticated(state, authenticated){
