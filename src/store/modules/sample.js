@@ -68,7 +68,8 @@ export default {
       return name;
     },
     sampleArray({samples, loadedCount}){
-      return Object.values(samples).slice(0, loadedCount);
+      const result = Object.values(samples);
+      return loadedCount === -1 ? result : result.slice(0, loadedCount);
     },
   },
   actions:{
@@ -111,6 +112,8 @@ export default {
 
     async search({commit, state:{nextResultIndex: _nextResultIndex, samples: _samples}}, {query, token, index = 0}){
       //TODO: Refactor uri management, the only required one is the api, should be auto injected
+
+      console.log('Searching');
 
        const {data:{samples, nextResultIndex}} = await securePost(
         axios,

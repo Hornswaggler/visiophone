@@ -1,6 +1,5 @@
 import * as _axios from 'axios';
 import {config} from '@/config.js';
-import store from '@/store';
 
 export const axios = new (() => ({
   ..._axios.create({

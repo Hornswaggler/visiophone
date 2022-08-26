@@ -7,7 +7,6 @@
             <form-input
               :on-changed="onSearchChanged"
             />
-   
             <div class="fill flex justify-end pr1">
               <bootleg-list-icon
                 :on-click="onViewListClicked"
@@ -99,7 +98,8 @@ export default {
 
   methods: {
     onScrollLimitReached(){
-      this.$store.dispatch('sample/loadMoreSamples');
+      const {apiToken:{accessToken: token}} = this;
+      this.$store.dispatch('sample/loadMoreSamples', {token});
     },
     async onUserMenuClicked(e) {
       const { clientX = 0, clientY = 0 } = e;
