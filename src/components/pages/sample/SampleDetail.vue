@@ -5,28 +5,11 @@
   >
     <div 
       class="sample-detail-image-card"
-      style="position:relative;"
     >
       <div
         class="play-sample-button"
-        style="
-          position:absolute;
-          top:0;
-          bottom:0;
-          left:0;
-          right:0;
-          display:flex;
-          align-items: center;
-          justify-content: center;"
       >
         <div
-          style="
-          z-index:1000;
-          border: solid 2px white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          " 
           class="circle"
           @click="onPlaySample"
         >
@@ -131,11 +114,6 @@ export default {
       return this.sortType == SORT_TYPES.GROUP;
     }
   },
-  async mounted(){
-
-
-
-  },
   methods:{
     onHandleImageClicked() {
       this.isCollapsed = !this.isCollapsed;
@@ -181,11 +159,28 @@ export default {
   &:hover{
     opacity: 1;
   }
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-sample-icon {
+  z-index:1000;
+  border: solid 2px white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sample-detail-container {
   transition: all 1s ease-in-out;
   .sample-detail-image-card {
+    position:relative;
     padding: 0.5em 0.5em;
     cursor:pointer;
     transform: scale(1);
