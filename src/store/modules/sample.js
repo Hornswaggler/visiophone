@@ -112,9 +112,6 @@ export default {
 
     async search({commit, state:{nextResultIndex: _nextResultIndex, samples: _samples}}, {query, token, index = 0}){
       //TODO: Refactor uri management, the only required one is the api, should be auto injected
-
-      console.log('Searching');
-
        const {data:{samples, nextResultIndex}} = await securePost(
         axios,
         JSON.stringify({query, index}),

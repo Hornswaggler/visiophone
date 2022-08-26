@@ -121,7 +121,6 @@ export default {
       await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
     },
     onSearchChanged(query) {
-      console.log('Search Changed...');
       const {apiToken:{accessToken: token}} = this;
       this.$store.dispatch('sample/search', {query, token });
     },
