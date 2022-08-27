@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import FormInput from '@/components/form/FormInput.vue';
 import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
 import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
@@ -88,6 +88,7 @@ export default {
   computed: {
     ...mapState('user', ['userIcon', 'apiToken']),
     ...mapState('sample', ['sortType']),
+    ...mapGetters('user', ['idToken']),
     isListTypeSelected(){
       return this.sortType === SORT_TYPES.LIST;
     },
@@ -98,7 +99,7 @@ export default {
 
   methods: {
     onScrollLimitReached(){
-      const {apiToken:{accessToken: token}} = this;
+      const {idToken:token} = this;
       this.$store.dispatch('sample/loadMoreSamples', {token});
     },
     async onUserMenuClicked(e) {
@@ -121,7 +122,7 @@ export default {
       await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
     },
     onSearchChanged(query) {
-      const {apiToken:{accessToken: token}} = this;
+      const {idToken:token} = this;
       this.$store.dispatch('sample/search', {query, token });
     },
     onViewListClicked(){

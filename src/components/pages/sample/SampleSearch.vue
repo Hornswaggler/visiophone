@@ -26,7 +26,7 @@ export default {
   computed:{
     ...mapGetters('sample', ['sampleArray', '']),
     ...mapState('sample', ['isLoaded', 'sortType']),
-    ...mapState('user', ['apiToken']),
+    ...mapGetters('user', ['idToken']),
     isCollapsed(){
       return this.sortType === SORT_TYPES.GROUP;
     },
@@ -51,7 +51,7 @@ export default {
   async mounted() {
     if(!this.isLoaded){
       try{
-        const {page, apiToken:{accessToken: token}} = this;
+        const {page, idToken: token} = this;
         await this.$store.dispatch(
           'sample/initialize',
           {page, token});
