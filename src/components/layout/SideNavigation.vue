@@ -2,11 +2,7 @@
   <div
     class="side-navigation-container"
   >
-    <!-- TODO: Logo Path Should be configurable -->
-    <div
-      class="site-logo"
-      :style="{backgroundImage: 'url(\'' + require('@/assets/glitchy.gif') + '\')'}"
-    />
+    <SiteLogo />
     <div class="user-name-container">
       {{ userName }}
     </div>
@@ -24,12 +20,16 @@
 </template>
 <script>
 import {mapGetters} from 'vuex';
+import SiteLogo from './SiteLogo.vue';
 
 //TODO organize this...
 const DEFAULT_ROUTE = {name: 'Browse', slug:'/sample'};
 
 export default {
   name:'SideNavigation',
+  components:{
+    SiteLogo
+  },
   data: () => ({
     selectedMenuOption: 0,
     menuOptions: [
@@ -92,14 +92,7 @@ export default {
   align-items: center;
   justify-content: center;
 }
-.site-logo {
-  background-size: cover;
-  width: 100%;
-  height: 5.5em;
-  background-repeat: no-repeat;
-  aspect-ratio: 16/9;
-  background-position: center;
-}
+
 
 .side-navigation-container {
   max-width: 8em;

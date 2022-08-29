@@ -3,15 +3,14 @@
 }
 
 .vp-form {
-  .vp-form-row {
-    margin-top: 1em;
-  }
 
   .vp-form-row {
     display:flex;
     justify-content:flex-start;
     font-size: 0.75em;
     color: white;
+    width:100%;
+    margin-top: 2em;
   }
 }
 .vp-button {

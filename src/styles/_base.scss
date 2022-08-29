@@ -10,7 +10,10 @@
 html{
   background-color: $black;
   height:100%;
-  font-family: 'Helvetica', 'Arial', sans-serif;
+  // font-family: 'Helvetica', 'Arial', sans-serif;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 300;
   $cols: 10;
   $rows: 6;
   $cells: $cols * $rows;
@@ -108,6 +111,9 @@ html{
     width: 100vw;
     position: relative;
     overflow: hidden;
+      font-family: Inter;
+  // font-size: 16px;
+  font-weight: 300;
   }
 
   h3 {

@@ -28,6 +28,7 @@ export default {
 
 .vp-input-container {
   position:relative;
+  width:100%;
 }
 
 .vp-input-title-container {
@@ -47,7 +48,7 @@ export default {
 }
 
 .vp-input-body {
-  min-height: 4em;
+  min-height: 3em;
   flex:2;
   display: flex;
   flex-direction:column;

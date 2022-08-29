@@ -14,7 +14,7 @@
           @click="onPlaySample"
         >
           <form-icon
-            class="flex align-center pl1 pr1" 
+            class="flex align-center play-icon" 
             icon="fas fa-play"
           />
         </div>
@@ -153,6 +153,16 @@ export default {
   }
 }
 
+.play-icon {
+  font-size: 1.5em;
+  color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding-left: 0.1em;
+}
+
 .play-sample-button {
   opacity:0.33;
   transition: opacity 0.2s ease-in-out;
@@ -160,6 +170,7 @@ export default {
     opacity: 1;
   }
   position:absolute;
+  width:100%;
   top:0;
   bottom:0;
   left:0;
@@ -195,13 +206,13 @@ export default {
     width: 100%;
     display:flex;
     padding: 0.5em;
-
   }
 
   .form-image{
     min-height:10em;
     min-width:10em;
-    transition: min-width 0.33s, min-height 0.33s;
+    transition: min-width 0.33s,
+    min-height 0.33s;
   }
 
   &.isCollapsed {

@@ -2,7 +2,9 @@
   <div class="centered-responsive-layout">
     <div class="responsive-margin" />
     <div class="flex layout-centered-body">
-      <side-navigation />
+      <slot
+        name="side-panel"
+      />
       <slot
         name="content"
       />

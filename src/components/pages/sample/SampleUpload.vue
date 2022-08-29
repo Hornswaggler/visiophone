@@ -50,7 +50,6 @@
 <script>
 import UploadFile from '@/components/form/UploadFile';
 import TextAreaInput from '@/components/form/TextAreaInput';
-
 import { mapState, mapGetters } from 'vuex';
 import FormSelect from '@/components/form/FormSelect.vue';
 
