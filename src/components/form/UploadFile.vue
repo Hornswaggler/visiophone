@@ -24,8 +24,8 @@
         ref="file"
         type="file"
         class="hidden"
-        accept="audio/*"
-        @change="prepareUpload"
+        :accept="accept"
+        @change="changeHandler($refs['file'])"
       >
     </template>
   </form-input-base>
@@ -45,13 +45,18 @@ export default {
       type: String,
       default: '',
     },
+    accept:{
+      type: String,
+      default: '*/*'
+    },
+    changeHandler:{
+      type: Function,
+      default: () => {}
+    }
   },
   methods:{
     handleBrowseUpload() {
       this.$refs.file.click();
-    },
-    prepareUpload() {
-      this.$store.dispatch('sample/setFileBuffer', this.$refs.file.files[0]);
     },
   }
 }

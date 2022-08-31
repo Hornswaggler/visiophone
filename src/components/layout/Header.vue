@@ -67,9 +67,35 @@ export default {
           if (await $store.dispatch('user/logout')) {
             $router.push('landingPage');
           }
+        },
+        
+      },
+
+      settings:{
+        displayName: 'Settings',
+        handler: async({$router, $store}) => {
+          await $store.dispatch('app/hideOverlay');
+          console.log('Settings Handler Fired!');
+          $router.push('user-settings');
         }
       },
-    } 
+      logout:{
+        displayName: 'Log Out',
+        handler: async ({$store, $router}) => {
+          await $store.dispatch('app/hideOverlay');
+          await $store.dispatch(
+            'dropdown/hideDropdown',
+            {
+              showLoading: false, 
+              opacity: '0'
+            }
+          );
+          if (await $store.dispatch('user/logout')) {
+            $router.push('landingPage');
+          }
+        }
+      }
+    }
   }),
   computed:{
     ...mapState('sample', ['sortType']),

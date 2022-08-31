@@ -112,7 +112,16 @@ export default {
   }
 
   .form-dropdown-item {
-    border: solid 2px white;
+    // border: solid 2px white;
+    border-right: solid white 1px;
+    border-left: solid white 1px;
+    &:first-child{
+      border-top: solid white 1px;
+    }
+
+    &:last-child{
+      border-bottom: solid white 1px;
+    }
 
     padding:0;
     overflow:hidden;

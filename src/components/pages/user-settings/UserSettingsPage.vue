@@ -41,21 +41,43 @@
             <div
               class="vp-form-row"
             >
+              <div style="width:calc(100vw - 13em);height: 100vh; display:flex;">
+                <img
+                  ref="imageEl"
+                >
+                <UploadFile
+                  :accept="IMAGE_MIME_TYPE"
+                  button-text="Upload"
+                  class="flex-3"
+                  :change-handler="onImageChanged"
+                />
+                <button  
+                  class="vp-button ml1"
+                  type="button"
+                  @click="handleUploadImage"
+                />
+              </div>
+
+              
+
+           
+
               <!-- <div style="border: solid white 1px;width:100%;">
                 <form-input />
               </div> -->
-              <cropper
+              <!-- <cropper
                 class="cropper"
                 :src="require('@/assets/Visioland_text.png')"
                 :stencil-props="{
                   aspectRatio: 1
                 }"
+                style="width:100%;width:100%;"
                 @change="change"
-              />
+              /> -->
             </div>
-            <div class="vp-form-row">
+            <!-- <div class="vp-form-row">
               <text-area-input class="fill" />
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -64,7 +86,10 @@
 </template>
 
 <script>
+import Vue from 'vue';
+
 import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayout.vue';
+import UploadFile from '@/components/form/UploadFile.vue';
 import { Cropper } from 'vue-advanced-cropper'
 
 // import FormIcon from '@/components/form/FormIcon.vue';
@@ -72,28 +97,58 @@ import { Cropper } from 'vue-advanced-cropper'
 import SiteLogo from '@/components/layout/SiteLogo.vue';
 import FormInput from '../../form/FormInput.vue';
 import TextAreaInput from '@/components/form/TextAreaInput.vue';
+import {IMAGE_MIME_TYPE} from '@/config';
+
+console.log('MIME',IMAGE_MIME_TYPE);
 
 export default {
   name:'UserSettingsPage',
   data:() => ({
+    IMAGE_MIME_TYPE,
     menuOptions:[
       {
         icon: 'fa-gear',
         title:'Settings'
       }
     ].map((o,id) => ({...o, id})),
-    selectionIndex: 0
+    selectionIndex: 0,
+    profileImage: {}
   }),
+  computed:{
+    profileUrl(){
+      console.log('Calculating url');
+      return this.profileImage ? '' : URL.createObjectURL(this.profileImage);
+    }
+  },
   components:{
     // SideNavigation,
     // FormIcon,
+    UploadFile,
     CenteredResponsiveLayout,
     SiteLogo,
     FormInput,
     TextAreaInput,
     Cropper
   },
+  mounted(){
+    const sprite = new Image();
+    // this.$refs.profileImage.src = 
+
+    // sprite.src = require(`@/assets/${TILESET[key].path}`);
+  },
   methods:{
+    handleUploadImage(){
+      console.log('asdfasdf');
+      this.$store.commit('app/isLoading', true);
+    },
+    onImageChanged(e){
+      console.log('The image changed!', e.files[0]);
+      // Vue.set(this, 'profileImage',);
+      this.$refs['imageEl'].src =  URL.createObjectURL(e.files[0]);
+      
+      // this.profileImage = 
+
+    },
     onMenuOptionClicked(id){
       if(this.selectionIndex != id) this.selectionIndex = id;
     },

@@ -60,17 +60,21 @@ export default {
     samples: {},
     nextResultIndex: 0,
     query: '',
-    loadedCount: 0,
     sortType: SORT_TYPES.LIST,
   }),
   getters:{ 
     fileName({fileBuffer:{name = ''} }){
       return name;
     },
-    sampleArray({samples, loadedCount}){
+    sampleArray({samples, nextResultIndex}){
       const result = Object.values(samples);
-      return loadedCount === -1 ? result : result.slice(0, loadedCount);
+      if(nextResultIndex === -1) return result;
+
+      const sampleCount = Object.keys(samples).length;
+      const nextIndex = sampleCount < nextResultIndex ? sampleCount : nextResultIndex;
+      return result.slice(0, nextIndex);
     },
+
   },
   actions:{
     initialize({dispatch}, {page, token}){
@@ -78,6 +82,9 @@ export default {
     },
     async loadMoreSamples({dispatch, commit, state:{nextResultIndex: _nextResultIndex, query, samples: _samples}},{token}) {
       if(_nextResultIndex === -1) return;
+      const sampleCount = Object.keys(samples).length;
+      const nextIndex = sampleCount < nextResultIndex ? sampleCount : nextResultIndex;
+
       await dispatch('search', {query, token, index: _nextResultIndex});
     },
     uploadBuffer({state:{fileBuffer},dispatch}, {sampleData, token}) {
@@ -85,7 +92,7 @@ export default {
         let fd = new FormData();
         fd.append('file',fileBuffer)
         fd.append('data', JSON.stringify(sampleData));
-        return securePost(axios, fd, {slug: `${config.VUE_APP_API_UPLOAD_SAMPLE_URI}`, token});
+        return securePost(axios, fd, {slug: `${config.VUE_APP_API_SAMPLE_UPLOAD_URI}`, token});
       } catch(e) {
         console.error(e);
       } finally {
@@ -115,13 +122,19 @@ export default {
        const {data:{samples, nextResultIndex}} = await securePost(
         axios,
         JSON.stringify({query, index}),
-        {slug: `${config.VUE_APP_API_SAMPLE_URI}`, token}
+        {slug: `${config.VUE_APP_API_SAMPLE_SEARCH_URI}`, token}
       );
 
       //TODO: refactor to function that adds ids to stuff, this will be used extensively
       commit('assignObject', {key: 'query', value: query});
-      commit('assignObject', {key: 'nextResultIndex', value: nextResultIndex});
-      commit('assignObject', {key: 'loadedCount', value: nextResultIndex});
+
+
+
+      const sampleCount = Object.keys(samples).length;
+      const nextIndex = sampleCount < nextResultIndex ? -1 : nextResultIndex;
+      
+
+      commit('assignObject', {key: 'nextResultIndex', value: nextIndex});
 
       const newSamples = makeSampleFromResult({samples});
 

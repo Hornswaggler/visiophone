@@ -126,22 +126,22 @@ export default {
 function handleResponse(resp, commit) {
   let accountId = "";
   if (resp !== null) {
-      accountId = resp.account.homeAccountId;
-      myMSALObj.setActiveAccount(resp.account);
-      commit('authenticated', true);
-      commit('accountId', resp.account.homeAccountId);
+    accountId = resp.account.homeAccountId;
+    myMSALObj.setActiveAccount(resp.account);
+    commit('authenticated', true);
+    commit('accountId', resp.account.homeAccountId);
   } else {
-      const currentAccounts = myMSALObj.getAllAccounts();
-      if (!currentAccounts || currentAccounts.length < 1) {
-          return;
-      } else if (currentAccounts.length > 1) {
-          // TODO Add choose account code here
-      } else if (currentAccounts.length === 1) {
-          const activeAccount = currentAccounts[0];
-          myMSALObj.setActiveAccount(activeAccount);
-          accountId = activeAccount.homeAccountId;
-          commit('authenticated', true);
-          commit('accountId', activeAccount.homeAccountId);
-      }
+    const currentAccounts = myMSALObj.getAllAccounts();
+    if (!currentAccounts || currentAccounts.length < 1) {
+        return;
+    } else if (currentAccounts.length > 1) {
+        // TODO Add choose account code here
+    } else if (currentAccounts.length === 1) {
+        const activeAccount = currentAccounts[0];
+        myMSALObj.setActiveAccount(activeAccount);
+        accountId = activeAccount.homeAccountId;
+        commit('authenticated', true);
+        commit('accountId', activeAccount.homeAccountId);
+    }
   }
 }

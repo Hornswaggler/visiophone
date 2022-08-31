@@ -5,8 +5,10 @@
   >
     <div class="vp-form-row">
       <UploadFile
+        :accept="AUDIO_MIME_TYPE"
         button-text="Upload"
         class="flex-3"
+        :change-handler="sampleInputChangeHandler"
       />
     </div>
 
@@ -52,6 +54,7 @@ import UploadFile from '@/components/form/UploadFile';
 import TextAreaInput from '@/components/form/TextAreaInput';
 import { mapState, mapGetters } from 'vuex';
 import FormSelect from '@/components/form/FormSelect.vue';
+import {AUDIO_MIME_TYPE} from '@/config';
 
 const defaultSample = {
   description: '',
@@ -60,7 +63,9 @@ const defaultSample = {
 
 export default {
   name: 'SampleUpload',
-  data: () => ({...defaultSample}),
+  data: () => ({
+    ...defaultSample,
+    AUDIO_MIME_TYPE}),
   computed: {
     ...mapGetters('user', ['accessToken']),
     ...mapState('user',['authenticated','shelfCapacity', 'apiToken']),
@@ -97,6 +102,9 @@ export default {
       } finally {
         this.$store.commit('app/isLoading', false);
       }
+    },
+    sampleInputChangeHandler(el){
+      this.$store.dispatch('sample/setFileBuffer',el.files[0]);
     },
     goBack() {
       this.$router.push('/sample');
