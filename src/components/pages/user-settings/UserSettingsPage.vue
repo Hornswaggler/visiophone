@@ -5,7 +5,6 @@
         class="inset-panel"
         style="color:white;"
       >
-        <!-- <SiteLogo /> -->
         <div class="side-navigation-menu">
           <div class="logo-container pt1">
             <div
@@ -32,52 +31,34 @@
       </div>
     </template>
     <template v-slot:content>
-      <div style="flex:1;">
+      <div style="flex:1; width:calc(100vw - 13em)">
         <div
           class="fill vp-form"
           style="color:#66FF00;"
         >
-          <div style="padding: 0 2em;">
+          <div>
             <div
               class="vp-form-row"
             >
-              <div style="width:calc(100vw - 13em);height: 100vh; display:flex;">
-                <img
-                  ref="imageEl"
-                >
-                <UploadFile
-                  :accept="IMAGE_MIME_TYPE"
-                  button-text="Upload"
-                  class="flex-3"
-                  :change-handler="onImageChanged"
+              <!-- TODO fix this  -->
+              <div style="width:calc(100vw - 13em);height: 100vh; display:flex;flex-direction: column;">
+                <image-editor
+                  :img-src="imageSrc"
                 />
-                <button  
-                  class="vp-button ml1"
-                  type="button"
-                  @click="handleUploadImage"
-                />
+                <div class="flex-3">
+                  <UploadFile
+                    :accept="IMAGE_MIME_TYPE"
+                    button-text="Upload"
+                    :change-handler="onImageChanged"
+                  />
+                  <button
+                    class="vp-button ml1"
+                    type="button"
+                    @click="handleUploadImage"
+                  />
+                </div>
               </div>
-
-              
-
-           
-
-              <!-- <div style="border: solid white 1px;width:100%;">
-                <form-input />
-              </div> -->
-              <!-- <cropper
-                class="cropper"
-                :src="require('@/assets/Visioland_text.png')"
-                :stencil-props="{
-                  aspectRatio: 1
-                }"
-                style="width:100%;width:100%;"
-                @change="change"
-              /> -->
             </div>
-            <!-- <div class="vp-form-row">
-              <text-area-input class="fill" />
-            </div> -->
           </div>
         </div>
       </div>
@@ -86,25 +67,22 @@
 </template>
 
 <script>
-import Vue from 'vue';
-
 import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayout.vue';
 import UploadFile from '@/components/form/UploadFile.vue';
-import { Cropper } from 'vue-advanced-cropper'
-
-// import FormIcon from '@/components/form/FormIcon.vue';
-// import SideNavigation from '@/components/layout/SideNavigation.vue';
-import SiteLogo from '@/components/layout/SiteLogo.vue';
-import FormInput from '../../form/FormInput.vue';
-import TextAreaInput from '@/components/form/TextAreaInput.vue';
+import ImageEditor from '../../form/ImageEditor.vue';
 import {IMAGE_MIME_TYPE} from '@/config';
-
-console.log('MIME',IMAGE_MIME_TYPE);
+import { debounce } from 'vue-debounce'
 
 export default {
   name:'UserSettingsPage',
+  components:{
+    UploadFile,
+    CenteredResponsiveLayout,
+    ImageEditor
+  },
   data:() => ({
     IMAGE_MIME_TYPE,
+    debounce: debounce((callback, val) => callback && callback(val), 50),
     menuOptions:[
       {
         icon: 'fa-gear',
@@ -112,42 +90,25 @@ export default {
       }
     ].map((o,id) => ({...o, id})),
     selectionIndex: 0,
-    profileImage: {}
+    profileImage: {},
+    imageWidth: 0,
+    imageSrc: 'https://cdn3.photoblogstop.com/wp-content/uploads/2012/07/Sierra_HDR_Panorama_DFX8048_2280x819_Q40_wm_mini.jpg',
+    offsetX:0
   }),
   computed:{
     profileUrl(){
-      console.log('Calculating url');
       return this.profileImage ? '' : URL.createObjectURL(this.profileImage);
     }
   },
-  components:{
-    // SideNavigation,
-    // FormIcon,
-    UploadFile,
-    CenteredResponsiveLayout,
-    SiteLogo,
-    FormInput,
-    TextAreaInput,
-    Cropper
-  },
-  mounted(){
-    const sprite = new Image();
-    // this.$refs.profileImage.src = 
-
-    // sprite.src = require(`@/assets/${TILESET[key].path}`);
-  },
   methods:{
+    handleScrollXDebounce(evt){
+      this.offsetX = evt.target.scrollLeft;
+    },
     handleUploadImage(){
-      console.log('asdfasdf');
       this.$store.commit('app/isLoading', true);
     },
     onImageChanged(e){
-      console.log('The image changed!', e.files[0]);
-      // Vue.set(this, 'profileImage',);
       this.$refs['imageEl'].src =  URL.createObjectURL(e.files[0]);
-      
-      // this.profileImage = 
-
     },
     onMenuOptionClicked(id){
       if(this.selectionIndex != id) this.selectionIndex = id;
@@ -160,20 +121,14 @@ export default {
 </script>
 
 <style lang="scss">
-
 .inset-panel {
+  z-index: 1;
   border-radius: 8px;
   background: #272727;
   background-blend-mode: normal;
 }
 
-.cropper {
-  height: 600px;
-  background: #DDD;
-}
-
 .logo-container {
-  // background-color:black;
   display:flex;
   justify-content: center;
   width:100%;
@@ -204,8 +159,6 @@ export default {
   box-shadow: 0px 4em 4em rgba(100,100,100,0.4);
 
   height:100%;
-  // background-color:black;
-  // opacity: 0.78;
   width:13em;
   display:flex;
   align-items: flex-end;
@@ -214,7 +167,6 @@ export default {
   .side-naviagation-option{
     display: flex;
     align-items: center;
-    // background-color: black;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     max-height:2em;
@@ -234,7 +186,6 @@ export default {
     }
 
     &.selected{
-      // background-color: grey;
       background: linear-gradient(to  top, rgba(75, 75, 75, 0.503), rgba(196, 196, 196, 0.756));
     }
   }

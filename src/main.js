@@ -11,7 +11,6 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlay, faGem, faFileArrowDown, faMagnifyingGlass, faGrip, faGripLines, faSquarePlus, faGear } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {config} from '@/config';
-import 'vue-advanced-cropper/dist/style.css';
 
 library.add(faPlay);
 library.add(faGem);

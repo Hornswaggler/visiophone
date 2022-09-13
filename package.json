@@ -26,8 +26,7 @@
     "@fortawesome/fontawesome-svg-core": "6.1.1",
     "@fortawesome/free-solid-svg-icons": "6.1.1",
     "@fortawesome/vue-fontawesome": "2.0.6",
-    "moment": "2.29.4",
-    "vue-advanced-cropper":"1.11.3"
+    "moment": "2.29.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
