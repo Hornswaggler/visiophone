@@ -1,3 +1,4 @@
+import {securePostForm, securePostJson, axios } from '@/axios.js';
 import * as msal from '@azure/msal-browser';
 import {config} from '@/config.js';
 
@@ -5,13 +6,15 @@ import {config} from '@/config.js';
 const API_SCOPES = ["User.Read","openid", "profile"];
 
 export const makeNewUser = () => ({
+  _id: localStorage._id || null,
   accountId: '',
   authenticated: false,
   userIcon: require('@/assets/Comp_boi_idle.gif'),
   shelfCapacity: 75,
   msal: {},
   apiToken: {},
-  publicStorageToken: {}
+  publicStorageToken: {},
+  avatarId: localStorage.avatarId || ''
 });
 
 const msalConfig = {
@@ -41,13 +44,33 @@ export default {
   namespaced: true,
   state: () => makeNewUser(),
   actions:{
-    async initialize({getters:{idToken},commit}) {
+    async uploadUserProfile({commit, state:{avatarId, accountId, apiToken, _id}}, {blob}) {
+      const fd = new FormData();
+      fd.append('file',blob,'fakename.png' );
+      fd.append('data', JSON.stringify({ accountId, avatarId , _id}) );
+
+      const { data } = await securePostForm(axios, fd, {slug: `set_user_profile`, apiToken});
+
+      commit('avatarId', data.avatarId);
+      commit('_id', data._id);
+    },
+
+    async getUserProfile({state:{apiToken, accountId:userId}}){
+      const {data:{ avatarId, _id }} = await securePostJson(axios, {userId}, { slug: 'get_user_profile', apiToken });
+
+      commit('assignObject', {key:'_id', value: _id});
+      commit('assignObject', {key:'avatarId', value: avatarId});
+
+      return data;
+    },
+
+    async initialize({getters:{idToken}, state:{avatarId}, commit, dispatch}) {
       try {
         await myMSALObj.initialize();
         const resp = await myMSALObj.handleRedirectPromise();
         handleResponse(resp, commit);
 
-        const apiTokenRequest = {account: idToken, scopes: API_SCOPES };        
+        const apiTokenRequest = {account: idToken, scopes: API_SCOPES };
         const apiToken = await myMSALObj.acquireTokenSilent(apiTokenRequest);
 
         const publicStorageTokenRequest =  {
@@ -72,11 +95,15 @@ export default {
           value: apiToken
         });
 
+        if(!avatarId){
+          const {avatarId} = await dispatch('getUserProfile');
+          commit('avatarId',avatarId)
+        }
+
         return true;
       } catch (e) {
         console.error('Login failed', e);
       }
-
       return false;
     },
 
@@ -84,8 +111,13 @@ export default {
       const loginRequest = {
         scopes: ["User.Read","openid", "profile"],
       };
+
       const result = await myMSALObj.acquireTokenPopup(loginRequest);
-      commit('assignObject', { key: 'msal', value: result });
+      commit('assignObject', {
+        key: 'msal',
+        value: result 
+      });
+
       return result;
     },
 
@@ -109,9 +141,12 @@ export default {
       })
     }
   },
+
+  // TODO Fix this...
   getters: {
     userName: ({msal:{account:{name}} = {msal:{account:{name:''}}}}) => name,
     idToken: ({msal:{idToken}} = {msal:{idToken:''}}) => idToken,
+    profileImg: ({avatarId}) => `${config.VUE_APP_AVATAR_URI}${avatarId}.png`
   },
   mutations:{
     authenticated(state, authenticated){
@@ -119,7 +154,15 @@ export default {
     },
     accountId(state, accountId) {
       state.accountId = accountId;
-    }
+    },
+    avatarId(state, avatarId){
+      state.avatarId = avatarId;
+      localStorage.setItem('avatarId', avatarId);
+    },
+    _id(state, _id){
+      state._id = _id;
+      localStorage.setItem('_id', _id);
+    },
   }
 };
 

@@ -1,4 +1,4 @@
-import {axios, securePost} from '@/axios.js';
+import {axios, securePostJson, securePostForm} from '@/axios.js';
 import {config} from '@/config.js';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
@@ -89,10 +89,11 @@ export default {
     },
     uploadBuffer({state:{fileBuffer},dispatch}, {sampleData, token}) {
       try {
+        console.log('Uploading Sample:');
         let fd = new FormData();
         fd.append('file',fileBuffer)
         fd.append('data', JSON.stringify(sampleData));
-        return securePost(axios, fd, {slug: `${config.VUE_APP_API_SAMPLE_UPLOAD_URI}`, token});
+        return securePostForm(axios, fd, {slug: `${config.VUE_APP_API_SAMPLE_UPLOAD_URI}`, token});
       } catch(e) {
         console.error(e);
       } finally {
@@ -119,7 +120,7 @@ export default {
 
     async search({commit, state:{nextResultIndex: _nextResultIndex, samples: _samples}}, {query, token, index = 0}){
       //TODO: Refactor uri management, the only required one is the api, should be auto injected
-       const {data:{samples, nextResultIndex}} = await securePost(
+       const {data:{samples, nextResultIndex}} = await securePostJson(
         axios,
         JSON.stringify({query, index}),
         {slug: `${config.VUE_APP_API_SAMPLE_SEARCH_URI}`, token}
@@ -128,12 +129,9 @@ export default {
       //TODO: refactor to function that adds ids to stuff, this will be used extensively
       commit('assignObject', {key: 'query', value: query});
 
-
-
       const sampleCount = Object.keys(samples).length;
       const nextIndex = sampleCount < nextResultIndex ? -1 : nextResultIndex;
       
-
       commit('assignObject', {key: 'nextResultIndex', value: nextIndex});
 
       const newSamples = makeSampleFromResult({samples});

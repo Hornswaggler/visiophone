@@ -1,7 +1,7 @@
 <template>
   <form-input-base>
     <template v-slot:title>
-      upload audio file
+      {{ title }}
     </template>
     <template
       v-slot:input
@@ -41,6 +41,10 @@ export default {
   },
   components: { FormInputBase },
   props: {
+    title: {
+      type: String,
+      default: ''
+    },
     buttonText: {
       type: String,
       default: '',

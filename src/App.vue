@@ -8,13 +8,16 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import BaseLayout from '@/components/layout/BaseLayout.vue';
 import { axiosInit } from '@/axios.js';
 import moment from 'moment';
 import config from '@/config';
 
+const DEFAULT_HOME = '/sample';
+
 const PERSISTENT_MODULES = [
-  'sample'
+  'sample',
 ];
 
 export default {
@@ -22,6 +25,11 @@ export default {
   components: {
     BaseLayout
   },
+
+  computed: {
+    ...mapState('app', ['targetUrl'])
+  },
+
   async mounted(){
     this.initializePersistentStorage();
 
@@ -29,7 +37,7 @@ export default {
     try{
       // TODO Standardize / templatize route names "magic number" 
       if(await this.$store.dispatch('user/initialize')) {
-        this.$router.push('/sample');
+        this.$router.push(this.targetUrl || DEFAULT_HOME);
       }
     } catch(err){
       //consume console.error('Error occurred in auth check', err);

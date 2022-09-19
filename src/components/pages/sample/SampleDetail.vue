@@ -122,7 +122,7 @@ export default {
       if(!this.isClipLoaded){
         try{
           const {sample:{clipUri: uri}, publicStorageToken:token} = this;
-          const result = await secureGet(axios, {uri, token});
+          const result = await secureGetBlob(axios, {uri, token});
           const data = result.data;
           const blob = new Blob([data], { type: "audio/wav" });
           const blobUrl = URL.createObjectURL(blob);

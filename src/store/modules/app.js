@@ -12,7 +12,9 @@ export default {
     showOverlay: false,
     closeOverlayOnclick: true,
     opacity: '0',
+    targetUrl:''
   }),
+
   actions: {
     showOverlay({commit}, {showLoading, opacity} = overlayOptionDefaults()) {
       commit('setLoading', showLoading);
@@ -27,18 +29,21 @@ export default {
     }
   },
 
-  mutations:{
-    isLoading(state, loading){
+  mutations: {
+    isLoading(state, loading) {
       state.loading = loading;
     },
-    setLoading(state, loading){
+    setLoading(state, loading) {
       state.loading = loading;
     },
-    setOpacity(state, opacity){
+    setOpacity(state, opacity) {
       state.opacity = opacity;
     },
-    setShowOverlay(state, showOverlay){
+    setShowOverlay(state, showOverlay) {
       state.showOverlay = showOverlay;
+    },
+    setTargetUrl(state, targetUrl) {
+      state.targetUrl = targetUrl;
     }
   }
 }

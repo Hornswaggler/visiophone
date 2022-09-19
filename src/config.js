@@ -11,7 +11,7 @@ const properties = [
   'VUE_APP_STALE_RECORD_THRESHOLD',
   'VUE_APP_API_SAMPLE_SEARCH_URI',
   'VUE_APP_API_SAMPLE_UPLOAD_URI',
-
+  'VUE_APP_AVATAR_URI'
 ];
 
 const env = process.env;

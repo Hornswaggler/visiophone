@@ -20,6 +20,7 @@ router.beforeEach((to, from, next) => {
   const isPublic = to.matched.some(record => record.meta.public);
 
   if (!isPublic && !authenticated) {
+    store.commit('app/setTargetUrl', to.path)
     return next({
       path: '/landingPage',
       query: { redirect: to.fullPath }

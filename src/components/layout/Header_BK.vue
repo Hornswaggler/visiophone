@@ -1,32 +1,6 @@
 <template>
-  <!-- <div class="sample-search-input"> -->
-  <div class="flex selection-container">
-    <span @click="onClickBack">
-      <font-awesome-icon 
-        class="form-icon"
-        style="font-size:0.5em;height:2em;"
-        icon="fa-angle-left"
-      />
-    </span>
-    <span>
-      <font-awesome-icon 
-        class="form-icon pl1"
-        style="font-size:0.5em;height:2em;"
-        icon="fa-angle-right"
-      />
-    </span>
-    <div style="display:flex;justify-content:flex-end;flex:1;height:100%;width: 100%;">
-      <div style="height:2em;width:2em;background-color:grey">
-        <img
-          class="fill"
-          :src="profileImg"
-          @click="onUserMenuClicked"
-        >
-      </div>
-    </div>
-    <div class="sample-search-input-background" />
-  </div>
-  <!-- <div class="sample-search-input-content">
+  <div class="sample-search-input">
+    <div class="sample-search-input-content">
       <form-input
         :on-changed="onSearchChanged"
       />
@@ -44,29 +18,29 @@
         <div class="user-button">
           <div
             class=" user-icon"
-            :style="{ background: `center / contain no-repeat  url('${profileImg}')` }"
+            :style="{ background: `center / contain no-repeat  url('${userIcon}')` }"
             @click="onUserMenuClicked"
           />
         </div>
       </div>
-
-    </div> -->
-  <!-- </div> -->
+    </div>
+    <div class="sample-search-input-background" />
+  </div>
 </template>
 
 <script>
-import {mapState, mapGetters} from 'vuex';
-// import FormInput from '@/components/form/FormInput.vue';
-// import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
-// import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
+import {mapState} from 'vuex';
+import FormInput from '@/components/form/FormInput.vue';
+import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
+import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
 import {SORT_TYPES} from '@/store/modules/sample';
 
 export default {
   name:'Header',
   components:{
-    // BootlegGroupIcon,
-    // BootlegListIcon,
-    // FormInput
+    BootlegGroupIcon,
+    BootlegListIcon,
+    FormInput
   },
   data:() => ({
     inputWidth: '10em',
@@ -122,7 +96,6 @@ export default {
     }
   }),
   computed:{
-    ...mapGetters('user', ['profileImg']),
     ...mapState('sample', ['sortType']),
     ...mapState('user', ['userIcon', 'apiToken']),
     isGroupTypeSelected(){
@@ -133,9 +106,6 @@ export default {
     },
   },
   methods: {
-    onClickBack() {
-      this.$router.go(-1);
-    },
     async onUserMenuClicked(e) {
       const { clientX = 0, clientY = 0 } = e;
 
