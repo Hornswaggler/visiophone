@@ -104,9 +104,9 @@ export default {
     }
   }),
   computed:{
-    ...mapGetters('user', ['profileImg']),
+    ...mapGetters('user', ['profileImg', 'idToken']),
     ...mapState('sample', ['sortType']),
-    ...mapState('user', ['userIcon', 'apiToken']),
+    ...mapState('user', ['userIcon']),
     isGroupTypeSelected(){
       return this.sortType === SORT_TYPES.GROUP;
     },
@@ -141,8 +141,7 @@ export default {
     },
 
     onSearchChanged(query) {
-      const {idToken:token} = this;
-      this.$store.dispatch('sample/search', {query, token });
+      this.$store.dispatch('sample/search', {query, token: this.idToken });
     },
 
     onViewListClicked(){
