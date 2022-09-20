@@ -69,7 +69,7 @@ export default {
             }
           );
           if (await $store.dispatch('user/logout')) {
-            $router.push('landingPage');
+            $router.push('/landingPage');
           }
         },
       },
