@@ -55,7 +55,7 @@ export default {
       commit('_id', data._id);
     },
 
-    async getUserProfile({ commit, state:{ token, accountId: userId }}) {
+    async getUserProfile({ commit, state:{ apiToken: token, accountId: userId }}) {
       const {data:{avatarId, _id}} = await securePostJson(axios, { userId }, { slug: 'get_user_profile', token });
 
       commit('assignObject', {key:'_id', value: _id});
