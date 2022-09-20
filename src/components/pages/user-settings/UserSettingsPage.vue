@@ -113,8 +113,6 @@ const result = Object.entries(DEFAULT_MENU).map(([key,value], id) => ({
   ...value,
 }));
 
-console.log(result);
-
 export default {
   name:'UserSettingsPage',
   components:{

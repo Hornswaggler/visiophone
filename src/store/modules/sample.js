@@ -89,7 +89,6 @@ export default {
     },
     uploadBuffer({state:{fileBuffer},dispatch}, {sampleData, token}) {
       try {
-        console.log('Uploading Sample:');
         let fd = new FormData();
         fd.append('file',fileBuffer)
         fd.append('data', JSON.stringify(sampleData));

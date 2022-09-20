@@ -46,7 +46,6 @@ export default {
   },
 
   mounted(){
-    console.log('Mounted', this.$router);
     this.$store.dispatch('app/setSideNavigationMenuItems', [...this.menuItems]);
   },
 
