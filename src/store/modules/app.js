@@ -12,7 +12,11 @@ export default {
     showOverlay: false,
     closeOverlayOnclick: true,
     opacity: '0',
+    targetUrl:'',
+    sideNavigationIndex: 0,
+    sideNavigationMenuItems: []
   }),
+
   actions: {
     showOverlay({commit}, {showLoading, opacity} = overlayOptionDefaults()) {
       commit('setLoading', showLoading);
@@ -24,21 +28,31 @@ export default {
       commit('setLoading', false);
       commit('setOpacity', false);
       commit('setShowOverlay', false);
+    },
+
+    setSideNavigationMenuItems({commit}, sideNavigationMenuItems) {
+      commit('assignObject', {key: 'sideNavigationMenuItems', value: sideNavigationMenuItems});
     }
   },
 
-  mutations:{
-    isLoading(state, loading){
+  mutations: {
+    isLoading(state, loading) {
       state.loading = loading;
     },
-    setLoading(state, loading){
+    setLoading(state, loading) {
       state.loading = loading;
     },
-    setOpacity(state, opacity){
+    setOpacity(state, opacity) {
       state.opacity = opacity;
     },
-    setShowOverlay(state, showOverlay){
+    setShowOverlay(state, showOverlay) {
       state.showOverlay = showOverlay;
+    },
+    setTargetUrl(state, targetUrl) {
+      state.targetUrl = targetUrl;
+    },
+    setSideNavigationIndex(state, sideNavigationIndex) {
+      state.sideNavigationIndex = sideNavigationIndex;
     }
   }
 }

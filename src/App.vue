@@ -8,13 +8,16 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import BaseLayout from '@/components/layout/BaseLayout.vue';
 import { axiosInit } from '@/axios.js';
 import moment from 'moment';
 import config from '@/config';
 
+const DEFAULT_HOME = '/sample';
+
 const PERSISTENT_MODULES = [
-  'sample'
+  'sample',
 ];
 
 export default {
@@ -22,14 +25,34 @@ export default {
   components: {
     BaseLayout
   },
+
+  computed: {
+    ...mapState('user', ['authenticated']),
+    ...mapState('app', ['targetUrl', 'sideNavigationMenuItems'])
+  },
+
   async mounted(){
     this.initializePersistentStorage();
+
+    this.$router.beforeEach(({path, fullPath}, from, next) => {
+      try {
+        this.$nextTick(() => {
+          if(this.authenticated && path === '/landingPage') {
+            return next('/sample');
+          }
+
+          this.$store.commit('app/setSideNavigationIndex', this.sideNavigationMenuItems.findIndex(({slug}) => slug === path) || 0);
+        });
+      } finally {
+        next();
+      }
+    });
 
     await axiosInit();
     try{
       // TODO Standardize / templatize route names "magic number" 
       if(await this.$store.dispatch('user/initialize')) {
-        this.$router.push('/sample');
+        this.$router.push(this.targetUrl || DEFAULT_HOME);
       }
     } catch(err){
       //consume console.error('Error occurred in auth check', err);

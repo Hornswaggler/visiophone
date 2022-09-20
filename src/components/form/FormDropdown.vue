@@ -9,17 +9,17 @@
   >
     <div class="flex flex-column form-dropdown-item-container">
       <div
-        v-for="each in menuItemsComputed"
-        :key="each.id" 
+        v-for="menuItem in menuItemsComputed"
+        :key="menuItem.id" 
         class="form-dropdown-item"
         :style="{width: itemWidth, transform, opacity}"
-        @click="((e) => onItemClicked(e, each))"
+        @click="((e) => onItemClicked(e, menuItem))"
       >
         <div
           class="form-dropdown-item-name"
           :style="{width: itemWidth}"
         >
-          Log Out
+          {{ menuItem.displayName }}
         </div>
       </div>
     </div>
@@ -112,7 +112,16 @@ export default {
   }
 
   .form-dropdown-item {
-    border: solid 2px white;
+    // border: solid 2px white;
+    border-right: solid white 1px;
+    border-left: solid white 1px;
+    &:first-child{
+      border-top: solid white 1px;
+    }
+
+    &:last-child{
+      border-bottom: solid white 1px;
+    }
 
     padding:0;
     overflow:hidden;

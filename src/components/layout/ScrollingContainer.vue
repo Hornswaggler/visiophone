@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import { debounce } from 'vue-debounce'
 
 export default {
@@ -21,6 +22,9 @@ export default {
   data: () => ({
     debounce: debounce((callback, val) => callback(val), 200)
   }),
+  computed:{
+    ...mapState('sample',['nextResultIndex'])
+  },
   props:{
     onScrollLimitReached:{
       type: Function,
@@ -37,7 +41,7 @@ export default {
     loadMoreSamples(){
       const { scrollHeight , scrollTop , clientHeight } = this.$refs.scrollingContainer;
 
-      if(scrollHeight - scrollTop - clientHeight < 1 ) {
+      if(scrollHeight - scrollTop - clientHeight < 1  ) {
         this.onScrollLimitReached();
       }
     }

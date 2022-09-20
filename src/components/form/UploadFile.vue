@@ -1,7 +1,7 @@
 <template>
   <form-input-base>
     <template v-slot:title>
-      upload audio file
+      {{ title }}
     </template>
     <template
       v-slot:input
@@ -24,8 +24,8 @@
         ref="file"
         type="file"
         class="hidden"
-        accept="audio/*"
-        @change="prepareUpload"
+        :accept="accept"
+        @change="changeHandler($refs['file'])"
       >
     </template>
   </form-input-base>
@@ -41,17 +41,26 @@ export default {
   },
   components: { FormInputBase },
   props: {
+    title: {
+      type: String,
+      default: ''
+    },
     buttonText: {
       type: String,
       default: '',
     },
+    accept:{
+      type: String,
+      default: '*/*'
+    },
+    changeHandler:{
+      type: Function,
+      default: () => {}
+    }
   },
   methods:{
     handleBrowseUpload() {
       this.$refs.file.click();
-    },
-    prepareUpload() {
-      this.$store.dispatch('sample/setFileBuffer', this.$refs.file.files[0]);
     },
   }
 }
