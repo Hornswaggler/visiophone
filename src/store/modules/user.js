@@ -44,7 +44,7 @@ export default {
   namespaced: true,
   state: () => makeNewUser(),
   actions:{
-    async uploadUserProfile({commit, state:{avatarId, accountId, apiToken: token, _id}}, {blob}) {
+    async uploadUserProfile({commit, getters:{idToken: token}, state:{avatarId, accountId, _id}}, {blob}) {
       const fd = new FormData();
       fd.append('file',blob,'fakename.png' );
       fd.append('data', JSON.stringify({ accountId, avatarId , _id}) );
@@ -55,7 +55,7 @@ export default {
       commit('_id', data._id);
     },
 
-    async getUserProfile({ commit, state:{ apiToken: token, accountId: userId }}) {
+    async getUserProfile({ commit, getters:{idToken: token}, state:{ accountId: userId }}) {
       const {data:{avatarId, _id}} = await securePostJson(axios, { userId }, { slug: 'get_user_profile', token });
 
       commit('assignObject', {key:'_id', value: _id});

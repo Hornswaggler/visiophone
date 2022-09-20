@@ -68,8 +68,8 @@ export default {
     AUDIO_MIME_TYPE
   }),
   computed: {
-    ...mapGetters('user', ['accessToken']),
-    ...mapState('user',['authenticated','shelfCapacity', 'apiToken']),
+    ...mapGetters('user',['idToken']),
+    ...mapState('user',['authenticated','shelfCapacity']),
     model() {
       const {description, tag} = this;
       return {
@@ -93,7 +93,7 @@ export default {
 
         await this.$store.dispatch('sample/uploadBuffer', { 
           sampleData: this.model,
-          token: this.apiToken
+          token: this.idToken
         });
 
         Object.keys(defaultSample).map(key => {
