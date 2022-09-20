@@ -1,11 +1,5 @@
 <template>
   <div class="vp-input">
-    <!-- TODO do we need this? -->
-    <!-- <div class="vp-input-info">
-      <span>
-        <slot name="info" />
-      </span>
-    </div> -->
     <div
       class="vp-input-container"
     >

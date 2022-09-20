@@ -24,8 +24,9 @@ export default {
     bufferIndex:0,
   }),
   computed:{
-    ...mapGetters('sample', ['sampleArray']),
+    ...mapGetters('sample', ['sampleArray', '']),
     ...mapState('sample', ['isLoaded', 'sortType']),
+    ...mapGetters('user', ['idToken']),
     isCollapsed(){
       return this.sortType === SORT_TYPES.GROUP;
     },
@@ -50,9 +51,10 @@ export default {
   async mounted() {
     if(!this.isLoaded){
       try{
+        const {page, idToken: token} = this;
         await this.$store.dispatch(
-          'sample/search',
-          {page: this.page});
+          'sample/initialize',
+          {page, token});
       }finally{
         this.$store.dispatch('sample/setIsLoaded', true);
       }

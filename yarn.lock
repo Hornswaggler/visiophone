@@ -9,17 +9,17 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@azure/msal-browser@2.24.0":
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-2.24.0.tgz#74db155a534764a5db275d98c5c95b9b6a1d0612"
-  integrity sha512-P4Z8mQ6hTuA9ss3HCltso7fRmuX1raaU6444G35c0FhaD6hfqViFYRa7hk16AiAs9HkUQHbBaL3gLjKMpX3heA==
+"@azure/msal-browser@2.28.1":
+  version "2.28.1"
+  resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-2.28.1.tgz#68432ba789f1d2e7a67a38743fbbbb3fbbc5430b"
+  integrity sha512-5uAfwpNGBSRzBGTSS+5l4Zw6msPV7bEmq99n0U3n/N++iTcha+nIp1QujxTPuOLHmTNCeySdMx9qzGqWuy22zQ==
   dependencies:
-    "@azure/msal-common" "^6.3.0"
+    "@azure/msal-common" "^7.3.0"
 
-"@azure/msal-common@^6.3.0":
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-6.3.0.tgz#a0cdb6be1ae3cfdc5acf3c32979375a0fef433b2"
-  integrity sha512-ZyLq9GdnLBi/83YpysE86TFKbA0TuvfNAN5Psqu20cdAjLo/4rw4ttiItdh1G//XeGErHk9qn57gi2AYU1b5/Q==
+"@azure/msal-common@^7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-7.3.0.tgz#63778ca00a41e3160842b0ee2134cfa92b524820"
+  integrity sha512-revxB3z+QLjwAtU1d04nC1voFr+i3LfqTpUfgrWZVqKh/sSgg0mZZUvw4vKVWB57qtL95sul06G+TfdFZny1Xw==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.16.7":
   version "7.16.7"
@@ -6059,6 +6059,11 @@ mkdirp@^1.0.3, mkdirp@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
+
+moment@2.29.4:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 move-concurrently@^1.0.1:
   version "1.0.1"

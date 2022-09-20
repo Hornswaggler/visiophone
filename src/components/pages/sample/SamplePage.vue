@@ -7,7 +7,6 @@
             <form-input
               :on-changed="onSearchChanged"
             />
-   
             <div class="fill flex justify-end pr1">
               <bootleg-list-icon
                 :on-click="onViewListClicked"
@@ -43,7 +42,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import FormInput from '@/components/form/FormInput.vue';
 import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
 import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
@@ -87,8 +86,9 @@ export default {
   }),
 
   computed: {
-    ...mapState('user', ['userIcon']),
+    ...mapState('user', ['userIcon', 'apiToken']),
     ...mapState('sample', ['sortType']),
+    ...mapGetters('user', ['idToken']),
     isListTypeSelected(){
       return this.sortType === SORT_TYPES.LIST;
     },
@@ -99,8 +99,8 @@ export default {
 
   methods: {
     onScrollLimitReached(){
-      this.$store.dispatch('sample/loadMoreSamples');
-      
+      const {idToken:token} = this;
+      this.$store.dispatch('sample/loadMoreSamples', {token});
     },
     async onUserMenuClicked(e) {
       const { clientX = 0, clientY = 0 } = e;
@@ -122,7 +122,8 @@ export default {
       await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
     },
     onSearchChanged(query) {
-      this.$store.dispatch('sample/search', {query})
+      const {idToken:token} = this;
+      this.$store.dispatch('sample/search', {query, token });
     },
     onViewListClicked(){
       if(!this.isListTypeSelected){

@@ -22,10 +22,11 @@
     "@sendgrid/mail": "7.6.1",
     "rot-js":"2.2.0",
     "jsgif": "1.0.2",
-    "@azure/msal-browser": "2.24.0",
+    "@azure/msal-browser": "2.28.1",
     "@fortawesome/fontawesome-svg-core": "6.1.1",
     "@fortawesome/free-solid-svg-icons": "6.1.1",
-    "@fortawesome/vue-fontawesome": "2.0.6"
+    "@fortawesome/vue-fontawesome": "2.0.6",
+    "moment": "2.29.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

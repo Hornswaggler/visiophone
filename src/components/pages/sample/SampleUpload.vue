@@ -64,7 +64,7 @@ export default {
   data: () => ({...defaultSample}),
   computed: {
     ...mapGetters('user', ['accessToken']),
-    ...mapState('user',['authenticated','shelfCapacity']),
+    ...mapState('user',['authenticated','shelfCapacity', 'apiToken']),
     model(){
       const {description, tag} = this;
       return {
@@ -82,7 +82,11 @@ export default {
     async handleSubmitForm() {
       try {
         this.$store.commit('app/isLoading', true);
-        const result = await this.$store.dispatch('sample/uploadBuffer', this.model);
+
+        await this.$store.dispatch('sample/uploadBuffer', { 
+          sampleData: this.model,
+          token: this.apiToken
+        });
 
         Object.keys(defaultSample).map(key => {
           this[key] = defaultSample[key];

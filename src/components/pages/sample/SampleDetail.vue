@@ -5,29 +5,13 @@
   >
     <div 
       class="sample-detail-image-card"
-      style="position:relative;"
     >
       <div
         class="play-sample-button"
-        style="
-          position:absolute;
-          top:0;
-          bottom:0;
-          left:0;
-          right:0;
-          display:flex;
-          align-items: center;
-          justify-content: center;"
       >
         <div
-          style="
-          z-index:1000;
-          border: solid 2px white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          " 
           class="circle"
+          @click="onPlaySample"
         >
           <form-icon
             class="flex align-center pl1 pr1" 
@@ -58,10 +42,11 @@
             </div>
 
             <div class="sample-card-description-container">
-              <div 
+              <div
                 class="sample-card-description"
               >
                 {{ sample.description }}
+                <div ref="audio-player" />
               </div>
             </div>
 
@@ -104,6 +89,7 @@ import FormCard from '@/components/form/FormCard.vue';
 import FormImage from '@/components/form/FormImage.vue';
 import FormIcon from '@/components/form/FormIcon.vue';
 import { SORT_TYPES, makeNewSample } from '@/store/modules/sample';
+import { axios, secureGet } from '@/axios.js';
 
 export default {
   name:'SampleDetail',
@@ -112,6 +98,9 @@ export default {
     FormImage,
     FormIcon
   },
+  data: () => ({
+    isClipLoaded: false
+  }),
   props: {
     sample: {
       type: Object,
@@ -120,6 +109,7 @@ export default {
   },
   computed:{
     ...mapState('sample', ['sortType']),
+    ...mapState('user', ['publicStorageToken']),
     isCollapsed() {
       return this.sortType == SORT_TYPES.GROUP;
     }
@@ -127,13 +117,33 @@ export default {
   methods:{
     onHandleImageClicked() {
       this.isCollapsed = !this.isCollapsed;
+    },
+    async onPlaySample(){
+      if(!this.isClipLoaded){
+        try{
+          const {sample:{clipUri: uri}, publicStorageToken:token} = this;
+          const result = await secureGet(axios, {uri, token});
+          const data = result.data;
+          const blob = new Blob([data], { type: "audio/wav" });
+          const blobUrl = URL.createObjectURL(blob);
+
+          const clip = document.createElement('audio');
+          clip.id = 'audio-player';
+          clip.controls = 'controls';
+          clip.src = blobUrl;
+          clip.type = 'audio/mpeg';
+          this.$refs['audio-player'].appendChild(clip);
+          this.isClipLoaded = true;
+        }catch(e){
+          // consume
+        }
+        
+      }
     }
   } 
 }
 </script>
-
 <style lang="scss">
-
 .download-icon {
   transform: scale(1);
   transition: transform 0.1s ease-in-out;
@@ -149,11 +159,28 @@ export default {
   &:hover{
     opacity: 1;
   }
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-sample-icon {
+  z-index:1000;
+  border: solid 2px white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sample-detail-container {
   transition: all 1s ease-in-out;
   .sample-detail-image-card {
+    position:relative;
     padding: 0.5em 0.5em;
     cursor:pointer;
     transform: scale(1);
@@ -219,7 +246,10 @@ export default {
   color: #ffffffad;
   font-size: 0.75em;
   max-height: 3em;
-  word-break: break-all
+  word-break: break-all;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .sample-card-tag-container {
@@ -249,6 +279,4 @@ export default {
   display: flex;
   flex-direction: column;
 }
-
-
 </style>

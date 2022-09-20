@@ -8,16 +8,23 @@
 </template>
 
 <script>
- import BaseLayout from '@/components/layout/BaseLayout.vue';
- import { axiosInit } from '@/axios.js';
+import BaseLayout from '@/components/layout/BaseLayout.vue';
+import { axiosInit } from '@/axios.js';
+import moment from 'moment';
+import config from '@/config';
+
+const PERSISTENT_MODULES = [
+  'sample'
+];
 
 export default {
   name: 'App',
   components: {
     BaseLayout
   },
-
   async mounted(){
+    this.initializePersistentStorage();
+
     await axiosInit();
     try{
       // TODO Standardize / templatize route names "magic number" 
@@ -26,6 +33,41 @@ export default {
       }
     } catch(err){
       //consume console.error('Error occurred in auth check', err);
+    }
+  },
+  methods:{
+    initializePersistentStorage(){
+      const currentTime = moment().valueOf();
+      for(let i = 0; i < PERSISTENT_MODULES.length; i++) {
+        const storeModuleName = PERSISTENT_MODULES[i];
+        const storeModuleJson = localStorage.getItem(storeModuleName);
+
+        if(storeModuleJson){
+          try{
+            const storeModule = JSON.parse(storeModuleJson);
+            const samples = storeModule.samples;
+
+            if(Object.keys(samples).find(key => currentTime - samples[key].lastRefresh > config.VUE_APP_STALE_RECORD_THRESHOLD)){
+              break;
+            }
+
+            Object.keys(storeModule).forEach(key => {
+              this.$store.commit(`${storeModuleName}/assignObject`, {
+                key,
+                value: storeModule[key]
+              })
+            })
+          }catch(e){
+            console.error(e);
+          }
+        }
+      }
+
+      this.$store.subscribe(({type}, {sample}) => {
+        if(PERSISTENT_MODULES.find(m => type.startsWith(m))) {
+          localStorage.setItem('sample', JSON.stringify(sample));
+        }
+      });
     }
   }
 }

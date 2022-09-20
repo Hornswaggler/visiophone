@@ -8,6 +8,9 @@ const properties = [
   'VUE_APP_API_UPLOAD_SAMPLE_URI',
   'VUE_APP_API_SAMPLE_URI',
   'VUE_APP_API_DEBOUNCE',
+  'VUE_APP_READ_BLOB_SCOPE',
+  'VUE_APP_CLIP_URI',
+  'VUE_APP_STALE_RECORD_THRESHOLD'
 ];
 
 const env = process.env;
