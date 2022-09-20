@@ -44,7 +44,7 @@ export default {
   namespaced: true,
   state: () => makeNewUser(),
   actions:{
-    async uploadUserProfile({commit, state:{avatarId, accountId, apiToken:token, _id}}, {blob}) {
+    async uploadUserProfile({commit, state:{avatarId, accountId, apiToken:{accessToken: token}, _id}}, {blob}) {
       const fd = new FormData();
       fd.append('file',blob,'fakename.png' );
       fd.append('data', JSON.stringify({ accountId, avatarId , _id}) );
