@@ -12,8 +12,8 @@ export const makeNewUser = () => ({
   userIcon: require('@/assets/Comp_boi_idle.gif'),
   shelfCapacity: 75,
   msal: {},
-  apiToken: {},
-  publicStorageToken: {},
+  apiToken: '',
+  publicStorageToken: '',
   avatarId: localStorage.avatarId || ''
 });
 
@@ -44,7 +44,7 @@ export default {
   namespaced: true,
   state: () => makeNewUser(),
   actions:{
-    async uploadUserProfile({commit, state:{avatarId, accountId, apiToken:{accessToken: token}, _id}}, {blob}) {
+    async uploadUserProfile({commit, state:{avatarId, accountId, apiToken: token, _id}}, {blob}) {
       const fd = new FormData();
       fd.append('file',blob,'fakename.png' );
       fd.append('data', JSON.stringify({ accountId, avatarId , _id}) );
@@ -55,13 +55,13 @@ export default {
       commit('_id', data._id);
     },
 
-    async getUserProfile({state:{apiToken:{accessToken: token}, accountId:userId}}){
-      const {data:{ avatarId, _id }} = await securePostJson(axios, {userId}, { slug: 'get_user_profile', token });
+    async getUserProfile({ commit, state:{ token, accountId: userId }}) {
+      const {data:{avatarId, _id}} = await securePostJson(axios, { userId }, { slug: 'get_user_profile', token });
 
       commit('assignObject', {key:'_id', value: _id});
       commit('assignObject', {key:'avatarId', value: avatarId});
 
-      return data;
+      return {avatarId, _id};
     },
 
     async initialize({getters:{idToken}, state:{avatarId}, commit, dispatch}) {
@@ -70,15 +70,15 @@ export default {
         const resp = await myMSALObj.handleRedirectPromise();
         handleResponse(resp, commit);
 
-        const apiTokenRequest = {account: idToken, scopes: API_SCOPES };
-        const apiToken = await myMSALObj.acquireTokenSilent(apiTokenRequest);
+        const apiTokenRequest = { account: idToken, scopes: API_SCOPES };
+        const msal = await myMSALObj.acquireTokenSilent(apiTokenRequest);
 
         const publicStorageTokenRequest =  {
           account: myMSALObj.idToken,
           scopes: [config.VUE_APP_READ_BLOB_SCOPE]
         };
 
-        const {accessToken: publicStorageToken} = await myMSALObj.acquireTokenSilent(publicStorageTokenRequest);
+        const { accessToken: publicStorageToken } = await myMSALObj.acquireTokenSilent(publicStorageTokenRequest);
 
         commit('assignObject', {
           key: 'publicStorageToken',
@@ -87,17 +87,17 @@ export default {
 
         commit('assignObject', {
           key:'apiToken',
-          value: apiToken
+          value: msal.accessToken
         });
 
         commit('assignObject',{
           key: 'msal',
-          value: apiToken
+          value: msal
         });
 
-        if(!avatarId){
-          const {avatarId} = await dispatch('getUserProfile', {apiToken});
-          commit('avatarId',avatarId)
+        if(!avatarId) {
+          const { avatarId } = await dispatch('getUserProfile', { token: msal.accessToken });
+          commit('avatarId', avatarId);
         }
 
         return true;
@@ -107,7 +107,7 @@ export default {
       return false;
     },
 
-    async login({commit}) {
+    async login({commit, dispatch}) {
       const loginRequest = {
         scopes: ["User.Read","openid", "profile"],
       };
@@ -117,6 +117,8 @@ export default {
         key: 'msal',
         value: result 
       });
+
+      await dispatch('initialize');
 
       return result;
     },
@@ -149,21 +151,26 @@ export default {
     idToken: ({msal:{idToken}} = {msal:{idToken:''}}) => idToken,
     profileImg: ({avatarId}) => `${config.VUE_APP_AVATAR_URI}${avatarId}.png`
   },
-  mutations:{
-    authenticated(state, authenticated){
+
+  mutations: {
+    authenticated(state, authenticated) {
       state.authenticated = authenticated;
     },
+  
     accountId(state, accountId) {
       state.accountId = accountId;
     },
-    avatarId(state, avatarId){
+  
+    avatarId(state, avatarId) {
       state.avatarId = avatarId;
       localStorage.setItem('avatarId', avatarId);
     },
-    _id(state, _id){
+  
+    _id(state, _id) {
       state._id = _id;
       localStorage.setItem('_id', _id);
     },
+  
   }
 };
 
