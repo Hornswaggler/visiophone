@@ -121,8 +121,9 @@ export default {
       return result;
     },
 
-    async logout({state:{accountId}}) {
+    async logout({state:{accountId}, commit}) {
       try{
+        commit('authenticated', false);
         await myMSALObj.logoutPopup({
           account: myMSALObj.getAccountByHomeId(accountId)
         });
