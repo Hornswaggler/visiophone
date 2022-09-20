@@ -44,19 +44,19 @@ export default {
   namespaced: true,
   state: () => makeNewUser(),
   actions:{
-    async uploadUserProfile({commit, state:{avatarId, accountId, apiToken, _id}}, {blob}) {
+    async uploadUserProfile({commit, state:{avatarId, accountId, apiToken:token, _id}}, {blob}) {
       const fd = new FormData();
       fd.append('file',blob,'fakename.png' );
       fd.append('data', JSON.stringify({ accountId, avatarId , _id}) );
 
-      const { data } = await securePostForm(axios, fd, {slug: `set_user_profile`, apiToken});
+      const { data } = await securePostForm(axios, fd, {slug: `set_user_profile`, token});
 
       commit('avatarId', data.avatarId);
       commit('_id', data._id);
     },
 
-    async getUserProfile({state:{apiToken, accountId:userId}}){
-      const {data:{ avatarId, _id }} = await securePostJson(axios, {userId}, { slug: 'get_user_profile', apiToken });
+    async getUserProfile({state:{apiToken: token, accountId:userId}}){
+      const {data:{ avatarId, _id }} = await securePostJson(axios, {userId}, { slug: 'get_user_profile', token });
 
       commit('assignObject', {key:'_id', value: _id});
       commit('assignObject', {key:'avatarId', value: avatarId});
@@ -121,8 +121,9 @@ export default {
       return result;
     },
 
-    async logout({state:{accountId}}) {
+    async logout({state:{accountId}, commit}) {
       try{
+        commit('authenticated', false);
         await myMSALObj.logoutPopup({
           account: myMSALObj.getAccountByHomeId(accountId)
         });
