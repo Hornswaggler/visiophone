@@ -196,6 +196,7 @@ export default {
         'user/uploadUserProfile',
         { 
           blob: this.resampledBlob,
+          accountId: this.accountId
         }
       );
     },
