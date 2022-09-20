@@ -1,73 +1,51 @@
 <template>
-  <!-- <div class="sample-search-input"> -->
-  <div class="flex selection-container">
-    <span @click="onClickBack">
-      <font-awesome-icon 
-        class="form-icon"
-        style="font-size:0.5em;height:2em;"
-        icon="fa-angle-left"
-      />
-    </span>
-    <span>
-      <font-awesome-icon 
-        class="form-icon pl1"
-        style="font-size:0.5em;height:2em;"
-        icon="fa-angle-right"
-      />
-    </span>
-    <div style="display:flex;justify-content:flex-end;flex:1;height:100%;width: 100%;">
-      <div style="height:2em;width:2em;background-color:grey">
-        <img
-          class="fill"
-          :src="profileImg"
-          @click="onUserMenuClicked"
-        >
-      </div>
-    </div>
-    <div class="sample-search-input-background" />
-  </div>
-  <!-- <div class="sample-search-input-content">
-      <form-input
-        :on-changed="onSearchChanged"
-      />
-      <div class="fill flex justify-end pr1">
-        <bootleg-list-icon
-          :on-click="onViewListClicked"
-          :selected="isListTypeSelected"
+  <div>
+    <div class="flex selection-container">
+      <span @click="onGo(-1)">
+        <font-awesome-icon 
+          class="form-icon"
+          icon="fa-angle-left"
         />
+      </span>
 
-        <bootleg-group-icon 
-          :on-click="onViewGroupClicked"
-          :selected="isGroupTypeSelected"
+      <span @click="onGo(1)">
+        <font-awesome-icon 
+          class="form-icon pl1"
+          icon="fa-angle-right"
         />
-
-        <div class="user-button">
-          <div
-            class=" user-icon"
-            :style="{ background: `center / contain no-repeat  url('${profileImg}')` }"
+      </span>
+      <div
+        class="header-search-container"
+      >
+        <div class="header-search-input">
+          <div class="sample-search-input-content">
+            <form-input :on-changed="onSearchChanged" />
+          </div>
+        </div>
+        <div class="header-user-menu">
+          <img
+            class="header-profile-image circle"
+            :src="profileImg"
             @click="onUserMenuClicked"
-          />
+          >
         </div>
       </div>
-
-    </div> -->
-  <!-- </div> -->
+      <div class="sample-search-input-background" />
+    </div>
+  </div>
 </template>
 
 <script>
 import {mapState, mapGetters} from 'vuex';
-// import FormInput from '@/components/form/FormInput.vue';
-// import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
-// import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
+import FormInput from '@/components/form/FormInput.vue';
 import {SORT_TYPES} from '@/store/modules/sample';
 
 export default {
   name:'Header',
   components:{
-    // BootlegGroupIcon,
-    // BootlegListIcon,
-    // FormInput
+    FormInput
   },
+
   data:() => ({
     inputWidth: '10em',
     menuItems: {
@@ -75,15 +53,16 @@ export default {
         displayName: 'Settings',
         handler: async({$router, $store}) => {
           await $store.dispatch('app/hideOverlay');
-          $router.push('user-settings');
+          $router.push('/user-settings');
         }
       },
+    
       logout:{
         displayName: 'Log Out',
         handler: async ({$store, $router}) => {
           await $store.dispatch('app/hideOverlay');
           await $store.dispatch(
-            'dropdown/hideDropdown',
+            '/dropdown/hideDropdown',
             {
               showLoading: false, 
               opacity: '0'
@@ -93,16 +72,18 @@ export default {
             $router.push('landingPage');
           }
         },
-        
       },
 
       settings:{
         displayName: 'Settings',
         handler: async({$router, $store}) => {
           await $store.dispatch('app/hideOverlay');
-          $router.push('user-settings');
+
+          // TODO: Standardize these...
+          $router.push('/user-settings');
         }
       },
+
       logout:{
         displayName: 'Log Out',
         handler: async ({$store, $router}) => {
@@ -115,7 +96,8 @@ export default {
             }
           );
           if (await $store.dispatch('user/logout')) {
-            $router.push('landingPage');
+
+            $router.push('/landingPage');
           }
         }
       }
@@ -133,9 +115,10 @@ export default {
     },
   },
   methods: {
-    onClickBack() {
-      this.$router.go(-1);
+    onGo(direction){
+      this.$router.go(direction)
     },
+  
     async onUserMenuClicked(e) {
       const { clientX = 0, clientY = 0 } = e;
 
@@ -152,13 +135,16 @@ export default {
 
       this.$store.dispatch('app/showOverlay', { showLoading: false, opacity: '0.9' });
     },
-    async onFormDropdownChanged(value) {
+
+    async onFormDropdownChanged() {
       await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
     },
+
     onSearchChanged(query) {
       const {idToken:token} = this;
       this.$store.dispatch('sample/search', {query, token });
     },
+
     onViewListClicked(){
       if(!this.isListTypeSelected){
         this.$store.dispatch('sample/setSortType', SORT_TYPES.LIST);
@@ -176,49 +162,59 @@ export default {
 </script>
 
 <style lang="scss">
-  
-.user-button {
-  height:100%;
-  display:flex;
+.header-profile-image {
+  height:3em;
+  width:3em;
+}
+
+.header-search-container {
+  display: flex;
   justify-content: flex-end;
-  align-items: center;
-}
+  flex: 1;
+  height: 100%;
+  width: 100%;
 
-
-.user-icon {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 2.5em;
-  height:2.5em;
-  cursor:pointer;
-  transition: all 0.08s ease-in-out;
-  &:hover{
-    transform: scale(1.2);
-  }
-}
-
-
-.sample-search-input {
-  margin: 1em 0;
-  position: relative;
-  height: 3em;
-  max-width: calc(100vw - 12em);
-  border-radius: 6px;
-  margin-right: 1em;
-  border: solid 2px grey;
-
-  .sample-search-input-content {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  .header-user-menu {
+    background-color: transparent;
     height: 100%;
+    display: flex;
+    align-items: center;  }
+
+  .header-search-input{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.sample-search-input-content {
+  border: solid 2px grey;
+  max-width: 25em;
+  border-radius: 16px;
+}
+
+.selection-container {
+  background-color: rgb(31 25 25 / 77%);
+  color: #ffffffa1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1em;
+  font-size: 1.2em;
+  z-index: 1;
+  
+  .form-icon {
+    font-size:0.5em;
+    height:2em;
   }
 
+  & > * {
+    cursor: pointer;
+    transition: color 0.2s ease-out;
 
-  .form-input {
-    border: none;
-    position: relative;
+    &:hover{
+      color:white;
+    }
   }
 }
 </style>

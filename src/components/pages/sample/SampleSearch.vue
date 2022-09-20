@@ -1,13 +1,26 @@
 <template>
-  <div
-    class="flex sample-search-container"
-    :class="{isCollapsed}"
-  >
-    <sample-detail
-      v-for="sample in sampleArray"
-      :key="sample._id"
-      :sample="sample"
-    />
+  <div>
+    <div class="flex justify-end">
+      <bootleg-list-icon
+        :on-click="onViewListClicked"
+        :selected="isListTypeSelected"
+      />
+
+      <bootleg-group-icon 
+        :on-click="onViewGroupClicked"
+        :selected="isGroupTypeSelected"
+      />
+    </div>
+    <div
+      class="flex sample-search-container"
+      :class="{isCollapsed}"
+    >
+      <sample-detail
+        v-for="sample in sampleArray"
+        :key="sample._id"
+        :sample="sample"
+      />
+    </div>
   </div>
 </template>
 
@@ -15,16 +28,22 @@
 import { mapGetters, mapState } from 'vuex';
 import SampleDetail from './SampleDetail.vue';
 import {SORT_TYPES} from '@/store/modules/sample';
-
+import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
+import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
 export default {
   name:'SampleSearch',
-  components:{SampleDetail},
+  components:{SampleDetail, BootlegGroupIcon, BootlegListIcon},
   data: () => ({
     page: 0,
-    bufferIndex:0,
+    bufferIndex: 0,
+    onViewGroupClicked(){
+      if(!this.isGroupTypeSelected){
+        this.$store.dispatch('sample/setSortType', SORT_TYPES.GROUP);
+      }
+    }
   }),
-  computed:{
-    ...mapGetters('sample', ['sampleArray', '']),
+  computed: {
+    ...mapGetters('sample', ['sampleArray']),
     ...mapState('sample', ['isLoaded', 'sortType']),
     ...mapGetters('user', ['idToken']),
     isCollapsed(){
@@ -48,14 +67,23 @@ export default {
       return this.sampleBufferLength - this.bufferIndex;
     }
   },
+  methods:{
+    onViewListClicked(){
+      if(!this.isListTypeSelected){
+        this.$store.dispatch('sample/setSortType', SORT_TYPES.LIST);
+      }
+    },
+  },
   async mounted() {
-    if(!this.isLoaded){
-      try{
+    // TODO Fix this nonsense
+    this.$store.commit('app/setSideNavigationIndex', 0);
+    if(!this.isLoaded) {
+      try {
         const {page, idToken: token} = this;
         await this.$store.dispatch(
           'sample/initialize',
           {page, token});
-      }finally{
+      } finally {
         this.$store.dispatch('sample/setIsLoaded', true);
       }
     }

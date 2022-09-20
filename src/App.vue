@@ -27,11 +27,26 @@ export default {
   },
 
   computed: {
-    ...mapState('app', ['targetUrl'])
+    ...mapState('user', ['authenticated']),
+    ...mapState('app', ['targetUrl', 'sideNavigationMenuItems'])
   },
 
   async mounted(){
     this.initializePersistentStorage();
+
+    this.$router.beforeEach(({path, fullPath}, from, next) => {
+      try {
+        this.$nextTick(() => {
+          if(this.authenticated && path === '/landingPage') {
+            return next('/sample');
+          }
+
+          this.$store.commit('app/setSideNavigationIndex', this.sideNavigationMenuItems.findIndex(({slug}) => slug === path) || 0);
+        });
+      } finally {
+        next();
+      }
+    });
 
     await axiosInit();
     try{

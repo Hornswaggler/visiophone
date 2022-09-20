@@ -8,7 +8,7 @@
 
     <template
       v-slot:input
-      style="height:initial;"
+      style="height:initial;width:100%;"
     >
       <input
         v-model="internalValue"
@@ -110,8 +110,9 @@ export default {
 
 .form-input-body {
   padding-left:0.75em;
+  padding-right:0.75em;
+  padding-left:0.75em;
   border:none;
-  width:100%;
   color:white;
   z-index:2;
   flex:1;
@@ -120,10 +121,6 @@ export default {
   min-width: 0;
   font-family: 'VCR_OSD_MONO';
   transition: all 0.5s;
-
-  &:focus {
-    // border:solid white;
-  }
 
   &::selection {
     background: rgb(96, 239, 48);

@@ -12,7 +12,9 @@ export default {
     showOverlay: false,
     closeOverlayOnclick: true,
     opacity: '0',
-    targetUrl:''
+    targetUrl:'',
+    sideNavigationIndex: 0,
+    sideNavigationMenuItems: []
   }),
 
   actions: {
@@ -26,6 +28,10 @@ export default {
       commit('setLoading', false);
       commit('setOpacity', false);
       commit('setShowOverlay', false);
+    },
+
+    setSideNavigationMenuItems({commit}, sideNavigationMenuItems) {
+      commit('assignObject', {key: 'sideNavigationMenuItems', value: sideNavigationMenuItems});
     }
   },
 
@@ -44,6 +50,9 @@ export default {
     },
     setTargetUrl(state, targetUrl) {
       state.targetUrl = targetUrl;
+    },
+    setSideNavigationIndex(state, sideNavigationIndex) {
+      state.sideNavigationIndex = sideNavigationIndex;
     }
   }
 }

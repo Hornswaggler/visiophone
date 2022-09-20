@@ -1,98 +1,26 @@
 <template>
   <centered-responsive-layout>
     <template v-slot:side-panel>
-      <div
-        class="inset-panel"
-        style="color: white;"
-      >
-        <div class="side-navigation-menu">
-          <div class="logo-container pt1">
-            <div class="animated-text">
-              VISIOPHONE
-            </div>
-          </div>
-          {{ menuOptions }}
-          <div
-            v-for="option in menuOptions"
-            :key="option.id"
-            class="side-naviagation-option"
-            :class="{ selected: selectionIndex === option.id }"
-            @click="onMenuOptionClicked(option.id)"
-          >
-            <font-awesome-icon 
-              class="form-icon"
-              style="font-size:0.5em;height:2em;"
-              :icon="option.icon"
-            />
-            <div>{{ option.title }}</div>
-          </div>
-        </div>
-      </div>
+      <side-navigation />
     </template>
     <template v-slot:content>
-      <div style="flex:1; width:calc(100vw - 13em);position:relative;">
-        <!-- <div class="flex selection-container">
-          <span @click="onClickBack">
-            <font-awesome-icon 
-              class="form-icon"
-              style="font-size:0.5em;height:2em;"
-              icon="fa-angle-left"
-            />
-          </span>
-          <span>
-            <font-awesome-icon 
-              class="form-icon pl1"
-              style="font-size:0.5em;height:2em;"
-              icon="fa-angle-right"
-            />
-          </span>
-          <div style="display:flex;justify-content:flex-end;flex:1;height:100%;width: 100%;">
-            <div style="height:2em;width:2em;background-color:grey">
-              <img
-                class="fill"
-                :src="profileImg"
-                @click="onUserMenuClicked"
-              >
-            </div>
-          </div>
-        </div> -->
-
-
+      <div class="user-settings-content-container">
         <Header />
-
-        <div
-          class="fill vp-form"
-          style="
-            color:#66FF00;
-            overflow:hidden;
-          "
-        >
+        <div class="fill vp-form user-settings-content">
           <div
             class="vp-form-row"
             style="margin:0;"
           >
             <!-- TODO fix this  -->
-            <div
-              style="
-              width: calc(100vw - 13em);
-              height: calc(100vh - 3.2em);
-              display:flex;
-              flex-direction: column;"
-            >
-              <div
-                style="
-                height: 100%;
-                display: flex;
-                align-items: center;
-                overflow: hidden;"
-              >
+            <div class="user-settings-form-container">
+              <div class="user-settings-image-container">
                 <image-editor
                   class="flex-3"
                   :img-src="imageSrc"
                   :change-handler="onImageChanged"
                 />
               </div>
-              <div style="padding:2em;">
+              <div class="user-settings-image-upload-container">
                 <UploadFile
                   title="profile image"
                   :accept="IMAGE_MIME_TYPE"
@@ -100,7 +28,7 @@
                   :change-handler="onImageUpload"
                 />
               </div>
-              <div style="padding:2em; display:flex; justify-content: flex-end;"> 
+              <div class="user-settings-user-menu-container"> 
                 <button
                   class="vp-button"
                   type="button"
@@ -126,6 +54,7 @@ import UploadFile from '@/components/form/UploadFile.vue';
 import ImageEditor from '../../form/ImageEditor.vue';
 import Header from '../../layout/Header.vue';
 import {IMAGE_MIME_TYPE} from '@/config';
+import SideNavigation from '@/components/layout/SideNavigation.vue';
 
 const DEFAULT_MENU = {
   settings:{
@@ -192,20 +121,21 @@ export default {
     UploadFile,
     CenteredResponsiveLayout,
     ImageEditor,
-    Header
+    Header,
+    SideNavigation
   },
   data:() => ({
-    initialized:false,
-    isDirty:false,
+    initialized: false,
+    isDirty: false,
     inputWidth: '10em',
-    imageBlob:{},
+    imageBlob: {},
     IMAGE_MIME_TYPE,
-    menuOptions:[
-      {
-        icon: 'fa-gear',
-        title:'Settings'
-      }
-    ].map((o,id) => ({...o, id})),
+    sideNavigationMenuOptions: [{
+      icon: 'fa-gear',
+      title: 'Settings',
+      slug: '/sample/upload',
+      id: 0
+    }].map((o,id) => ({...o, id})),
     selectionIndex: 0,
     profileImage: {},
     imageSrc: '',
@@ -227,6 +157,8 @@ export default {
     }
   },
   mounted(){
+    this.$store.dispatch('app/setSideNavigationMenuItems', [...this.sideNavigationMenuOptions]);
+    this.$store.commit('app/setSideNavigationIndex', 0);
     if(this.profileImage)
       this.imageSrc = this.profileImg;
       this.$nextTick(() => {
@@ -234,7 +166,7 @@ export default {
       });
   },
   methods:{
-    async onFormDropdownChanged(value) {
+    async onFormDropdownChanged() {
       await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
     },
     async onUserMenuClicked(e) {
@@ -274,35 +206,44 @@ export default {
       Vue.set(this.imageBlob, e.files[0]);
       this.imageSrc =  URL.createObjectURL(e.files[0]);
     },
-
-    onMenuOptionClicked(id){
-      // if(this.selectionIndex != id) this.selectionIndex = id;
-    }
   }
 }
 </script>
 
 <style lang="scss">
-.selection-container {
-  background-color: rgb(31 25 25 / 77%);
-  color: #ffffffa1;
+.user-settings-user-menu-container {
+  padding: 2em;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
+}
+
+.user-settings-image-upload-container {
+  padding:2em;
+}
+
+.user-settings-form-container {
+  width: calc(100vw - 13em);
+  height: calc(100vh - 3.2em);
+  display:flex;
+  flex-direction: column;
+}
+
+.user-settings-image-container {
+  height: 100%;
+  display: flex;
   align-items: center;
-  padding: 1em;
-  font-size: 1.2em;
-  z-index: 1;
+  overflow: hidden;
+}
 
+.user-settings-content-container {
+  flex:1;
+  width:calc(100vw - 13em);
+  position:relative;
 
-  & > * {
-    cursor: pointer;
-    transition: color 0.2s ease-out;
-
-    &:hover{
-      color:white;
-    }
+  .user-settings-content {
+    color: white;
+    overflow:hidden;
   }
-
 }
 
 .inset-panel {
@@ -310,33 +251,6 @@ export default {
   border-radius: 8px;
   background: #272727;
   background-blend-mode: normal;
-}
-
-.logo-container {
-  display:flex;
-  justify-content: center;
-  width:100%;
-
-  .animated-text {
-    font-size: 1.2em;
-    background: linear-gradient(180deg, #2cd8d5 0%, #9fafd3 50%, #5a2288 100%);
-    animation: animated_text 10s ease infinite;
-    background-size: 300%;
-
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-family: Inter;
-    font-weight: 800;
-    letter-spacing: 0.2em;
-
-  }
-}
-
-@keyframes animated_text {
-	0% { background-position: 0px 50%; }
-	50% { background-position: 100% 50%; }
-	100% { background-position: 0px 50%; }
 }
 
 .side-navigation-menu {

@@ -1,10 +1,10 @@
 <template>
   <centered-responsive-layout>
     <template v-slot:side-panel>
-      <side-navigation />
+      <side-navigation :menu-items="sideNavigationMenuItems" />
     </template>
     <template v-slot:content>
-      <div style="height:100vh;width:100%;">
+      <div style="height:100vh;width:calc(100vw - 13em);">
         <Header />
         <scrolling-container
           :on-scroll-limit-reached="onScrollLimitReached"
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
 import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayout.vue';
 import SideNavigation from '@/components/layout/SideNavigation.vue';
@@ -33,9 +33,21 @@ export default {
     SideNavigation,
     Header
   },
+  data: () => ({
+    menuItems: [
+      {title: 'Browse', slug:'/sample', icon:'fa-gear', id: 0},
+      {title: 'Upload', slug:'/sample/upload', icon:'fa-gear', id: 1},
+    ]
+  }),
 
   computed: {
+    ...mapState('app', ['sideNavigationMenuItems']),
     ...mapGetters('user', ['idToken']),
+  },
+
+  mounted(){
+    console.log('Mounted', this.$router);
+    this.$store.dispatch('app/setSideNavigationMenuItems', [...this.menuItems]);
   },
 
   methods: {

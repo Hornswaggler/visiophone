@@ -1,50 +1,24 @@
 <template>
-  <!-- <div
-    class="side-navigation-container"
-  >
-    <SiteLogo />
-    <div class="user-name-container">
-      {{ userName }}
-    </div>
-
-    <div
-      v-for="option in menuOptions" 
-      :key="option.id"
-      class="navigation-button"
-      :class="{selected: selectedMenuOption == option._id}"
-      @click="() => onMenuItemSelected(option._id)"
-    >
-      {{ option.name }}
-    </div>
-  </div> -->
   <div class="side-navigation-menu">
-    <div class="logo-container pt1">
-      <div class="animated-text">
-        VISIOPHONE
-      </div>
-    </div>
+    <site-logo />
     <div
-      v-for="option in menuOptions"
+      v-for="option in sideNavigationMenuItems"
       :key="option._id"
       class="side-naviagation-option"
-      :class="{ selected: selectedMenuOption === option._id }"
+      :class="{ selected: sideNavigationIndex === option.id }"
       @click="onMenuItemSelected(option)"
     >
       <font-awesome-icon 
         class="form-icon"
-        style="font-size:0.5em;height:2em;"
         :icon="option.icon"
       />
-      <div>{{ option.name }}</div>
+      <div>{{ option.title }}</div>
     </div>
   </div>
 </template>
 <script>
-import {mapGetters} from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 import SiteLogo from './SiteLogo.vue';
-
-//TODO organize this...
-const DEFAULT_ROUTE = {name: 'Browse', slug:'/sample', icon:'fa-gear', _id: '0'};
 
 export default {
   name:'SideNavigation',
@@ -52,37 +26,15 @@ export default {
     SiteLogo
   },
   data: () => ({
-    selectedMenuOption: '0',
-
-    menuOptions: [
-      DEFAULT_ROUTE,
-      {name: 'Upload', slug:'/sample/upload', icon:'fa-gear', _id: '1'},
-      // {name: 'Random'},
-      // {name: 'Free'},
-      // {name: 'Presets'},
-      // {name: 'Library'}
-    ]
   }),
   computed:{
+    ...mapState('app',['sideNavigationMenuItems','sideNavigationIndex']),
     ...mapGetters('user',['userName'])
   },
-  mounted() {
-    this.$router.beforeEach(({fullPath}, from, next) => {
-      try {
-        this.$nextTick(() => {
-          this.selectedMenuOption = `${this.menuOptions.findIndex(({slug}) => slug === fullPath) || 0}`;
-        });
-      } finally {
-        next();
-      }
-    });
-  },
   methods:{
-    onMenuItemSelected({_id,slug}){
-      // console.log(option);
-      console.log(_id, slug);
-      if(this.selectedMenuOption !== _id) {
-        this.selectedMenuOption = _id;
+    onMenuItemSelected({id,slug}) {
+      if(this.sideNavigationIndex !== id) {
+        this.$store.commit('app/setSideNavigationIndex', id )
         this.$router.push(slug);
       }
     }
@@ -121,6 +73,7 @@ export default {
 .side-navigation-menu {
   box-shadow: 0px 4em 4em rgba(100,100,100,0.4);
 
+  color:white;
   height:100%;
   width:13em;
   display:flex;

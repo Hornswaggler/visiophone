@@ -65,11 +65,12 @@ export default {
   name: 'SampleUpload',
   data: () => ({
     ...defaultSample,
-    AUDIO_MIME_TYPE}),
+    AUDIO_MIME_TYPE
+  }),
   computed: {
     ...mapGetters('user', ['accessToken']),
     ...mapState('user',['authenticated','shelfCapacity', 'apiToken']),
-    model(){
+    model() {
       const {description, tag} = this;
       return {
         description,
@@ -81,6 +82,9 @@ export default {
     UploadFile,
     FormSelect,
     TextAreaInput
+  },
+  mounted() {
+    this.$store.commit('app/setSideNavigationIndex', 1);
   },
   methods: {
     async handleSubmitForm() {
@@ -103,13 +107,13 @@ export default {
         this.$store.commit('app/isLoading', false);
       }
     },
-    sampleInputChangeHandler(el){
+    sampleInputChangeHandler(el) {
       this.$store.dispatch('sample/setFileBuffer',el.files[0]);
     },
     goBack() {
       this.$router.push('/sample');
     },
-    onTextAreaInputChanged(description){
+    onTextAreaInputChanged(description) {
       this.description = description;
     }
   }
