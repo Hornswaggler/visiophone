@@ -3,8 +3,25 @@
     class="fill vp-form"
     style="color:#66FF00;"
   >
+    <div class="user-settings-image-container">
+      <image-editor
+        class="flex-3"
+        :img-src="imageSrc"
+        :change-handler="onImageChanged"
+      />
+    </div>
     <div class="vp-form-row">
-      <UploadFile
+      <upload-file
+        title="profile image"
+        :accept="IMAGE_MIME_TYPE"
+        button-text="Upload"
+        :change-handler="onImageUpload"
+      />
+    </div>
+
+
+    <div class="vp-form-row">
+      <upload-file
         :accept="AUDIO_MIME_TYPE"
         button-text="Upload"
         class="flex-3"
@@ -13,7 +30,7 @@
     </div>
 
     <div class="vp-form-row">
-      <FormSelect 
+      <form-select 
         title="tag"
         :value="tag"
         class="flex-3"
@@ -50,11 +67,13 @@
   </div>
 </template>
 <script>
-import UploadFile from '@/components/form/UploadFile';
+import Vue from 'vue';
+import UploadFile from '@/components/form/UploadFile.vue';
+import ImageEditor from '@/components/form/ImageEditor.vue';
 import TextAreaInput from '@/components/form/TextAreaInput';
 import { mapState, mapGetters } from 'vuex';
 import FormSelect from '@/components/form/FormSelect.vue';
-import {AUDIO_MIME_TYPE} from '@/config';
+import {AUDIO_MIME_TYPE, IMAGE_MIME_TYPE} from '@/config';
 
 const defaultSample = {
   description: '',
@@ -65,7 +84,11 @@ export default {
   name: 'SampleUpload',
   data: () => ({
     ...defaultSample,
-    AUDIO_MIME_TYPE
+    AUDIO_MIME_TYPE,
+    IMAGE_MIME_TYPE,
+    resampledBlob: {},
+    imageSrc: '',
+    imageBlob:{}
   }),
   computed: {
     ...mapGetters('user',['idToken']),
@@ -81,12 +104,21 @@ export default {
   components: {
     UploadFile,
     FormSelect,
-    TextAreaInput
+    TextAreaInput,
+    ImageEditor
   },
   mounted() {
     this.$store.commit('app/setSideNavigationIndex', 1);
   },
   methods: {
+    onImageChanged(newImage) {
+      Vue.set(this, 'resampledBlob', newImage);
+    },
+    onImageUpload(e){
+      console.log('Image Upload');
+      Vue.set(this.imageBlob, e.files[0]);
+      this.imageSrc =  URL.createObjectURL(e.files[0]);
+    },
     async handleSubmitForm() {
       try {
         this.$store.commit('app/isLoading', true);
@@ -114,7 +146,8 @@ export default {
       this.$router.push('/sample');
     },
     onTextAreaInputChanged(description) {
-      this.description = description;
+      console.log('text input changed');
+      // this.description = description;
     }
   }
 }

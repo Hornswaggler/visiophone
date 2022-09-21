@@ -193,7 +193,7 @@ export default {
 }
 
 .selection-container {
-  background-color: rgb(31 25 25 / 77%);
+  background-color: rgba(33, 35, 35, 0.5);
   color: #ffffffa1;
   display: flex;
   justify-content: flex-start;

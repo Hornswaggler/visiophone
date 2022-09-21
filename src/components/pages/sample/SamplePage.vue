@@ -1,10 +1,10 @@
 <template>
   <centered-responsive-layout>
     <template v-slot:side-panel>
-      <side-navigation :menu-items="sideNavigationMenuItems" />
+      <side-navigation />
     </template>
     <template v-slot:content>
-      <div style="height:100vh;width:calc(100vw - 13em);">
+      <div style="height:100vh;width:100%;">
         <Header />
         <scrolling-container
           :on-scroll-limit-reached="onScrollLimitReached"

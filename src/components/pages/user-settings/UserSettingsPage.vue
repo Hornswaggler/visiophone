@@ -4,7 +4,7 @@
       <side-navigation />
     </template>
     <template v-slot:content>
-      <div class="user-settings-content-container">
+      <div class="user-settings-content-container" style="position:relative;">
         <Header />
         <div class="fill vp-form user-settings-content">
           <div
@@ -221,22 +221,21 @@ export default {
 }
 
 .user-settings-form-container {
-  width: calc(100vw - 13em);
-  height: calc(100vh - 3.2em);
+  width:100%;
+  height:100%;
   display:flex;
   flex-direction: column;
 }
 
 .user-settings-image-container {
-  height: 100%;
   display: flex;
   align-items: center;
   overflow: hidden;
 }
 
 .user-settings-content-container {
-  flex:1;
-  width:calc(100vw - 13em);
+  height:100vh;
+  width:100%;
   position:relative;
 
   .user-settings-content {
