@@ -1,50 +1,44 @@
 import {axios, securePostJson, securePostForm} from '@/axios.js';
 import {config} from '@/config.js';
-import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
 
-export const makeNewSample = () => ({
-  _id: uuidv4(),
+export const makeNewSample = ({_id = '', fileId = ''} = {_id: '', fileId: ''}) => ({
+  _id,
+  fileId,
   tag: '',
   description: '',
   seller: 'Seller',
-  categories: ['Guitar', 'Am', '128 BPM'], //string
+  categories: ['Guitar', 'Am', '128 BPM'],
   bpm:'',
   key:'',
-  tags: ['jazz','rnb','smooth influencercore'], //string
+  tags: ['jazz','rnb','smooth influencercore'],
   cost: 0,
   slug:'',
-  imgUrl:  require('@/assets/46.-Funkadelic-‘Maggot-Brain-1971-album-art-billboard-1240.webp'),
-  fileId:'',
-  clipUri:''
+  imgUrl: `${config.VUE_APP_COVER_ART_URI}${_id}.png`,
+  clipUri:`${config.VUE_APP_CLIP_URI}${fileId}.ogg`,
 });
 
-const makeSampleFromResult = ({samples}) => 
-  samples
-    .map(sample => ({
-      ...makeNewSample(),
-      ...sample,
-      lastRefresh: moment().valueOf()
-    }))
-    .map((sample) => ({
-      ...sample,
-      clipUri: `${config.VUE_APP_CLIP_URI}${sample.fileId}.mp3`,
-      categories: sample.categories
-        .map((category, id) => ({
-          id,
-          name: category
-        })),
-      tags: sample.tags
-        .map((tag, id) => ({
-          id,
-          name: tag
-        }))
-    }))
-    .reduce((acc, sample) => {
-      acc[sample._id] = sample;
-      return acc;
-    }, {});
-  
+const makeSampleFromResult = sample => {
+  const newSample = {
+    ...makeNewSample(sample),
+    ...sample,
+    lastRefresh: moment().valueOf(),
+  };
+
+  return {
+    ...newSample,
+    categories: newSample.categories
+      .map((category, id) => ({
+        id,
+        name: category
+      })),
+    tags: newSample.tags
+      .map((tag, id) => ({
+        id,
+        name: tag
+      }))
+  };
+} 
 
 export const SORT_TYPES = {
   LIST: 'LIST',
@@ -62,8 +56,8 @@ export default {
     query: '',
     sortType: SORT_TYPES.LIST,
   }),
-  getters:{ 
-    fileName({fileBuffer:{name = ''} }){
+  getters:{
+    fileName({ fileBuffer:{name = ''} }){
       return name;
     },
     sampleArray({samples, nextResultIndex}){
@@ -77,9 +71,23 @@ export default {
 
   },
   actions:{
+    initFromStorage({commit}, {samples}){
+      const value = Object.keys(samples).map(key => {
+        const sample = samples[key];
+        if((sample.imgUrl || '').startsWith('blob')) {
+          sample.imgUrl = `${config.VUE_APP_COVER_ART_URI}${sample._id}.png`;
+        }
+
+        return makeSampleFromResult(sample);
+      });
+      
+      commit('assignObject', {key: 'samples', value })
+    },
+
     initialize({dispatch}, {page, token}){
       return dispatch('search', {page, token});
     },
+
     async loadMoreSamples({dispatch, commit, state:{nextResultIndex: _nextResultIndex, query, samples: _samples}},{token}) {
       if(_nextResultIndex === -1) return;
       const sampleCount = Object.keys(samples).length;
@@ -87,22 +95,20 @@ export default {
 
       await dispatch('search', {query, token, index: _nextResultIndex});
     },
-    uploadBuffer({state:{fileBuffer},dispatch}, {sampleData, token}) {
+
+    async uploadSample({dispatch}, {sampleData, token, sample, image, imageSrc}) {
       try {
         let fd = new FormData();
-        fd.append('file',fileBuffer)
+        fd.append('sample',sample);
+        fd.append('image', image);
         fd.append('data', JSON.stringify(sampleData));
-        return securePostForm(axios, fd, {slug: `${config.VUE_APP_API_SAMPLE_UPLOAD_URI}`, token});
+
+        const {data} = await securePostForm(axios, fd, {slug: `${config.VUE_APP_API_SAMPLE_UPLOAD_URI}`, token});
+        data.imgUrl = imageSrc;
+        dispatch('addSamples', {samples:[data], index: 1});
       } catch(e) {
-        console.error(e);
-      } finally {
-        dispatch('setFileBuffer', {});
+        console.error(e);image
       }
-    },
-    
-    // TODO: these can be generated ...
-    setFileBuffer({commit}, fileBuffer){
-      commit('assignObject', { key: 'fileBuffer', value: fileBuffer });
     },
 
     setIsLoaded({commit}, isLoaded){
@@ -113,19 +119,28 @@ export default {
       commit('assignObject', {key: 'sortType', value: sortType});
     },
 
-    setIsLoaded({commit}, isLoaded){
-      commit('assignObject', {key: 'isLoaded', value: isLoaded});
+    addSamples({commit,state:{samples}}, {samples: newSamples, index = 0}){
+      const initSamples = newSamples.map(sample => makeSampleFromResult(sample));
+      const result = initSamples.reduce((acc, sample) => {
+          acc[sample._id] = sample;
+          return acc;
+        }, {});
+      
+      const value = index > 0 ? {...samples,  ...result } : {...result};
+
+      commit('assignObject', {
+        key: 'samples',
+        value
+      });
     },
 
-    async search({commit, state:{nextResultIndex: _nextResultIndex, samples: _samples}}, {query, token, index = 0}){
-      //TODO: Refactor uri management, the only required one is the api, should be auto injected
-       const {data:{samples, nextResultIndex}} = await securePostJson(
+    async search({ dispatch, commit, state:{ nextResultIndex: _nextResultIndex }}, { query, token, index = 0 }){
+       const { data:{ samples, nextResultIndex }} = await securePostJson(
         axios,
         JSON.stringify({query, index}),
-        {slug: `${config.VUE_APP_API_SAMPLE_SEARCH_URI}`, token}
+        { slug: `${config.VUE_APP_API_SAMPLE_SEARCH_URI}`, token }
       );
 
-      //TODO: refactor to function that adds ids to stuff, this will be used extensively
       commit('assignObject', {key: 'query', value: query});
 
       const sampleCount = Object.keys(samples).length;
@@ -133,14 +148,7 @@ export default {
       
       commit('assignObject', {key: 'nextResultIndex', value: nextIndex});
 
-      const newSamples = makeSampleFromResult({samples});
-
-      const value = index > 0 ? {..._samples,  ...newSamples } : {...newSamples};
-
-      commit('assignObject', {
-        key: 'samples',
-        value
-      });
+      dispatch('addSamples', {samples, index});
     }
   },
 }

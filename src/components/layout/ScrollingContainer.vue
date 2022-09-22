@@ -1,14 +1,17 @@
 <template>
-  <div
-    ref="scrollingContainer"
-    class="scrollbar fill"
-    style=""
-  >
+  <div>
+    <div>
+      <slot name="header" />
+    </div>
     <div
-      ref="cheese"
-      class="scrolling-container flex flex-column"
+      ref="scrollingContainer"
+      class="scrollbar fill"
     >
-      <slot name="scrolling-content" />
+      <div
+        class="scrolling-container flex flex-column"
+      >
+        <slot name="scrolling-content" />
+      </div>
     </div>
   </div>
 </template>
@@ -23,6 +26,7 @@ export default {
     debounce: debounce((callback, val) => callback(val), 200)
   }),
   computed:{
+    //TODO: This should be a prop
     ...mapState('sample',['nextResultIndex'])
   },
   props:{

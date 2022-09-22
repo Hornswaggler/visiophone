@@ -104,7 +104,7 @@ export default {
   props: {
     sample: {
       type: Object,
-      default: makeNewSample,
+      default: makeNewSample(),
     }
   },
   computed:{

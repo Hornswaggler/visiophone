@@ -25,21 +25,20 @@
         type="file"
         class="hidden"
         :accept="accept"
-        @change="changeHandler($refs['file'])"
+        @change="onInputChanged"
       >
     </template>
   </form-input-base>
 </template>
 <script>
-import { mapGetters } from 'vuex';
 import FormInputBase from '@/components/form/FormInputBase';
 
 export default {
   name: 'UploadFile',
-  computed:{
-    ...mapGetters('sample',['fileName']),
-  },
   components: { FormInputBase },
+  data: () => ({
+    fileName:''
+  }),
   props: {
     title: {
       type: String,
@@ -59,6 +58,10 @@ export default {
     }
   },
   methods:{
+    onInputChanged({target:{files}}) {
+      this.fileName = (files[0] && files[0].name) || '';
+      this.changeHandler(files[0]);
+    },
     handleBrowseUpload() {
       this.$refs.file.click();
     },

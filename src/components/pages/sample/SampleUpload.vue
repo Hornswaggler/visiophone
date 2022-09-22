@@ -10,18 +10,19 @@
         :change-handler="onImageChanged"
       />
     </div>
+    
     <div class="vp-form-row">
       <upload-file
-        title="profile image"
+        title="cover art"
         :accept="IMAGE_MIME_TYPE"
         button-text="Upload"
         :change-handler="onImageUpload"
       />
     </div>
 
-
     <div class="vp-form-row">
       <upload-file
+        title="audio file"
         :accept="AUDIO_MIME_TYPE"
         button-text="Upload"
         class="flex-3"
@@ -39,8 +40,7 @@
 
     <div class="vp-form-row">
       <text-area-input
-        :on-changed="onTextAreaInputChanged"
-        :value="description"
+        :model="description"
         class="flex-3"
         title="description"
       />
@@ -88,7 +88,8 @@ export default {
     IMAGE_MIME_TYPE,
     resampledBlob: {},
     imageSrc: '',
-    imageBlob:{}
+    imageBlob:{},
+    sampleBlob:{}
   }),
   computed: {
     ...mapGetters('user',['idToken']),
@@ -112,20 +113,21 @@ export default {
   },
   methods: {
     onImageChanged(newImage) {
-      Vue.set(this, 'resampledBlob', newImage);
+      Vue.set(this, 'imageBlob', newImage);
     },
-    onImageUpload(e){
-      console.log('Image Upload');
-      Vue.set(this.imageBlob, e.files[0]);
-      this.imageSrc =  URL.createObjectURL(e.files[0]);
+    onImageUpload(file){
+      Vue.set(this.imageBlob, file);
+      this.imageSrc =  URL.createObjectURL(file);
     },
     async handleSubmitForm() {
       try {
         this.$store.commit('app/isLoading', true);
-
-        await this.$store.dispatch('sample/uploadBuffer', { 
+        await this.$store.dispatch('sample/uploadSample', {
           sampleData: this.model,
-          token: this.idToken
+          token: this.idToken,
+          sample: this.sampleBlob,
+          image: this.imageBlob,
+          imageSrc: this.imageSrc
         });
 
         Object.keys(defaultSample).map(key => {
@@ -139,15 +141,14 @@ export default {
         this.$store.commit('app/isLoading', false);
       }
     },
-    sampleInputChangeHandler(el) {
-      this.$store.dispatch('sample/setFileBuffer',el.files[0]);
+    sampleInputChangeHandler(file) {
+      Vue.set(this, 'sampleBlob', file);
     },
     goBack() {
       this.$router.push('/sample');
     },
     onTextAreaInputChanged(description) {
-      console.log('text input changed');
-      // this.description = description;
+      this.description = description;
     }
   }
 }

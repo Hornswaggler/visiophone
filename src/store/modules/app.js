@@ -17,6 +17,15 @@ export default {
     sideNavigationMenuItems: []
   }),
 
+  getters:{
+    sideNavigationMenuItemById({sideNavigationMenuItems}){
+      return sideNavigationMenuItems.reduce((acc, item) => {
+        acc[`${item.id}`] = item;
+        return acc;
+      },{});
+    }
+  },
+
   actions: {
     showOverlay({commit}, {showLoading, opacity} = overlayOptionDefaults()) {
       commit('setLoading', showLoading);

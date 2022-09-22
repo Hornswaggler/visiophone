@@ -6,9 +6,22 @@
     <template v-slot:content>
       <div style="height:100vh;width:100%;">
         <Header />
-        <scrolling-container
-          :on-scroll-limit-reached="onScrollLimitReached"
-        >
+        <scrolling-container :on-scroll-limit-reached="onScrollLimitReached">
+          <template v-slot:header>
+            <div
+              v-if="isBrowsing"
+              class="flex justify-end"
+            >
+              <bootleg-list-icon
+                :on-click="onViewListClicked"
+                :selected="isListTypeSelected"
+              />
+              <bootleg-group-icon 
+                :on-click="onViewGroupClicked"
+                :selected="isGroupTypeSelected"
+              />
+            </div>
+          </template>
           <template v-slot:scrolling-content>
             <router-view />
           </template>
@@ -19,11 +32,14 @@
 </template>
 
 <script>
+import {SORT_TYPES} from '@/store/modules/sample';
 import { mapGetters, mapState } from 'vuex';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
 import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayout.vue';
 import SideNavigation from '@/components/layout/SideNavigation.vue';
 import Header from '@/components/layout/Header.vue';
+import BootlegGroupIcon from '../../form/BootlegGroupIcon.vue';
+import BootlegListIcon from '../../form/BootlegListIcon.vue';
 
 export default {
   name: 'SamplePage',
@@ -31,7 +47,9 @@ export default {
     CenteredResponsiveLayout,
     ScrollingContainer,
     SideNavigation,
-    Header
+    Header,
+    BootlegGroupIcon,
+    BootlegListIcon
   },
   data: () => ({
     menuItems: [
@@ -39,10 +57,24 @@ export default {
       {title: 'Upload', slug:'/sample/upload', icon:'fa-gear', id: 1},
     ]
   }),
-
+  
   computed: {
-    ...mapState('app', ['sideNavigationMenuItems']),
+    ...mapState('app', ['sideNavigationMenuItems', 'sideNavigationIndex']),
+    ...mapGetters('app', ['sideNavigationMenuItemById']),
     ...mapGetters('user', ['idToken']),
+    isBrowsing(){
+      const {title = ''} = this.selectedMenuItem || '';
+      return title  === 'Browse'
+    },
+    isListTypeSelected(){
+      return this.sortType === SORT_TYPES.LIST;
+    },
+    isGroupTypeSelected(){
+      return this.sortType === SORT_TYPES.GROUP;
+    },
+    selectedMenuItem(){
+      return this.sideNavigationMenuItemById[`${this.sideNavigationIndex}`];
+    }
   },
 
   mounted(){
@@ -53,6 +85,18 @@ export default {
     onScrollLimitReached(){
       const {idToken:token} = this;
       this.$store.dispatch('sample/loadMoreSamples', {token});
+    },
+
+    onViewGroupClicked(){
+      if(!this.isGroupTypeSelected){
+        this.$store.dispatch('sample/setSortType', SORT_TYPES.GROUP);
+      }
+    },
+    
+    onViewListClicked(){
+      if(!this.isListTypeSelected){
+        this.$store.dispatch('sample/setSortType', SORT_TYPES.LIST);
+      }
     },
   }
 } 

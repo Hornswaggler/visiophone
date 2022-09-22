@@ -70,9 +70,12 @@ export default {
             const storeModule = JSON.parse(storeModuleJson);
             const samples = storeModule.samples;
 
+            //TODO: refactor this stuff into the store layer
             if(Object.keys(samples).find(key => currentTime - samples[key].lastRefresh > config.VUE_APP_STALE_RECORD_THRESHOLD)){
               break;
             }
+
+            this.$store.dispatch(`${storeModuleName}/initFromStorage`, storeModule);
 
             Object.keys(storeModule).forEach(key => {
               this.$store.commit(`${storeModuleName}/assignObject`, {

@@ -47,7 +47,10 @@
                 overflowY
               }"
             >
-              <div style="background-color: transparent;" :style="{height, width}">
+              <div
+                style="background-color: transparent;"
+                :style="{height, width}"
+              >
                 <div class="flex">
                   <div 
                     class="image-preview-lens"
@@ -175,9 +178,7 @@ export default {
       });
     },
     
-    onSpriteLoaded(e){
-      
-      console.log('Sprite Loaded');
+    onSpriteLoaded(){
       const ctx = this.$refs['otherCanvas'].getContext("2d");
       ctx.clearRect(0, 0, this.actualWidth, this.actualHeight);
 
@@ -226,7 +227,6 @@ export default {
       return new Promise((resolve, reject) => {
         sprite.addEventListener("load", (ev) => {
           try{
-            console.log('Loaded', ev);
             return resolve(sprite);
           } catch(e) {
             return reject(sprite);

@@ -4,7 +4,10 @@
       <side-navigation />
     </template>
     <template v-slot:content>
-      <div class="user-settings-content-container" style="position:relative;">
+      <div
+        class="user-settings-content-container" 
+        style="position:relative;"
+      >
         <Header />
         <div class="fill vp-form user-settings-content">
           <div
@@ -21,8 +24,8 @@
                 />
               </div>
               <div class="user-settings-image-upload-container">
-                <UploadFile
-                  title="profile image"
+                <upload-file
+                  title="sample image"
                   :accept="IMAGE_MIME_TYPE"
                   button-text="Upload"
                   :change-handler="onImageUpload"
@@ -107,11 +110,6 @@ const DEFAULT_MENU = {
     }
   }
 }
-
-const result = Object.entries(DEFAULT_MENU).map(([key,value], id) => ({
-  id,
-  ...value,
-}));
 
 export default {
   name:'UserSettingsPage',
@@ -201,9 +199,9 @@ export default {
       );
     },
 
-    onImageUpload(e){
-      Vue.set(this.imageBlob, e.files[0]);
-      this.imageSrc =  URL.createObjectURL(e.files[0]);
+    onImageUpload(file){
+      Vue.set(this.imageBlob, file);
+      this.imageSrc =  URL.createObjectURL(file);
     },
   }
 }
