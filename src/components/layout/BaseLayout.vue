@@ -1,9 +1,8 @@
 <template>
   <div>
+    <background style="position:absolute;z-index: -1;" />
     <div style="z-index:-2">
-      <div class="overlay">
-        <background />
-      </div>
+      <div class="overlay" />
     </div>
     <form-dropdown />
     <loading />
@@ -102,7 +101,6 @@ export default {
   transition: transform 0.24s linear 0s;
 
   .button-text{
-    font-size: 0.75em;
     position:absolute;
     top:0;bottom:0;left:0;right:0;
     display:flex;

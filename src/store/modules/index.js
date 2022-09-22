@@ -13,18 +13,22 @@ const store = {
   dropdown
 };
 
+const actions = {
+  initFromStorage() {}
+};
+
 const mutations = {
-  setPrimitive(state, {key, value}){
+  setPrimitive(state, {key, value}) {
     state[key] = value;
   },
 
-  addAll(state, {key, values}){
+  addAll(state, {key, values}) {
     values.forEach(value => {
       state[key].push(value);
     });
   },
 
-  assignObject(state, {key, value}){
+  assignObject(state, {key, value}) {
     Vue.set(state, key, value);
   }
 };
@@ -36,6 +40,10 @@ const result = Object.keys(store).reduce((acc, key) => {
       mutations:{
         ...mutations,
         ...store[key].mutations
+      },
+      actions: {
+        ...actions,
+        ...store[key].actions
       }
     }
   };

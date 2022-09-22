@@ -104,7 +104,7 @@ export default {
   props: {
     sample: {
       type: Object,
-      default: makeNewSample,
+      default: makeNewSample(),
     }
   },
   computed:{
@@ -255,7 +255,6 @@ export default {
   text-overflow: ellipsis;
   text-align: left;
   color: #ffffffad;
-  font-size: 0.75em;
   max-height: 3em;
   word-break: break-all;
   width: 100%;

@@ -70,9 +70,12 @@ export default {
             const storeModule = JSON.parse(storeModuleJson);
             const samples = storeModule.samples;
 
+            //TODO: refactor this stuff into the store layer
             if(Object.keys(samples).find(key => currentTime - samples[key].lastRefresh > config.VUE_APP_STALE_RECORD_THRESHOLD)){
               break;
             }
+
+            this.$store.dispatch(`${storeModuleName}/initFromStorage`, storeModule);
 
             Object.keys(storeModule).forEach(key => {
               this.$store.commit(`${storeModuleName}/assignObject`, {
@@ -101,6 +104,11 @@ export default {
 
 // TODO: ^^^ file can only be imported into a single component, should probably resolve this...
 
+html{
+  --image-editor-hw: 16em;
+}
+
+
 .responsive-margin {
   @include for-size(xl){
     width: 25vw;
@@ -109,6 +117,9 @@ export default {
 }
 
 .layout-centered-body {
+  width:100%;
+  justify-content: center;
+
   .side-navigation-container {
     opacity: 1;
     transition: opacity 1s, width 1s, margin 1s; 
@@ -175,10 +186,6 @@ export default {
       }
     }
   }
-}
-
-.layout-centered-body {
-  width:100vw;
 }
 
 .app-content-container {

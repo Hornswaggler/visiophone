@@ -3,8 +3,26 @@
     class="fill vp-form"
     style="color:#66FF00;"
   >
+    <div class="user-settings-image-container">
+      <image-editor
+        class="flex-3"
+        :img-src="imageSrc"
+        :change-handler="onImageChanged"
+      />
+    </div>
+    
     <div class="vp-form-row">
-      <UploadFile
+      <upload-file
+        title="cover art"
+        :accept="IMAGE_MIME_TYPE"
+        button-text="Upload"
+        :change-handler="onImageUpload"
+      />
+    </div>
+
+    <div class="vp-form-row">
+      <upload-file
+        title="audio file"
         :accept="AUDIO_MIME_TYPE"
         button-text="Upload"
         class="flex-3"
@@ -13,7 +31,7 @@
     </div>
 
     <div class="vp-form-row">
-      <FormSelect 
+      <form-select 
         title="tag"
         :value="tag"
         class="flex-3"
@@ -22,8 +40,7 @@
 
     <div class="vp-form-row">
       <text-area-input
-        :on-changed="onTextAreaInputChanged"
-        :value="description"
+        :model="description"
         class="flex-3"
         title="description"
       />
@@ -50,11 +67,13 @@
   </div>
 </template>
 <script>
-import UploadFile from '@/components/form/UploadFile';
+import Vue from 'vue';
+import UploadFile from '@/components/form/UploadFile.vue';
+import ImageEditor from '@/components/form/ImageEditor.vue';
 import TextAreaInput from '@/components/form/TextAreaInput';
 import { mapState, mapGetters } from 'vuex';
 import FormSelect from '@/components/form/FormSelect.vue';
-import {AUDIO_MIME_TYPE} from '@/config';
+import {AUDIO_MIME_TYPE, IMAGE_MIME_TYPE} from '@/config';
 
 const defaultSample = {
   description: '',
@@ -65,7 +84,12 @@ export default {
   name: 'SampleUpload',
   data: () => ({
     ...defaultSample,
-    AUDIO_MIME_TYPE
+    AUDIO_MIME_TYPE,
+    IMAGE_MIME_TYPE,
+    resampledBlob: {},
+    imageSrc: '',
+    imageBlob:{},
+    sampleBlob:{}
   }),
   computed: {
     ...mapGetters('user',['idToken']),
@@ -81,19 +105,29 @@ export default {
   components: {
     UploadFile,
     FormSelect,
-    TextAreaInput
+    TextAreaInput,
+    ImageEditor
   },
   mounted() {
     this.$store.commit('app/setSideNavigationIndex', 1);
   },
   methods: {
+    onImageChanged(newImage) {
+      Vue.set(this, 'imageBlob', newImage);
+    },
+    onImageUpload(file){
+      Vue.set(this.imageBlob, file);
+      this.imageSrc =  URL.createObjectURL(file);
+    },
     async handleSubmitForm() {
       try {
         this.$store.commit('app/isLoading', true);
-
-        await this.$store.dispatch('sample/uploadBuffer', { 
+        await this.$store.dispatch('sample/uploadSample', {
           sampleData: this.model,
-          token: this.idToken
+          token: this.idToken,
+          sample: this.sampleBlob,
+          image: this.imageBlob,
+          imageSrc: this.imageSrc
         });
 
         Object.keys(defaultSample).map(key => {
@@ -107,8 +141,8 @@ export default {
         this.$store.commit('app/isLoading', false);
       }
     },
-    sampleInputChangeHandler(el) {
-      this.$store.dispatch('sample/setFileBuffer',el.files[0]);
+    sampleInputChangeHandler(file) {
+      Vue.set(this, 'sampleBlob', file);
     },
     goBack() {
       this.$router.push('/sample');

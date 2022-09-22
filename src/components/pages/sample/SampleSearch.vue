@@ -1,16 +1,5 @@
 <template>
-  <div>
-    <div class="flex justify-end">
-      <bootleg-list-icon
-        :on-click="onViewListClicked"
-        :selected="isListTypeSelected"
-      />
-
-      <bootleg-group-icon 
-        :on-click="onViewGroupClicked"
-        :selected="isGroupTypeSelected"
-      />
-    </div>
+  <div style="position:relative;">
     <div
       class="flex sample-search-container"
       :class="{isCollapsed}"
@@ -28,19 +17,13 @@
 import { mapGetters, mapState } from 'vuex';
 import SampleDetail from './SampleDetail.vue';
 import {SORT_TYPES} from '@/store/modules/sample';
-import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
-import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
+
 export default {
   name:'SampleSearch',
-  components:{SampleDetail, BootlegGroupIcon, BootlegListIcon},
+  components:{SampleDetail},
   data: () => ({
     page: 0,
     bufferIndex: 0,
-    onViewGroupClicked(){
-      if(!this.isGroupTypeSelected){
-        this.$store.dispatch('sample/setSortType', SORT_TYPES.GROUP);
-      }
-    }
   }),
   computed: {
     ...mapGetters('sample', ['sampleArray']),
@@ -49,31 +32,26 @@ export default {
     isCollapsed(){
       return this.sortType === SORT_TYPES.GROUP;
     },
-    isListTypeSelected(){
-      return this.sortType === SORT_TYPES.LIST;
-    },
+
     isGroupTypeSelected(){
       return this.sortType === SORT_TYPES.GROUP;
     },
+
     samples(){
       const {sampleArray, bufferIndex, bufferRemaining} = this;
       const length = bufferRemaining < bufferLimit ? bufferRemaining : bufferLimit; 
       return sampleArray.slice(bufferIndex, length);
     },
+
     bufferLength(){
       return this.sampleArray.length;
     },
+
     bufferRemaining(){
       return this.sampleBufferLength - this.bufferIndex;
     }
   },
-  methods:{
-    onViewListClicked(){
-      if(!this.isListTypeSelected){
-        this.$store.dispatch('sample/setSortType', SORT_TYPES.LIST);
-      }
-    },
-  },
+
   async mounted() {
     // TODO Fix this nonsense
     this.$store.commit('app/setSideNavigationIndex', 0);
