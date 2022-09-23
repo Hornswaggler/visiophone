@@ -113,16 +113,4 @@ export default {
   align-items: center;
   justify-content: center;
 }
-
-
-// .side-navigation-container {
-//   max-width: 8em;
-//   width:100%;
-//   background-color: rgba(33, 35, 35, 0.9);
-//   margin: 0 1em;
-//   color: rgb(161, 161, 162);
-//   display:flex;
-//   flex-direction: column;
-//   border-radius: 10px;
-// }
 </style>
