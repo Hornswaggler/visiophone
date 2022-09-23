@@ -105,13 +105,9 @@ export default {
   width:100%;
   display:flex;
   height:100%;
-  // background-color:orange;
 }
 
 .form-input-body {
-  padding-left:0.75em;
-  padding-right:0.75em;
-  padding-left:0.75em;
   border:none;
   color:white;
   z-index:2;
@@ -121,9 +117,10 @@ export default {
   min-width: 0;
   font-family: 'VCR_OSD_MONO';
   transition: all 0.5s;
+  width: 100%;
 
   &::selection {
-    background: rgb(96, 239, 48);
+    background: rgb(255, 255, 255);
     color:black;
   }
 }

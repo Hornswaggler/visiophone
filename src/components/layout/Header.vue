@@ -1,22 +1,24 @@
 <template>
   <div>
     <div class="flex selection-container">
-      <span @click="onGo(-1)">
-        <font-awesome-icon 
-          class="form-icon"
-          icon="fa-angle-left"
-        />
-      </span>
-
-      <span @click="onGo(1)">
-        <font-awesome-icon 
-          class="form-icon pl1"
-          icon="fa-angle-right"
-        />
-      </span>
       <div
         class="header-search-container"
       >
+        <div class="flex align-center">
+          <span @click="onGo(-1)">
+            <font-awesome-icon 
+              class="form-icon"
+              icon="fa-angle-left"
+            />
+          </span>
+
+          <span @click="onGo(1)">
+            <font-awesome-icon 
+              class="form-icon pl1"
+              icon="fa-angle-right"
+            />
+          </span>
+        </div>
         <div class="header-search-input">
           <div class="sample-search-input-content">
             <form-input :on-changed="onSearchChanged" />
@@ -161,10 +163,6 @@ export default {
 </script>
 
 <style lang="scss">
-.header-profile-image {
-  height:3em;
-  width:3em;
-}
 
 .header-search-container {
   display: flex;
@@ -172,6 +170,7 @@ export default {
   flex: 1;
   height: 100%;
   width: 100%;
+  margin: 0 0.5em;
 
   .header-user-menu {
     background-color: transparent;
@@ -183,11 +182,11 @@ export default {
     width: 100%;
     display: flex;
     justify-content: center;
+    padding: 0 0.5em;
   }
 }
 
 .sample-search-input-content {
-  border: solid 2px grey;
   max-width: 25em;
   border-radius: 16px;
 }
@@ -198,7 +197,6 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 1em;
   font-size: 1.2em;
   z-index: 1;
   

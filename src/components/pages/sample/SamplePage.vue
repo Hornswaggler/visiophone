@@ -9,7 +9,8 @@
         <scrolling-container :on-scroll-limit-reached="onScrollLimitReached">
           <template v-slot:header>
             <div
-              v-if="isBrowsing"
+              v-if="isBrowsing && !isMobile"
+              style="height:2em;padding: 0 0.5em"
               class="flex justify-end"
             >
               <bootleg-list-icon
@@ -59,7 +60,7 @@ export default {
   }),
   
   computed: {
-    ...mapState('app', ['sideNavigationMenuItems', 'sideNavigationIndex']),
+    ...mapState('app', ['sideNavigationMenuItems', 'sideNavigationIndex', 'isMobile']),
     ...mapGetters('app', ['sideNavigationMenuItemById']),
     ...mapGetters('user', ['idToken']),
     isBrowsing(){
@@ -79,6 +80,9 @@ export default {
 
   mounted(){
     this.$store.dispatch('app/setSideNavigationMenuItems', [...this.menuItems]);
+    if(this.isMobile){
+      this.onViewGroupClicked();
+    }
   },
 
   methods: {
@@ -122,7 +126,7 @@ export default {
 }
 
 .sort-icon {
-  padding-right: 0.5em;
+  padding-left: 0.5em;
   font-size: 1.5em;
   justify-content: center;
   align-content: center;

@@ -77,7 +77,4 @@ export default {
 }
 </script>
 <style lang="scss">
-.flex-spacer {
-  background-color:orange;
-}
 </style>

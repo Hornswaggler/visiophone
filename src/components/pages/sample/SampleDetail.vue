@@ -212,7 +212,6 @@ export default {
     min-height:10em;
     min-width:10em;
     transition: min-width 0.33s,
-    min-height 0.33s;
   }
 
   &.isCollapsed {
