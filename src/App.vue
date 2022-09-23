@@ -120,7 +120,7 @@ html{
   width:100%;
   justify-content: center;
 
-  .side-navigation-container {
+  .side-navigation-menu {
     opacity: 1;
     transition: opacity 1s, width 1s, margin 1s; 
 
@@ -155,7 +155,7 @@ html{
 
   .scrollbar {
     @include for-size(xs) {
-      max-height:calc(100vh - 3em);
+      max-height:calc(100vh - 5em);
     }
   }
 

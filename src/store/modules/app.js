@@ -10,6 +10,7 @@ export default {
     isLoading: false,
     loading: false,
     showOverlay: false,
+    isMobile: !!window.navigator.userAgent.match(/Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/),
     closeOverlayOnclick: true,
     opacity: '0',
     targetUrl:'',

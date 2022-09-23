@@ -27,6 +27,7 @@ export default {
 <style lang="scss">
 
 .vp-input-container {
+  display: flex;
   position:relative;
   width:100%;
 }
@@ -48,7 +49,6 @@ export default {
 }
 
 .vp-input-body {
-  min-height: 3em;
   flex:2;
   display: flex;
   flex-direction:column;

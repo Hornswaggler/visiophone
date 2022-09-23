@@ -43,39 +43,12 @@ export default {
 </script>
 <style lang="scss">
 
-.logo-container {
-  display:flex;
-  justify-content: center;
-  width:100%;
-
-  .animated-text {
-    font-size: 1.2em;
-    background: linear-gradient(180deg, #2cd8d5 0%, #9fafd3 50%, #5a2288 100%);
-    animation: animated_text 10s ease infinite;
-    background-size: 300%;
-
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-family: Inter;
-    font-weight: 800;
-    letter-spacing: 0.2em;
-
-  }
-}
-
-@keyframes animated_text {
-	0% { background-position: 0px 50%; }
-	50% { background-position: 100% 50%; }
-	100% { background-position: 0px 50%; }
-}
-
 .side-navigation-menu {
-  box-shadow: 0px 4em 4em rgba(100,100,100,0.4);
+  box-shadow: 0px 4em 4em rgba(100, 100, 100, 0.4);
 
   color:white;
   height:100%;
-  width:13em;
+  width:16em;
   display:flex;
   align-items: flex-end;
   flex-direction: column;
@@ -139,17 +112,5 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-
-.side-navigation-container {
-  max-width: 8em;
-  width:100%;
-  background-color: rgba(33, 35, 35, 0.9);
-  margin: 0 1em;
-  color: rgb(161, 161, 162);
-  display:flex;
-  flex-direction: column;
-  border-radius: 10px;
 }
 </style>
