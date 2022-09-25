@@ -60,6 +60,7 @@ export default {
   },
   methods:{
     initializePersistentStorage(){
+      console.log('Here We GO!');
       const currentTime = moment().valueOf();
       for(let i = 0; i < PERSISTENT_MODULES.length; i++) {
         const storeModuleName = PERSISTENT_MODULES[i];
@@ -106,6 +107,13 @@ export default {
 
 html{
   --image-editor-hw: 16em;
+  --vp-input-min-height: 2em;
+  --vp-form-text-size: 1em;
+  --vp-form-select-option-font-size: 1.2em;
+  --vp-form-select-option-color: rgb(226, 226, 226);
+  --vp-form-select-option-background-color: rgb(14, 14, 14);
+  --vp-input-background-color: rgba(17, 17, 17, 0.7);
+  --vp-input-padding: 0.5em;
 }
 
 

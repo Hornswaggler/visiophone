@@ -4,7 +4,13 @@
       <side-navigation />
     </template>
     <template v-slot:content>
-      <div style="height:100vh;width:100%;">
+      <div
+        style="
+          box-shadow: 20px 20px 30px 0px rgba(0,0,0,0.75);
+          height:100vh;
+          width:100%;
+          background-color:rgba(0,0,0, 0.5)"
+      >
         <Header />
         <scrolling-container :on-scroll-limit-reached="onScrollLimitReached">
           <template v-slot:header>

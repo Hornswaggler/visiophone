@@ -30,6 +30,7 @@ export default {
   display: flex;
   position:relative;
   width:100%;
+  height: 100%;
 }
 
 .vp-input-title-container {
@@ -42,13 +43,16 @@ export default {
 
 
   .vp-input-title {
-    margin-top: -0.75em;
+    margin-top: -0.85em;
     margin-left: 1em;
     color:white;
+    font-size: 0.8em;
   }
 }
 
 .vp-input-body {
+  font-size: var(--vp-form-text-size);
+  background-color: var(--vp-input-background-color);
   flex:2;
   display: flex;
   flex-direction:column;

@@ -31,6 +31,7 @@
   </form-input-base>
 </template>
 <script>
+import { mapState } from 'vuex';
 import FormInputBase from '@/components/form/FormInputBase';
 
 export default {
@@ -57,6 +58,9 @@ export default {
       default: () => {}
     }
   },
+  computed: {
+    ...mapState('sample', ['sampleForEdit'])
+  },
   methods:{
     onInputChanged({target:{files}}) {
       this.fileName = (files[0] && files[0].name) || '';
@@ -73,7 +77,6 @@ export default {
   display:flex;
   justify-content: flex-start;
   align-items: center;
-  min-height:4em;
   border: solid 1px rgb(118, 118, 118);
 }
 .vp-upload-button {
@@ -83,7 +86,6 @@ export default {
   align-items: center;
   height:100%;
   transition: all 0.25s ease-in-out;
-  min-height: 4em;
 
   &:hover {
     background-color:white;
