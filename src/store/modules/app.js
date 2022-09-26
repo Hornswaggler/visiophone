@@ -15,7 +15,7 @@ export default {
     opacity: '0',
     targetUrl:'',
     sideNavigationIndex: 0,
-    sideNavigationMenuItems: []
+    sideNavigationMenuItems: [],
   }),
 
   getters:{

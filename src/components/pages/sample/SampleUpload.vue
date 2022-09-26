@@ -1,60 +1,65 @@
 <template>
   <div
-    class="fill vp-form"
+    class="fill"
     style="color:#66FF00;"
   >
-    <div class="user-settings-image-container">
-      <image-editor
-        class="flex-3"
-        :img-src="imageSrc"
-        :change-handler="onImageChanged"
-      />
-    </div>
-    
-    <div class="vp-form-row">
-      <upload-file
-        title="cover art"
-        :accept="IMAGE_MIME_TYPE"
-        button-text="Upload"
-        :change-handler="onImageUpload"
-      />
-    </div>
+    <div style="display:flex;">
+      <div
+        style="flex:1;"
+        class="vp-form"
+      >
+        <div class="vp-form-row mt0">
+          <upload-file
+            :value="sampleData.imgUrl || ''"
+            title="cover art"
+            :accept="IMAGE_MIME_TYPE"
+            button-text="Upload"
+            :change-handler="onImageUpload"
+          />
+        </div>
 
-    <div class="vp-form-row">
-      <upload-file
-        title="audio file"
-        :accept="AUDIO_MIME_TYPE"
-        button-text="Upload"
-        class="flex-3"
-        :change-handler="sampleInputChangeHandler"
-      />
-    </div>
 
-    <div class="vp-form-row">
-      <form-select 
-        title="tag"
-        :value="tag"
-        class="flex-3"
-      />
-    </div>
+        <div class="vp-form-row">
+          <upload-file
+            title="audio file"
+            :accept="AUDIO_MIME_TYPE"
+            button-text="Upload"
+            class="flex-3"
+            :change-handler="onSamplechanged"
+          />
+        </div>
 
-    <div class="vp-form-row">
-      <text-area-input
-        :model="description"
-        class="flex-3"
-        title="description"
-      />
-    </div>
+        <div class="vp-form-row">
+          <form-select
+            title="tag"
+            :options="tags"
+            :value="sampleData.tag"
+            class="flex-3"
+          />
+        </div>
 
-    <div class="vp-form-row">
+        <div class="vp-form-row">
+          <text-area-input
+            class="flex-3"
+            title="description"
+            :value="description"
+            :on-changed="description => sampleData.description = description"
+          />
+        </div>
+      </div>
+
+      <div style="flex:1;">
+        <div class="user-settings-image-container">
+          <image-editor
+            class="flex-3"
+            :img-src="imageSrc"
+            :change-handler="onThumbnailGenerated"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="vp-form-row pt2">
       <div class="flex-3 flex justify-end">
-        <button
-          class="vp-button"
-          type="button"
-          @click="goBack"
-        >
-          Cancel
-        </button>
         <button
           class="vp-button ml1"
           type="button"
@@ -74,33 +79,32 @@ import TextAreaInput from '@/components/form/TextAreaInput';
 import { mapState, mapGetters } from 'vuex';
 import FormSelect from '@/components/form/FormSelect.vue';
 import {AUDIO_MIME_TYPE, IMAGE_MIME_TYPE} from '@/config';
+import {makeNewSample} from '@/store/modules/sample'
 
-const defaultSample = {
-  description: '',
-  tag: 'InfluencerCore'
-};
+const TAG_TYPES = [
+  { name: 'InfluencerCore'},
+  { name: 'jazz' },
+  { name: 'rnb' },
+  { name: 'smooth influencercore' }
+].map((type, i) => ({...type, _id: i }));
 
 export default {
   name: 'SampleUpload',
   data: () => ({
-    ...defaultSample,
+    sampleData: makeNewSample(),
+    tags: [...TAG_TYPES],
     AUDIO_MIME_TYPE,
     IMAGE_MIME_TYPE,
     resampledBlob: {},
     imageSrc: '',
     imageBlob:{},
-    sampleBlob:{}
+    sampleBlob:{},
+    description:''
   }),
   computed: {
     ...mapGetters('user',['idToken']),
     ...mapState('user',['authenticated','shelfCapacity']),
-    model() {
-      const {description, tag} = this;
-      return {
-        description,
-        tag
-      }
-    }
+    ...mapState('sample', ['sampleForEdit']),
   },
   components: {
     UploadFile,
@@ -109,30 +113,39 @@ export default {
     ImageEditor
   },
   mounted() {
+    Vue.set(this.sampleData, this.sampleForEdit);
+    this.description = this.sampleData.description;
     this.$store.commit('app/setSideNavigationIndex', 1);
   },
+  beforeDestroy(){
+    this.$store.dispatch('sample/persistToStorage', this.sampleData);
+  },
   methods: {
-    onImageChanged(newImage) {
-      Vue.set(this, 'imageBlob', newImage);
+    onThumbnailGenerated(file) {
+      Vue.set(this, 'imageBlob', file);
+      Vue.set(this.sampleData, 'imgUrl', URL.createObjectURL(file));
     },
     onImageUpload(file){
+      Vue.set(this.sampleData, 'fileName',file.name)
       Vue.set(this.imageBlob, file);
       this.imageSrc =  URL.createObjectURL(file);
+    },
+    onSamplechanged(file) {
+      Vue.set(this, 'sampleBlob', file);
+      Vue.set(this.sampleData, 'clipUri', URL.createObjectURL(file));
     },
     async handleSubmitForm() {
       try {
         this.$store.commit('app/isLoading', true);
         await this.$store.dispatch('sample/uploadSample', {
-          sampleData: this.model,
+          sampleData: this.sampleData,
           token: this.idToken,
           sample: this.sampleBlob,
           image: this.imageBlob,
           imageSrc: this.imageSrc
         });
 
-        Object.keys(defaultSample).map(key => {
-          this[key] = defaultSample[key];
-        });
+        Vue.set(this.sampleData, makeNewSample());
 
         this.$router.push('/sample');
       } catch (e) {
@@ -141,15 +154,6 @@ export default {
         this.$store.commit('app/isLoading', false);
       }
     },
-    sampleInputChangeHandler(file) {
-      Vue.set(this, 'sampleBlob', file);
-    },
-    goBack() {
-      this.$router.push('/sample');
-    },
-    onTextAreaInputChanged(description) {
-      this.description = description;
-    }
   }
 }
 </script>

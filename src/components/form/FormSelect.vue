@@ -11,10 +11,11 @@
         class="vp-select"
       >
         <option 
-          v-for="tagType in tagTypes" 
-          :key="tagType._id"
+          v-for="option in internalOptions"
+          :key="option._id" 
+          class="vp-select-option"
         >
-          {{ tagType.name }}
+          {{ option.name }}
         </option>
       </select>
     </template>
@@ -22,10 +23,6 @@
 </template>
 <script>
 import FormInputBase from '@/components/form/FormInputBase';
-
-const TAG_TYPES = [
-  {name: 'InfluencerCore'}
-].map((type, i) => ({...type, _id: i }));
 
 export default {
   name: 'FormSelect',
@@ -39,42 +36,48 @@ export default {
       type: String,
       default: ''
     },
+    options: {
+      type: Array,
+      default: () => []
+    },
     changeHandler: {
       type: Function,
       default: () => {}
     }
   },
   data: () => ({
-    tagTypes: TAG_TYPES,
+    internalOptions: [],
     internalValue: ''
   }),
-  watch:{
-    internalValue(val) {
-      this.changeHandler(val);
-    }
-  },
   mounted(){
-    this.internalValue = 
-      this.tagTypes
-        .map(({name}) => name)
-        .find(name => name === this.value);
+    this.internalValue = this.value;
+    this.internalOptions = this.options;
   }
 }
 </script>
 <style lang="scss">
 .vp-select {
+  font-size: var(--vp-form-text-size);
+  padding: var(--vp-input-padding);
   flex:1;
   display:flex;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  font-size: 1.25em;
   background-color:transparent;
   color:white;
   cursor:pointer;
 
-  &:hover {
-    background-color:transparent;
+  .vp-select-option {
+    font-size: var(--vp-form-select-option-font-size);
+    color: var(--vp-form-select-option-color);
+    background-color: var(--vp-form-select-option-background-color);
+    cursor:pointer;
+    &:hover {
+      cursor:pointer;
+    }
   }
+
+
 }
 </style>

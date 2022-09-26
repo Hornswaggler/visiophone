@@ -1,6 +1,6 @@
 <template>
   <div class="side-navigation-menu">
-    <site-logo />
+    <span style="width:100%;"><site-logo /></span>
     <div
       v-for="option in sideNavigationMenuItems"
       :key="option._id"
@@ -44,14 +44,19 @@ export default {
 <style lang="scss">
 
 .side-navigation-menu {
-  box-shadow: 0px 4em 4em rgba(100, 100, 100, 0.4);
+  // box-shadow: 1em 0 5em rgb(100 100 100 / 40%);
+  box-shadow: -20px 20px 30px 0px rgba(0,0,0,0.75);
 
   color:white;
-  height:100%;
+  height:100vh;
   width:16em;
   display:flex;
   align-items: flex-end;
   flex-direction: column;
+
+  >div:first-of-type{
+    margin-top:1em;
+  }
 
   .side-naviagation-option {
     display: flex;
@@ -60,10 +65,11 @@ export default {
     border-bottom-left-radius: 10px;
     max-height:2em;
     min-height:2em;
+    background-color: rgba(33, 35, 35, 0.9);
     width:75%;
     display: flex;
     justify-content: space-evenly;
-    margin-top: 1em;
+    margin-top: 2em;
     transition: all 0.18s linear;
     cursor:pointer;
 
@@ -75,18 +81,10 @@ export default {
     }
 
     &.selected{
-      background: linear-gradient(to  top, rgba(75, 75, 75, 0.503), rgba(196, 196, 196, 0.756));
+      background: linear-gradient(to  top, rgba(75, 75, 75, 0.503), rgba(204, 203, 203, 0.756));
     }
   }
 }
-
-
-
-
-
-
-
-
 
 .navigation-button {
   margin:0.5em 1em;

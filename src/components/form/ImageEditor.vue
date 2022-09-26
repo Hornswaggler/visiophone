@@ -12,17 +12,15 @@
         :width="imageWidth > imageHeight ? imageHeight : imageWidth"
       />
     </div>
-
-    <div class="image-spacer" />
+    <div class="image-spacer">
+          &nbsp;
+    </div>    
     <div
       class="flex flex-column"
       style="height:100%;"
     >
-      <div class="image-spacer" />
-
       <div style="display:flex;height:var(--image-editor-hw);">
         <div style="display:flex;height:100%;position:relative;">
-          <div class="image-spacer" />
           <div class="absolute-container">
             <img
               ref="image"
@@ -66,9 +64,7 @@
             </div>
           </div>
         </div>
-        <div class="image-spacer" />
       </div>
-      <div class="image-spacer" />
     </div>
     <div class="image-spacer" />
   </div>
@@ -80,7 +76,7 @@ import { debounce } from 'vue-debounce';
 import {IMAGE_MIME_TYPE} from '@/config';
 
 const DEFAULT_LENS_SIZE = 'var(--image-editor-hw)';
-const IMAGE_HW = "var(--image-editor-hw)";
+// const IMAGE_HW = "var(--image-editor-hw)";
 
 
 
@@ -241,15 +237,15 @@ export default {
 <style  lang="scss">
 .resize-canvas-container {
   display: flex;
-    flex-direction: column;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom:0;
-    position: absolute;
-    height: var(--image-editor-hw);
-    width: var(--image-editor-hw);
-    z-index: 1;
+  flex-direction: column;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom:0;
+  position: absolute;
+  height: var(--image-editor-hw);
+  width: var(--image-editor-hw);
+  z-index: 1;
 }
 
 .image-spacer {

@@ -10,9 +10,11 @@ export default {
 
 <style lang="scss">
 .bg-gradient {
-  background: linear-gradient(120deg,rgba(37, 37, 37, 0.889),rgba(0, 0, 0, 0.619),rgba(109, 109, 109, 0.75));
-	background-size: 400% 400%;
-	animation: gradient 60s ease infinite;
+  background: linear-gradient(120deg,rgb(0, 0, 0),rgb(3, 41, 53),rgb(0, 0, 0));
+
+
+	background-size: 180% 180%;
+	animation: gradient 18s ease infinite;
   z-index:-2;
   overflow:hidden;
   height:100vh;
@@ -24,7 +26,7 @@ export default {
 		background-position: 0% 50%;
 	}
 	50% {
-		background-position: 100% 50%;
+		background-position: 100% 100%;
 	}
 	100% {
 		background-position: 0% 50%;

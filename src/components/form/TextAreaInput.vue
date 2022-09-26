@@ -11,7 +11,7 @@
         <textarea
           v-model="internalValue"
           class="vp-textarea"
-          rows="3" 
+          rows="2" 
           type="text"
         />
       </div>
@@ -44,6 +44,9 @@ export default {
   watch:{
     internalValue(val){
       this.onChanged(val);
+    },
+    value(value){
+      if(!this.internalValue) this.internalValue = value;
     }
   },
   mounted() {
@@ -62,9 +65,11 @@ export default {
   height:100%;
   background-color:transparent;
   color:white;
-  padding: 0.5em 0.5em;
-  border: solid 1px white;
+  padding: var(--vp-input-padding);
+  box-sizing: border-box;
+  font-size: var(--vp-form-text-size);
 }
+
 .vp-text-area-input {
   flex:1;
   display:flex;

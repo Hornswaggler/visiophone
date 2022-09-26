@@ -134,7 +134,7 @@ html{
     color: $link-color;
   }
 
-  input, textarea {
+  input, textarea, select {
     &:focus-visible {
       outline: none;
     }
