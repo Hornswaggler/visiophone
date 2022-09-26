@@ -44,7 +44,6 @@ export default {
 <style lang="scss">
 
 .side-navigation-menu {
-  // box-shadow: 1em 0 5em rgb(100 100 100 / 40%);
   box-shadow: -20px 20px 30px 0px rgba(0,0,0,0.75);
 
   color:white;

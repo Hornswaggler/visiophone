@@ -60,7 +60,6 @@ export default {
   },
   methods:{
     initializePersistentStorage(){
-      console.log('Here We GO!');
       const currentTime = moment().valueOf();
       for(let i = 0; i < PERSISTENT_MODULES.length; i++) {
         const storeModuleName = PERSISTENT_MODULES[i];

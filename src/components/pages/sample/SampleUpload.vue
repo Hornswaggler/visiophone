@@ -3,6 +3,8 @@
     class="fill"
     style="color:#66FF00;"
   >
+    <!-- {{ sampleData }} -->
+
     <div style="display:flex;">
       <div
         style="flex:1;"
@@ -17,7 +19,6 @@
             :change-handler="onImageUpload"
           />
         </div>
-
 
         <div class="vp-form-row">
           <upload-file
@@ -36,6 +37,16 @@
             :value="sampleData.tag"
             class="flex-3"
           />
+        </div>
+
+        <div class="vp-form-row">
+          <div class="vp-input-body">
+            <form-number-input
+              title="cost"
+              :value="sampleData.cost"
+              :change-handler="cost => sampleData.cost = cost"
+            />
+          </div>
         </div>
 
         <div class="vp-form-row">
@@ -76,10 +87,11 @@ import Vue from 'vue';
 import UploadFile from '@/components/form/UploadFile.vue';
 import ImageEditor from '@/components/form/ImageEditor.vue';
 import TextAreaInput from '@/components/form/TextAreaInput';
+import FormNumberInput from '@/components/form/FormNumberInput.vue';
 import { mapState, mapGetters } from 'vuex';
 import FormSelect from '@/components/form/FormSelect.vue';
-import {AUDIO_MIME_TYPE, IMAGE_MIME_TYPE} from '@/config';
-import {makeNewSample} from '@/store/modules/sample'
+import { AUDIO_MIME_TYPE, IMAGE_MIME_TYPE } from '@/config';
+import { makeNewSample } from '@/store/modules/sample'
 
 const TAG_TYPES = [
   { name: 'InfluencerCore'},
@@ -110,7 +122,8 @@ export default {
     UploadFile,
     FormSelect,
     TextAreaInput,
-    ImageEditor
+    ImageEditor,
+    FormNumberInput
   },
   mounted() {
     Vue.set(this.sampleData, this.sampleForEdit);

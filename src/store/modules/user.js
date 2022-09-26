@@ -6,7 +6,7 @@ import {config} from '@/config.js';
 const API_SCOPES = ["User.Read","openid", "profile"];
 
 export const makeNewUser = () => ({
-  _id: localStorage._id || null,
+  _id: localStorage._id || '',
   accountId: '',
   authenticated: false,
   userIcon: require('@/assets/Comp_boi_idle.gif'),
@@ -14,7 +14,8 @@ export const makeNewUser = () => ({
   msal: {},
   apiToken: '',
   publicStorageToken: '',
-  avatarId: localStorage.avatarId || ''
+  avatarId: localStorage.avatarId || '',
+  customUserName: localStorage.customUserName || ''
 });
 
 const msalConfig = {
@@ -44,27 +45,31 @@ export default {
   namespaced: true,
   state: () => makeNewUser(),
   actions:{
-    async uploadUserProfile({commit, getters:{idToken: token}, state:{avatarId, accountId, _id}}, {blob}) {
+    async uploadUserProfile({commit, getters:{idToken: token}, state:{avatarId, accountId, _id}}, {blob, customUserName}) {
       const fd = new FormData();
       fd.append('file',blob,'fakename.png' );
-      fd.append('data', JSON.stringify({ accountId, avatarId , _id}) );
+      fd.append('data', JSON.stringify({ accountId, avatarId , _id, customUserName}) );
 
       const { data } = await securePostForm(axios, fd, {slug: `set_user_profile`, token});
 
       commit('avatarId', data.avatarId);
       commit('_id', data._id);
+      commit('customUserName', customUserName)
     },
 
     async getUserProfile({ commit, getters:{idToken: token}, state:{ accountId: userId }}) {
-      const {data:{avatarId, _id}} = await securePostJson(axios, { userId }, { slug: 'get_user_profile', token });
+      const {data:{avatarId, _id, customUserName}} = await securePostJson(axios, { userId }, { slug: 'get_user_profile', token });
+
+      console.log('Get user Profile');
 
       commit('assignObject', {key:'_id', value: _id});
       commit('assignObject', {key:'avatarId', value: avatarId});
+      commit('assignObject', {key: 'customUserName', value: customUserName })
 
-      return {avatarId, _id};
+      return {avatarId, _id, customUserName};
     },
 
-    async initialize({getters:{idToken}, state:{avatarId}, commit, dispatch}) {
+    async initialize({getters:{idToken}, state:{avatarId, customUserName}, commit, dispatch}) {
       try {
         await myMSALObj.initialize();
         const resp = await myMSALObj.handleRedirectPromise();
@@ -95,9 +100,15 @@ export default {
           value: msal
         });
 
+        console.log('Probably the bug...', customUserName);
+
         if(!avatarId) {
-          const { avatarId } = await dispatch('getUserProfile', { token: msal.accessToken });
+          console.log('Retrieving');
+          const { avatarId, _id, customUserName } = await dispatch('getUserProfile', { token: msal.accessToken });
           commit('avatarId', avatarId);
+          commit('customUserName', customUserName)
+          commit('_id', _id)
+
         }
 
         return true;
@@ -163,13 +174,18 @@ export default {
   
     avatarId(state, avatarId) {
       state.avatarId = avatarId;
-      localStorage.setItem('avatarId', avatarId);
+      localStorage.setItem('avatarId', avatarId || '');
     },
   
     _id(state, _id) {
       state._id = _id;
-      localStorage.setItem('_id', _id);
+      localStorage.setItem('_id', _id || '');
     },
+
+    customUserName(state, customUserName){
+      state.customUserName = customUserName;
+      localStorage.setItem('customUserName', customUserName || '');
+    }
   
   }
 };

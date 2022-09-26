@@ -14,6 +14,7 @@
         v-model="internalValue"
         v-debounce="onChangeHandler"
         class="form-input-body"
+        style="height:100%;"
         @focus="onShowPlaceholder(false)"
         @blur="onShowPlaceholder(true)"
       >

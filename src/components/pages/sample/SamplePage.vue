@@ -5,11 +5,7 @@
     </template>
     <template v-slot:content>
       <div
-        style="
-          box-shadow: 20px 20px 30px 0px rgba(0,0,0,0.75);
-          height:100vh;
-          width:100%;
-          background-color:rgba(0,0,0, 0.5)"
+        class="sample-page-body"
       >
         <Header />
         <scrolling-container :on-scroll-limit-reached="onScrollLimitReached">
@@ -114,6 +110,13 @@ export default {
 
 <style lang="scss">
 
+.sample-page-body{
+  box-shadow: 20px 20px 30px 0px rgba(0,0,0,0.75);
+  height:100vh;
+  width:100%;
+  background-color:rgba(0,0,0, 0.5);
+}
+
 .sample-search-input-background {
   position: absolute;
   top: 0;
@@ -128,7 +131,6 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  height: 100%;
 }
 
 .sort-icon {
