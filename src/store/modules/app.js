@@ -16,6 +16,7 @@ export default {
     targetUrl:'',
     sideNavigationIndex: 0,
     sideNavigationMenuItems: [],
+    showMenu: false
   }),
 
   getters:{
@@ -46,6 +47,9 @@ export default {
   },
 
   mutations: {
+    setShowMenu(state, showMenu) {
+      state.showMenu = showMenu;
+    },
     isLoading(state, loading) {
       state.loading = loading;
     },

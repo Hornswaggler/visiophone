@@ -56,5 +56,6 @@ export default {
   flex:2;
   display: flex;
   flex-direction:column;
+  min-height: var(--vp-input-min-height);
 }
 </style>

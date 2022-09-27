@@ -1,5 +1,8 @@
 <template>
-  <div class="side-navigation-menu">
+  <div
+    class="side-navigation-menu"
+    :class="{'show-nav': showMenu}"
+  >
     <span style="width:100%;"><site-logo /></span>
     <div
       v-for="option in sideNavigationMenuItems"
@@ -25,18 +28,24 @@ export default {
   components:{
     SiteLogo
   },
-  data: () => ({
-  }),
+  props:{
+    changeHandler:{
+      type: Function,
+      default: () => {}
+    }
+  },
   computed:{
-    ...mapState('app',['sideNavigationMenuItems','sideNavigationIndex']),
+    ...mapState('app',['sideNavigationMenuItems','sideNavigationIndex', 'showMenu']),
     ...mapGetters('user',['userName'])
   },
   methods:{
     onMenuItemSelected({id,slug}) {
+
       if(this.sideNavigationIndex !== id) {
         this.$store.commit('app/setSideNavigationIndex', id )
         this.$router.push(slug);
       }
+      this.changeHandler();
     }
   }
 }
@@ -44,8 +53,9 @@ export default {
 <style lang="scss">
 
 .side-navigation-menu {
-  // box-shadow: 1em 0 5em rgb(100 100 100 / 40%);
-  box-shadow: -20px 20px 30px 0px rgba(0,0,0,0.75);
+  box-shadow: -20px 20px 30px 0px rgba(18, 18, 19, 0.75);
+  background-color:#58478648;
+  z-index:3;
 
   color:white;
   height:100vh;

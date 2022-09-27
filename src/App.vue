@@ -60,7 +60,6 @@ export default {
   },
   methods:{
     initializePersistentStorage(){
-      console.log('Here We GO!');
       const currentTime = moment().valueOf();
       for(let i = 0; i < PERSISTENT_MODULES.length; i++) {
         const storeModuleName = PERSISTENT_MODULES[i];
@@ -116,6 +115,13 @@ html{
   --vp-input-padding: 0.5em;
 }
 
+.sample-upload-form {
+  display: flex;
+  flex-direction: row;
+  @include for-size(xs){
+    flex-direction: column-reverse;
+  }
+}
 
 .responsive-margin {
   @include for-size(xl){
@@ -124,18 +130,50 @@ html{
   width: 0vw;
 }
 
+.header-custom-user-name {
+  @include for-size(xs) {
+    display:none;
+  }
+}
+
+.mobile-nav-hamburger {
+  @include for-size(xs) {
+    display: block;
+  }
+  display: none;
+}
+
+.header-nav-icon {
+  @include for-size(xs) {
+    display:none;
+  }
+}
+
 .layout-centered-body {
   width:100%;
   justify-content: center;
+  position: relative;
 
   .side-navigation-menu {
     opacity: 1;
-    transition: opacity 1s, width 1s, margin 1s; 
+    transition: transform 0.28s, width 0.5s, margin 1s, background-color 1s; 
+    background-color:rgb(88 71 134 / 28%);
+    left:0;
 
      @include for-size(xs) {
-      width: 0;
-      margin:0;
-      opacity: 0;
+      position:absolute;
+      background-color:rgb(88 71 134 / 100%);
+      width: 33vw;
+      transform: translateX(-33vw);
+
+      &.show-nav {
+        transform: translateX(0);
+
+      }
+
+      .logo-container{
+        display:none;
+      }
     }
   }
 
@@ -202,7 +240,4 @@ html{
   width:100vw;
   z-index:50;
 }
-
-
-
 </style>

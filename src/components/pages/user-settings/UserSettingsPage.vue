@@ -9,38 +9,49 @@
         style="position:relative;"
       >
         <Header />
-        <div class="fill vp-form user-settings-content">
+        <div class="fill">
           <div
-            class="vp-form-row"
+            class="flex"
             style="margin:0;"
           >
             <!-- TODO fix this  -->
-            <div class="user-settings-form-container">
-              <div class="user-settings-image-container">
+            <div class="vp-form p1 flex-1">
+              <div class="vp-form-row">
                 <image-editor
                   class="flex-3"
                   :img-src="imageSrc"
                   :change-handler="onImageChanged"
                 />
               </div>
-              <div class="user-settings-image-upload-container">
+            </div>
+            <div class="vp-form p1 flex-1">
+              <div class="vp-form-row">
+                <form-input
+                  style="border: solid 1px #767676;"
+                  title="user name"
+                  :initial-value="customUserName"
+                  :on-changed="onUserNameChanged"
+                />
+              </div>
+              <div class="vp-form-row">
                 <upload-file
-                  title="sample image"
+                  title="profile pic"
                   :accept="IMAGE_MIME_TYPE"
                   button-text="Upload"
                   :change-handler="onImageUpload"
                 />
               </div>
-              <div class="user-settings-user-menu-container"> 
+              <div class="flex-1" />
+              <div class="vp-form-row flex"> 
+                <div class="flex-1" />
                 <button
                   class="vp-button"
                   type="button"
                   @click="handleUploadImage"
                 >
-                  Submit 
+                  Save Changes 
                 </button>
               </div>
-              <div style="width:100%;height:12em;" />
             </div>
           </div>
         </div>
@@ -58,6 +69,7 @@ import ImageEditor from '../../form/ImageEditor.vue';
 import Header from '../../layout/Header.vue';
 import {IMAGE_MIME_TYPE} from '@/config';
 import SideNavigation from '@/components/layout/SideNavigation.vue';
+import FormInput from '../../form/FormInput.vue';
 
 const DEFAULT_MENU = {
   settings:{
@@ -118,7 +130,8 @@ export default {
     CenteredResponsiveLayout,
     ImageEditor,
     Header,
-    SideNavigation
+    SideNavigation,
+    FormInput
   },
   data:() => ({
     initialized: false,
@@ -136,18 +149,19 @@ export default {
     profileImage: {},
     imageSrc: '',
     resampledBlob: {},
-    menuItems: Object.keys(DEFAULT_MENU).map((key,id) => ({id, ...DEFAULT_MENU[key]}))
+    menuItems: Object.keys(DEFAULT_MENU).map((key,id) => ({id, ...DEFAULT_MENU[key]})),
+    internalUserName:''
   }),
   watch:{
-    imageSrc(newImageSrc){
-      if(this.initialized && newImageSrc){
+    imageSrc(newImageSrc) {
+      if(this.initialized && newImageSrc) {
         this.isDirty = true;
       }
     }
   },
   computed:{
     ...mapGetters('user', ['profileImg']),
-    ...mapState('user', ['accountId', 'userIcon']),
+    ...mapState('user', ['accountId', 'userIcon', 'userName', 'customUserName']),
     profileUrl() {
       return this.profileImage ? '' : URL.createObjectURL(this.profileImage);
     }
@@ -155,6 +169,7 @@ export default {
   mounted(){
     this.$store.dispatch('app/setSideNavigationMenuItems', [...this.sideNavigationMenuOptions]);
     this.$store.commit('app/setSideNavigationIndex', 0);
+    this.internalUserName = this.customUserName;
     if(this.profileImage)
       this.imageSrc = this.profileImg;
       this.$nextTick(() => {
@@ -162,6 +177,9 @@ export default {
       });
   },
   methods:{
+    onUserNameChanged(userName){
+      this.internalUserName = userName;
+    },
     async onFormDropdownChanged() {
       await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
     },
@@ -187,16 +205,18 @@ export default {
     onClickBack(){
       this.$router.go(-1);
     },
-    async handleUploadImage(){
+    async handleUploadImage() {
       this.$store.commit('app/isLoading', true);
 
       const result = await this.$store.dispatch(
-        'user/uploadUserProfile',
-        { 
+        'user/uploadUserProfile', {
           blob: this.resampledBlob,
-          accountId: this.accountId
+          accountId: this.accountId,
+          customUserName: this.internalUserName
         }
       );
+
+      this.$router.push('/sample');
     },
 
     onImageUpload(file){

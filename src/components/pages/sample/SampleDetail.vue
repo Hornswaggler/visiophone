@@ -30,14 +30,17 @@
           <div class="sample-card-body">
             <div class="sample-card-classification">
               <div class="sample-card-seller">
-                {{ sample.seller }}
+                seller: {{ sample.seller }}
               </div>
               <div 
-                v-for="{id,name} in sample.categories"
-                :key="id"
                 class="ml1"
               >
-                {{ name }}
+                genre:&nbsp;{{ sample.tag }}
+              </div>
+              <div 
+                class="ml1"
+              >
+                bpm:&nbsp;{{ sample.bpm }}
               </div>
             </div>
 
@@ -67,7 +70,7 @@
               color="rgb(96, 239, 48)"
             >
               <template v-slot:pre-content>
-                <span style="padding-right:0.5em;">3</span>
+                <span style="padding-right:0.5em;">{{ sample.cost || 0 }}</span>
               </template>
             </form-icon>
 

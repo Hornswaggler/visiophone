@@ -4,27 +4,56 @@
       <div
         class="header-search-container"
       >
-        <div class="flex align-center">
-          <span @click="onGo(-1)">
+        <div 
+          class="flex align-center flex-1" 
+          style="padding-left:0.5em;"
+        >
+          <span
+            class="mobile-nav-hamburger"
+            style="cursor:pointer"
+          >
+            <font-awesome-icon
+              class="form-icon"
+              icon="fa-bars"
+              @click="expandMenu"
+            />
+          </span>
+          <span
+            class="header-nav-icon"
+            @click="onGo(-1)"
+          >
             <font-awesome-icon 
               class="form-icon"
               icon="fa-angle-left"
             />
           </span>
 
-          <span @click="onGo(1)">
+          <span
+            class="header-nav-icon"
+            @click="onGo(1)"
+          >
             <font-awesome-icon 
               class="form-icon pl1"
               icon="fa-angle-right"
             />
           </span>
         </div>
-        <div class="header-search-input">
-          <div class="sample-search-input-content">
+
+        <div
+          class="header-search-input"
+          style="flex:4;"
+        >
+          <div class="header-search-input-content">
             <form-input :on-changed="onSearchChanged" />
           </div>
         </div>
-        <div class="header-user-menu">
+
+        <div class="header-user-menu flex-1 justify-end">
+          <span
+            class="pr header-custom-user-name"
+            style="font-size:0.8em;"
+          >{{ customUserName }}</span>
+
           <img
             class="header-profile-image circle"
             :src="profileImg"
@@ -105,10 +134,10 @@ export default {
       }
     }
   }),
-  computed:{
+  computed: {
     ...mapGetters('user', ['profileImg', 'idToken']),
+    ...mapState('user', ['userIcon', 'customUserName']),
     ...mapState('sample', ['sortType']),
-    ...mapState('user', ['userIcon']),
     isGroupTypeSelected(){
       return this.sortType === SORT_TYPES.GROUP;
     },
@@ -117,6 +146,10 @@ export default {
     },
   },
   methods: {
+    expandMenu(){
+      this.$store.commit('app/setShowMenu', true);
+    },
+
     onGo(direction){
       this.$router.go(direction)
     },
@@ -146,13 +179,13 @@ export default {
       this.$store.dispatch('sample/search', {query, token: this.idToken });
     },
 
-    onViewListClicked(){
-      if(!this.isListTypeSelected){
+    onViewListClicked() {
+      if(!this.isListTypeSelected) {
         this.$store.dispatch('sample/setSortType', SORT_TYPES.LIST);
       }
     },
 
-    onViewGroupClicked(){
+    onViewGroupClicked() {
       if(!this.isGroupTypeSelected){
         this.$store.dispatch('sample/setSortType', SORT_TYPES.GROUP);
       }
@@ -178,17 +211,19 @@ export default {
     display: flex;
     align-items: center;  }
 
-  .header-search-input{
+  .header-search-input {
     width: 100%;
     display: flex;
     justify-content: center;
     padding: 0 0.5em;
+    align-items: center;
   }
 }
 
-.sample-search-input-content {
+.header-search-input-content {
   max-width: 25em;
   border-radius: 16px;
+  height: var(--vp-input-min-height);
 }
 
 .selection-container {

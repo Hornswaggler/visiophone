@@ -9,6 +9,7 @@
       <select 
         v-model="internalValue"
         class="vp-select"
+        @change="onChange"
       >
         <option 
           v-for="option in internalOptions"
@@ -52,6 +53,11 @@ export default {
   mounted(){
     this.internalValue = this.value;
     this.internalOptions = this.options;
+  },
+  methods:{
+    onChange({target:{value}}) {
+      this.changeHandler(value);
+    }
   }
 }
 </script>

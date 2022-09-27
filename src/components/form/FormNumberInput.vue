@@ -1,0 +1,65 @@
+<template>
+  <form-input-base>
+    <template v-slot:title>
+      {{ title }}
+    </template>
+    <template
+      v-slot:input
+      style="height:initial;"
+    >
+      <input
+        v-model="internalValue"
+        class="form-number-input"
+        type="number"
+        @change="onChanged"
+      >
+    </template>
+  </form-input-base>
+</template>
+
+<script>
+import FormInputBase from './FormInputBase.vue';
+
+export default {
+  name:'FormNumberInput',
+  components:{
+    FormInputBase
+  },
+  data: () => ({
+    internalValue:''
+  }),
+  props:{
+    title:{
+      type: String,
+      default: ''
+    },
+    value:{
+      type: String,
+      default: "0"
+    },
+    changeHandler:{
+      type: Function,
+      default: () => {}
+    }
+  },
+  mounted(){
+    this.internalValue = this.value;
+  },
+  methods:{
+    onChanged({target:{value}}){
+      this.changeHandler(value);
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+.form-number-input {
+  border: solid 1px rgb(118, 118, 118);
+  background-color: transparent;
+  box-sizing: border-box;
+  font-size: var(--vp-form-text-size);
+  padding: var(--vp-input-padding);
+  color: white;
+}
+</style>
