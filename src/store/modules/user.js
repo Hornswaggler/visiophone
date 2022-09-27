@@ -60,8 +60,6 @@ export default {
     async getUserProfile({ commit, getters:{idToken: token}, state:{ accountId: userId }}) {
       const {data:{avatarId, _id, customUserName}} = await securePostJson(axios, { userId }, { slug: 'get_user_profile', token });
 
-      console.log('Get user Profile');
-
       commit('assignObject', {key:'_id', value: _id});
       commit('assignObject', {key:'avatarId', value: avatarId});
       commit('assignObject', {key: 'customUserName', value: customUserName })
@@ -100,10 +98,7 @@ export default {
           value: msal
         });
 
-        console.log('Probably the bug...', customUserName);
-
         if(!avatarId) {
-          console.log('Retrieving');
           const { avatarId, _id, customUserName } = await dispatch('getUserProfile', { token: msal.accessToken });
           commit('avatarId', avatarId);
           commit('customUserName', customUserName)

@@ -1,7 +1,9 @@
 <template>
   <centered-responsive-layout>
     <template v-slot:side-panel>
-      <side-navigation />
+      <side-navigation
+        :change-handler="onSideNavigationChanged"
+      />
     </template>
     <template v-slot:content>
       <div
@@ -11,7 +13,7 @@
         <scrolling-container :on-scroll-limit-reached="onScrollLimitReached">
           <template v-slot:header>
             <div
-              v-if="isBrowsing && !isMobile"
+              v-if="isBrowsing"
               style="height:2em;padding: 0 0.5em"
               class="flex justify-end"
             >
@@ -69,15 +71,19 @@ export default {
       const {title = ''} = this.selectedMenuItem || '';
       return title  === 'Browse'
     },
+
     isListTypeSelected(){
       return this.sortType === SORT_TYPES.LIST;
     },
+
     isGroupTypeSelected(){
       return this.sortType === SORT_TYPES.GROUP;
     },
+
     selectedMenuItem(){
       return this.sideNavigationMenuItemById[`${this.sideNavigationIndex}`];
     }
+
   },
 
   mounted(){
@@ -88,6 +94,10 @@ export default {
   },
 
   methods: {
+    onSideNavigationChanged(){
+      this.$store.commit('app/setShowMenu', false);
+    },
+
     onScrollLimitReached(){
       const {idToken:token} = this;
       this.$store.dispatch('sample/loadMoreSamples', {token});

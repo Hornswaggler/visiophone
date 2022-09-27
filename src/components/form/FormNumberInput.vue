@@ -1,7 +1,7 @@
 <template>
   <form-input-base>
     <template v-slot:title>
-      cost
+      {{ title }}
     </template>
     <template
       v-slot:input

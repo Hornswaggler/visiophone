@@ -4,15 +4,34 @@
       <div
         class="header-search-container"
       >
-        <div class="flex align-center flex-1">
-          <span @click="onGo(-1)">
+        <div 
+          class="flex align-center flex-1" 
+          style="padding-left:0.5em;"
+        >
+          <span
+            class="mobile-nav-hamburger"
+            style="cursor:pointer"
+          >
+            <font-awesome-icon
+              class="form-icon"
+              icon="fa-bars"
+              @click="expandMenu"
+            />
+          </span>
+          <span
+            class="header-nav-icon"
+            @click="onGo(-1)"
+          >
             <font-awesome-icon 
               class="form-icon"
               icon="fa-angle-left"
             />
           </span>
 
-          <span @click="onGo(1)">
+          <span
+            class="header-nav-icon"
+            @click="onGo(1)"
+          >
             <font-awesome-icon 
               class="form-icon pl1"
               icon="fa-angle-right"
@@ -20,7 +39,10 @@
           </span>
         </div>
 
-        <div class="header-search-input flex-2">
+        <div
+          class="header-search-input"
+          style="flex:4;"
+        >
           <div class="header-search-input-content">
             <form-input :on-changed="onSearchChanged" />
           </div>
@@ -28,7 +50,7 @@
 
         <div class="header-user-menu flex-1 justify-end">
           <span
-            class="pr1"
+            class="pr header-custom-user-name"
             style="font-size:0.8em;"
           >{{ customUserName }}</span>
 
@@ -124,6 +146,10 @@ export default {
     },
   },
   methods: {
+    expandMenu(){
+      this.$store.commit('app/setShowMenu', true);
+    },
+
     onGo(direction){
       this.$router.go(direction)
     },

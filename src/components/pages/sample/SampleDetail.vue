@@ -30,14 +30,17 @@
           <div class="sample-card-body">
             <div class="sample-card-classification">
               <div class="sample-card-seller">
-                {{ sample.seller }}
+                seller: {{ sample.seller }}
               </div>
               <div 
-                v-for="{id,name} in sample.categories"
-                :key="id"
                 class="ml1"
               >
-                {{ name }}
+                genre:&nbsp;{{ sample.tag }}
+              </div>
+              <div 
+                class="ml1"
+              >
+                bpm:&nbsp;{{ sample.bpm }}
               </div>
             </div>
 
