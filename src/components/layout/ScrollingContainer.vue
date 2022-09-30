@@ -55,7 +55,7 @@ export default {
 
 <style lang="scss">
 .scrolling-container {
-  padding: 1em;
+  padding: 0.5em;
   justify-content: flex-start;
 }
 

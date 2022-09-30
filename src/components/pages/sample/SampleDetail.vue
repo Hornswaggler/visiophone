@@ -74,11 +74,23 @@
               </template>
             </form-icon>
 
-            <form-icon
-              icon-size="2.5em"
-              class="vp-icon flex justify-end align-end download-icon"
-              icon="fa-solid fa-file-arrow-down"
-            />
+            <div
+              class="flex"
+              style="justify-content:space-between;"
+            >
+              <div @click="onPurchaseSampleClicked">
+                <form-icon
+                  icon-size="1em"
+                  class="vp-icon flex justify-end align-end download-icon"
+                  icon="fa-plus"
+                />
+              </div>
+              <form-icon
+                icon-size="1em"
+                class="vp-icon flex justify-end align-end download-icon"
+                icon="fa-solid fa-file-arrow-down"
+              />
+            </div>
           </div>
         </template>
       </form-card>
@@ -112,12 +124,16 @@ export default {
   },
   computed:{
     ...mapState('sample', ['sortType']),
-    ...mapState('user', ['publicStorageToken']),
+    ...mapState('user', ['publicStorageToken','idToken', 'accountId']),
     isCollapsed() {
       return this.sortType == SORT_TYPES.GROUP;
     }
   },
   methods:{
+    onPurchaseSampleClicked() {
+      const {sample:{_id, idToken:token}, accountId} = this;
+      this.$store.dispatch('user/purchaseSample', {sample: this.sample, token, accountId });
+    },
     onHandleImageClicked() {
       this.isCollapsed = !this.isCollapsed;
     },
@@ -208,32 +224,23 @@ export default {
     transition: width 0.33s;
     width: 100%;
     display:flex;
-    padding: 0.5em;
+    padding: 0.25em;
   }
 
   .form-image{
-    min-height:10em;
-    min-width:10em;
+    min-height:3.5em;
+    min-width:3.5em;
     transition: min-width 0.33s,
   }
 
   &.isCollapsed {
-  
     .sample-details {
       width: 0;
-    }
-
-    .sample-detail-image-card {
-      .form-image {
-        min-height:10em;
-        min-width:10em;
-      }
     }
   }
 }
 
 .sample-card-classification {
-  height: 2em;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -248,7 +255,7 @@ export default {
   flex:1;
   display: flex;
   align-items: flex-start;
-  font-size: 1.25em;
+  font-size: 1em;
   width: 100%;
 }
 
@@ -256,7 +263,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
-  color: #ffffffad;
+  color: #ecececad;
   max-height: 3em;
   word-break: break-all;
   width: 100%;
@@ -265,7 +272,6 @@ export default {
 }
 
 .sample-card-tag-container {
-  height: 2em;
   display: flex;
   align-items: flex-end;
   color: rgb(117, 117, 117);

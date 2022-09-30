@@ -87,31 +87,21 @@ export default {
           $router.push('/user-settings');
         }
       },
-    
-      logout:{
-        displayName: 'Log Out',
-        handler: async ({$store, $router}) => {
-          await $store.dispatch('app/hideOverlay');
-          await $store.dispatch(
-            '/dropdown/hideDropdown',
-            {
-              showLoading: false, 
-              opacity: '0'
-            }
-          );
-          if (await $store.dispatch('user/logout')) {
-            $router.push('/landingPage');
-          }
-        },
-      },
 
+      library: {
+        displayName: 'Library',
+        handler: async ({$router, $store}) => {
+          await $store.dispatch('app/hideOverlay');
+          $router.push('/user/library');
+        }
+      },
       settings:{
         displayName: 'Settings',
         handler: async({$router, $store}) => {
           await $store.dispatch('app/hideOverlay');
 
           // TODO: Standardize these...
-          $router.push('/user-settings');
+          $router.push('/user/settings');
         }
       },
 

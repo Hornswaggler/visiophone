@@ -10,7 +10,7 @@ export default {
 
 <style lang="scss">
 .bg-gradient {
-  background: linear-gradient(120deg,rgb(0, 0, 0),rgb(3, 41, 53),rgb(0, 0, 0));
+  background: linear-gradient(120deg,rgb(0, 0, 0),rgb(42, 49, 52),rgb(40, 40, 40));
 
 
 	background-size: 180% 180%;

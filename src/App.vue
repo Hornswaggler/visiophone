@@ -17,7 +17,7 @@ import config from '@/config';
 const DEFAULT_HOME = '/sample';
 
 const PERSISTENT_MODULES = [
-  'sample',
+  'sample'
 ];
 
 export default {
@@ -61,6 +61,7 @@ export default {
   methods:{
     initializePersistentStorage(){
       const currentTime = moment().valueOf();
+
       for(let i = 0; i < PERSISTENT_MODULES.length; i++) {
         const storeModuleName = PERSISTENT_MODULES[i];
         const storeModuleJson = localStorage.getItem(storeModuleName);
@@ -88,6 +89,9 @@ export default {
           }
         }
       }
+
+      //TODO: Fix this mess...
+      this.$store.dispatch('user/initFromStorage')
 
       this.$store.subscribe(({type}, {sample}) => {
         if(PERSISTENT_MODULES.find(m => type.startsWith(m))) {
@@ -157,7 +161,7 @@ html{
   .side-navigation-menu {
     opacity: 1;
     transition: transform 0.28s, width 0.5s, margin 1s, background-color 1s; 
-    background-color:rgb(88 71 134 / 28%);
+    background-color:rgba(76, 73, 85, 0.577);
     left:0;
 
      @include for-size(xs) {

@@ -1,6 +1,7 @@
 import {securePostForm, securePostJson, axios } from '@/axios.js';
 import * as msal from '@azure/msal-browser';
 import {config} from '@/config.js';
+import {makeSampleFromResult} from './sample';
 
 //TODO Move to configuration
 const API_SCOPES = ["User.Read","openid", "profile"];
@@ -15,7 +16,10 @@ export const makeNewUser = () => ({
   apiToken: '',
   publicStorageToken: '',
   avatarId: localStorage.avatarId || '',
-  customUserName: localStorage.customUserName || ''
+  customUserName: localStorage.customUserName || '',
+  samples: JSON.parse(localStorage.user_samples || "[]"),
+  forSale: JSON.parse(localStorage.forSale || "[]"),
+  owned: JSON.parse(localStorage.owned || "[]")
 });
 
 const msalConfig = {
@@ -45,6 +49,43 @@ export default {
   namespaced: true,
   state: () => makeNewUser(),
   actions:{
+
+    persistToStorage({commit}, user){
+      commit(
+        'assignObject', 
+        {
+          key: 'user', 
+          value: sample
+        })
+    },
+
+    initFromStorage({commit, state:{samples}}){
+      const value = Object.keys(samples).map(key => {
+        const sample = samples[key];
+        if((sample.imgUrl || '').startsWith('blob')) {
+          sample.imgUrl = `${config.VUE_APP_COVER_ART_URI}${sample._id}.png`;
+        }
+        return makeSampleFromResult({sample});
+      });
+      
+      commit('assignObject', {key: 'samples', value })
+    },
+
+    async purchaseSample({ commit, state:{samples} }, {sample, token, accountId}) {
+      const {data} = await securePostJson(
+        axios,
+        JSON.stringify({_id: sample._id, accountId}),
+        { slug: `sample_purchase`, token }
+      );
+
+      const forSale = (data.forSale || []).map(sample => sample.sampleId);
+      const owned = (data.owned || []).map(sample => sample.sampleId);
+
+      commit('forSale', forSale);
+      commit('owned', owned)
+      commit('samples', [...samples, makeSampleFromResult({sample})]);
+    },
+
     async uploadUserProfile({commit, getters:{idToken: token}, state:{avatarId, accountId, _id}}, {blob, customUserName}) {
       const fd = new FormData();
       fd.append('file',blob,'fakename.png' );
@@ -57,17 +98,22 @@ export default {
       commit('customUserName', customUserName)
     },
 
-    async getUserProfile({ commit, getters:{idToken: token}, state:{ accountId: userId }}) {
-      const {data:{avatarId, _id, customUserName}} = await securePostJson(axios, { userId }, { slug: 'get_user_profile', token });
+    async getUserProfile({ commit, getters:{idToken: token}, state:{ accountId }}) {
+      const {data} = await securePostJson(axios, { accountId }, { slug: 'get_user_profile', token });
 
-      commit('assignObject', {key:'_id', value: _id});
-      commit('assignObject', {key:'avatarId', value: avatarId});
-      commit('assignObject', {key: 'customUserName', value: customUserName })
+      const forSale = (data.forSale || []).map(sample => sample.sampleId);
+      const owned = (data.owned || []).map(sample => sample.sampleId);
+      const samples = (data.samples || []).map(sample => makeSampleFromResult({sample}));
 
-      return {avatarId, _id, customUserName};
+      return {
+        ...data,
+        samples,
+        forSale,
+        owned
+      };
     },
 
-    async initialize({getters:{idToken}, state:{avatarId, customUserName}, commit, dispatch}) {
+    async initialize({getters:{idToken}, state:{_id, avatarId, customUserName}, commit, dispatch}) {
       try {
         await myMSALObj.initialize();
         const resp = await myMSALObj.handleRedirectPromise();
@@ -97,13 +143,18 @@ export default {
           key: 'msal',
           value: msal
         });
+ 
+        if(!_id) {
+          //TODO: refactor to its own method
+          const result = await dispatch('getUserProfile', { token: msal.accessToken });
+          const { avatarId, _id, customUserName, samples, forSale, owned} = result;
 
-        if(!avatarId) {
-          const { avatarId, _id, customUserName } = await dispatch('getUserProfile', { token: msal.accessToken });
           commit('avatarId', avatarId);
-          commit('customUserName', customUserName)
-          commit('_id', _id)
-
+          commit('customUserName', customUserName);
+          commit('_id', _id);
+          commit('forSale', forSale);
+          commit('owned', owned)
+          commit('samples', samples);
         }
 
         return true;
@@ -155,7 +206,15 @@ export default {
   getters: {
     userName: ({msal:{account:{name}} = {msal:{account:{name:''}}}}) => name,
     idToken: ({msal:{idToken}} = {msal:{idToken:''}}) => idToken,
-    profileImg: ({avatarId}) => `${config.VUE_APP_AVATAR_URI}${avatarId}.png`
+    profileImg: ({avatarId}) => `${config.VUE_APP_AVATAR_URI}${avatarId}.png`,
+    getForSale: ({samples, forSale}) => {
+      const filtered = samples.filter(({_id}) => forSale.includes(_id));
+      return filtered;
+    },
+    getOwned: ({samples, owned}) => {
+      const filtered = samples.filter(({_id}) => owned.includes(_id));
+      return filtered;
+    }
   },
 
   mutations: {
@@ -170,6 +229,29 @@ export default {
     avatarId(state, avatarId) {
       state.avatarId = avatarId;
       localStorage.setItem('avatarId', avatarId || '');
+    },
+
+    samples(state, samples){
+      state.samples = samples;
+      localStorage.user_samples = JSON.stringify(samples);
+    },
+
+    addSampleForSale(state, newSample) {
+      state.samples.push(newSample);
+      state.forSale.push(newSample._id);
+
+      localStorage.forSale = JSON.stringify(state.forSale);
+      localStorage.user_samples = JSON.stringify([...state.samples, newSample]);
+    },
+
+    owned(state, owned){
+      state.owned = owned;
+      localStorage.owned = JSON.stringify(owned);
+    },
+
+    forSale(state, forSale){
+      state.forSale = forSale;
+      localStorage.forSale = JSON.stringify(forSale);
     },
   
     _id(state, _id) {

@@ -128,7 +128,7 @@ export default {
   }),
   computed: {
     ...mapGetters('user',['idToken']),
-    ...mapState('user',['authenticated','shelfCapacity', 'customUserName']),
+    ...mapState('user',['authenticated','shelfCapacity', 'customUserName', 'accountId']),
     ...mapState('sample', ['sampleForEdit']),
   },
   components: {
@@ -168,15 +168,17 @@ export default {
       try {
         this.$store.commit('app/isLoading', true);
 
-        await this.$store.dispatch('sample/uploadSample', {
+        const newSample = await this.$store.dispatch('sample/uploadSample', {
           sampleData: {...this.sampleData, seller: this.customUserName},
           token: this.idToken,
           sample: this.sampleBlob,
           image: this.imageBlob,
           imageSrc: this.imageSrc,
-          seller: this.customUserName
+          seller: this.customUserName,
+          accountId: this.accountId
         });
 
+        this.$store.commit('user/addSampleForSale',newSample[0]);
 
         Vue.set(this.sampleData, makeNewSample());
 

@@ -3,7 +3,11 @@
     class="side-navigation-menu"
     :class="{'show-nav': showMenu}"
   >
-    <span style="width:100%;"><site-logo /></span>
+    <span 
+      style="width:100%;cursor:pointer;"
+      @click="goHome"
+    ><site-logo />
+    </span>
     <div
       v-for="option in sideNavigationMenuItems"
       :key="option._id"
@@ -32,6 +36,10 @@ export default {
     changeHandler:{
       type: Function,
       default: () => {}
+    },
+    link:{
+      type: String,
+      default:'/sample'
     }
   },
   computed:{
@@ -46,6 +54,9 @@ export default {
         this.$router.push(slug);
       }
       this.changeHandler();
+    },
+    goHome(){
+      this.$router.push(this.link);
     }
   }
 }
@@ -61,7 +72,7 @@ export default {
   height:100vh;
   width:16em;
   display:flex;
-  align-items: flex-end;
+  align-items: center;
   flex-direction: column;
 
   >div:first-of-type{
@@ -71,15 +82,14 @@ export default {
   .side-naviagation-option {
     display: flex;
     align-items: center;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-radius: 10px;
     max-height:2em;
     min-height:2em;
     background-color: rgba(33, 35, 35, 0.9);
     width:75%;
     display: flex;
     justify-content: space-evenly;
-    margin-top: 2em;
+    margin-top: 1em;
     transition: all 0.18s linear;
     cursor:pointer;
 
