@@ -1,7 +1,9 @@
-import SamplePage from '@/components/pages/sample/SamplePage.vue';
-import UserSettingsPage from '@/components/pages/user-settings/UserSettingsPage';
-import SampleUpload from '@/components/pages/sample/SampleUpload.vue';
-import Search from '@/components/pages/sample/SampleSearch.vue';
+import SamplePage from '@/components/pages/sample/SamplePage';
+import UserPage from '@/components/pages/user/UserPage';
+import UserSettings from '@/components/pages/user/UserSettings';
+import UserLibrary from '@/components/pages/user/UserLibrary'
+import SampleUpload from '@/components/pages/sample/SampleUpload';
+import Search from '@/components/pages/sample/SampleSearch';
 
 const routes = [
   {
@@ -24,9 +26,19 @@ const routes = [
     ]
   },
   {
-    path:'/user-settings',
-    component: UserSettingsPage
-  }
+    path:'/user',
+    component: UserPage,
+    children:[
+      {
+        path:'settings',
+        component: UserSettings
+      },
+      {
+        path:'library',
+        component: UserLibrary
+      }
+    ]
+  },
 ];
 
 export default routes.map(route => {

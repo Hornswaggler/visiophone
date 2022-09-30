@@ -41,7 +41,7 @@ export const makeNewSample = (
     fileName,
 });
 
-const makeSampleFromResult = ({sample, isNew = false}) => {
+export const makeSampleFromResult = ({sample, isNew = false}) => {
   const newSample = {
     ...makeNewSample({...sample}),
     ...sample,
@@ -121,19 +121,16 @@ export default {
       await dispatch('search', {query, token, index: _nextResultIndex});
     },
 
-    async uploadSample({dispatch}, {sampleData, token, sample, image, imageSrc}) {
-      try {
+    async uploadSample({dispatch}, {sampleData, token, sample, image, imageSrc, accountId}) {
         let fd = new FormData();
         fd.append('sample',sample);
         fd.append('image', image);
+        fd.append('accountId', accountId)
         fd.append('data', JSON.stringify(sampleData));
 
         const {data} = await securePostForm(axios, fd, {slug: `${config.VUE_APP_API_SAMPLE_UPLOAD_URI}`, token});
         data.imgUrl = imageSrc;
-        dispatch('addSamples', {samples:[data], index: 1, isNew:true});
-      } catch(e) {
-        console.error(e);image
-      }
+        return dispatch('addSamples', {samples:[data], index: 1, isNew:true});
     },
 
     setIsLoaded({commit}, isLoaded){
@@ -157,6 +154,8 @@ export default {
         key: 'samples',
         value
       });
+
+      return initSamples;
     },
 
     async search({ dispatch, commit, state:{ nextResultIndex: _nextResultIndex }}, { query, token, index = 0 }){

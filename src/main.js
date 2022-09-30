@@ -8,7 +8,7 @@ import VueParticles from 'vue-particles';
 import store from './store/';
 import router from '@/router';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlay, faGem, faFileArrowDown, faMagnifyingGlass, faGrip, faGripLines, faSquarePlus, faGear, faAngleLeft, faAngleRight, faBars } from '@fortawesome/free-solid-svg-icons'
+import { faPlay, faGem, faFileArrowDown, faMagnifyingGlass, faGrip, faGripLines, faSquarePlus, faGear, faAngleLeft, faAngleRight, faBars, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {config} from '@/config';
 
@@ -23,6 +23,7 @@ library.add(faGear);
 library.add(faAngleLeft);
 library.add(faAngleRight);
 library.add(faBars);
+library.add(faPlus);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 
