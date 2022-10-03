@@ -124,15 +124,15 @@ export default {
   },
   computed:{
     ...mapState('sample', ['sortType']),
-    ...mapState('user', ['publicStorageToken','idToken', 'accountId']),
+    ...mapState('user', ['accountId']),
     isCollapsed() {
       return this.sortType == SORT_TYPES.GROUP;
     }
   },
   methods:{
     onPurchaseSampleClicked() {
-      const {sample:{_id, idToken:token}, accountId} = this;
-      this.$store.dispatch('user/purchaseSample', {sample: this.sample, token, accountId });
+      const {sample, accountId} = this;
+      this.$store.dispatch('user/purchaseSample', {sample, accountId });
     },
     onHandleImageClicked() {
       this.isCollapsed = !this.isCollapsed;
@@ -140,8 +140,8 @@ export default {
     async onPlaySample(){
       if(!this.isClipLoaded){
         try{
-          const {sample:{clipUri: uri}, publicStorageToken:token} = this;
-          const result = await secureGetBlob(axios, {uri, token});
+          const {sample:{clipUri: uri}} = this;
+          const result = await secureGetBlob(axios, {uri});
           const data = result.data;
           const blob = new Blob([data], { type: "audio/wav" });
           const blobUrl = URL.createObjectURL(blob);

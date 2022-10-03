@@ -2,19 +2,19 @@ import {securePostForm, securePostJson, axios } from '@/axios.js';
 import * as msal from '@azure/msal-browser';
 import {config} from '@/config.js';
 import {makeSampleFromResult} from './sample';
+// import { initializeAuth, msal } from '@/auth';
 
 //TODO Move to configuration
 const API_SCOPES = ["User.Read","openid", "profile"];
 
 export const makeNewUser = () => ({
   _id: localStorage._id || '',
-  accountId: '',
   authenticated: false,
-  userIcon: require('@/assets/Comp_boi_idle.gif'),
-  shelfCapacity: 75,
-  msal: {},
-  apiToken: '',
+  msal: {
+    account:{ homeAccountId: '' }
+  },
   publicStorageToken: '',
+
   avatarId: localStorage.avatarId || '',
   customUserName: localStorage.customUserName || '',
   samples: JSON.parse(localStorage.user_samples || "[]"),
@@ -27,8 +27,8 @@ const msalConfig = {
     clientId: config.VUE_APP_AUTH_CLIENT_ID,
     authority: config.VUE_APP_AUTH_AUTHORITY,
     redirectUri: config.VUE_APP_API_REDIRECT_URI,
-    identityMetadata: 'https://login.microsoftonline.com/2d1e671b-65ba-40be-b119-5cb56ca78e80/v2.0/.well-known/openid-configuration',
-    issuer: 'https://login.microsoftonline.com/2d1e671b-65ba-40be-b119-5cb56ca78e80/v2.0'
+    identityMetadata: config.VUE_APP_IDENTITY_METADATA,
+    issuer: config.VUE_APP_IDENTITY_ISSUER
   },
   cache: {
     cacheLocation: "sessionStorage",
@@ -50,14 +50,14 @@ export default {
   state: () => makeNewUser(),
   actions:{
 
-    persistToStorage({commit}, user){
-      commit(
-        'assignObject', 
-        {
-          key: 'user', 
-          value: sample
-        })
-    },
+    // persistToStorage({commit}, user){
+    //   commit(
+    //     'assignObject', 
+    //     {
+    //       key: 'user', 
+    //       value: sample
+    //     })
+    // },
 
     initFromStorage({commit, state:{samples}}){
       const value = Object.keys(samples).map(key => {
@@ -71,11 +71,11 @@ export default {
       commit('assignObject', {key: 'samples', value })
     },
 
-    async purchaseSample({ commit, state:{samples} }, {sample, token, accountId}) {
+    async purchaseSample({ commit, state:{samples}, getters:{accountId} }, {sample}) {
       const {data} = await securePostJson(
         axios,
         JSON.stringify({_id: sample._id, accountId}),
-        { slug: `sample_purchase`, token }
+        { slug: `sample_purchase` }
       );
 
       const forSale = (data.forSale || []).map(sample => sample.sampleId);
@@ -86,20 +86,21 @@ export default {
       commit('samples', [...samples, makeSampleFromResult({sample})]);
     },
 
-    async uploadUserProfile({commit, getters:{idToken: token}, state:{avatarId, accountId, _id}}, {blob, customUserName}) {
+    async uploadUserProfile({commit, state:{avatarId, _id}, getters:{accountId}}, {blob, customUserName}) {
       const fd = new FormData();
       fd.append('file',blob,'fakename.png' );
-      fd.append('data', JSON.stringify({ accountId, avatarId , _id, customUserName}) );
+      fd.append('data', JSON.stringify({ accountId, avatarId , _id, customUserName }) );
 
-      const { data } = await securePostForm(axios, fd, {slug: `set_user_profile`, token});
+      const { data } = await securePostForm(axios, fd, {slug: `set_user_profile`});
 
+      //TODO: refactor to "Make new"
       commit('avatarId', data.avatarId);
       commit('_id', data._id);
       commit('customUserName', customUserName)
     },
 
-    async getUserProfile({ commit, getters:{idToken: token}, state:{ accountId }}) {
-      const {data} = await securePostJson(axios, { accountId }, { slug: 'get_user_profile', token });
+    async getUserProfile({ state:{ accountId } }) {
+      const {data} = await securePostJson(axios, { accountId }, { slug: 'get_user_profile' });
 
       const forSale = (data.forSale || []).map(sample => sample.sampleId);
       const owned = (data.owned || []).map(sample => sample.sampleId);
@@ -113,8 +114,13 @@ export default {
       };
     },
 
-    async initialize({getters:{idToken}, state:{_id, avatarId, customUserName}, commit, dispatch}) {
+    async initialize(context) {
+      const { getters:{idToken}, state:{_id}, commit, dispatch } = context;
       try {
+
+        console.log('About to initialize auth layer');
+        // const {apiToken, publicStorageToken} = await initializeAuth();
+
         await myMSALObj.initialize();
         const resp = await myMSALObj.handleRedirectPromise();
         handleResponse(resp, commit);
@@ -127,7 +133,7 @@ export default {
           scopes: [config.VUE_APP_READ_BLOB_SCOPE]
         };
 
-        const { accessToken: publicStorageToken } = await myMSALObj.acquireTokenSilent(publicStorageTokenRequest);
+        const {publicStorageToken} = await myMSALObj.acquireTokenSilent(publicStorageTokenRequest);
 
         commit('assignObject', {
           key: 'publicStorageToken',
@@ -139,14 +145,18 @@ export default {
           value: msal.accessToken
         });
 
-        commit('assignObject',{
-          key: 'msal',
-          value: msal
-        });
- 
+        // console.log('ASSIGNING API TOKEN', apiToken);
+        
+        // if(apiToken){
+        //   commit('assignObject',{
+        //     key: 'msal',
+        //     value: msal
+        //   });
+        // }
+       
         if(!_id) {
           //TODO: refactor to its own method
-          const result = await dispatch('getUserProfile', { token: msal.accessToken });
+          const result = await dispatch('getUserProfile');
           const { avatarId, _id, customUserName, samples, forSale, owned} = result;
 
           commit('avatarId', avatarId);
@@ -180,11 +190,13 @@ export default {
       return result;
     },
 
-    async logout({state:{accountId}, commit}) {
+    async logout({ getters:{accountId}, commit }) {
       try{
         commit('authenticated', false);
         await myMSALObj.logoutPopup({
           account: myMSALObj.getAccountByHomeId(accountId)
+
+          //TODO: Clear cache 
         });
         return true;
       } catch(e){
@@ -204,7 +216,12 @@ export default {
 
   // TODO Fix this...
   getters: {
-    userName: ({msal:{account:{name}} = {msal:{account:{name:''}}}}) => name,
+    // accountId:(state) => {
+    //   console.log('MSAL:', state.msal.account);
+    //   return state.msal.account
+    // },
+    accessToken:({msal:{accessToken = ''}}) => accessToken,
+    userName: ({msal:{account:{name}}}) => name,
     idToken: ({msal:{idToken}} = {msal:{idToken:''}}) => idToken,
     profileImg: ({avatarId}) => `${config.VUE_APP_AVATAR_URI}${avatarId}.png`,
     getForSale: ({samples, forSale}) => {
@@ -263,7 +280,6 @@ export default {
       state.customUserName = customUserName;
       localStorage.setItem('customUserName', customUserName || '');
     }
-  
   }
 };
 

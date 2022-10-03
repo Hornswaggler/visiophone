@@ -28,7 +28,6 @@ export default {
   computed: {
     ...mapGetters('sample', ['sampleArray']),
     ...mapState('sample', ['isLoaded', 'sortType']),
-    ...mapGetters('user', ['idToken']),
     isCollapsed(){
       return this.sortType === SORT_TYPES.GROUP;
     },
@@ -57,10 +56,10 @@ export default {
     this.$store.commit('app/setSideNavigationIndex', 0);
     if(!this.isLoaded) {
       try {
-        const {page, idToken: token} = this;
+        const {page} = this;
         await this.$store.dispatch(
           'sample/initialize',
-          {page, token});
+          {page});
       } finally {
         this.$store.dispatch('sample/setIsLoaded', true);
       }

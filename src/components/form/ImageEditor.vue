@@ -109,7 +109,6 @@ export default {
     theBestSprite: {}
   }),
   computed: {
-    ...mapState('user', ['apiToken']),
     overflowX() {
       return this.isWide ? 'scroll' : 'hidden';
     },

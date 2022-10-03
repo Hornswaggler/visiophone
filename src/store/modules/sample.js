@@ -109,26 +109,26 @@ export default {
       commit('assignObject', {key: 'samples', value })
     },
 
-    initialize({dispatch}, {page, token}){
-      return dispatch('search', {page, token});
+    initialize({dispatch}, {page}){
+      return dispatch('search', {page});
     },
 
-    async loadMoreSamples({dispatch, commit, state:{nextResultIndex: _nextResultIndex, query, samples: _samples}},{token}) {
+    async loadMoreSamples({dispatch, state:{nextResultIndex: _nextResultIndex, query, samples: _samples}}) {
       if(_nextResultIndex === -1) return;
-      const sampleCount = Object.keys(samples).length;
-      const nextIndex = sampleCount < nextResultIndex ? sampleCount : nextResultIndex;
+      // const sampleCount = Object.keys(samples).length;
+      // const nextIndex = sampleCount < nextResultIndex ? sampleCount : nextResultIndex;
 
-      await dispatch('search', {query, token, index: _nextResultIndex});
+      await dispatch('search', {query, index: _nextResultIndex});
     },
 
-    async uploadSample({dispatch}, {sampleData, token, sample, image, imageSrc, accountId}) {
+    async uploadSample({dispatch}, {sampleData, sample, image, imageSrc, accountId}) {
         let fd = new FormData();
         fd.append('sample',sample);
         fd.append('image', image);
         fd.append('accountId', accountId)
         fd.append('data', JSON.stringify(sampleData));
 
-        const {data} = await securePostForm(axios, fd, {slug: `${config.VUE_APP_API_SAMPLE_UPLOAD_URI}`, token});
+        const {data} = await securePostForm(axios, fd, {slug: `${config.VUE_APP_API_SAMPLE_UPLOAD_URI}`});
         data.imgUrl = imageSrc;
         return dispatch('addSamples', {samples:[data], index: 1, isNew:true});
     },
@@ -158,11 +158,11 @@ export default {
       return initSamples;
     },
 
-    async search({ dispatch, commit, state:{ nextResultIndex: _nextResultIndex }}, { query, token, index = 0 }){
+    async search({ dispatch, commit, state:{ nextResultIndex: _nextResultIndex }}, { query, index = 0 }){
        const { data:{ samples, nextResultIndex }} = await securePostJson(
         axios,
         JSON.stringify({query, index}),
-        { slug: `${config.VUE_APP_API_SAMPLE_SEARCH_URI}`, token }
+        { slug: `${config.VUE_APP_API_SAMPLE_SEARCH_URI}` }
       );
 
       commit('assignObject', {key: 'query', value: query});
