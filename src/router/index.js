@@ -19,7 +19,7 @@ router.beforeEach((to, from, next) => {
   const onlyLoggedOut = to.matched.some(record => record.meta.onlyLoggedOut);
   const isPublic = to.matched.some(record => record.meta.public);
 
-  if (!isPublic && !authenticated) {
+  if (!isPublic && !authenticated && from.name !== to.name) {
     store.commit('app/setTargetUrl', to.path)
     return next({
       path: '/landingPage',

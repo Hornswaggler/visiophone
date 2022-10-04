@@ -125,8 +125,8 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters('user', ['profileImg', 'idToken']),
-    ...mapState('user', ['userIcon', 'customUserName']),
+    ...mapGetters('user', ['profileImg']),
+    ...mapState('user', ['customUserName']),
     ...mapState('sample', ['sortType']),
     isGroupTypeSelected(){
       return this.sortType === SORT_TYPES.GROUP;
@@ -166,7 +166,7 @@ export default {
     },
 
     onSearchChanged(query) {
-      this.$store.dispatch('sample/search', {query, token: this.idToken });
+      this.$store.dispatch('sample/search', {query });
     },
 
     onViewListClicked() {

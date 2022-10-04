@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- TODO inline Styles -->
     <div class="app-content-container">
       <BaseLayout />
     </div>
@@ -34,14 +33,17 @@ export default {
   async mounted(){
     this.initializePersistentStorage();
 
-    this.$router.beforeEach(({path, fullPath}, from, next) => {
+    this.$router.beforeEach(({path}, from, next) => {
       try {
         this.$nextTick(() => {
           if(this.authenticated && path === '/landingPage') {
             return next('/sample');
           }
 
-          this.$store.commit('app/setSideNavigationIndex', this.sideNavigationMenuItems.findIndex(({slug}) => slug === path) || 0);
+          this.$store.commit(
+            'app/setSideNavigationIndex',
+            this.sideNavigationMenuItems.findIndex(({slug}) => slug === path) || 0
+          );
         });
       } finally {
         next();
@@ -50,8 +52,10 @@ export default {
 
     await axiosInit();
     try{
-      // TODO Standardize / templatize route names "magic number" 
-      if(await this.$store.dispatch('user/initialize')) {
+      // TODO Standardize / templatize route names "magic number"
+      const authResult = await this.$store.dispatch('user/initialize');
+
+      if(authResult) {
         this.$router.push(this.targetUrl || DEFAULT_HOME);
       }
     } catch(err){
@@ -59,14 +63,14 @@ export default {
     }
   },
   methods:{
-    initializePersistentStorage(){
+    initializePersistentStorage() {
       const currentTime = moment().valueOf();
 
       for(let i = 0; i < PERSISTENT_MODULES.length; i++) {
         const storeModuleName = PERSISTENT_MODULES[i];
         const storeModuleJson = localStorage.getItem(storeModuleName);
 
-        if(storeModuleJson){
+        if(storeModuleJson) {
           try{
             const storeModule = JSON.parse(storeModuleJson);
             const samples = storeModule.samples;
@@ -90,8 +94,7 @@ export default {
         }
       }
 
-      //TODO: Fix this mess...
-      this.$store.dispatch('user/initFromStorage')
+      this.$store.dispatch('user/initFromStorage');
 
       this.$store.subscribe(({type}, {sample}) => {
         if(PERSISTENT_MODULES.find(m => type.startsWith(m))) {
@@ -110,12 +113,13 @@ export default {
 
 html{
   --image-editor-hw: 16em;
-  --vp-input-min-height: 2em;
+  --vp-input-min-height: 1.5em;
+  --vp-cover-art-hw: 4em;
   --vp-form-text-size: 1em;
   --vp-form-select-option-font-size: 1.2em;
   --vp-form-select-option-color: rgb(226, 226, 226);
   --vp-form-select-option-background-color: rgb(14, 14, 14);
-  --vp-input-background-color: rgba(17, 17, 17, 0.7);
+  // --vp-input-background-color: rgba(17, 17, 17, 0.7);
   --vp-input-padding: 0.5em;
 }
 

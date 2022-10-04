@@ -17,7 +17,9 @@ export default {
 .form-card {
   padding: 0.5em 1em;
   background-image: linear-gradient(233deg, #44444454, #22222270);
-  border: solid 1px #d3d3d380;
+  height: var(--vp-cover-art-hw);
+  width: var(--vp-cover-art-hw);
+
   display:flex;
   border-radius: 8px;
   flex:1;

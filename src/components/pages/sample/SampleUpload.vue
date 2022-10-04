@@ -127,8 +127,8 @@ export default {
     description:''
   }),
   computed: {
-    ...mapGetters('user',['idToken']),
-    ...mapState('user',['authenticated','shelfCapacity', 'customUserName', 'accountId']),
+    ...mapGetters('user', ['accountId']),
+    ...mapState('user',['authenticated', 'customUserName']),
     ...mapState('sample', ['sampleForEdit']),
   },
   components: {
@@ -170,7 +170,6 @@ export default {
 
         const newSample = await this.$store.dispatch('sample/uploadSample', {
           sampleData: {...this.sampleData, seller: this.customUserName},
-          token: this.idToken,
           sample: this.sampleBlob,
           image: this.imageBlob,
           imageSrc: this.imageSrc,

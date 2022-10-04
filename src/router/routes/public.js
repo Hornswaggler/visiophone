@@ -1,9 +1,10 @@
 import LandingPage from '@/components/layout/LandingPage.vue';
+import {LANDING} from '@/router/routeNames';
 
 const routes = [
   {
-    path: '/landingPage',
-    name: 'landingPage',
+    path: `/${LANDING}`,
+    name: `${LANDING}`,
     title: 'Visiophone',
     component: LandingPage
   }

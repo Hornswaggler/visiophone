@@ -66,7 +66,6 @@ export default {
   computed: {
     ...mapState('app', ['sideNavigationMenuItems', 'sideNavigationIndex', 'isMobile']),
     ...mapGetters('app', ['sideNavigationMenuItemById']),
-    ...mapGetters('user', ['idToken']),
     isBrowsing(){
       const {title = ''} = this.selectedMenuItem || '';
       return title  === 'Browse'
@@ -99,8 +98,7 @@ export default {
     },
 
     onScrollLimitReached(){
-      const {idToken:token} = this;
-      this.$store.dispatch('sample/loadMoreSamples', {token});
+      this.$store.dispatch('sample/loadMoreSamples');
     },
 
     onViewGroupClicked(){
