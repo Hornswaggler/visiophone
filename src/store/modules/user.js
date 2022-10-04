@@ -148,6 +148,7 @@ export default {
   },
 
   getters: {
+    idToken:({apiToken:{idToken = ''}}) => idToken,
     accessToken:({apiToken:{accessToken = ''}}) => accessToken,
     storageToken: ({storageToken:{accessToken = ''}}) => accessToken,
     accountId:({apiToken:{ account:{homeAccountId = ''}}}) => homeAccountId,
