@@ -99,12 +99,12 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapState, mapGetters} from 'vuex';
 import FormCard from '@/components/form/FormCard.vue';
 import FormImage from '@/components/form/FormImage.vue';
 import FormIcon from '@/components/form/FormIcon.vue';
 import { SORT_TYPES, makeNewSample } from '@/store/modules/sample';
-import { axios, secureGet } from '@/axios.js';
+import { axios } from '@/axios.js';
 
 export default {
   name:'SampleDetail',
@@ -123,8 +123,8 @@ export default {
     }
   },
   computed:{
+    ...mapGetters('user', ['accountId']),
     ...mapState('sample', ['sortType']),
-    ...mapState('user', ['accountId']),
     isCollapsed() {
       return this.sortType == SORT_TYPES.GROUP;
     }
@@ -228,8 +228,6 @@ export default {
   }
 
   .form-image{
-    min-height:3.5em;
-    min-width:3.5em;
     transition: min-width 0.33s,
   }
 

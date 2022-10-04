@@ -71,7 +71,7 @@ export default {
   }),
   computed:{
     ...mapState('user',['customUserName']),
-    ...mapGetters('user', ['profileImg']),
+    ...mapGetters('user', ['profileImg', 'accountId']),
 
   },
   mounted(){

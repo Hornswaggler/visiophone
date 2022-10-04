@@ -218,7 +218,6 @@ export default {
 
     loadImage({sprite}){
       const self = this;
-      //TODO: This is sketchy...
       return new Promise((resolve, reject) => {
         sprite.addEventListener("load", (ev) => {
           try{

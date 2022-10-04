@@ -127,7 +127,8 @@ export default {
     description:''
   }),
   computed: {
-    ...mapState('user',['authenticated', 'customUserName', 'accountId']),
+    ...mapGetters('user', ['accountId']),
+    ...mapState('user',['authenticated', 'customUserName']),
     ...mapState('sample', ['sampleForEdit']),
   },
   components: {

@@ -24,6 +24,20 @@ const msalConfig = {
   }
 };
 
+export const client = new _msal.PublicClientApplication(msalConfig);
+
+export const logon = async () => {
+  const loginRequest = {
+    scopes: ["User.Read","openid", "profile"],
+  };
+  return await client.acquireTokenPopup(loginRequest);
+};
+
+export const logOff = async (accountId) => {
+  return await client.logoutPopup({
+    account: client.getAccountByHomeId(accountId)
+  });
+};
 
 const getAccountFromCache = (currentAccounts) => {
   if (!currentAccounts || currentAccounts.length < 1) {
@@ -33,54 +47,39 @@ const getAccountFromCache = (currentAccounts) => {
   } else if (currentAccounts.length === 1) {
       return currentAccounts[0];
   }
-}
-
-export const msal = new _msal.PublicClientApplication(msalConfig);
-
-console.log(msal);
+};
 
 export const initializeAuth = async () => {
-  await msal.initialize();
-  let activeAccount = await msal.handleRedirectPromise();
+  await client.initialize();
 
-  console.log('Response:', activeAccount);
-  if(!activeAccount){
-    activeAccount = getAccountFromCache(msal.getAllAccounts());
+  let activeAccount = await client.handleRedirectPromise();
+  if(!activeAccount) {
+    activeAccount = getAccountFromCache(client.getAllAccounts());
   }
 
-  // const activeAccount = getAccountForResponse(response || {account: ''}, msal.getAllAccounts());
-  if(activeAccount) msal.setActiveAccount(activeAccount);
+  if(activeAccount) {
+    client.setActiveAccount(activeAccount);
 
-  // handleMsalResponse();
-  console.log('TOKEN:', activeAccount, msal);
+    const apiToken = await client.acquireTokenSilent({ 
+      account: activeAccount.idToken || '',
+      scopes: API_SCOPES
+    });
 
-  const apiTokenRequest = { account: msal.idToken, scopes: API_SCOPES };
+    const publicStorageToken = await client.acquireTokenSilent({
+      account: client.idToken,
+      scopes: [config.VUE_APP_READ_BLOB_SCOPE]
+    });
 
-  console.log('Getting a token', apiTokenRequest);
-
-
-  let apiToken = '';
-  try {
-    apiToken = await msal.acquireTokenSilent(apiTokenRequest);
-  } catch(e) {
-    console.error(e);
-  }
-
-  const publicStorageTokenRequest =  {
-    account: msal.idToken,
-    scopes: [config.VUE_APP_READ_BLOB_SCOPE]
-  };
-  let publicStorageToken = '';
-  try{
-    publicStorageToken = await msal.acquireTokenSilent(publicStorageTokenRequest);
-  } catch(e) {
-    console.error(e);
+    return {
+      apiToken,
+      publicStorageToken,
+      client
+    };
   }
 
   return {
-    apiToken,
-    publicStorageToken
-  }
-
+    apiToken:'',
+    publicStorageToken: '',
+    client: {}
+  };
 };
-

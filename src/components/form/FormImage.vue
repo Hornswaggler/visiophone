@@ -20,8 +20,8 @@ export default {
 <style lang="scss">
 .form-image {
   border-radius:8px;
-  min-height:6.5em;
-  min-width:6.5em;
+  min-height:var(--vp-cover-art-hw);
+  min-width:var(--vp-cover-art-hw);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
