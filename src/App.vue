@@ -114,13 +114,14 @@ export default {
 html{
   --image-editor-hw: 16em;
   --vp-input-min-height: 1.5em;
-  --vp-cover-art-hw: 4em;
+  --vp-cover-art-hw: 2em;
   --vp-form-text-size: 1em;
   --vp-form-select-option-font-size: 1.2em;
   --vp-form-select-option-color: rgb(226, 226, 226);
   --vp-form-select-option-background-color: rgb(14, 14, 14);
   // --vp-input-background-color: rgba(17, 17, 17, 0.7);
   --vp-input-padding: 0.5em;
+  --vp-side-navigation-width: 10em;
 }
 
 .sample-upload-form {
@@ -163,10 +164,14 @@ html{
   position: relative;
 
   .side-navigation-menu {
-    opacity: 1;
+    opacity: 0.87;
     transition: transform 0.28s, width 0.5s, margin 1s, background-color 1s; 
     background-color:rgba(76, 73, 85, 0.577);
     left:0;
+
+    .xs-logo {
+      display:none;
+    }
 
      @include for-size(xs) {
       position:absolute;
@@ -176,11 +181,34 @@ html{
 
       &.show-nav {
         transform: translateX(0);
-
       }
 
       .logo-container{
         display:none;
+      }
+    }
+  }
+
+  .header-search-container{
+    .logo-container{
+      width:0;
+
+      .xs-logo {
+        display:none;
+      }
+
+      .lg-logo {
+        display:none;
+      }
+    }
+
+    @include for-size(xs) {
+      .logo-container {
+        width: 100%;
+
+        .xs-logo {
+          display:block;
+        }
       }
     }
   }
@@ -208,8 +236,11 @@ html{
   }
 
   .scrollbar {
+    height:calc(100vh - 7.75em);
+    transition: height 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+
     @include for-size(xs) {
-      max-height:calc(100vh - 5em);
+      height:calc(100vh - 10.75em);
     }
   }
 
@@ -219,6 +250,14 @@ html{
       justify-content: center;
       align-items: center;
       padding: 0;
+    }
+  }
+
+  .page-footer-container {
+    display:none;
+
+    @include for-size(xs) {
+      display:flex;
     }
   }
 

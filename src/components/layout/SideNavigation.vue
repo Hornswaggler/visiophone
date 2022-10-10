@@ -1,25 +1,33 @@
 <template>
-  <div
-    class="side-navigation-menu"
-    :class="{'show-nav': showMenu}"
-  >
-    <span 
-      style="width:100%;cursor:pointer;"
-      @click="goHome"
-    ><site-logo />
-    </span>
+  <div>
     <div
-      v-for="option in sideNavigationMenuItems"
-      :key="option._id"
-      class="side-naviagation-option"
-      :class="{ selected: sideNavigationIndex === option.id }"
-      @click="onMenuItemSelected(option)"
+      class="side-navigation-overlay"
+      :style="{ ['z-index']: showMenu ? 2 : -1}"
+      @click="onBackgroundClicked"
+    />
+    <div
+      class="side-navigation-menu"
+      :class="{'show-nav': showMenu}"
+      style="z-index:2;"
     >
-      <font-awesome-icon 
-        class="form-icon"
-        :icon="option.icon"
-      />
-      <div>{{ option.title }}</div>
+      <span 
+        style="width:100%;cursor:pointer;"
+        @click="goHome"
+      ><site-logo />
+      </span>
+      <div
+        v-for="option in sideNavigationMenuItems"
+        :key="option._id"
+        class="side-naviagation-option"
+        :class="{ selected: sideNavigationIndex === option.id }"
+        @click="onMenuItemSelected(option)"
+      >
+        <font-awesome-icon 
+          class="form-icon"
+          :icon="option.icon"
+        />
+        <div>{{ option.title }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -47,6 +55,9 @@ export default {
     ...mapGetters('user',['userName'])
   },
   methods:{
+    onBackgroundClicked() {
+      this.$store.commit('app/setShowMenu', false);
+    },
     onMenuItemSelected({id,slug}) {
 
       if(this.sideNavigationIndex !== id) {
@@ -63,6 +74,16 @@ export default {
 </script>
 <style lang="scss">
 
+.side-navigation-overlay {
+  background-color:rgb(0 0 0 / 63%);
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index: -1;
+}
+
 .side-navigation-menu {
   box-shadow: -20px 20px 30px 0px rgba(18, 18, 19, 0.75);
   background-color:#58478648;
@@ -70,7 +91,7 @@ export default {
 
   color:white;
   height:100vh;
-  width:16em;
+  width:var(--vp-side-navigation-width);
   display:flex;
   align-items: center;
   flex-direction: column;
@@ -80,11 +101,12 @@ export default {
   }
 
   .side-naviagation-option {
+    border-top:1px solid white;
     display: flex;
     align-items: center;
     border-radius: 10px;
-    max-height:2em;
-    min-height:2em;
+    max-height:1.5em;
+    min-height:1.5em;
     background-color: rgba(33, 35, 35, 0.9);
     width:75%;
     display: flex;
@@ -101,7 +123,7 @@ export default {
     }
 
     &.selected{
-      background: linear-gradient(to  top, rgba(75, 75, 75, 0.503), rgba(204, 203, 203, 0.756));
+      background: linear-gradient(to  top, rgba(180, 180, 180, 0.503), rgba(255, 255, 255, 0.839));
     }
   }
 }

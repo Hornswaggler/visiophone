@@ -137,7 +137,7 @@ export default {
       try{
         logOff();
         commit('authenticated', false);
-        //TODO: Clear cache 
+        //TODO: Clear cache
 
         return true;
       } catch(e){
@@ -154,15 +154,8 @@ export default {
     accountId:({apiToken:{ account:{homeAccountId = ''}}}) => homeAccountId,
     userName: ({apiToken:{account:{name = ''}}}) => name,
     profileImg: ({avatarId}) => `${config.VUE_APP_AVATAR_URI}${avatarId}.png`,
-    getForSale: ({samples, forSale}) => {
-      const filtered = samples.filter(({_id}) => forSale.includes(_id));
-      return filtered;
-    },
-
-    getOwned: ({samples, owned}) => {
-      const filtered = samples.filter(({_id}) => owned.includes(_id));
-      return filtered;
-    }
+    getForSale: ({samples, forSale}) => samples.filter(({_id}) => forSale.includes(_id)),
+    getOwned: ({samples, owned}) => samples.filter(({_id}) => owned.includes(_id)),
   },
 
   mutations: {

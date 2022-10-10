@@ -49,7 +49,7 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
   };
 
   let imgUrl= newSample.imgUrl || '';
-  if(newSample._id && !isNew){
+  if(newSample._id && !isNew) {
     imgUrl=`${config.VUE_APP_COVER_ART_URI}${newSample._id}.png`;
   }
 
@@ -57,7 +57,7 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
     ...newSample,
     imgUrl
   };
-} 
+}
 
 export const SORT_TYPES = {
   LIST: 'LIST',
@@ -67,6 +67,8 @@ export const SORT_TYPES = {
 export default {
   namespaced: true,
   state: () => ({
+    sortBy:'description',
+    sortAsc: true,
     sampleForEdit: {},
     isLoaded: false,
     formData: {},
@@ -75,15 +77,64 @@ export default {
     nextResultIndex: 0,
     query: '',
     sortType: SORT_TYPES.LIST,
+    sampleTableDefinition: {
+      columns: [
+        { 
+          ratio:'1',
+          name:'Image',
+          isSort: false,
+          show:false
+        },
+        { 
+          ratio:'2',
+          name: 'Title',
+          path: 'description',
+          isSort: true,
+          show: true
+        },
+        {
+          ratio:'2',
+          name: 'Genre',
+          path: 'tag',
+          isSort: true,
+          show: true
+        },
+        {
+          ratio:'1',
+          name: 'BPM',
+          path: 'bpm',
+          isSort: true,
+          show: true
+        },
+        {
+          ratio:'1',
+          name: 'Cost',
+          path: 'cost',
+          isSort: false,
+          show: true
+
+        },
+        {
+          ratio:'1',
+          name: 'Buy',
+          isSort: false,
+          show: false
+        }
+      ].map((col, _id) => ({...col, _id}))
+    }
   }),
-  getters:{
-    sampleArray({samples, nextResultIndex}){
+  getters: {
+    sampleArray({samples, nextResultIndex, sortBy, sortAsc}) {
+      const sort = sortAsc ? 
+        (a,b) => a[sortBy].localeCompare(b[sortBy]) :
+        (a,b) => b[sortBy].localeCompare(a[sortBy]);
+
       const result = Object.values(samples);
-      if(nextResultIndex === -1) return result;
+      if(nextResultIndex === -1) return result.sort(sort);
 
       const sampleCount = Object.keys(samples).length;
       const nextIndex = sampleCount < nextResultIndex ? sampleCount : nextResultIndex;
-      return result.slice(0, nextIndex);
+      return result.slice(0, nextIndex).reverse();
     },
   },
   actions:{
@@ -94,6 +145,18 @@ export default {
           key: 'sampleForEdit', 
           value: sample
         })
+    },
+
+    orderBy({state:{sortBy, sortAsc}, commit}, column) {
+      if(!column.path) return;
+
+      if(sortBy !== column.path) {
+        commit('assignObject', {key: 'sortBy', value: column.path});
+        commit('assignObject', { key: 'sortAsc', value: true} );
+      }
+      else {
+        commit('assignObject', { key: 'sortAsc', value: !sortAsc} );
+      }
     },
 
     initFromStorage({commit}, {samples}){
@@ -114,10 +177,6 @@ export default {
     },
 
     async loadMoreSamples({dispatch, state:{nextResultIndex: _nextResultIndex, query, samples: _samples}}) {
-      if(_nextResultIndex === -1) return;
-      // const sampleCount = Object.keys(samples).length;
-      // const nextIndex = sampleCount < nextResultIndex ? sampleCount : nextResultIndex;
-
       await dispatch('search', {query, index: _nextResultIndex});
     },
 

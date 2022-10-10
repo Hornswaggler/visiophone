@@ -1,8 +1,13 @@
 <template>
   <div class="logo-container">
-    <div class="animated-text">
+    <div class="animated-text lg-logo">
       VISIOPHONE
     </div>
+    <img
+      class="xs-logo"
+      style="height:2.5em; width: 2.5em"
+      :src="require('@/assets/Animated-Visio-Man.gif')"
+    >
   </div>
 </template>
 
@@ -18,6 +23,7 @@ export default {
   align-items: center;
   width:100%;
   height: 3em;
+  padding:0.25em;
 
   .animated-text {
     font-size: 1.4em;
@@ -30,7 +36,7 @@ export default {
     -webkit-text-fill-color: transparent;
     font-family: Inter;
     font-weight: 800;
-    letter-spacing: 0.1em;
+    letter-spacing: 0em;
 
   }
 }

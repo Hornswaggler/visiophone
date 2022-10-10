@@ -5,7 +5,7 @@
     </div>
     <div
       ref="scrollingContainer"
-      class="scrollbar fill"
+      class="scrollbar"
     >
       <div
         class="scrolling-container flex flex-column"
@@ -55,13 +55,12 @@ export default {
 
 <style lang="scss">
 .scrolling-container {
-  padding: 0.5em;
+  padding: 1em;
   justify-content: flex-start;
 }
 
 .scrollbar
 {
-  max-height:calc(100vh - 5em);
   border-radius:6px;
   flex:1;
   display:flex;

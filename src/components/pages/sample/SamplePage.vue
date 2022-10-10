@@ -10,27 +10,10 @@
         class="sample-page-body"
       >
         <Header />
-        <scrolling-container :on-scroll-limit-reached="onScrollLimitReached">
-          <template v-slot:header>
-            <div
-              v-if="isBrowsing"
-              style="height:2em;padding: 0 0.5em"
-              class="flex justify-end"
-            >
-              <bootleg-list-icon
-                :on-click="onViewListClicked"
-                :selected="isListTypeSelected"
-              />
-              <bootleg-group-icon 
-                :on-click="onViewGroupClicked"
-                :selected="isGroupTypeSelected"
-              />
-            </div>
-          </template>
-          <template v-slot:scrolling-content>
-            <router-view />
-          </template>
-        </scrolling-container> 
+        <router-view />
+        <page-footer
+          :menu-items="menuItems"
+        />
       </div>
     </template>
   </centered-responsive-layout>
@@ -39,27 +22,32 @@
 <script>
 import {SORT_TYPES} from '@/store/modules/sample';
 import { mapGetters, mapState } from 'vuex';
-import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
 import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayout.vue';
 import SideNavigation from '@/components/layout/SideNavigation.vue';
 import Header from '@/components/layout/Header.vue';
-import BootlegGroupIcon from '../../form/BootlegGroupIcon.vue';
-import BootlegListIcon from '../../form/BootlegListIcon.vue';
+import PageFooter from '../../layout/PageFooter';
 
 export default {
   name: 'SamplePage',
   components: {
     CenteredResponsiveLayout,
-    ScrollingContainer,
     SideNavigation,
     Header,
-    BootlegGroupIcon,
-    BootlegListIcon
+    PageFooter
   },
   data: () => ({
     menuItems: [
-      {title: 'Browse', slug:'/sample', icon:'fa-gear', id: 0},
-      {title: 'Upload', slug:'/sample/upload', icon:'fa-gear', id: 1},
+      {
+        title: 'Browse',
+        slug:'/sample',
+        icon:'fa-house',
+        id: 0
+      },
+      {title: 'Upload',
+      slug:'/sample/upload',
+      icon:'fa-cloud-arrow-up',
+      id: 1
+    },
     ]
   }),
   
@@ -87,9 +75,6 @@ export default {
 
   mounted(){
     this.$store.dispatch('app/setSideNavigationMenuItems', [...this.menuItems]);
-    if(this.isMobile){
-      this.onViewGroupClicked();
-    }
   },
 
   methods: {
@@ -97,21 +82,6 @@ export default {
       this.$store.commit('app/setShowMenu', false);
     },
 
-    onScrollLimitReached(){
-      this.$store.dispatch('sample/loadMoreSamples');
-    },
-
-    onViewGroupClicked(){
-      if(!this.isGroupTypeSelected){
-        this.$store.dispatch('sample/setSortType', SORT_TYPES.GROUP);
-      }
-    },
-    
-    onViewListClicked(){
-      if(!this.isListTypeSelected){
-        this.$store.dispatch('sample/setSortType', SORT_TYPES.LIST);
-      }
-    },
   }
 } 
 </script>
@@ -119,6 +89,9 @@ export default {
 <style lang="scss">
 
 .sample-page-body{
+  position:relative;
+  display:flex;
+  flex-direction:column;
   box-shadow: 20px 20px 30px 0px rgba(0,0,0,0.75);
   height:100vh;
   width:100%;
