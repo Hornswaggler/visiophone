@@ -25,19 +25,22 @@
 
       <template v-slot:scrolling-content>
         <div class="sortable-column-content">
-          <form-sortable-table
+          <sortable-table
             :table-definition="sampleTableDefinition"
             :data="sampleArray"
             :is-collapsed="isCollapsed"
           >
             <template v-slot:row="{ row:sample }">
-              <form-sortable-table-row
+              <sortable-table-row
                 class="form-sortable-table-row"
+                :class="{expanded : !isCollapsed}"
                 :table-definition="sampleTableDefinition"
+                :is-collapsed="isCollapsed"
               >
                 <template v-slot:Image>
                   <form-image
                     class="search-album-art"
+                    :class="{expanded: !isCollapsed}"
                     :url="`${sample.imgUrl}`"
                   />
                 </template>
@@ -49,6 +52,7 @@
                 <template v-slot:Genre>
                   <form-sortable-table-cell>
                     {{ sample.tag }}
+                    <!-- <audio-player :sample="sample" /> -->
                   </form-sortable-table-cell>
                 </template>
                 <template v-slot:BPM>
@@ -62,7 +66,10 @@
                   </form-sortable-table-cell>
                 </template>
                 <template v-slot:Buy>
-                  <div class="column-cell-right-aligned">
+                  <div
+                    class="column-cell-right-aligned" 
+                    @click="handlePurchaseSample(sample)"
+                  >
                     <form-icon
                       icon-size="1em"
                       style="padding-right:0.5em;"
@@ -71,9 +78,9 @@
                     />
                   </div>
                 </template>
-              </form-sortable-table-row>
+              </sortable-table-row>
             </template>
-          </form-sortable-table>
+          </sortable-table>
         </div>
 
         <div
@@ -88,27 +95,29 @@
 import { mapGetters, mapState } from 'vuex';
 import {SORT_TYPES} from '@/store/modules/sample';
 import FormImage from '@/components/form/FormImage';
-import FormSortableTable from '@/components/form/FormSortableTable';
+import SortableTable from '@/components/form/SortableTable';
 import FormIcon from '@/components/form/FormIcon';
-import FormSortableTableRow from '@/components/form/FormSortableTableRow';
+import SortableTableRow from '@/components/form/SortableTableRow';
 import ScrollingContainer from '@/components/layout/ScrollingContainer';
 import BootlegListIcon from '@/components/form/BootlegListIcon';
 import BootlegGroupIcon from '@/components/form/BootlegGroupIcon';
 import FormSortableTableHeader from '../../form/FormSortableTableHeader.vue';
 import FormSortableTableCell from '@/components/form/FormSortableTableCell';
+import AudioPlayer from '@/components/form/AudioPlayer';
 
 export default {
   name:'SampleSearch',
   components:{
     FormImage,
-    FormSortableTable,
+    SortableTable,
     FormIcon,
-    FormSortableTableRow,
+    SortableTableRow,
     ScrollingContainer,
     BootlegListIcon,
     BootlegGroupIcon,
     FormSortableTableHeader,
-    FormSortableTableCell
+    FormSortableTableCell,
+    AudioPlayer
   },
   data: () => ({
     page: 0,
@@ -146,7 +155,8 @@ export default {
         const {page} = this;
         await this.$store.dispatch(
           'sample/initialize',
-          {page});
+          {page}
+        );
       } finally {
         this.$store.dispatch('sample/setIsLoaded', true);
       }
@@ -174,6 +184,10 @@ export default {
       this.$store.dispatch('sample/orderBy', column);
     },
 
+    handlePurchaseSample(sample){
+      this.$store.dispatch('user/purchaseSample', {sample})
+    }
+
   }
 }
 </script>
@@ -191,6 +205,19 @@ export default {
 .form-sortable-table-row {
   height: var(--vp-cover-art-hw);
   overflow: hidden;
+
+  .sortable-column-row {
+    height: 2em;
+  }
+
+
+  &.expanded {
+    height:10em;
+    width: 10em;
+    .sortable-column-row {
+      height:10em;
+    }
+  }
 }
 
 .icon-group {
@@ -202,13 +229,25 @@ export default {
 .search-album-art {
   height: var(--vp-cover-art-hw);
   width: var(--vp-cover-art-hw);
+  &.expanded {
+    height: var(--vp-cover-art-hw-expanded);
+    width: var(--vp-cover-art-hw-expanded);
+  }
 }
 
 .sortable-column-content {
+  width:100%;
+  .expanded{
+    .sortable-column-row{
+      height: var(--vp-cover-art-hw);
+    }
+  }
 
   .sortable-column-row {
     cursor:pointer;
-    
+    height: var(--vp-cover-art-hw-expanded);
+    transition: background-color 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+
     &:hover {
       background-color:rgba(253, 33, 216, 0.58);
     }

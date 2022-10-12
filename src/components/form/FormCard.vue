@@ -16,11 +16,10 @@ export default {
 
 .form-card {
   background-image: linear-gradient(233deg, #44444454, #22222270);
-
   display:flex;
   border-radius: 8px;
   flex:1;
-  overflow-x:hidden;
+  overflow-x: hidden;
 }
 
 </style>

@@ -35,6 +35,7 @@ const RESPONSE_TYPES = {
 
 const getIdToken = store => store.getters['user/idToken'];
 const accessToken = store => store.getters['user/accessToken'];
+const storageToken = store => store.getters['user/storageToken'];
 
 export const secureGet = (_axios, {responseType = RESPONSE_TYPES.DEFAULT,slug = '', uri = '' }) => _axios.get(
   uri ? uri : `${config.VUE_APP_API_BASE_URL}${slug}`, 
@@ -43,7 +44,7 @@ export const secureGet = (_axios, {responseType = RESPONSE_TYPES.DEFAULT,slug = 
     headers: {
       ..._axios.defaults.headers,
       "Access-Control-Allow-Origin": '*',
-      Authorization: `Bearer ${getIdToken(store)}`,
+      Authorization: `Bearer ${storageToken(store)}`,
       "x-ms-version": '2021-06-08',
       'x-ms-date': (new Date()).toGMTString(),
       Accept: '*/*',
