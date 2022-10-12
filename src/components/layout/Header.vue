@@ -8,16 +8,7 @@
           class="flex align-center flex-1" 
           style="padding-left:0.5em;"
         >
-          <span
-            class="mobile-nav-hamburger"
-            style="cursor:pointer"
-          >
-            <font-awesome-icon
-              class="form-icon"
-              icon="fa-bars"
-              @click="expandMenu"
-            />
-          </span>
+          <site-logo />
           <span
             class="header-nav-icon"
             @click="onGo(-1)"
@@ -70,11 +61,13 @@
 import {mapState, mapGetters} from 'vuex';
 import FormInput from '@/components/form/FormInput.vue';
 import {SORT_TYPES} from '@/store/modules/sample';
+import SiteLogo from './SiteLogo';
 
 export default {
   name:'Header',
   components:{
-    FormInput
+    FormInput,
+    SiteLogo
   },
 
   data:() => ({
@@ -136,10 +129,6 @@ export default {
     },
   },
   methods: {
-    expandMenu(){
-      this.$store.commit('app/setShowMenu', true);
-    },
-
     onGo(direction){
       this.$router.go(direction)
     },

@@ -6,14 +6,17 @@
     <template v-slot:content>
       <div
         class="user-settings-content-container" 
-        style="position:relative;"
+        style="position:relative;display:flex;flex-direction: column;"
       >
         <Header />
-        <scrolling-container>
+        <scrolling-container style="flex:1;">
           <template v-slot:scrolling-content>
             <router-view />
           </template>
         </scrolling-container>
+        <page-footer
+          :menu-items="sideNavigationMenuOptions"
+        />
       </div>
     </template>
   </centered-responsive-layout>
@@ -25,6 +28,7 @@ import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayo
 import Header from '@/components/layout/Header.vue';
 import SideNavigation from '@/components/layout/SideNavigation.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
+import PageFooter from '../../layout/PageFooter';
 
 export default {
   name:'UserSettingsPage',
@@ -32,11 +36,14 @@ export default {
     CenteredResponsiveLayout,
     Header,
     SideNavigation,
-    ScrollingContainer
+    ScrollingContainer,
+    PageFooter
   },
   data:() => ({
     inputWidth: '10em',
     sideNavigationMenuOptions: [
+      {title: 'Home', slug:'/sample', icon:'fa-house', id: 0},
+
       {
         icon: 'fa-gear',
         title: 'Settings',
@@ -44,7 +51,7 @@ export default {
         id: 0
       },
       {
-        icon: 'fa-gear',
+        icon: 'fa-heart-music-camera-bolt',
         title: 'Library',
         slug: '/user/library',
         id: 1
@@ -91,9 +98,11 @@ export default {
 }
 
 .user-settings-content-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   height:100vh;
   width:100%;
-  position:relative;
 
   .user-settings-content {
     color: white;

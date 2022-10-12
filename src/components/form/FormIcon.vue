@@ -1,10 +1,6 @@
 <template>
   <div 
     class="flex align-center" 
-    :style="{
-      fontSize: `${iconSize}`,
-      color: `${color}`
-    }"
   >
     <slot name="pre-content" />
     <font-awesome-icon 

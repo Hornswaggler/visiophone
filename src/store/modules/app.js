@@ -50,23 +50,30 @@ export default {
     setShowMenu(state, showMenu) {
       state.showMenu = showMenu;
     },
+  
     isLoading(state, loading) {
       state.loading = loading;
     },
+  
     setLoading(state, loading) {
       state.loading = loading;
     },
+  
     setOpacity(state, opacity) {
       state.opacity = opacity;
     },
+  
     setShowOverlay(state, showOverlay) {
       state.showOverlay = showOverlay;
     },
+  
     setTargetUrl(state, targetUrl) {
       state.targetUrl = targetUrl;
     },
+  
     setSideNavigationIndex(state, sideNavigationIndex) {
       state.sideNavigationIndex = sideNavigationIndex;
     }
+  
   }
 }

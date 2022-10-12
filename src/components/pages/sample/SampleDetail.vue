@@ -1,7 +1,7 @@
 <template>
   <div
     class="sample-detail-container flex"
-    :class="{isCollapsed}"
+    :class="{ isCollapsed }"
   >
     <div 
       class="sample-detail-image-card"
@@ -14,7 +14,7 @@
           @click="onPlaySample"
         >
           <form-icon
-            class="flex align-center play-icon" 
+            class="flex align-center play-icon"
             icon="fas fa-play"
           />
         </div>
