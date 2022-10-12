@@ -4,7 +4,7 @@
       v-for="column in tableDefinition.columns"
       :key="column._id"
       class="sortable-column"
-      style=""
+      :class="{expanded: !isCollapsed}"
       :style="{flex: column.ratio}"
     >
       <slot :name="column.name" />
@@ -17,12 +17,16 @@
 import FormCard from './FormCard';
 
 export default {
-  name:"FormSortableTableRow",
+  name:"SortableTableRow",
   props:{
     tableDefinition:{
       type: Object,
       default: () => {}
     },
+    isCollapsed: {
+      type: Boolean,
+      default: false,
+    }
   }
 }
 </script>

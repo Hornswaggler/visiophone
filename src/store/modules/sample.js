@@ -53,9 +53,16 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
     imgUrl=`${config.VUE_APP_COVER_ART_URI}${newSample._id}.png`;
   }
 
+  // console.log('Adding the ');
+  let clipUri = newSample.clipUri || '';
+  if(newSample._id && !isNew) {
+    clipUri = `${config.VUE_APP_CLIP_URI}${newSample._id}.wav.ogg`;
+  }
+
   return {
     ...newSample,
-    imgUrl
+    imgUrl,
+    clipUri
   };
 }
 

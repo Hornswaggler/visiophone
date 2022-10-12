@@ -115,6 +115,7 @@ html{
   --image-editor-hw: 16em;
   --vp-input-min-height: 1.5em;
   --vp-cover-art-hw: 2em;
+  --vp-cover-art-hw-expanded: 10em;
   --vp-form-text-size: 1em;
   --vp-form-select-option-font-size: 1.2em;
   --vp-form-select-option-color: rgb(226, 226, 226);

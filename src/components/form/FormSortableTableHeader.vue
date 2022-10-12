@@ -77,7 +77,7 @@ export default {
   justify-content: flex-start;
   background-color:rgba(0, 0, 0, 0.355);
 
-  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 250ms cubic-bezier(0.19, 1, 0.22, 1);
   &:hover {
     transform: scale(1.05);
     background-color:rgba(114, 114, 114, 0.463);
@@ -93,7 +93,7 @@ export default {
     justify-content: center;
     padding-left:0.5em;
     opacity:0;
-    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: all 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
 
     &.selected {
       opacity: 1;
