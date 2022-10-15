@@ -1,4 +1,4 @@
-import {securePostForm, securePostJson, axios } from '@/axios.js';
+import {securePostForm, securePostJson, axios, axiosPost } from '@/axios.js';
 import {config} from '@/config.js';
 import {makeSampleFromResult} from './sample';
 import { initializeAuth, logon, logOff } from '@/auth';

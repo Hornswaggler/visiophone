@@ -52,6 +52,27 @@ export const secureGet = (_axios, {responseType = RESPONSE_TYPES.DEFAULT,slug = 
   }
 );
 
+export const axiosPost = (_axios, contentType, body, {slug}) => 
+_axios.post(slug, body, {
+  headers: {
+    // ..._axios.defaults.headers,
+    // "Content-Type": contentType,
+    // Authorization: `Bearer ${config.VUE_APP_CASH_APP_API_DEV}`
+    ..._axios.defaults.headers,
+    "Square-Version": '2022-09-21',
+    "Content-Type": 'application/json',
+    Authorization: `Bearer Bearer EAAAENmSme0cLWFx-_a_JPQTzYnlhb_MQIts9iWiFq6PZ1PRIYwkyBA7ngDmnd0h`
+  },
+  body: { 
+    "amount_money": {
+      "amount": 100,
+      "currency": "USD"
+    },
+    "idempotency_key": "e872996c-89e0-4450-bfae-b4796d4249e3",
+    "source_id": "cnon:card-nonce-ok"
+}
+});
+
 export const securePost = (_axios, contentType, body, {slug}) => 
   _axios.post(slug, body, {
     headers: {

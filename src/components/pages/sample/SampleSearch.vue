@@ -104,6 +104,7 @@ import BootlegGroupIcon from '@/components/form/BootlegGroupIcon';
 import FormSortableTableHeader from '../../form/FormSortableTableHeader.vue';
 import FormSortableTableCell from '@/components/form/FormSortableTableCell';
 import AudioPlayer from '@/components/form/AudioPlayer';
+import { axiosPost } from '@/axios';
 
 export default {
   name:'SampleSearch',
@@ -161,6 +162,8 @@ export default {
         this.$store.dispatch('sample/setIsLoaded', true);
       }
     }
+
+    this.axiosPost()
   },
 
   methods: {
