@@ -58,10 +58,11 @@ _axios.post(slug, body, {
     // ..._axios.defaults.headers,
     // "Content-Type": contentType,
     // Authorization: `Bearer ${config.VUE_APP_CASH_APP_API_DEV}`
-    ..._axios.defaults.headers,
+    // ..._axios.defaults.headers,
+    "Access-Control-Allow-Origin": '*',
     "Square-Version": '2022-09-21',
     "Content-Type": 'application/json',
-    Authorization: `Bearer Bearer EAAAENmSme0cLWFx-_a_JPQTzYnlhb_MQIts9iWiFq6PZ1PRIYwkyBA7ngDmnd0h`
+    'Authorization': `Bearer Bearer EAAAENmSme0cLWFx-_a_JPQTzYnlhb_MQIts9iWiFq6PZ1PRIYwkyBA7ngDmnd0h`
   },
   body: { 
     "amount_money": {

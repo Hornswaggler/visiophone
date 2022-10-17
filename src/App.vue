@@ -6,12 +6,17 @@
   </div>
 </template>
 
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&components=YOUR_COMPONENTS"></script>
+
 <script>
-import {mapState} from 'vuex';
+import { mapState } from 'vuex';
 import BaseLayout from '@/components/layout/BaseLayout.vue';
 import { axiosInit } from '@/axios.js';
+import * as axios from 'axios';
 import moment from 'moment';
 import config from '@/config';
+
+
 
 const DEFAULT_HOME = '/sample';
 
@@ -24,25 +29,24 @@ export default {
   components: {
     BaseLayout
   },
-
   computed: {
     ...mapState('user', ['authenticated']),
     ...mapState('app', ['targetUrl', 'sideNavigationMenuItems'])
   },
 
-  async mounted(){
+  async mounted() {
     this.initializePersistentStorage();
 
-    this.$router.beforeEach(({path}, from, next) => {
+    this.$router.beforeEach(({ path }, from, next) => {
       try {
         this.$nextTick(() => {
-          if(this.authenticated && path === '/landingPage') {
+          if (this.authenticated && path === '/landingPage') {
             return next('/sample');
           }
 
           this.$store.commit(
             'app/setSideNavigationIndex',
-            this.sideNavigationMenuItems.findIndex(({slug}) => slug === path) || 0
+            this.sideNavigationMenuItems.findIndex(({ slug }) => slug === path) || 0
           );
         });
       } finally {
@@ -51,32 +55,92 @@ export default {
     });
 
     await axiosInit();
-    try{
+    try {
       // TODO Standardize / templatize route names "magic number"
       const authResult = await this.$store.dispatch('user/initialize');
 
-      if(authResult) {
+      if (authResult) {
         this.$router.push(this.targetUrl || DEFAULT_HOME);
       }
-    } catch(err){
+    } catch (err) {
       //consume console.error('Error occurred in auth check', err);
     }
+
+    // try {
+    //   // TODO Standardize / templatize route names "magic number"
+    //   // const squareResult = await this.$store.dispatch('user/initialize');
+    //   const squareResult = 'placeholder'
+
+    //   if (squareResult) {
+    //     // this.$router.push(this.targetUrl || DEFAULT_HOME);
+    //     console.log('this::: ', this)
+    //     this.axiosPost();
+    //   }
+    // } catch (err) {
+    //   //consume console.error('Error occurred in auth check', err);
+    //   console.error(err)
+    // }
+
+    console.log('axios::: ', axios)
+    console.log('this.axios::: ', this.axios)
+
+    // axios.get("https://api.nytimes.com/svc/topstories/v2/home.json?api-key=VaAAlc3RGGlfDkGdXQrf3ioBBXOro0C2")
+    //   .then(response => {
+    //     console.log('response::: ', response);
+    //   })
+    //   .catch(err => {
+    //     console.log('err::: ', err)
+    //   })
+
+
+    // axios.get("https://connect.squareupsandbox.com/v2/payments", {
+    //   headers: {
+    //     "Access-Control-Allow-Origin": '*',
+    //     "Square-Version": '2022-09-21',
+    //     "Authorization": 'Bearer EAAAENmSme0cLWFx-_a_JPQTzYnlhb_MQIts9iWiFq6PZ1PRIYwkyBA7ngDmnd0h',
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
+    //   .then(response => {
+    //     console.log('response::: ', response);
+    //   })
+    //   .catch(err => {
+    //     console.log('err::: ', err)
+    //   })
+
+
+        axios.post("https://connect.squareupsandbox.com/v2/payments", {
+      headers: {
+        "Access-Control-Allow-Origin": '*',
+        "Square-Version": '2022-09-21',
+        "Authorization": 'Bearer EAAAENmSme0cLWFx-_a_JPQTzYnlhb_MQIts9iWiFq6PZ1PRIYwkyBA7ngDmnd0h',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        console.log('response::: ', response);
+      })
+      .catch(err => {
+        console.log('err::: ', err)
+      })
+
+
   },
-  methods:{
+  methods: {
     initializePersistentStorage() {
       const currentTime = moment().valueOf();
 
-      for(let i = 0; i < PERSISTENT_MODULES.length; i++) {
+      for (let i = 0; i < PERSISTENT_MODULES.length; i++) {
         const storeModuleName = PERSISTENT_MODULES[i];
         const storeModuleJson = localStorage.getItem(storeModuleName);
 
-        if(storeModuleJson) {
-          try{
+        if (storeModuleJson) {
+          try {
             const storeModule = JSON.parse(storeModuleJson);
             const samples = storeModule.samples;
 
             //TODO: refactor this stuff into the store layer
-            if(Object.keys(samples).find(key => currentTime - samples[key].lastRefresh > config.VUE_APP_STALE_RECORD_THRESHOLD)){
+            if (Object.keys(samples).find(key => currentTime - samples[key].lastRefresh > config.VUE_APP_STALE_RECORD_THRESHOLD)) {
               break;
             }
 
@@ -88,7 +152,7 @@ export default {
                 value: storeModule[key]
               })
             })
-          }catch(e){
+          } catch (e) {
             console.error(e);
           }
         }
@@ -96,8 +160,8 @@ export default {
 
       this.$store.dispatch('user/initFromStorage');
 
-      this.$store.subscribe(({type}, {sample}) => {
-        if(PERSISTENT_MODULES.find(m => type.startsWith(m))) {
+      this.$store.subscribe(({ type }, { sample }) => {
+        if (PERSISTENT_MODULES.find(m => type.startsWith(m))) {
           localStorage.setItem('sample', JSON.stringify(sample));
         }
       });
@@ -111,7 +175,7 @@ export default {
 
 // TODO: ^^^ file can only be imported into a single component, should probably resolve this...
 
-html{
+html {
   --image-editor-hw: 16em;
   --vp-input-min-height: 1.5em;
   --vp-cover-art-hw: 2em;
@@ -128,21 +192,23 @@ html{
 .sample-upload-form {
   display: flex;
   flex-direction: row;
-  @include for-size(xs){
+
+  @include for-size(xs) {
     flex-direction: column-reverse;
   }
 }
 
 .responsive-margin {
-  @include for-size(xl){
+  @include for-size(xl) {
     width: 25vw;
   }
+
   width: 0vw;
 }
 
 .header-custom-user-name {
   @include for-size(xs) {
-    display:none;
+    display: none;
   }
 }
 
@@ -150,33 +216,34 @@ html{
   @include for-size(xs) {
     display: block;
   }
+
   display: none;
 }
 
 .header-nav-icon {
   @include for-size(xs) {
-    display:none;
+    display: none;
   }
 }
 
 .layout-centered-body {
-  width:100%;
+  width: 100%;
   justify-content: center;
   position: relative;
 
   .side-navigation-menu {
     opacity: 0.87;
-    transition: transform 0.28s, width 0.5s, margin 1s, background-color 1s; 
-    background-color:rgba(76, 73, 85, 0.577);
-    left:0;
+    transition: transform 0.28s, width 0.5s, margin 1s, background-color 1s;
+    background-color: rgba(76, 73, 85, 0.577);
+    left: 0;
 
     .xs-logo {
-      display:none;
+      display: none;
     }
 
-     @include for-size(xs) {
-      position:absolute;
-      background-color:rgb(88 71 134 / 100%);
+    @include for-size(xs) {
+      position: absolute;
+      background-color: rgb(88 71 134 / 100%);
       width: 33vw;
       transform: translateX(-33vw);
 
@@ -184,22 +251,22 @@ html{
         transform: translateX(0);
       }
 
-      .logo-container{
-        display:none;
+      .logo-container {
+        display: none;
       }
     }
   }
 
-  .header-search-container{
-    .logo-container{
-      width:0;
+  .header-search-container {
+    .logo-container {
+      width: 0;
 
       .xs-logo {
-        display:none;
+        display: none;
       }
 
       .lg-logo {
-        display:none;
+        display: none;
       }
     }
 
@@ -208,7 +275,7 @@ html{
         width: 100%;
 
         .xs-logo {
-          display:block;
+          display: block;
         }
       }
     }
@@ -217,7 +284,7 @@ html{
   .sample-search-input {
     @include for-size(xs) {
       max-width: 100vw;
-      margin:0;
+      margin: 0;
     }
   }
 
@@ -237,17 +304,17 @@ html{
   }
 
   .scrollbar {
-    height:calc(100vh - 7.75em);
+    height: calc(100vh - 7.75em);
     transition: height 1s cubic-bezier(0.165, 0.84, 0.44, 1);
 
     @include for-size(xs) {
-      height:calc(100vh - 10.75em);
+      height: calc(100vh - 10.75em);
     }
   }
 
   .scrolling-container {
     @include for-size(xs) {
-      padding:0;
+      padding: 0;
       justify-content: center;
       align-items: center;
       padding: 0;
@@ -255,15 +322,15 @@ html{
   }
 
   .page-footer-container {
-    display:none;
+    display: none;
 
     @include for-size(xs) {
-      display:flex;
+      display: flex;
     }
   }
 
   .sample-detail-container {
-    &.isCollapsed{
+    &.isCollapsed {
       .sample-detail-image-card {
         .form-image {
           @include for-size(xs) {
@@ -272,10 +339,12 @@ html{
           }
         }
       }
+
       .sample-details {
-        padding:0;
+        padding: 0;
+
         .form-card {
-          padding:0;
+          padding: 0;
         }
       }
     }
@@ -283,9 +352,9 @@ html{
 }
 
 .app-content-container {
-  position:absolute;
-  height:100vh;
-  width:100vw;
-  z-index:50;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  z-index: 50;
 }
 </style>

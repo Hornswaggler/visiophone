@@ -163,7 +163,7 @@ export default {
       }
     }
 
-    this.axiosPost()
+    
   },
 
   methods: {
