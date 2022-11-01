@@ -38,7 +38,7 @@ stages:
     - task: AzureFileCopy@4
       inputs:
         sourcePath: '$(Build.SourcesDirectory)/dist/**/*'
-        azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
+        azureSubscription: $(azureSubscription)
         destination: azureBlob
         storage: 'visiophonewebstoreage'
         containerName: '$web'
@@ -47,7 +47,7 @@ stages:
     - task: AzureFileCopy@4
       inputs:
         sourcePath: '$(Build.SourcesDirectory)/dist/index.html'
-        azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
+        azureSubscription: $(azureSubscription)
         destination: azureBlob
         storage: 'visiophonewebstoreage'
         containerName: '$web'
