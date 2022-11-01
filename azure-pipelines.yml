@@ -6,9 +6,6 @@ trigger:
     include:
     - master
 
-variables:
-  a: 'pipeline yaml'
-
 pool:
   vmImage: windows-latest
 
@@ -29,10 +26,6 @@ stages:
 - stage: Build
   dependsOn: [] # This will remove implicit dependency and run in parallel with the stage: Tests above 
   jobs:
-  - job:
-    steps:
-    - bash: echo $(a)
-  
   - job:
     displayName: Build the application
     steps:
