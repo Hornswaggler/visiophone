@@ -32,8 +32,6 @@ stages:
   - job:
     steps:
     - bash: echo $(a)
-    - bash: echo $(a)
-    - bash: 'rip takeoff'
   
   - job:
     displayName: Build the application
