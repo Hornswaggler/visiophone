@@ -2,10 +2,9 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
 
 trigger:
-  # branches:
-  #   include:
-  #   - master
-  - {{ branch }}
+  branches:
+    include:
+    - master
 
 pool:
   vmImage: windows-latest
