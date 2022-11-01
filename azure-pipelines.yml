@@ -9,6 +9,9 @@ trigger:
 pool:
   vmImage: windows-latest
 
+variables:
+  - group: my-variable-group
+
 stages:
 # - stage: Tests
 #   jobs:
@@ -38,7 +41,7 @@ stages:
     - task: AzureFileCopy@4
       inputs:
         sourcePath: '$(Build.SourcesDirectory)/dist/**/*'
-        azureSubscription: $(azureSubscription)
+        azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
         destination: azureBlob
         storage: 'visiophonewebstoreage'
         containerName: '$web'
@@ -47,7 +50,7 @@ stages:
     - task: AzureFileCopy@4
       inputs:
         sourcePath: '$(Build.SourcesDirectory)/dist/index.html'
-        azureSubscription: $(azureSubscription)
+        azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
         destination: azureBlob
         storage: 'visiophonewebstoreage'
         containerName: '$web'
