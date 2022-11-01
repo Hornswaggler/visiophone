@@ -2,10 +2,12 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
 
 trigger:
-  # branches:
-  #   include:
-  #   - master
-  - {{ branch }}
+  branches:
+    include:
+    - master
+
+variables:
+  a: 'pipeline yaml'
 
 pool:
   vmImage: windows-latest
@@ -27,6 +29,12 @@ stages:
 - stage: Build
   dependsOn: [] # This will remove implicit dependency and run in parallel with the stage: Tests above 
   jobs:
+  - job:
+    steps:
+    - bash: echo $(a)
+    - bash: echo $(a)
+    - bash: 'rip takeoff'
+  
   - job:
     displayName: Build the application
     steps:
