@@ -20,9 +20,8 @@ stages:
     steps:
     - script: |
         call yarn install
-        call yarn build
       displayName: 'yarn install and build'
-      workingDirectory: '$(Build.SourcesDirectory)/src/'
+      workingDirectory: '$(Build.SourcesDirectory)/'
     
     - task: CopyFiles@2
       displayName: 'Copy scripts'
@@ -30,7 +29,7 @@ stages:
         contents: 'dist/**'
         targetFolder: '$(Build.ArtifactStagingDirectory)'
 
-    - publish: '$(Build.SourcesDirectory)/dist/'
+    - publish: '$(Build.SourcesDirectory)/'
       artifact: _Hornswaggler.visiophone
 
 # - stage: dev
