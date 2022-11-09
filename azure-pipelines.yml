@@ -20,6 +20,7 @@ stages:
     steps:
     - script: |
         call yarn install
+        call yarn build-dev
       displayName: 'yarn install and build'
       workingDirectory: '$(Build.SourcesDirectory)/'
     
@@ -29,7 +30,7 @@ stages:
         contents: 'dist/**'
         targetFolder: '$(Build.ArtifactStagingDirectory)'
 
-    - publish: '$(Build.SourcesDirectory)/'
+    - publish: '$(Build.SourcesDirectory)/dist/'
       artifact: _FrontEnd
 
 # - stage: dev
