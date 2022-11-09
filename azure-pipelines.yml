@@ -30,7 +30,7 @@ stages:
         contents: 'dist/**'
         targetFolder: '$(Build.ArtifactStagingDirectory)'
 
-    - publish: '$(Build.SourcesDirectory)/src/'
+    - publish: '$(Build.SourcesDirectory)/dist/'
       artifact: _Hornswaggler.visiophone
 
 # - stage: dev
