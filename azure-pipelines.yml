@@ -42,7 +42,7 @@ stages:
         targetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - publish: '$(Build.SourcesDirectory)/src/'
-      artifact: WebApp
+      artifact: drop
 
 
 
