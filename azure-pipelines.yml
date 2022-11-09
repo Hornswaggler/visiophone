@@ -34,7 +34,13 @@ stages:
         call yarn build
       displayName: 'yarn install and build'
       workingDirectory: '$(Build.SourcesDirectory)/src/'
-      
+    
+    - task: CopyFiles@2
+      displayName: 'Copy scripts'
+      inputs:
+        contents: 'dist/**'
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
+
     - publish: '$(Build.SourcesDirectory)/src/'
       artifact: WebApp
 
