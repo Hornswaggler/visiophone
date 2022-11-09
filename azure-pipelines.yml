@@ -10,23 +10,12 @@ pool:
   vmImage: windows-latest
 
 stages:
-# - stage: Tests
-#   jobs:
-#   - job: 
-#     displayName: Unit tests
-#     steps:
-#     - script: echo simulate running your unit tests!
-#       displayName: 'Run unit tests'
-#   - job: 
-#     displayName: UI tests
-#     steps:
-#     - script:  echo simulate running your ui tests!
-#       displayName: 'Run unit tests'
-
 - stage: Build
   dependsOn: [] # This will remove implicit dependency and run in parallel with the stage: Tests above 
   jobs:
   - job:
+    pool:
+      vmImage: 'windows-latest'
     displayName: Build the application
     steps:
     - script: |
@@ -44,10 +33,40 @@ stages:
     - publish: '$(Build.SourcesDirectory)/src/'
       artifact: drop
 
+- stage: dev
+  dependsOn:
+  - Build
+  jobs:
+    - job: run_test
+      pool:
+        vmImage: 'windows-latest'
+      steps:
+      - download: current
+        artifact: drop
+      - task: PowerShell@2
+        inputs:
+          filePath: '$(Pipeline.Workspace)\drop\**'
+
+      - task: AzureFileCopy@4
+        inputs:
+          sourcePath: '$(Pipeline.Workspace)/drop/dist/**/*'
+          azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
+          destination: azureBlob
+          storage: 'visiophonewebstoreage'
+          containerName: '$web'
+          cleanTargetBeforeCopy: true
 
 
 
-
+            #   - script: echo Running in the Dev environment as deployment job
+            #   displayName: 'Dev based stage'
+            # - task: AzureFileCopy@4
+            #   inputs:
+            #   SourcePath: '$(buildOutputFolder)/*'
+            #   azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
+            #   Destination: 'AzureBlob'
+            #   storage: 'visiophonewebstoreage'
+            #   ContainerName: '$web'
 
 
     # - task: AzureFileCopy@4
