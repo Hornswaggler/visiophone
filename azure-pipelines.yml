@@ -31,30 +31,30 @@ stages:
         targetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - publish: '$(Build.SourcesDirectory)/src/'
-      artifact: drop
+      artifact: _Hornswaggler.visiophone
 
-- stage: dev
-  dependsOn:
-  - Build
-  jobs:
-    - job: run_test
-      pool:
-        vmImage: 'windows-latest'
-      steps:
-      - download: current
-        artifact: drop
-      - task: PowerShell@2
-        inputs:
-          filePath: '$(Pipeline.Workspace)\drop\**'
+# - stage: dev
+#   dependsOn:
+#   - Build
+#   jobs:
+#     - job: run_test
+#       pool:
+#         vmImage: 'windows-latest'
+#       steps:
+#       - download: current
+#         artifact: drop
+#       - task: PowerShell@2
+#         inputs:
+#           filePath: '$(Pipeline.Workspace)\drop\**'
 
-      - task: AzureFileCopy@4
-        inputs:
-          sourcePath: '$(Pipeline.Workspace)/drop/dist/**/*'
-          azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
-          destination: azureBlob
-          storage: 'visiophonewebstoreage'
-          containerName: '$web'
-          cleanTargetBeforeCopy: true
+#       - task: AzureFileCopy@4
+#         inputs:
+#           sourcePath: '$(Pipeline.Workspace)/drop/dist/**/*'
+#           azureSubscription: 'WorkOnSubscription(e1896010-0921-499e-a947-f5aef5306277)'
+#           destination: azureBlob
+#           storage: 'visiophonewebstoreage'
+#           containerName: '$web'
+#           cleanTargetBeforeCopy: true
 
 
 
