@@ -30,7 +30,7 @@ stages:
         targetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - publish: '$(Build.SourcesDirectory)/'
-      artifact: _Hornswaggler.visiophone
+      artifact: _FrontEnd
 
 # - stage: dev
 #   dependsOn:
