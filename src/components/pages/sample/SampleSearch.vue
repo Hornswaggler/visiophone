@@ -246,17 +246,11 @@ export default {
   .sortable-column-row {
     cursor:pointer;
     height: var(--vp-cover-art-hw-expanded);
-    transition: background-color 1s cubic-bezier(0.165, 0.84, 0.44, 1);
-
+    transition: background-color 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
+    background-color: var(--vp-form-button-background-color);
+    
     &:hover {
-      background-color:rgba(253, 33, 216, 0.58);
-    }
-
-    &:nth-child(even) {
-      background-color:rgba(128, 128, 128, 0.209);
-      &:hover {
-        background-color:rgba(253, 33, 216, 0.58);
-      }
+      background-color: var(--vp-side-navigation-background-color);
     }
     
   };

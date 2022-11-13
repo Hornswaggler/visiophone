@@ -86,9 +86,7 @@ export default {
 
 .side-navigation-menu {
   box-shadow: -20px 20px 30px 0px rgba(18, 18, 19, 0.75);
-  background-color:#58478648;
   z-index:3;
-
   color:white;
   height:100vh;
   width:var(--vp-side-navigation-width);
@@ -105,6 +103,7 @@ export default {
     display: flex;
     align-items: center;
     border-radius: 10px;
+    font-family: 'VCR_OSD_MONO';
     max-height:1.5em;
     min-height:1.5em;
     background-color: rgba(33, 35, 35, 0.9);
@@ -112,6 +111,7 @@ export default {
     display: flex;
     justify-content: space-evenly;
     margin-top: 1em;
+    padding: 0.2em 0;
     transition: all 0.18s linear;
     cursor:pointer;
 

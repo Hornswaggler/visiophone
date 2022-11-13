@@ -21,9 +21,7 @@ export default {
   display:flex;
   justify-content: center;
   align-items: center;
-  width:100%;
   height: 3em;
-  padding:0.25em;
 
   .animated-text {
     font-size: 1.4em;

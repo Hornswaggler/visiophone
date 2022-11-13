@@ -27,6 +27,8 @@ import SideNavigation from '@/components/layout/SideNavigation.vue';
 import Header from '@/components/layout/Header.vue';
 import PageFooter from '../../layout/PageFooter';
 
+
+//TODO refactor the menu items up a level, to the template
 export default {
   name: 'SamplePage',
   components: {
@@ -43,11 +45,26 @@ export default {
         icon:'fa-house',
         id: 0
       },
-      {title: 'Upload',
-      slug:'/sample/upload',
-      icon:'fa-cloud-arrow-up',
-      id: 1
-    },
+      {
+        icon: 'fa-heart-music-camera-bolt',
+        title: 'Library',
+        slug: '/user/library',
+        id: 1
+      },
+      {
+
+        title: 'Upload',
+        slug:'/sample/upload',
+        icon:'fa-cloud-arrow-up',
+        id: 2
+      },
+      {
+        icon: 'fa-gear',
+        title: 'Settings',
+        slug: '/user/settings',
+        id: 3
+      },
+
     ]
   }),
   
@@ -88,7 +105,7 @@ export default {
 
 <style lang="scss">
 
-.sample-page-body{
+.sample-page-body {
   position:relative;
   display:flex;
   flex-direction:column;

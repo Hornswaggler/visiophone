@@ -13,7 +13,8 @@ export const makeNewUser = () => ({
   customUserName: localStorage.customUserName || '',
   samples: JSON.parse(localStorage.user_samples || "[]"),
   forSale: JSON.parse(localStorage.forSale || "[]"),
-  owned: JSON.parse(localStorage.owned || "[]")
+  owned: JSON.parse(localStorage.owned || "[]"),
+  isAuthorizedSeller: false
 });
 
 export default {
@@ -68,6 +69,14 @@ export default {
       commit('avatarId', data.avatarId);
       commit('_id', data._id);
       commit('customUserName', customUserName)
+    },
+
+    async upgradeToSellerAccount(){
+      const {data:{url}} = await securePostJson(axios, {}, { slug: 'provision_seller_account' });
+      window.location.href = url;
+      
+      // window.open(url, '_blank');      
+      // console.log('returned:', data);
     },
 
     async getUserProfile({ state }) {

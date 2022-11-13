@@ -55,7 +55,7 @@ export default {
 
 <style lang="scss">
 .form-number-input {
-  border: solid 1px rgb(118, 118, 118);
+  border:none;
   background-color: transparent;
   box-sizing: border-box;
   font-size: var(--vp-form-text-size);

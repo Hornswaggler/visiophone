@@ -120,18 +120,17 @@ html{
   --vp-form-select-option-font-size: 1.2em;
   --vp-form-select-option-color: rgb(226, 226, 226);
   --vp-form-select-option-background-color: rgb(14, 14, 14);
-  // --vp-input-background-color: rgba(17, 17, 17, 0.7);
+  --vp-highlight-color:rgba(20, 234, 253, 0.95);
+  --vp-default-background-color: rgb(255 255 255 / 14%);
+  --vp-side-navigation-background-color: rgb(44 47 50 / 62%);
+  --vp-form-button-background-color:rgba(0, 0, 0, 0.656);
+  --vp-form-button-hover-background-color: rgb(147, 147, 147);
+
   --vp-input-padding: 0.5em;
   --vp-side-navigation-width: 10em;
+  --vp-header-height: 3em;
 }
 
-.sample-upload-form {
-  display: flex;
-  flex-direction: row;
-  @include for-size(xs){
-    flex-direction: column-reverse;
-  }
-}
 
 .responsive-margin {
   @include for-size(xl){
@@ -153,7 +152,43 @@ html{
   display: none;
 }
 
+.sample-upload-form {
+  display: flex;
+  flex-direction: column-reverse;
+  .vp-form {
+    flex: 1;
+  }
+  .vp-form:first-child {
+      padding-top:1em;
+    }
+  @include for-size(md) {
+    flex-direction: row;
+    .vp-form:first-child {
+      padding-top:0;
+    }
+  }
+}
+
+.user-settings-form {
+  flex-direction: column-reverse;
+  .vp-form:first-child {
+      padding-top:1em;
+    }
+  @include for-size(md) {
+    flex-direction: row;
+    .vp-form:first-child {
+      padding-top:0;
+    }
+  }
+}
+
 .header-nav-icon {
+  cursor: pointer;
+  transition: color 0.2s ease-out;
+
+  &:hover{
+    color:white;
+  }
   @include for-size(xs) {
     display:none;
   }
@@ -167,7 +202,7 @@ html{
   .side-navigation-menu {
     opacity: 0.87;
     transition: transform 0.28s, width 0.5s, margin 1s, background-color 1s; 
-    background-color:rgba(76, 73, 85, 0.577);
+    background-color:var(--vp-side-navigation-background-color);
     left:0;
 
     .xs-logo {
@@ -237,8 +272,7 @@ html{
   }
 
   .scrollbar {
-    height:calc(100vh - 7.75em);
-    transition: height 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+    height:calc(100vh - var(--vp-header-height) - 0.55em);
 
     @include for-size(xs) {
       height:calc(100vh - 10.75em);

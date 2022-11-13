@@ -77,19 +77,20 @@ export default {
   display:flex;
   justify-content: flex-start;
   align-items: center;
-  border: solid 1px rgb(118, 118, 118);
 }
 .vp-upload-button {
   padding: 0 0.5em;
   cursor: pointer;
   display:flex;
   align-items: center;
-  height:100%;
+  height: 100%;
   transition: all 0.25s ease-in-out;
+  background-color:var(--vp-form-button-background-color);
 
   &:hover {
-    background-color:white;
+    background-color:var(--vp-form-button-hover-background-color);
     color:black;
+    z-index: 2;
   }
 }
 .vp-upload-button-spacer {

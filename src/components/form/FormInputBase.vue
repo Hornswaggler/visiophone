@@ -1,5 +1,5 @@
 <template>
-  <div class="vp-input">
+  <div class="vp-input form-input">
     <div
       class="vp-input-container"
     >
@@ -29,8 +29,7 @@ export default {
 .vp-input-container {
   display: flex;
   position:relative;
-  width:100%;
-  height: 100%;
+  flex: 1;
 }
 
 .vp-input-title-container {
@@ -45,8 +44,10 @@ export default {
   .vp-input-title {
     margin-top: -0.85em;
     margin-left: 1em;
+    height:1em;
     color:white;
     font-size: 0.8em;
+    opacity:0.8;
   }
 }
 
@@ -57,5 +58,6 @@ export default {
   display: flex;
   flex-direction:column;
   min-height: var(--vp-input-min-height);
+  font-family: "VCR_OSD_MONO";
 }
 </style>

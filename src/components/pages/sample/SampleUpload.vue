@@ -1,99 +1,95 @@
 <template>
-  <div
-    class="fill"
-    style="color:#66FF00;"
-  >
-    <div class="sample-upload-form">
-      <div
-        style="flex:1;"
-        class="vp-form"
-      >
-        <div class="vp-form-row mt0">
-          <upload-file
-            :value="sampleData.imgUrl || ''"
-            title="cover art"
-            :accept="IMAGE_MIME_TYPE"
-            button-text="Upload"
-            :change-handler="onImageUpload"
-          />
-        </div>
+  <scrolling-container>
+    <template v-slot:scrolling-content>
+      <div class="sample-upload-form">
+        <div class="vp-form">
+          <div class="vp-form-row mt0">
+            <upload-file
+              :value="sampleData.imgUrl || ''"
+              title="cover art"
+              :accept="IMAGE_MIME_TYPE"
+              button-text="Upload"
+              :change-handler="onImageUpload"
+            />
+          </div>
 
-        <div class="vp-form-row">
-          <upload-file
-            title="audio file"
-            :accept="AUDIO_MIME_TYPE"
-            button-text="Upload"
-            class="flex-3"
-            :change-handler="onSamplechanged"
-          />
-        </div>
+          <div class="vp-form-row">
+            <upload-file
+              title="audio file"
+              :accept="AUDIO_MIME_TYPE"
+              button-text="Upload"
+              class="flex-3"
+              :change-handler="onSamplechanged"
+            />
+          </div>
 
-        <div class="vp-form-row">
-          <form-select
-            title="tag"
-            :options="tags"
-            :value="sampleData.tag"
-            class="flex-3"
-            :change-handler="onTagChanged"
-          />
-        </div>
+          <div class="vp-form-row">
+            <form-select
+              title="tag"
+              :options="tags"
+              :value="sampleData.tag"
+              class="flex-3"
+              :change-handler="onTagChanged"
+            />
+          </div>
 
         
-        <div
-          class="vp-form-row"
-          style="display:flex;flex-direction: column;"
-        >
-          <div class="vp-input-body">
-            <form-number-input
-              title="cost"
-              :value="sampleData.cost"
-              :change-handler="cost => sampleData.cost = cost"
-            />
+          <div
+            class="vp-form-row"
+            style="display:flex;flex-direction: column;"
+          >
+            <div class="vp-input-body">
+              <form-number-input
+                title="cost"
+                :value="sampleData.cost"
+                :change-handler="cost => sampleData.cost = cost"
+              />
+            </div>
+
+            <div style="width:1em;" />
+
+            <div class="vp-input-body pt2">
+              <form-number-input
+                title="bpm"
+                :value="sampleData.bpm"
+                :change-handler="bpm => sampleData.bpm = bpm"
+              />
+            </div>
           </div>
 
-          <div style="width:1em;" />
-
-          <div class="vp-input-body pt2">
-            <form-number-input
-              title="bpm"
-              :value="sampleData.bpm"
-              :change-handler="bpm => sampleData.bpm = bpm"
+          <div class="vp-form-row">
+            <text-area-input
+              class="flex-3"
+              title="description"
+              :value="description"
+              :on-changed="description => sampleData.description = description"
             />
           </div>
         </div>
 
-        <div class="vp-form-row">
-          <text-area-input
-            class="flex-3"
-            title="description"
-            :value="description"
-            :on-changed="description => sampleData.description = description"
-          />
+        <div style="flex:1;">
+          <div class="user-settings-image-container">
+            <image-editor
+              class="flex-3"
+              :img-src="imageSrc"
+              :change-handler="onThumbnailGenerated"
+            />
+          </div>
         </div>
       </div>
-
-      <div style="flex:1;">
-        <div class="user-settings-image-container">
-          <image-editor
-            class="flex-3"
-            :img-src="imageSrc"
-            :change-handler="onThumbnailGenerated"
-          />
+      <div class="vp-form-row pt2">
+        <div class="flex-3 flex justify-end">
+          <button
+            class="vp-button ml1"
+            type="button"
+            @click="handleSubmitForm"
+          >
+            Upload
+          </button>
         </div>
       </div>
-    </div>
-    <div class="vp-form-row pt2">
-      <div class="flex-3 flex justify-end">
-        <button
-          class="vp-button ml1"
-          type="button"
-          @click="handleSubmitForm"
-        >
-          Upload
-        </button>
-      </div>
-    </div>
-  </div>
+    </template>
+  </scrolling-container>
 </template>
 <script>
 import Vue from 'vue';
@@ -101,6 +97,7 @@ import UploadFile from '@/components/form/UploadFile.vue';
 import ImageEditor from '@/components/form/ImageEditor.vue';
 import TextAreaInput from '@/components/form/TextAreaInput';
 import FormNumberInput from '@/components/form/FormNumberInput.vue';
+import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
 import { mapState, mapGetters } from 'vuex';
 import FormSelect from '@/components/form/FormSelect.vue';
 import { AUDIO_MIME_TYPE, IMAGE_MIME_TYPE } from '@/config';
@@ -136,7 +133,8 @@ export default {
     FormSelect,
     TextAreaInput,
     ImageEditor,
-    FormNumberInput
+    FormNumberInput,
+    ScrollingContainer
   },
   mounted() {
     Vue.set(this.sampleData, this.sampleForEdit);
