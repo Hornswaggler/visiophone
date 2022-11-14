@@ -1,5 +1,5 @@
 import * as _msal from '@azure/msal-browser';
-import { config } from '@/config.js';
+import config from '@/config.js';
 
 const API_SCOPES = ["User.Read","openid", "profile"];
 

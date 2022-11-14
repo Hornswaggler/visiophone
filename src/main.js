@@ -28,7 +28,7 @@ import {
   faCaretDown
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import {config} from '@/config';
+import config from '@/config';
 
 library.add(faPlay);
 library.add(faGem);

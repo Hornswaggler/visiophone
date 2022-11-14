@@ -13,8 +13,15 @@ const store = {
   dropdown
 };
 
+const initFromStorage = context => {
+};
+
+const persistToStorage = ({commit}, {key,value}) => {
+};
+
 const actions = {
-  initFromStorage() {}
+  initFromStorage,
+  persistToStorage,
 };
 
 const mutations = {
@@ -33,6 +40,8 @@ const mutations = {
   }
 };
 
+
+
 const result = Object.keys(store).reduce((acc, key) => {
   acc[key] = {
     ...store[key],
@@ -43,7 +52,11 @@ const result = Object.keys(store).reduce((acc, key) => {
       },
       actions: {
         ...actions,
-        ...store[key].actions
+        ...store[key].actions,
+        initFromStorage: store[key].actions.initFromStorage 
+          ? (context, payload = {}) => store[key].actions.initFromStorage(context, payload, initFromStorage)
+          : initFromStorage
+        
       }
     }
   };

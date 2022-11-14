@@ -4,7 +4,8 @@ import UserSettings from '@/components/pages/user/UserSettings';
 import UserLibrary from '@/components/pages/user/UserLibrary'
 import SampleUpload from '@/components/pages/sample/SampleUpload';
 import Search from '@/components/pages/sample/SampleSearch';
-import {SAMPLE, SAMPLE_UPLOAD, SAMPLE_SEARCH, USER, USER_SETTINGS, USER_LIBRARY} from '@/router/routeNames';
+import UserStripeStandardReturn from '../../components/pages/user/UserStripeStandardReturn';
+import {SAMPLE, SAMPLE_UPLOAD, SAMPLE_SEARCH, USER, USER_SETTINGS, USER_LIBRARY, PROVISION_STRIPE_STANDARD_RETURN } from '@/router/routeNames';
 
 const routes = [
   {
@@ -37,6 +38,10 @@ const routes = [
       {
         path: USER_LIBRARY,
         component: UserLibrary
+      },
+      {
+        path: PROVISION_STRIPE_STANDARD_RETURN,
+        component: UserStripeStandardReturn
       }
     ]
   },

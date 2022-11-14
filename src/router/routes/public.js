@@ -1,10 +1,16 @@
 import LandingPage from '@/components/layout/LandingPage.vue';
-import {LANDING} from '@/router/routeNames';
+import {LANDING, PROVISION_STRIPE_STANDARD_REFRESH} from '@/router/routeNames';
 
 const routes = [
   {
     path: `/${LANDING}`,
     name: `${LANDING}`,
+    title: 'Visiophone',
+    component: LandingPage
+  },
+  {
+    path: `/${PROVISION_STRIPE_STANDARD_REFRESH}`,
+    name: `/${PROVISION_STRIPE_STANDARD_REFRESH}`,
     title: 'Visiophone',
     component: LandingPage
   }

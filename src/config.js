@@ -14,12 +14,13 @@ const properties = [
   'VUE_APP_AVATAR_URI',
   'VUE_APP_COVER_ART_URI',
   'VUE_APP_IDENTITY_METADATA',
-  'VUE_APP_IDENTITY_ISSUER'
+  'VUE_APP_IDENTITY_ISSUER',
+  'VUE_APP_API_PROVISION_STRIPE_STANDARD',
 ];
 
 const env = process.env;
 
-export const config = properties.reduce((acc, prop) => {
+const config = properties.reduce((acc, prop) => {
   acc[prop] = env[prop];
   return acc;
 },{});
@@ -27,11 +28,20 @@ export const config = properties.reduce((acc, prop) => {
 export const AUDIO_MIME_TYPE = 'audio/*';
 export const IMAGE_MIME_TYPE = 'image/*';
 
+export const PERSISTENT_MUTATIONS = [
+  `user/customUserName`,
+  'user/samples',
+  'user/avatarId',
+  'user/forSale',
+  'user/owned',
+  'user/_id',
+  'sample/samples'
+]
+
 export default {
-  config: {
-    ...config,
-    AUDIO_MIME_TYPE,
-    IMAGE_MIME_TYPE
-  }
+  ...config,
+  AUDIO_MIME_TYPE,
+  IMAGE_MIME_TYPE,
+  PERSISTENT_MUTATIONS
 };
 

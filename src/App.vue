@@ -15,10 +15,6 @@ import config from '@/config';
 
 const DEFAULT_HOME = '/sample';
 
-const PERSISTENT_MODULES = [
-  'sample'
-];
-
 export default {
   name: 'App',
   components: {
@@ -64,41 +60,35 @@ export default {
   },
   methods:{
     initializePersistentStorage() {
-      const currentTime = moment().valueOf();
+      for(let i = 0; i < config.PERSISTENT_MUTATIONS.length; i++) {
+        const key = config.PERSISTENT_MUTATIONS[i];
+        const value = localStorage[key];
 
-      for(let i = 0; i < PERSISTENT_MODULES.length; i++) {
-        const storeModuleName = PERSISTENT_MODULES[i];
-        const storeModuleJson = localStorage.getItem(storeModuleName);
-
-        if(storeModuleJson) {
-          try{
-            const storeModule = JSON.parse(storeModuleJson);
-            const samples = storeModule.samples;
-
-            //TODO: refactor this stuff into the store layer
-            if(Object.keys(samples).find(key => currentTime - samples[key].lastRefresh > config.VUE_APP_STALE_RECORD_THRESHOLD)){
-              break;
+        if(value) {
+          const parse = () => {
+            try{
+              return JSON.parse(value)
+            } catch(e){
+              return value;
             }
-
-            this.$store.dispatch(`${storeModuleName}/initFromStorage`, storeModule);
-
-            Object.keys(storeModule).forEach(key => {
-              this.$store.commit(`${storeModuleName}/assignObject`, {
-                key,
-                value: storeModule[key]
-              })
-            })
-          }catch(e){
-            console.error(e);
-          }
+          };
+          this.$store.commit(key, parse(value));
         }
       }
 
-      this.$store.dispatch('user/initFromStorage');
+      this.$store.subscribe((context, state) => {
+        const {type} = context;
+        const index = type.indexOf('/');
+        const module = index ? type.slice(0, index) : type;
 
-      this.$store.subscribe(({type}, {sample}) => {
-        if(PERSISTENT_MODULES.find(m => type.startsWith(m))) {
-          localStorage.setItem('sample', JSON.stringify(sample));
+        if(config.PERSISTENT_MUTATIONS.includes(type)) {
+          const path = type.split('/');
+          const value = state[path[0]][path[1]];
+          const result = typeof value === 'string'
+            ? value
+            : JSON.stringify(value)
+
+          localStorage.setItem(type,  result);
         }
       });
     }
@@ -130,7 +120,6 @@ html{
   --vp-side-navigation-width: 10em;
   --vp-header-height: 3em;
 }
-
 
 .responsive-margin {
   @include for-size(xl){

@@ -1,5 +1,6 @@
+import Vue from 'vue';
 import {axios, securePostJson, securePostForm} from '@/axios.js';
-import {config} from '@/config.js';
+import config from '@/config.js';
 import moment from 'moment';
 
 const DEFAULT_SAMPLE = {
@@ -53,7 +54,6 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
     imgUrl=`${config.VUE_APP_COVER_ART_URI}${newSample._id}.png`;
   }
 
-  // console.log('Adding the ');
   let clipUri = newSample.clipUri || '';
   if(newSample._id && !isNew) {
     clipUri = `${config.VUE_APP_CLIP_URI}${newSample._id}.wav.ogg`;
@@ -166,17 +166,7 @@ export default {
       }
     },
 
-    initFromStorage({commit}, {samples}){
-      const value = Object.keys(samples).map(key => {
-        const sample = samples[key];
-        if((sample.imgUrl || '').startsWith('blob')) {
-          sample.imgUrl = `${config.VUE_APP_COVER_ART_URI}${sample._id}.png`;
-        }
-
-        return makeSampleFromResult({sample});
-      });
-      
-      commit('assignObject', {key: 'samples', value })
+    initFromStorage(context, {samples}, callback){
     },
 
     initialize({dispatch}, {page}){
@@ -216,10 +206,7 @@ export default {
       
       const value = index > 0 ? {...samples,  ...result } : {...result};
 
-      commit('assignObject', {
-        key: 'samples',
-        value
-      });
+      commit('samples', value);
 
       return initSamples;
     },
@@ -241,4 +228,9 @@ export default {
       dispatch('addSamples', {samples, index});
     }
   },
+  mutations:{
+    samples(state, value){
+      Vue.set(state, 'samples', value);
+    }
+  }
 }
