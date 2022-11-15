@@ -2,7 +2,8 @@ import Vue from 'vue';
 import {securePostForm, securePostJson, axios } from '@/axios.js';
 import config from '@/config.js';
 import {makeSampleFromResult} from './sample';
-import { initializeAuth, logon, logOff } from '@/auth';
+import { initializeAuth, logon, logOff, client } from '@/auth';
+import { debug } from 'webpack';
 
 export const makeNewUser = () => ({
   _id: localStorage._id || '',
@@ -14,15 +15,14 @@ export const makeNewUser = () => ({
   samples: [],
   forSale: [],
   owned: [],
-  isAuthorizedSeller: false
+  isAuthorizedSeller: false,
+  stripeId: ''
 });
 
 export default {
   namespaced: true,
   state: () => makeNewUser(),
   actions: {
-
-
     //TODO This is no longer used...
     initFromStorage( context, mutation, callback) {
     },
@@ -55,13 +55,12 @@ export default {
       commit('customUserName', customUserName);
     },
 
-    async upgradeToSellerAccount() {
-      console.log('Sending request to: ', config.VUE_APP_API_PROVISION_STRIPE_STANDARD);
+    async upgradeToSellerAccount({commit}) {
       const result  = await securePostJson(axios, {}, { slug: config.VUE_APP_API_PROVISION_STRIPE_STANDARD });
-      const {data:{url}} = result;
+      const {data:{url, id:stripeId}} = result;
 
-      console.log('RESULT:', result);
-
+      
+      commit('stripeId', stripeId);
       window.location.href = url;
     },
 
@@ -83,24 +82,13 @@ export default {
     async initialize(context) {
       const { state:{_id}, commit, dispatch } = context;
       try {
-        const {publicStorageToken, apiToken} = await initializeAuth();
+        const {apiToken} = await initializeAuth();
 
-        if(publicStorageToken) {
+
+        if(apiToken) {
           commit('authenticated', true);
           commit('accountId', apiToken.account.homeAccountId);
-          commit('publicStorageToken', publicStorageToken);
-          // commit('assignObject', {
-          //   key: 'publicStorageToken',
-          //   value: publicStorageToken
-          // });
-          // commit('assignObject', {
-          //   key: 'storageToken',
-          //   value: publicStorageToken
-          // });
-          // commit('assignObject', {
-          //   key:'apiToken',
-          //   value: apiToken
-          // });
+          // commit('publicStorageToken', publicStorageToken);
           commit('apiToken', apiToken);
 
           if(!_id) {
@@ -159,18 +147,20 @@ export default {
       state.authenticated = authenticated;
     },
 
+    stripeId(state, stripeId){
+      state.stripeId = stripeId
+    },
+
     accountId(state, accountId) {
       state.accountId = accountId;
     },
     
     avatarId(state, avatarId) {
       state.avatarId = avatarId;
-      // localStorage.setItem('avatarId', avatarId || '');
     },
 
     samples(state, samples){
       state.samples = samples;
-      // localStorage.user_samples = JSON.stringify(samples);
     },
 
     addSampleForSale(state, newSample) {
@@ -178,27 +168,22 @@ export default {
       state.forSale.push(newSample._id);
 
       localStorage.forSale = JSON.stringify(state.forSale);
-      // localStorage.user_samples = JSON.stringify([...state.samples, newSample]);
     },
 
     owned(state, owned){
       state.owned = owned;
-      // localStorage.owned = JSON.stringify(owned);
     },
 
     forSale(state, forSale){
       state.forSale = forSale;
-      // localStorage.forSale = JSON.stringify(forSale);
     },
 
     _id(state, _id) {
       state._id = _id;
-      // localStorage.setItem('_id', _id || '');
     },
 
     customUserName(state, customUserName){
       state.customUserName = customUserName;
-      // localStorage.setItem('customUserName', customUserName || '');
     },
 
     publicStorageToken(state, publicStorageToken){

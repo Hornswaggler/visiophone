@@ -28,7 +28,7 @@ export const client = new _msal.PublicClientApplication(msalConfig);
 
 export const logon = async () => {
   const loginRequest = {
-    scopes: ["User.Read","openid", "profile"],
+    scopes: ["User.Read"],
   };
   return await client.acquireTokenPopup(loginRequest);
 };
@@ -52,34 +52,43 @@ const getAccountFromCache = (currentAccounts) => {
 export const initializeAuth = async () => {
   await client.initialize();
 
+
+
   let activeAccount = await client.handleRedirectPromise();
   if(!activeAccount) {
     activeAccount = getAccountFromCache(client.getAllAccounts());
   }
 
+  console.log('Active Account:', activeAccount);
+
   if(activeAccount) {
     client.setActiveAccount(activeAccount);
 
+    // console.log('idToken: ', activeAccount.idToken, 'clientIdToken: ', client.idToken);
+    
     const apiToken = await client.acquireTokenSilent({ 
       account: activeAccount.idToken || '',
       scopes: API_SCOPES
     });
 
-    const publicStorageToken = await client.acquireTokenSilent({
-      account: client.idToken,
-      scopes: [config.VUE_APP_READ_BLOB_SCOPE]
-    });
+    // const publicStorageToken = await client.acquireTokenSilent({
+    //   account: client.idToken,
+    //   scopes: [config.VUE_APP_READ_BLOB_SCOPE]
+    // });
+
+
+    // console.log('apiToken',apiToken, 'publicStorageToken', publicStorageToken, 'idToken: ', activeAccount.idToken, 'clientIdToken: ', client.idToken);
 
     return {
       apiToken,
-      publicStorageToken,
+      // publicStorageToken,
       client
     };
   }
 
   return {
     apiToken:'',
-    publicStorageToken: '',
+    // publicStorageToken: '',
     client: {}
   };
 };

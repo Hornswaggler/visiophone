@@ -166,9 +166,6 @@ export default {
       }
     },
 
-    initFromStorage(context, {samples}, callback){
-    },
-
     initialize({dispatch}, {page}){
       return dispatch('search', {page});
     },

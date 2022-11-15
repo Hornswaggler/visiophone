@@ -39,6 +39,9 @@ export default {
       try{
         this.$store.commit('app/isLoading', true);
         const valid = await this.$store.dispatch('user/login');
+
+        console.log('valid', valid);
+
         if(valid) {
           this.error = '';
           this.$store.commit('user/authenticated', true);
