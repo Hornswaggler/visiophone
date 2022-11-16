@@ -30,7 +30,7 @@ stages:
         contents: 'dist/**'
         targetFolder: '$(Build.ArtifactStagingDirectory)'
 
-    - publish: '$(Build.SourcesDirectory)/dist/dev/'
+    - publish: '$(Build.SourcesDirectory)/dist/'
       artifact: _FrontEnd_dev
 
 # - stage: dev
