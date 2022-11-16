@@ -123,10 +123,10 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import SortableTable from '@/components/form/SortableTable'
-import SortableTableRow from '@/components/form/SortableTableRow';
-import FormImage from '@/components/form/FormImage';
-import FormSortableTableCell from '@/components/form/FormSortableTableCell';
+import SortableTable from '@/components/form/SortableTable.vue'
+import SortableTableRow from '@/components/form/SortableTableRow.vue';
+import FormImage from '@/components/form/FormImage.vue';
+import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
 
 export default {
   name:'UserLibrary',

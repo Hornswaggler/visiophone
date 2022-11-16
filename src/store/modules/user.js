@@ -3,10 +3,10 @@ import {securePostForm, securePostJson, axios } from '@/axios.js';
 import config from '@/config.js';
 import {makeSampleFromResult} from './sample';
 import { initializeAuth, logon, logOff, client } from '@/auth';
-import { debug } from 'webpack';
 
+//TODO: Localstorage access should be in persistence layer!
 export const makeNewUser = () => ({
-  _id: localStorage._id || '',
+  _id: localStorage._id || null,
   authenticated: false,
   publicStorageToken: '',
   apiToken:{},
@@ -56,7 +56,7 @@ export default {
     },
 
     async upgradeToSellerAccount({commit}) {
-      const result  = await securePostJson(axios, {}, { slug: config.VUE_APP_API_PROVISION_STRIPE_STANDARD });
+      const result  = await securePostJson(axios, {}, { slug: config.VITE_API_PROVISION_STRIPE_STANDARD });
       const {data:{url, id:stripeId}} = result;
 
       
@@ -87,7 +87,7 @@ export default {
 
         if(apiToken) {
           commit('authenticated', true);
-          commit('accountId', apiToken.account.homeAccountId);
+          commit('accountId', apiToken.account.localAccountId);
           // commit('publicStorageToken', publicStorageToken);
           commit('apiToken', apiToken);
 
@@ -135,9 +135,9 @@ export default {
     idToken:({apiToken:{idToken = ''}}) => idToken,
     accessToken:({apiToken:{accessToken = ''}}) => accessToken,
     publicStorageToken: ({publicStorageToken:{accessToken = ''}}) => accessToken,
-    accountId:({apiToken:{ account:{homeAccountId = ''}}}) => homeAccountId,
+    accountId:({apiToken:{ account:{localAccountId = ''}}}) => localAccountId,
     userName: ({apiToken:{account:{name = ''}}}) => name,
-    profileImg: ({avatarId}) => `${config.VUE_APP_AVATAR_URI}${avatarId}.png`,
+    profileImg: ({avatarId}) => new URL(`${config.VITE_AVATAR_URI}${avatarId}.png`, import.meta.url).href,
     getForSale: ({samples, forSale}) => samples.filter(({_id}) => forSale.includes(_id)),
     getOwned: ({samples, owned}) => samples.filter(({_id}) => owned.includes(_id)),
   },

@@ -94,16 +94,16 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import {SORT_TYPES} from '@/store/modules/sample';
-import FormImage from '@/components/form/FormImage';
-import SortableTable from '@/components/form/SortableTable';
-import FormIcon from '@/components/form/FormIcon';
-import SortableTableRow from '@/components/form/SortableTableRow';
-import ScrollingContainer from '@/components/layout/ScrollingContainer';
-import BootlegListIcon from '@/components/form/BootlegListIcon';
-import BootlegGroupIcon from '@/components/form/BootlegGroupIcon';
+import FormImage from '@/components/form/FormImage.vue';
+import SortableTable from '@/components/form/SortableTable.vue';
+import FormIcon from '@/components/form/FormIcon.vue';
+import SortableTableRow from '@/components/form/SortableTableRow.vue';
+import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
+import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
+import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
 import FormSortableTableHeader from '../../form/FormSortableTableHeader.vue';
-import FormSortableTableCell from '@/components/form/FormSortableTableCell';
-import AudioPlayer from '@/components/form/AudioPlayer';
+import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
+import AudioPlayer from '@/components/form/AudioPlayer.vue';
 
 export default {
   name:'SampleSearch',

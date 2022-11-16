@@ -1,12 +1,10 @@
 import Vue from 'vue';
-import draggable from './draggable';
 import user from './user';
 import app from './app';
 import sample from './sample';
 import dropdown from './dropdown';
 
 const store = {
-  draggable,
   user,
   app,
   sample,

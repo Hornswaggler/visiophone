@@ -95,7 +95,7 @@
 import Vue from 'vue';
 import UploadFile from '@/components/form/UploadFile.vue';
 import ImageEditor from '@/components/form/ImageEditor.vue';
-import TextAreaInput from '@/components/form/TextAreaInput';
+import TextAreaInput from '@/components/form/TextAreaInput.vue';
 import FormNumberInput from '@/components/form/FormNumberInput.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
 import { mapState, mapGetters } from 'vuex';

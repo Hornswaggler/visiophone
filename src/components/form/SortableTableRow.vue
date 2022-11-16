@@ -14,7 +14,7 @@
 
 <script>
 //THIS IMPORT MUST BE INCLUDED
-import FormCard from './FormCard';
+import FormCard from './FormCard.vue';
 
 export default {
   name:"SortableTableRow",

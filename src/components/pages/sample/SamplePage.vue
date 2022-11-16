@@ -25,7 +25,7 @@ import { mapGetters, mapState } from 'vuex';
 import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayout.vue';
 import SideNavigation from '@/components/layout/SideNavigation.vue';
 import Header from '@/components/layout/Header.vue';
-import PageFooter from '../../layout/PageFooter';
+import PageFooter from '../../layout/PageFooter.vue';
 
 
 //TODO refactor the menu items up a level, to the template

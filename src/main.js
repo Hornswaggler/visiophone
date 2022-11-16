@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import Glitch from 'vue-glitch';
 import vueDebounce from 'vue-debounce';
-import movable from "v-movable";
 import ProgressBar from 'vuejs-progress-bar';
 import VueParticles from 'vue-particles';
 import store from './store/';
@@ -52,9 +51,8 @@ Vue.config.productionTip = false;
 
 Vue.use(VueParticles);
 Vue.use(ProgressBar);
-Vue.use(movable);
 Vue.use(vueDebounce, {
-  defaultTime: config.VUE_APP_API_DEBOUNCE
+  defaultTime: config.VITE_API_DEBOUNCE
 })
 Vue.component('glitch', Glitch);
 Vue.config.productionTip = false;

@@ -23,7 +23,7 @@
   </form-input-base>
 </template>
 <script>
-import FormInputBase from '@/components/form/FormInputBase';
+import FormInputBase from '@/components/form/FormInputBase.vue';
 
 export default {
   name: 'FormSelect',

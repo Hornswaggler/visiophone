@@ -32,7 +32,7 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import FormInputBase from '@/components/form/FormInputBase';
+import FormInputBase from '@/components/form/FormInputBase.vue';
 
 export default {
   name: 'UploadFile',

@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import FormIcon from '../form/FormIcon';
+import FormIcon from '../form/FormIcon.vue';
 
 export default {
   name:'PageFooter',

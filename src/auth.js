@@ -5,11 +5,11 @@ const API_SCOPES = ["User.Read","openid", "profile"];
 
 const msalConfig = {
   auth: {
-    clientId: config.VUE_APP_AUTH_CLIENT_ID,
-    authority: config.VUE_APP_AUTH_AUTHORITY,
-    redirectUri: config.VUE_APP_API_REDIRECT_URI,
-    identityMetadata: config.VUE_APP_IDENTITY_METADATA,
-    issuer: config.VUE_APP_IDENTITY_ISSUER
+    clientId: config.VITE_AUTH_CLIENT_ID,
+    authority: config.VITE_AUTH_AUTHORITY,
+    redirectUri: config.VITE_API_REDIRECT_URI,
+    identityMetadata: config.VITE_IDENTITY_METADATA,
+    issuer: config.VITE_IDENTITY_ISSUER
   },
   cache: {
     cacheLocation: "sessionStorage",
@@ -59,26 +59,19 @@ export const initializeAuth = async () => {
     activeAccount = getAccountFromCache(client.getAllAccounts());
   }
 
-  console.log('Active Account:', activeAccount);
-
   if(activeAccount) {
     client.setActiveAccount(activeAccount);
-
-    // console.log('idToken: ', activeAccount.idToken, 'clientIdToken: ', client.idToken);
     
     const apiToken = await client.acquireTokenSilent({ 
       account: activeAccount.idToken || '',
       scopes: API_SCOPES
     });
 
+    //TODO: is this even needed anymore???
     // const publicStorageToken = await client.acquireTokenSilent({
     //   account: client.idToken,
-    //   scopes: [config.VUE_APP_READ_BLOB_SCOPE]
+    //   scopes: [config.VITE_READ_BLOB_SCOPE]
     // });
-
-
-    // console.log('apiToken',apiToken, 'publicStorageToken', publicStorageToken, 'idToken: ', activeAccount.idToken, 'clientIdToken: ', client.idToken);
-
     return {
       apiToken,
       // publicStorageToken,

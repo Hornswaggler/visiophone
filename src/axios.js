@@ -9,12 +9,11 @@ const MIME_TYPES = {
   APPLICATION_JSON: 'application/json'
 }
 
-export const axios = new (() => ({
-  ..._axios.create({
-    baseURL: `${process.env.VUE_APP_API_BASE_URL}`,
-    headers: {"Access-Control-Allow-Origin": '*'}
-  })
-}));
+export const axios = _axios.create({
+  baseURL: config.VITE_API_BASE_URL,
+  headers: {"Access-Control-Allow-Origin": '*'}
+})
+
 
 export const axiosInit = async () => {
   return axios.interceptors.request.use((config) => ({
@@ -38,7 +37,7 @@ const accessToken = store => store.getters['user/accessToken'];
 const publicStorageToken = store => store.getters['user/publicStorageToken'];
 
 export const secureGet = (_axios, {responseType = RESPONSE_TYPES.DEFAULT,slug = '', uri = '' }) => _axios.get(
-  uri ? uri : `${config.VUE_APP_API_BASE_URL}${slug}`, 
+  uri ? uri : `${config.VITE_API_BASE_URL}${slug}`, 
   {
     responseType,
     headers: {

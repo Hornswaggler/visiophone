@@ -28,7 +28,7 @@ import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayo
 import Header from '@/components/layout/Header.vue';
 import SideNavigation from '@/components/layout/SideNavigation.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
-import PageFooter from '../../layout/PageFooter';
+import PageFooter from '../../layout/PageFooter.vue';
 
 export default {
   name:'UserSettingsPage',

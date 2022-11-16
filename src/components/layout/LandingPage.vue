@@ -1,7 +1,7 @@
 <template>
   <div 
     class="landing-page"
-    :style="{backgroundImage: 'url(\'' + require('@/assets/Visioland.png') + '\')'}"
+    :style="{backgroundImage: `url(${visioloandUrl})`}"
   >
     <!-- <div 
       class="signup-button"
@@ -24,10 +24,11 @@
 <script>
 import VisioMan from '@/components/common/VisioMan.vue';
 
-// TODO technically this should be a statically served asset that requires no vue to run... (SPA)
-
 export default {
   name: 'LandingPage',
+  data:() => ({
+    visioloandUrl: new URL('../../assets/Visioland.png', import.meta.url).href
+  }),
   components: {
     VisioMan
   },
@@ -39,8 +40,6 @@ export default {
       try{
         this.$store.commit('app/isLoading', true);
         const valid = await this.$store.dispatch('user/login');
-
-        console.log('valid', valid);
 
         if(valid) {
           this.error = '';

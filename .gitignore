@@ -1,12 +1,20 @@
-.DS_Store
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
 node_modules
-/dist
+.DS_Store
+dist
+dist-ssr
+*.local
 
-
-# local env files
-# TODO: local env files are required for the build, this should be integrated into the pipeline such that the vars are pulled from the  build configuration
-#.env.dev
-#.env
+/cypress/videos/
+/cypress/screenshots/
 
 # Log files
 npm-debug.log*
@@ -15,6 +23,8 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Editor directories and files
+.vscode
+!.vscode/extensions.json
 .idea
 .vscode
 *.suo

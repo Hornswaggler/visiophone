@@ -39,7 +39,7 @@
 import {mapState, mapGetters} from 'vuex';
 import FormInput from '@/components/form/FormInput.vue';
 import {SORT_TYPES} from '@/store/modules/sample';
-import SiteLogo from './SiteLogo';
+import SiteLogo from './SiteLogo.vue';
 
 export default {
   name:'Header',
