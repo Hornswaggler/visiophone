@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import {axios, securePostJson, securePostForm} from '@/axios.js';
-import config from '@/config.js';
+import {axios, securePostJson, securePostForm} from '/src/axios.js';
+import config from '/src/config.js';
 import moment from 'moment';
 
 const DEFAULT_SAMPLE = {

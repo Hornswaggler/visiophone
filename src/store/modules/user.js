@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import {securePostForm, securePostJson, axios } from '@/axios.js';
-import config from '@/config.js';
+import {securePostForm, securePostJson, axios } from '/src/axios.js';
+import config from '/src/config.js';
 import {makeSampleFromResult} from './sample';
-import { initializeAuth, logon, logOff, client } from '@/auth';
+import { initializeAuth, logon, logOff, client } from '/src/auth';
 
 //TODO: Localstorage access should be in persistence layer!
 export const makeNewUser = () => ({
@@ -137,7 +137,7 @@ export default {
     publicStorageToken: ({publicStorageToken:{accessToken = ''}}) => accessToken,
     accountId:({apiToken:{ account:{localAccountId = ''}}}) => localAccountId,
     userName: ({apiToken:{account:{name = ''}}}) => name,
-    profileImg: ({avatarId}) => new URL(`${config.VITE_AVATAR_URI}${avatarId}.png`, import.meta.url).href,
+    profileImg: ({avatarId}) => `${config.VITE_AVATAR_URI}${avatarId}.png`,
     getForSale: ({samples, forSale}) => samples.filter(({_id}) => forSale.includes(_id)),
     getOwned: ({samples, owned}) => samples.filter(({_id}) => owned.includes(_id)),
   },

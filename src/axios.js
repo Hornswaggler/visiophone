@@ -1,5 +1,5 @@
 import * as _axios from 'axios';
-import config from '@/config.js';
+import config from '/src/config.js';
 
 //TODO: get token directly from store instead of passing it all over the place...
 import store from '@/store';
