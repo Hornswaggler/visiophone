@@ -20,7 +20,7 @@ stages:
     steps:
     - script: |
         call yarn install
-        call yarn build-dev
+        call yarn build
       displayName: 'yarn install and build'
       workingDirectory: '$(Build.SourcesDirectory)/'
     
