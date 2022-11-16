@@ -28,7 +28,7 @@ import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayo
 import Header from '@/components/layout/Header.vue';
 import SideNavigation from '@/components/layout/SideNavigation.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
-import PageFooter from '../../layout/PageFooter';
+import PageFooter from '../../layout/PageFooter.vue';
 
 export default {
   name:'UserSettingsPage',
@@ -42,12 +42,10 @@ export default {
   data:() => ({
     inputWidth: '10em',
     sideNavigationMenuOptions: [
-      {title: 'Home', slug:'/sample', icon:'fa-house', id: 0},
-
-      {
-        icon: 'fa-gear',
-        title: 'Settings',
-        slug: '/user/settings',
+    {
+        title: 'Browse',
+        slug:'/sample',
+        icon:'fa-house',
         id: 0
       },
       {
@@ -55,7 +53,21 @@ export default {
         title: 'Library',
         slug: '/user/library',
         id: 1
-      }
+      },
+      {
+
+        title: 'Upload',
+        slug:'/sample/upload',
+        icon:'fa-cloud-arrow-up',
+        id: 2
+      },
+      {
+        icon: 'fa-gear',
+        title: 'Settings',
+        slug: '/user/settings',
+        id: 3
+      },
+
     ].map((o,id) => ({...o, id})),
     selectionIndex: 0,
   }),
@@ -99,10 +111,9 @@ export default {
 
 .user-settings-content-container {
   position: relative;
-  display: flex;
-  flex-direction: column;
   height:100vh;
   width:100%;
+  box-shadow: 20px 20px 30px 0px rgba(0,0,0,0.75);
 
   .user-settings-content {
     color: white;

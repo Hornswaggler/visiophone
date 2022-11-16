@@ -1,45 +1,30 @@
-import {securePostForm, securePostJson, axios } from '@/axios.js';
-import {config} from '@/config.js';
+import Vue from 'vue';
+import {securePostForm, securePostJson, axios } from '/src/axios.js';
+import config from '/src/config.js';
 import {makeSampleFromResult} from './sample';
-import { initializeAuth, logon, logOff } from '@/auth';
+import { initializeAuth, logon, logOff, client } from '/src/auth';
 
+//TODO: Localstorage access should be in persistence layer!
 export const makeNewUser = () => ({
-  _id: localStorage._id || '',
+  _id: localStorage._id || null,
   authenticated: false,
   publicStorageToken: '',
   apiToken:{},
-  storageToken:{},
   avatarId: localStorage.avatarId || '',
-  customUserName: localStorage.customUserName || '',
-  samples: JSON.parse(localStorage.user_samples || "[]"),
-  forSale: JSON.parse(localStorage.forSale || "[]"),
-  owned: JSON.parse(localStorage.owned || "[]")
+  customUserName: '',
+  samples: [],
+  forSale: [],
+  owned: [],
+  isAuthorizedSeller: false,
+  stripeId: ''
 });
 
 export default {
   namespaced: true,
   state: () => makeNewUser(),
   actions: {
-
-    // persistToStorage({commit}, user){
-    //   commit(
-    //     'assignObject', 
-    //     {
-    //       key: 'user', 
-    //       value: sample
-    //     })
-    // },
-
-    initFromStorage({commit, state:{samples}}){
-      const value = Object.keys(samples).map(key => {
-        const sample = samples[key];
-        if((sample.imgUrl || '').startsWith('blob')) {
-          sample.imgUrl = `${config.VUE_APP_COVER_ART_URI}${sample._id}.png`;
-        }
-        return makeSampleFromResult({sample});
-      });
-      
-      commit('assignObject', {key: 'samples', value })
+    //TODO This is no longer used...
+    initFromStorage( context, mutation, callback) {
     },
 
     async purchaseSample({ commit, state:{samples, accountId} }, {sample}) {
@@ -67,7 +52,16 @@ export default {
       //TODO: refactor to "Make new"
       commit('avatarId', data.avatarId);
       commit('_id', data._id);
-      commit('customUserName', customUserName)
+      commit('customUserName', customUserName);
+    },
+
+    async upgradeToSellerAccount({commit}) {
+      const result  = await securePostJson(axios, {}, { slug: config.VITE_API_PROVISION_STRIPE_STANDARD });
+      const {data:{url, id:stripeId}} = result;
+
+      
+      commit('stripeId', stripeId);
+      window.location.href = url;
     },
 
     async getUserProfile({ state }) {
@@ -88,28 +82,18 @@ export default {
     async initialize(context) {
       const { state:{_id}, commit, dispatch } = context;
       try {
-        const {publicStorageToken, apiToken} = await initializeAuth();
+        const {apiToken} = await initializeAuth();
 
-        if(publicStorageToken) {
+
+        if(apiToken) {
           commit('authenticated', true);
-          commit('accountId', apiToken.account.homeAccountId);
-          commit('assignObject', {
-            key: 'publicStorageToken',
-            value: publicStorageToken
-          });
-          commit('assignObject', {
-            key: 'storageToken',
-            value: publicStorageToken
-          });
-          commit('assignObject', {
-            key:'apiToken',
-            value: apiToken
-          });
+          commit('accountId', apiToken.account.localAccountId);
+          // commit('publicStorageToken', publicStorageToken);
+          commit('apiToken', apiToken);
 
           if(!_id) {
             //TODO: refactor to its own method
-            const result = await dispatch('getUserProfile');
-            const { avatarId, _id, customUserName, samples, forSale, owned} = result;
+            const { avatarId, _id, customUserName, samples, forSale, owned} = await dispatch('getUserProfile');
 
             commit('avatarId', avatarId);
             commit('customUserName', customUserName);
@@ -150,10 +134,10 @@ export default {
   getters: {
     idToken:({apiToken:{idToken = ''}}) => idToken,
     accessToken:({apiToken:{accessToken = ''}}) => accessToken,
-    storageToken: ({storageToken:{accessToken = ''}}) => accessToken,
-    accountId:({apiToken:{ account:{homeAccountId = ''}}}) => homeAccountId,
+    publicStorageToken: ({publicStorageToken:{accessToken = ''}}) => accessToken,
+    accountId:({apiToken:{ account:{localAccountId = ''}}}) => localAccountId,
     userName: ({apiToken:{account:{name = ''}}}) => name,
-    profileImg: ({avatarId}) => `${config.VUE_APP_AVATAR_URI}${avatarId}.png`,
+    profileImg: ({avatarId}) => `${config.VITE_AVATAR_URI}${avatarId}.png`,
     getForSale: ({samples, forSale}) => samples.filter(({_id}) => forSale.includes(_id)),
     getOwned: ({samples, owned}) => samples.filter(({_id}) => owned.includes(_id)),
   },
@@ -162,19 +146,21 @@ export default {
     authenticated(state, authenticated) {
       state.authenticated = authenticated;
     },
-  
+
+    stripeId(state, stripeId){
+      state.stripeId = stripeId
+    },
+
     accountId(state, accountId) {
       state.accountId = accountId;
     },
-  
+    
     avatarId(state, avatarId) {
       state.avatarId = avatarId;
-      localStorage.setItem('avatarId', avatarId || '');
     },
 
     samples(state, samples){
       state.samples = samples;
-      localStorage.user_samples = JSON.stringify(samples);
     },
 
     addSampleForSale(state, newSample) {
@@ -182,27 +168,30 @@ export default {
       state.forSale.push(newSample._id);
 
       localStorage.forSale = JSON.stringify(state.forSale);
-      localStorage.user_samples = JSON.stringify([...state.samples, newSample]);
     },
 
     owned(state, owned){
       state.owned = owned;
-      localStorage.owned = JSON.stringify(owned);
     },
 
     forSale(state, forSale){
       state.forSale = forSale;
-      localStorage.forSale = JSON.stringify(forSale);
     },
-  
+
     _id(state, _id) {
       state._id = _id;
-      localStorage.setItem('_id', _id || '');
     },
 
     customUserName(state, customUserName){
       state.customUserName = customUserName;
-      localStorage.setItem('customUserName', customUserName || '');
+    },
+
+    publicStorageToken(state, publicStorageToken){
+      Vue.set(state, 'publicStorageToken', publicStorageToken);
+    },
+
+    apiToken(state, apiToken){
+      Vue.set(state, 'apiToken', apiToken);
     }
   }
 };

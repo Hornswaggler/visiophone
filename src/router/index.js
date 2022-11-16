@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from  '../store'
-import routes from '@/router/routes/index.js'
+import routes from '/src/router/routes/index.js'
 
 Vue.use(Router);
 
@@ -34,7 +34,7 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-const DEFAULT_TITLE = "Visiophone";
+const DEFAULT_TITLE = "VISIOPHONE (╯°□°)╯︵ ┻━┻";
 router.afterEach((to) => {
 
   // Use next tick to handle router history correctly

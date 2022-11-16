@@ -1,22 +1,11 @@
 <template>
   <div
-    class="flex"
-    style="margin:0;"
+    class="user-settings-form"
   >
     <!-- TODO fix this  -->
-    <div class="vp-form p1 flex-1">
-      <div class="vp-form-row">
-        <image-editor
-          class="flex-3"
-          :img-src="imageSrc"
-          :change-handler="onImageChanged"
-        />
-      </div>
-    </div>
-    <div class="vp-form p1 flex-1">
+    <div class="vp-form">
       <div class="vp-form-row">
         <form-input
-          style="border: solid 1px #767676;"
           title="user name"
           :initial-value="customUserName"
           :on-changed="onUserNameChanged"
@@ -30,6 +19,37 @@
           :change-handler="onImageSelected"
         />
       </div>
+      <div 
+        v-if="!isAuthorizedSeller"
+        class="vp-form-row"
+      >
+        <form-input-base>
+          <template v-slot:title>
+            Account Type
+          </template>
+          <template
+            v-slot:input
+            style="height:initial;" 
+          >
+            <div style="width:100%;">
+              <span style="padding:1em;text-align:left;font-size:0.8em;display:inline-block;">
+                You have a <span style="color: var(--vp-highlight-color); display: inline-block;">buyer's</span> 
+                account. With this account, you can purchase samples 
+                from Visiophone sellers but you cannot upload your samples. 
+                Upgrade to a seller's account to put your creations up for sale.
+              </span>
+              <button
+                style="width:100%;"
+                class="vp-button"
+                type="button"
+                @click="onUpgradeToSeller"
+              >
+                Upgrade
+              </button>
+            </div>
+          </template>
+        </form-input-base>
+      </div>
       <div class="flex-1" />
       <div class="vp-form-row flex"> 
         <div class="flex-1" />
@@ -42,22 +62,33 @@
         </button>
       </div>
     </div>
+    <div class="vp-form">
+      <div class="vp-form-row">
+        <image-editor
+          class="flex-3"
+          :img-src="imageSrc"
+          :change-handler="onImageChanged"
+        />
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import Vue from 'vue';
-import {mapGetters, mapState} from 'vuex';
+import { mapGetters, mapState } from 'vuex';
+import FormInputBase from '../../form/FormInputBase.vue';
 import UploadFile from '@/components/form/UploadFile.vue';
 import ImageEditor from '@/components/form/ImageEditor.vue';
 import FormInput from '@/components/form/FormInput.vue';
-import {IMAGE_MIME_TYPE} from '@/config';
+import { IMAGE_MIME_TYPE } from '@/config';
 
 export default {
   name:'UserSettings',
   components:{
     UploadFile,
     ImageEditor,
-    FormInput
+    FormInput,
+    FormInputBase
   },
   data: () => ({
     initialized: false,
@@ -70,7 +101,7 @@ export default {
 
   }),
   computed:{
-    ...mapState('user',['customUserName']),
+    ...mapState('user',['customUserName', 'isAuthorizedSeller']),
     ...mapGetters('user', ['profileImg', 'accountId']),
 
   },
@@ -85,6 +116,9 @@ export default {
     });
   },
   methods:{
+    onUpgradeToSeller(){
+      this.$store.dispatch('user/upgradeToSellerAccount');
+    },
     onImageSelected(file){
       Vue.set(this.imageBlob, file);
       this.imageSrc =  URL.createObjectURL(file);
@@ -116,6 +150,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
+.user-settings-form {
+  display:flex;
+  &>*{
+    flex:1;
+  }
+}
 
 </style>

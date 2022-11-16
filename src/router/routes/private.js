@@ -1,10 +1,11 @@
-import SamplePage from '@/components/pages/sample/SamplePage';
-import UserPage from '@/components/pages/user/UserPage';
-import UserSettings from '@/components/pages/user/UserSettings';
-import UserLibrary from '@/components/pages/user/UserLibrary'
-import SampleUpload from '@/components/pages/sample/SampleUpload';
-import Search from '@/components/pages/sample/SampleSearch';
-import {SAMPLE, SAMPLE_UPLOAD, SAMPLE_SEARCH, USER, USER_SETTINGS, USER_LIBRARY} from '@/router/routeNames';
+import SamplePage from '/src/components/pages/sample/SamplePage.vue';
+import UserPage from '/src/components/pages/user/UserPage.vue';
+import UserSettings from '/src/components/pages/user/UserSettings.vue';
+import UserLibrary from '/src/components/pages/user/UserLibrary.vue'
+import SampleUpload from '/src/components/pages/sample/SampleUpload.vue';
+import Search from '/src/components/pages/sample/SampleSearch.vue';
+import UserStripeStandardReturn from '/src/components/pages/user/UserStripeStandardReturn.vue';
+import {SAMPLE, SAMPLE_UPLOAD, SAMPLE_SEARCH, USER, USER_SETTINGS, USER_LIBRARY, PROVISION_STRIPE_STANDARD_RETURN } from '/src/router/routeNames';
 
 const routes = [
   {
@@ -37,6 +38,10 @@ const routes = [
       {
         path: USER_LIBRARY,
         component: UserLibrary
+      },
+      {
+        path: PROVISION_STRIPE_STANDARD_RETURN,
+        component: UserStripeStandardReturn
       }
     ]
   },

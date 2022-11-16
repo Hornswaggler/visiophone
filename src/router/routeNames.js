@@ -7,6 +7,8 @@ export const SAMPLE_SEARCH = 'search';
 export const USER = 'user';
 export const USER_SETTINGS = 'settings';
 export const USER_LIBRARY = 'library';
+export const PROVISION_STRIPE_STANDARD_REFRESH = 'provision-stripe-standard-refresh';
+export const PROVISION_STRIPE_STANDARD_RETURN = 'provision-stripe-standard-return';
 
 export default {
   LANDING,
@@ -14,5 +16,7 @@ export default {
   SAMPLE_UPLOAD,
   USER,
   USER_SETTINGS,
-  USER_LIBRARY
+  USER_LIBRARY,
+  PROVISION_STRIPE_STANDARD_REFRESH,
+  PROVISION_STRIPE_STANDARD_RETURN
 };

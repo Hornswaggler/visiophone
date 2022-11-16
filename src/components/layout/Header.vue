@@ -1,48 +1,26 @@
 <template>
   <div>
-    <div class="flex selection-container">
+    <div class="flex header-container">
       <div
         class="header-search-container"
       >
-        <div 
-          class="flex align-center flex-1" 
-          style="padding-left:0.5em;"
-        >
-          <site-logo />
-          <span
-            class="header-nav-icon"
-            @click="onGo(-1)"
-          >
-            <font-awesome-icon 
-              class="form-icon"
-              icon="fa-angle-left"
-            />
-          </span>
-
-          <span
-            class="header-nav-icon"
-            @click="onGo(1)"
-          >
-            <font-awesome-icon 
-              class="form-icon pl1"
-              icon="fa-angle-right"
-            />
-          </span>
-        </div>
-
         <div
           class="header-search-input"
-          style="flex:4;"
+          style="flex:2;"
         >
           <div class="header-search-input-content">
             <form-input :on-changed="onSearchChanged" />
           </div>
         </div>
 
+        <div class="flex-1">
+          &nbsp;
+        </div>
+
         <div class="header-user-menu flex-1 justify-end">
           <span
-            class="pr header-custom-user-name"
-            style="font-size:0.8em;"
+            class="pr1 header-custom-user-name"
+            style="font-size:0.65em;"
           >{{ customUserName }}</span>
 
           <img
@@ -61,7 +39,7 @@
 import {mapState, mapGetters} from 'vuex';
 import FormInput from '@/components/form/FormInput.vue';
 import {SORT_TYPES} from '@/store/modules/sample';
-import SiteLogo from './SiteLogo';
+import SiteLogo from './SiteLogo.vue';
 
 export default {
   name:'Header',
@@ -180,32 +158,28 @@ export default {
   display: flex;
   justify-content: flex-end;
   flex: 1;
-  height: 100%;
-  width: 100%;
-  margin: 0 0.5em;
 
   .header-user-menu {
     background-color: transparent;
-    height: 100%;
     display: flex;
     align-items: center;  }
 
   .header-search-input {
-    width: 100%;
     display: flex;
     justify-content: center;
-    padding: 0 0.5em;
     align-items: center;
   }
 }
 
 .header-search-input-content {
-  max-width: 25em;
-  border-radius: 16px;
+  border-radius: 1em;
   height: var(--vp-input-min-height);
+  flex:1;
 }
 
-.selection-container {
+.header-container {
+  padding: 0 1em;
+  height: var(--vp-header-height);
   background-color: rgba(33, 35, 35, 0.5);
   color: #ffffffa1;
   display: flex;
@@ -217,15 +191,6 @@ export default {
   .form-icon {
     font-size:0.5em;
     height:2em;
-  }
-
-  & > * {
-    cursor: pointer;
-    transition: color 0.2s ease-out;
-
-    &:hover{
-      color:white;
-    }
   }
 }
 </style>

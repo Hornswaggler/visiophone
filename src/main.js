@@ -2,11 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import Glitch from 'vue-glitch';
 import vueDebounce from 'vue-debounce';
-import movable from "v-movable";
 import ProgressBar from 'vuejs-progress-bar';
 import VueParticles from 'vue-particles';
 import store from './store/';
-import router from '@/router';
+import router from '/src/router';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faPlay,
@@ -28,7 +27,7 @@ import {
   faCaretDown
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import {config} from '@/config';
+import config from '/src/config';
 
 library.add(faPlay);
 library.add(faGem);
@@ -52,9 +51,8 @@ Vue.config.productionTip = false;
 
 Vue.use(VueParticles);
 Vue.use(ProgressBar);
-Vue.use(movable);
 Vue.use(vueDebounce, {
-  defaultTime: config.VUE_APP_API_DEBOUNCE
+  defaultTime: config.VITE_API_DEBOUNCE
 })
 Vue.component('glitch', Glitch);
 Vue.config.productionTip = false;

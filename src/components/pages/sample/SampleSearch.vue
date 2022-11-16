@@ -94,16 +94,16 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import {SORT_TYPES} from '@/store/modules/sample';
-import FormImage from '@/components/form/FormImage';
-import SortableTable from '@/components/form/SortableTable';
-import FormIcon from '@/components/form/FormIcon';
-import SortableTableRow from '@/components/form/SortableTableRow';
-import ScrollingContainer from '@/components/layout/ScrollingContainer';
-import BootlegListIcon from '@/components/form/BootlegListIcon';
-import BootlegGroupIcon from '@/components/form/BootlegGroupIcon';
+import FormImage from '@/components/form/FormImage.vue';
+import SortableTable from '@/components/form/SortableTable.vue';
+import FormIcon from '@/components/form/FormIcon.vue';
+import SortableTableRow from '@/components/form/SortableTableRow.vue';
+import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
+import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
+import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
 import FormSortableTableHeader from '../../form/FormSortableTableHeader.vue';
-import FormSortableTableCell from '@/components/form/FormSortableTableCell';
-import AudioPlayer from '@/components/form/AudioPlayer';
+import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
+import AudioPlayer from '@/components/form/AudioPlayer.vue';
 
 export default {
   name:'SampleSearch',
@@ -246,17 +246,11 @@ export default {
   .sortable-column-row {
     cursor:pointer;
     height: var(--vp-cover-art-hw-expanded);
-    transition: background-color 1s cubic-bezier(0.165, 0.84, 0.44, 1);
-
+    transition: background-color 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
+    background-color: var(--vp-form-button-background-color);
+    
     &:hover {
-      background-color:rgba(253, 33, 216, 0.58);
-    }
-
-    &:nth-child(even) {
-      background-color:rgba(128, 128, 128, 0.209);
-      &:hover {
-        background-color:rgba(253, 33, 216, 0.58);
-      }
+      background-color: var(--vp-side-navigation-background-color);
     }
     
   };

@@ -7,7 +7,7 @@
       />
       <img
         :style="currentImgStyle"
-        :src="require(`@/assets/${currentImgSrc}`)"
+        :src="currentImgSrc"
       >
     </div>
     <div>
@@ -16,6 +16,9 @@
   </div>
 </template>
 <script>
+const walking = new URL('../../assets/Walking_Animation_Visio_Lad.gif', import.meta.url).href
+const idle = new URL('../../assets/boy_idle_anim.gif', import.meta.url).href
+
 export default {
   name:'VisioMan',
   data: () => ({
@@ -23,27 +26,27 @@ export default {
     currentFrame: 3,
     currentFlexStyle: {flexGrow: 0, transition: 'flex-grow 3s linear 0s'},
     currentImgStyle: {transform: 'scaleX(1)'},
-    currentImgSrc: 'Walking_Animation_Visio_Lad.gif',
+    currentImgSrc: walking,
     frames: [
       { 
-        imgSrc: 'Walking_Animation_Visio_Lad.gif',
+        imgSrc: walking,
         flexStyle:{flexGrow: 1, transition: 'flex-grow 3s linear 0s'},
         imgStyle: {transform: 'scaleX(1)'}
       },
       {
-        imgSrc: 'boy_idle_anim.gif',
+        imgSrc: idle,
         flexStyle:{flexGrow: 1, transition: 'flex-grow 3s linear 0s'},
         imgStyle: {transform: 'scaleX(1)'},
         idle: 5000
       },
       { 
-        imgSrc: 'Walking_Animation_Visio_Lad.gif',
+        imgSrc: walking,
         transition: 'flex-grow 3s linear 0s',
         flexStyle:{flexGrow: 0, transition: 'flex-grow 3s linear 0s'},
         imgStyle: {transform: 'scaleX(-1)'},
       },
       {
-        imgSrc: 'boy_idle_anim.gif',
+        imgSrc: idle,
         flexStyle:{flexGrow: 0, transition: 'flex-grow 3s linear 0s'},
         imgStyle: {transform: 'scaleX(-1)'},
         idle: 5000

@@ -1,9 +1,10 @@
-import {axios, securePostJson, securePostForm} from '@/axios.js';
-import {config} from '@/config.js';
+import Vue from 'vue';
+import {axios, securePostJson, securePostForm} from '/src/axios.js';
+import config from '/src/config.js';
 import moment from 'moment';
 
 const DEFAULT_SAMPLE = {
-  _id: '',
+  _id: null,
   fileId: '',
   tag: '',
   description: '',
@@ -50,13 +51,12 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
 
   let imgUrl= newSample.imgUrl || '';
   if(newSample._id && !isNew) {
-    imgUrl=`${config.VUE_APP_COVER_ART_URI}${newSample._id}.png`;
+    imgUrl=`${config.VITE_COVER_ART_URI}${newSample._id}.png`;
   }
 
-  // console.log('Adding the ');
   let clipUri = newSample.clipUri || '';
   if(newSample._id && !isNew) {
-    clipUri = `${config.VUE_APP_CLIP_URI}${newSample._id}.wav.ogg`;
+    clipUri = `${config.VITE_CLIP_URI}${newSample._id}.wav.ogg`;
   }
 
   return {
@@ -166,19 +166,6 @@ export default {
       }
     },
 
-    initFromStorage({commit}, {samples}){
-      const value = Object.keys(samples).map(key => {
-        const sample = samples[key];
-        if((sample.imgUrl || '').startsWith('blob')) {
-          sample.imgUrl = `${config.VUE_APP_COVER_ART_URI}${sample._id}.png`;
-        }
-
-        return makeSampleFromResult({sample});
-      });
-      
-      commit('assignObject', {key: 'samples', value })
-    },
-
     initialize({dispatch}, {page}){
       return dispatch('search', {page});
     },
@@ -194,7 +181,7 @@ export default {
         fd.append('accountId', accountId)
         fd.append('data', JSON.stringify(sampleData));
 
-        const {data} = await securePostForm(axios, fd, {slug: `${config.VUE_APP_API_SAMPLE_UPLOAD_URI}`});
+        const {data} = await securePostForm(axios, fd, {slug: `${config.VITE_API_SAMPLE_UPLOAD_URI}`});
         data.imgUrl = imageSrc;
         return dispatch('addSamples', {samples:[data], index: 1, isNew:true});
     },
@@ -216,10 +203,7 @@ export default {
       
       const value = index > 0 ? {...samples,  ...result } : {...result};
 
-      commit('assignObject', {
-        key: 'samples',
-        value
-      });
+      commit('samples', value);
 
       return initSamples;
     },
@@ -228,7 +212,7 @@ export default {
        const { data:{ samples, nextResultIndex }} = await securePostJson(
         axios,
         JSON.stringify({query, index}),
-        { slug: `${config.VUE_APP_API_SAMPLE_SEARCH_URI}` }
+        { slug: `${config.VITE_API_SAMPLE_SEARCH_URI}` }
       );
 
       commit('assignObject', {key: 'query', value: query});
@@ -241,4 +225,9 @@ export default {
       dispatch('addSamples', {samples, index});
     }
   },
+  mutations:{
+    samples(state, value){
+      Vue.set(state, 'samples', value);
+    }
+  }
 }

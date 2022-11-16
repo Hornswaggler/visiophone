@@ -75,6 +75,7 @@ export default {
   cursor:pointer;
   display:flex;
   justify-content: flex-start;
+  font-family: "VCR_OSD_MONO";
   background-color:rgba(0, 0, 0, 0.355);
 
   transition: all 250ms cubic-bezier(0.19, 1, 0.22, 1);

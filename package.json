@@ -1,65 +1,31 @@
 {
-  "name": "onemorevisiophone",
-  "version": "0.1.0",
-  "private": true,
+  "name": "visiophone",
+  "version": "0.2.0",
   "scripts": {
-    "serve": "vue-cli-service serve --mode dev",
-    "build-local": "vue-cli-service build --dest dist/local --mode dev",
-    "build-dev": "vue-cli-service build --dest dist/dev --mode prod",
-    "lint": "vue-cli-service lint"
+    "dev": "vite --port 8080",
+    "build": "vite build",
+    "preview": "vite preview --port 4173"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "vue-debounce": "4.0.0",
-    "vue": "^2.6.11",
+    "vue": "^2.7.7",
+    "vue-router": "^3.5.4",
     "vue-glitch": "1.0.1",
-    "v-movable": "0.3.2",
+    "vue-debounce": "4.0.0",
     "vuejs-progress-bar": "1.2.7",
     "vue-particles": "1.0.9",
-    "vuex": "3^",
-    "uuid": "8.3.2",
-    "axios": "0.26.0",
-    "vue-router": "3^",
-    "@sendgrid/mail": "7.6.1",
-    "rot-js":"2.2.0",
-    "jsgif": "1.0.2",
-    "@azure/msal-browser": "2.28.1",
     "@fortawesome/fontawesome-svg-core": "6.1.1",
     "@fortawesome/free-solid-svg-icons": "6.1.1",
     "@fortawesome/vue-fontawesome": "2.0.6",
-    "moment": "2.29.4"
+    "vuex": "3.6.2",
+    "moment": "2.29.4",
+    "axios": "0.26.0",
+    "@azure/msal-browser": "2.28.1"
+
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11",
-    "sass-loader": "^10",
-    "node-sass": "^6",
-    "webpack": "^4.36.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {
-      "no-unused-vars": "off"
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "@vitejs/plugin-vue2": "^1.1.2",
+    "terser": "^5.14.2",
+    "vite": "^3.0.2",
+    "sass": "1.56.1"
+  }
 }

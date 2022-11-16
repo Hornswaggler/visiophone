@@ -6,14 +6,19 @@
     <img
       class="xs-logo"
       style="height:2.5em; width: 2.5em"
-      :src="require('@/assets/Animated-Visio-Man.gif')"
+      :src="animatedVisiomanPath"
     >
   </div>
 </template>
 
 <script>
+import animatedVisiomanPath from '@/assets/Animated-Visio-Man.gif'
+
 export default {
-  name:'SiteLogo'
+  name:'SiteLogo',
+  data: () => ({
+    animatedVisiomanPath
+  })
 }
 </script>
 <style lang="scss">
@@ -21,9 +26,7 @@ export default {
   display:flex;
   justify-content: center;
   align-items: center;
-  width:100%;
   height: 3em;
-  padding:0.25em;
 
   .animated-text {
     font-size: 1.4em;

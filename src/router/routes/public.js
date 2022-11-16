@@ -1,11 +1,17 @@
-import LandingPage from '@/components/layout/LandingPage.vue';
-import {LANDING} from '@/router/routeNames';
+import LandingPage from '/src/components/layout/LandingPage.vue';
+import {LANDING, PROVISION_STRIPE_STANDARD_REFRESH} from '/src/router/routeNames';
 
 const routes = [
   {
     path: `/${LANDING}`,
     name: `${LANDING}`,
-    title: 'Visiophone',
+    title: 'VISIOPHONE (╯°□°)╯︵ ┻━┻',
+    component: LandingPage
+  },
+  {
+    path: `/${PROVISION_STRIPE_STANDARD_REFRESH}`,
+    name: `/${PROVISION_STRIPE_STANDARD_REFRESH}`,
+    title: 'VISIOPHONE (╯°□°)╯︵ ┻━┻',
     component: LandingPage
   }
 ];

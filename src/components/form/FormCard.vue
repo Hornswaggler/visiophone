@@ -15,7 +15,7 @@ export default {
 <style lang="scss">
 
 .form-card {
-  background-image: linear-gradient(233deg, #44444454, #22222270);
+  background-image: var(--vp-form-card-background-image);
   display:flex;
   border-radius: 8px;
   flex:1;

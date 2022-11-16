@@ -1,7 +1,6 @@
 .vp-input {
   color: white;
-  width:100%;
-  border: solid 1px rgb(118, 118, 118);
+  border: solid 2px rgb(118, 118, 118);
   min-height: var(--vp-input-min-height);
 }
 
@@ -30,9 +29,10 @@
   color:white;
   background-color:black;
   transition: all 0.25s ease-in-out;
+  background-color:var(--vp-form-button-background-color);
 
   &:hover{
-    background-color:white;
+    background-color:var(--vp-form-button-hover-background-color);
     color:black;
   }
 }

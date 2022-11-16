@@ -65,7 +65,7 @@ export default {
   flex:1;
   display:flex;
   flex-direction: column;
-  background-color: rgba(33, 35, 35, 0.9);
+  background-color: var(--vp-default-background-color);
   overflow-y:auto;
 
   &::-webkit-scrollbar-track

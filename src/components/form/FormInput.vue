@@ -14,7 +14,7 @@
         v-model="internalValue"
         v-debounce="onChangeHandler"
         class="form-input-body"
-        style="height:100%;"
+        style="height:100%;  font-size:0.8em;"
         @focus="onShowPlaceholder(false)"
         @blur="onShowPlaceholder(true)"
       >
@@ -93,7 +93,7 @@ export default {
   font-family: 'VCR_OSD_MONO';
   position:absolute;
   top:0;
-  left:1em;
+  left:0.5em;
   bottom:0;
   right:0;
   display:flex;
@@ -103,9 +103,8 @@ export default {
 }
 
 .form-input {
-  width:100%;
   display:flex;
-  height:100%;
+  flex:1;
 }
 
 .form-input-body {
@@ -118,7 +117,6 @@ export default {
   min-width: 0;
   font-family: 'VCR_OSD_MONO';
   transition: all 0.5s;
-  width: 100%;
 
   &::selection {
     background: rgb(255, 255, 255);

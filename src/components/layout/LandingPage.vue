@@ -1,8 +1,14 @@
 <template>
   <div 
     class="landing-page"
-    :style="{backgroundImage: 'url(\'' + require('@/assets/Visioland.png') + '\')'}"
+    :style="{backgroundImage: `url(${visioloandUrl})`}"
   >
+    <!-- <div 
+      class="signup-button"
+      @click="onSignup"
+    >
+      signup
+    </div> -->
     <div class="gradient-background fill" />
     <visio-man>
       <div
@@ -18,18 +24,23 @@
 <script>
 import VisioMan from '@/components/common/VisioMan.vue';
 
-// TODO technically this should be a statically served asset that requires no vue to run... (SPA)
-
 export default {
   name: 'LandingPage',
+  data:() => ({
+    visioloandUrl: new URL('../../assets/Visioland.png', import.meta.url).href
+  }),
   components: {
     VisioMan
   },
   methods:{
+    onSignup() {
+      
+    },
     async onLogin() {
       try{
         this.$store.commit('app/isLoading', true);
         const valid = await this.$store.dispatch('user/login');
+
         if(valid) {
           this.error = '';
           this.$store.commit('user/authenticated', true);
@@ -67,6 +78,21 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+}
+
+.signup-button {
+  position: fixed;
+  top: 1em;
+  right: 1em;
+  cursor: pointer;
+  z-index: 1;
+  opacity: 0.8;
+  transition: all 150ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  &:hover{
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 
 .login-button {
