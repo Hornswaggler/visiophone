@@ -11,7 +11,7 @@ const loginRequest = {
 
 const _tokenRequest = {
   scopes: ["https://visiophone.wtf/0134f7f5-3b4a-4e3f-b8f7-992875ad538f/Sample.Search"],  // e.g. ["https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read"]
-  forceRefresh: false // Set this to "true" to skip a cached token and go to the server to get a new token
+  forceRefresh: true // Set this to "true" to skip a cached token and go to the server to get a new token
 };
 
 
@@ -23,7 +23,7 @@ export const b2cPolicies = {
   },
   authorities: {
       signUpSignIn: {
-          authority: "https://visiophoneb2c.b2clogin.com/visiophoneb2c.onmicrosoft.com/B2C_1_SIGN_UP_AND_SIGN_IN",
+          authority: "https://visiophoneb2c.b2clogin.com/visiophone.wtf/B2C_1_SIGN_UP_AND_SIGN_IN",
       },
   },
   authorityDomain: "visiophoneb2c.b2clogin.com"
@@ -34,7 +34,7 @@ const msalConfig = {
     clientId: '0134f7f5-3b4a-4e3f-b8f7-992875ad538f',
     authority: b2cPolicies.authorities.signUpSignIn.authority,
     knownAuthorities: [b2cPolicies.authorityDomain],
-    redirectUri: 'http://localhost:8080/'
+    redirectUri: 'https://visiophone.wtf'
     // identityMetadata: config.VITE_IDENTITY_METADATA,
     // authority: config.VITE_AUTH_AUTHORITY,
   //config.VITE_API_REDIRECT_URI,

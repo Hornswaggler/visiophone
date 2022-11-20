@@ -58,8 +58,13 @@ export const securePost = (_axios, contentType, body, {slug}) => {
   return _axios.post("https://visiophone.wtf/api/sample_search", body, {
     headers: {
       ..._axios.defaults.headers,
+      "Access-Control-Allow-Origin": '*',
       "Content-Type": contentType,
-      Authorization: `Bearer ${getIdToken(store)}`
+      Authorization: `Bearer ${getIdToken(store)}`,
+      "x-ms-version": '2021-06-08',
+      'x-ms-date': (new Date()).toGMTString(),
+      Accept: '*/*',
+
     }
   });
 }
