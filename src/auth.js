@@ -34,7 +34,7 @@ const msalConfig = {
     clientId: '0134f7f5-3b4a-4e3f-b8f7-992875ad538f',
     authority: b2cPolicies.authorities.signUpSignIn.authority,
     knownAuthorities: [b2cPolicies.authorityDomain],
-    redirectUri: 'https://visiophone.wtf'
+    redirectUri: 'https://visiophone.wtf/'
     // identityMetadata: config.VITE_IDENTITY_METADATA,
     // authority: config.VITE_AUTH_AUTHORITY,
   //config.VITE_API_REDIRECT_URI,
