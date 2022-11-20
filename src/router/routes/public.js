@@ -13,6 +13,12 @@ const routes = [
     name: `/${PROVISION_STRIPE_STANDARD_REFRESH}`,
     title: 'VISIOPHONE (╯°□°)╯︵ ┻━┻',
     component: LandingPage
+  },
+  {
+    path: `/code*`,
+    name: `code`,
+    title: 'AUTH-VISIOPHONE (╯°□°)╯︵ ┻━┻',
+    component: LandingPage
   }
 ];
 

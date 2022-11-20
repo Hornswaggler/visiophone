@@ -33,6 +33,7 @@ const RESPONSE_TYPES = {
 };
 
 const getIdToken = store => store.getters['user/idToken'];
+console.log(store);
 const accessToken = store => store.getters['user/accessToken'];
 const publicStorageToken = store => store.getters['user/publicStorageToken'];
 
@@ -51,14 +52,18 @@ export const secureGet = (_axios, {responseType = RESPONSE_TYPES.DEFAULT,slug = 
   }
 );
 
-export const securePost = (_axios, contentType, body, {slug}) => 
-  _axios.post(slug, body, {
+export const securePost = (_axios, contentType, body, {slug}) => {
+  console.log('ACCESS TOKEN');
+  const result = getIdToken(store);
+  return _axios.post("https://visiophone.wtf/api/sample_search", body, {
     headers: {
       ..._axios.defaults.headers,
       "Content-Type": contentType,
       Authorization: `Bearer ${getIdToken(store)}`
     }
   });
+}
+ 
 
 export const secureGetJson = (_axios, {slug = '', uri = ''}) => secureGet(_axios, {responseType: RESPONSE_TYPES.JSON, slug, uri});
 export const secureGetBlob = (_axios, {slug = '', uri = ''}) => secureGet(_axios, {responseType: RESPONSE_TYPES.BLOB, slug, uri, token: accessToken(store)});

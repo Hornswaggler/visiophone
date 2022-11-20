@@ -32,22 +32,25 @@ export default {
   components: {
     VisioMan
   },
+  mounted() {
+    console.log('Route', this.$route.params);
+  },
   methods:{
     onSignup() {
       
     },
     async onLogin() {
       try{
-        this.$store.commit('app/isLoading', true);
-        const valid = await this.$store.dispatch('user/login');
+        // this.$store.commit('app/isLoading', true);
+        // const valid = await this.$store. dispatch('user/login');
 
-        if(valid) {
-          this.error = '';
-          this.$store.commit('user/authenticated', true);
-          this.$router.push('/sample');
-        } else{
-          this.error = 'Supplied credentials were incorrect.';
-        }
+        // if(valid) {
+        //   this.error = '';
+        //   this.$store.commit('user/authenticated', true);
+        //   this.$router.push('/sample');
+        // } else{
+        //   this.error = 'Supplied credentials were incorrect.';
+        // }
       } catch(e) {
         //consume console.error('Login failed', e);
       } finally {

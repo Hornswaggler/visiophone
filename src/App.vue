@@ -49,11 +49,11 @@ export default {
     await axiosInit();
     try{
       // TODO Standardize / templatize route names "magic number"
-      const authResult = await this.$store.dispatch('user/initialize');
+      // const authResult = await this.$store.dispatch('user/initialize');
 
-      if(authResult) {
-        this.$router.push(this.targetUrl || DEFAULT_HOME);
-      }
+      // if(authResult) {
+      //   this.$router.push(this.targetUrl || DEFAULT_HOME);
+      // }
     } catch(err){
       //consume console.error('Error occurred in auth check', err);
     }
