@@ -7,7 +7,7 @@ import { initializeAuth, logon, logOff, client } from '/src/auth';
 //TODO: Localstorage access should be in persistence layer!
 export const makeNewUser = () => ({
   _id: localStorage._id || null,
-  authenticated: true,
+  authenticated: false,
   publicStorageToken: '',
   apiToken:'',
   avatarId: localStorage.avatarId || '',
@@ -82,6 +82,7 @@ export default {
     handleUserLogon({commit},{token}){
       console.log('Handling User Login');
       commit('apiToken', token);
+      commit('authenticated', true);
 
     },
 
@@ -151,6 +152,7 @@ export default {
 
   mutations: {
     authenticated(state, authenticated) {
+      console.log('Committing auth');
       state.authenticated = authenticated;
     },
 

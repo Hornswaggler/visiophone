@@ -52,10 +52,8 @@ export const secureGet = (_axios, {responseType = RESPONSE_TYPES.DEFAULT,slug = 
   }
 );
 
-export const securePost = (_axios, contentType, body, {slug}) => {
-  console.log('ACCESS TOKEN');
-  const result = getIdToken(store);
-  return _axios.post("https://visiophone.wtf/api/sample_search", body, {
+export const securePost = (_axios, contentType, body, {slug}) => 
+  _axios.post(slug, body, {
     headers: {
       ..._axios.defaults.headers,
       "Access-Control-Allow-Origin": '*',
@@ -67,7 +65,7 @@ export const securePost = (_axios, contentType, body, {slug}) => {
 
     }
   });
-}
+
  
 
 export const secureGetJson = (_axios, {slug = '', uri = ''}) => secureGet(_axios, {responseType: RESPONSE_TYPES.JSON, slug, uri});

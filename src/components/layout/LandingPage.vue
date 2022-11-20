@@ -22,15 +22,25 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import VisioMan from '@/components/common/VisioMan.vue';
 
 export default {
   name: 'LandingPage',
+  components: {
+    VisioMan
+  },
   data:() => ({
     visioloandUrl: new URL('../../assets/Visioland.png', import.meta.url).href
   }),
-  components: {
-    VisioMan
+  computed:{
+    ...mapState('user', ['authenticated'])
+  },
+  watch:{
+    authenticated(newAuthenticated){
+      console.log('newAuthenticated', newAuthenticated);
+      if(newAuthenticated) this.$router.push('/sample');
+    }
   },
   mounted() {
     console.log('Route', this.$route.params);
@@ -60,7 +70,6 @@ export default {
     async onLogout(){
       await this.$store.dispatch('user/logout');
       this.$store.commit('user/authenticated', false);
-
     },
     navTradeSamples () {
       this.$router.push('/upload');
