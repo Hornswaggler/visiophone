@@ -33,7 +33,7 @@ const msalConfig = {
     identityMetadata:'https://visiophoneb2c.b2clogin.com/visiophone.wtf/v2.0/.well-known/openid-configuration?p=B2C_1_SIGN_UP_AND_SIGN_IN',
     authority: b2cPolicies.authorities.signUpSignIn.authority,
     knownAuthorities: [b2cPolicies.authorityDomain],
-    redirectUri: 'http://localhost:8080/'
+    redirectUri: 'https://visiophone.wtf/'
   },
   cache: {
     cacheLocation: "sessionStorage",
