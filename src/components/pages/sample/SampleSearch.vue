@@ -149,8 +149,6 @@ export default {
   },
 
   async mounted() {
-    console.log('route', this.$route);
-
     this.$store.commit('app/setSideNavigationIndex', 0);
     if(!this.isLoaded) {
       try {

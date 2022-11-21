@@ -33,7 +33,6 @@ const RESPONSE_TYPES = {
 };
 
 const getIdToken = store => store.getters['user/idToken'];
-console.log(store);
 const accessToken = store => store.getters['user/accessToken'];
 const publicStorageToken = store => store.getters['user/publicStorageToken'];
 
@@ -65,8 +64,6 @@ export const securePost = (_axios, contentType, body, {slug}) =>
 
     }
   });
-
- 
 
 export const secureGetJson = (_axios, {slug = '', uri = ''}) => secureGet(_axios, {responseType: RESPONSE_TYPES.JSON, slug, uri});
 export const secureGetBlob = (_axios, {slug = '', uri = ''}) => secureGet(_axios, {responseType: RESPONSE_TYPES.BLOB, slug, uri, token: accessToken(store)});

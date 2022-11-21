@@ -38,12 +38,8 @@ export default {
   },
   watch:{
     authenticated(newAuthenticated){
-      console.log('newAuthenticated', newAuthenticated);
       if(newAuthenticated) this.$router.push('/sample');
     }
-  },
-  mounted() {
-    console.log('Route', this.$route.params);
   },
   methods:{
     onSignup() {

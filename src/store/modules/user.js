@@ -80,50 +80,10 @@ export default {
     },
 
     handleUserLogon({commit},{token}){
-      console.log('Handling User Login');
       commit('apiToken', token);
       commit('authenticated', true);
 
     },
-
-    // async initialize(context) {
-    //   const { state:{_id}, commit, dispatch } = context;
-    //   try {
-    //     const {apiToken} = await initializeAuth();
-
-    //     console.log('Current Token', apiToken);
-
-    //     if(apiToken) {
-    //       commit('authenticated', true);
-    //       commit('accountId', apiToken.account.localAccountId);
-    //       // commit('publicStorageToken', publicStorageToken);
-    //       commit('apiToken', apiToken);
-
-    //       if(!_id) {
-    //         //TODO: refactor to its own method
-    //         const { avatarId, _id, customUserName, samples, forSale, owned} = await dispatch('getUserProfile');
-
-    //         commit('avatarId', avatarId);
-    //         commit('customUserName', customUserName);
-    //         commit('_id', _id);
-    //         commit('forSale', forSale);
-    //         commit('owned', owned)
-    //         commit('samples', samples);
-    //       }
-    //     }
-
-    //     return _id != null &&_id != "";
-    //   } catch (e) {
-    //     console.error('Login failed', e);
-    //   }
-    //   return false;
-    // },
-
-    // async login({ dispatch }) {
-    //   const result = await logon();
-    //   await dispatch('initialize');
-    //   return result;
-    // },
 
     async logout({commit }) {
       try{
@@ -152,7 +112,6 @@ export default {
 
   mutations: {
     authenticated(state, authenticated) {
-      console.log('Committing auth');
       state.authenticated = authenticated;
     },
 
