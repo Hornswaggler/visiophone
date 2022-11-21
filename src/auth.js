@@ -4,42 +4,36 @@ import store from '/src/store/';
 
 const API_SCOPES = ["openid", "https://visiophone.wtf/0134f7f5-3b4a-4e3f-b8f7-992875ad538f/Sample.Search"];
 
-
 const loginRequest = {
   scopes: ["openid", "https://visiophone.wtf/0134f7f5-3b4a-4e3f-b8f7-992875ad538f/Sample.Search"],
 };
 
 const _tokenRequest = {
-  scopes: ["https://visiophone.wtf/0134f7f5-3b4a-4e3f-b8f7-992875ad538f/Sample.Search"],  // e.g. ["https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read"]
+  scopes: ["openid", "https://visiophone.wtf/0134f7f5-3b4a-4e3f-b8f7-992875ad538f/Sample.Search"],  // e.g. ["https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read"]
   forceRefresh: true // Set this to "true" to skip a cached token and go to the server to get a new token
 };
 
-
-
+// const POLICY_SIGN_UP_SIGN_IN = 'B2C_1_SIGN_UP_AND_SIGN_IN';
 
 export const b2cPolicies = {
   names: {
-      signUpSignIn: "B2C_1_SIGN_UP_AND_SIGN_IN",
+      signUpSignIn: config.VITE_POLICY_SIGN_UP_SIGN_IN,
   },
   authorities: {
       signUpSignIn: {
-          authority: "https://visiophoneb2c.b2clogin.com/visiophone.wtf/B2C_1_SIGN_UP_AND_SIGN_IN",
+          authority: 'https://visiophoneb2c.b2clogin.com/visiophone.wtf/B2C_1_SIGN_UP_AND_SIGN_IN',
       },
   },
-  authorityDomain: "visiophoneb2c.b2clogin.com"
+  authorityDomain: "visiophoneb2c.b2clogin.com/v2.0/"
 }
 
 const msalConfig = {
   auth: {
     clientId: '0134f7f5-3b4a-4e3f-b8f7-992875ad538f',
+    identityMetadata:'https://visiophoneb2c.b2clogin.com/visiophone.wtf/v2.0/.well-known/openid-configuration?p=B2C_1_SIGN_UP_AND_SIGN_IN',
     authority: b2cPolicies.authorities.signUpSignIn.authority,
     knownAuthorities: [b2cPolicies.authorityDomain],
-    redirectUri: 'https://visiophone.wtf/'
-    // identityMetadata: config.VITE_IDENTITY_METADATA,
-    // authority: config.VITE_AUTH_AUTHORITY,
-  //config.VITE_API_REDIRECT_URI,
-    // identityMetadata: config.VITE_IDENTITY_METADATA,
-    // issuer: config.VITE_IDENTITY_ISSUER
+    redirectUri: 'http://localhost:8080/'
   },
   cache: {
     cacheLocation: "sessionStorage",
@@ -70,6 +64,8 @@ const msalConfig = {
   }
 };
 
+console.log('MSAL:', msalConfig);
+
 async function handleResponse(response) {
 
   /**
@@ -87,7 +83,7 @@ async function handleResponse(response) {
     tokenRequest['account'] = client.getAccountByHomeId(response.account.homeAccountId);
     const tokenResponse = await client.acquireTokenSilent(tokenRequest);
     console.log('Token:', tokenResponse);
-    store.dispatch('user/handleUserLogon', {token: tokenResponse.accessToken})
+    store.dispatch('user/handleUserLogon', {token: tokenResponse.idToken})
 
     // });
   } else {

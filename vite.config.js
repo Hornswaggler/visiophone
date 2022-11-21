@@ -1,6 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig, loadEnv, splitVendorChunkPlugin } from 'vite'
 import vue2 from '@vitejs/plugin-vue2'
 
 // https://vitejs.dev/config/
@@ -13,7 +13,7 @@ export default defineConfig(async ({command, mode}) => {
     },
     plugins: [
       vue2(),
-
+      splitVendorChunkPlugin()
     ],
     resolve: {
       alias: {

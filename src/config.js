@@ -16,6 +16,9 @@ const properties = [
   'VITE_IDENTITY_METADATA',
   'VITE_IDENTITY_ISSUER',
   'VITE_API_PROVISION_STRIPE_STANDARD',
+  'VITE_POLICY_SIGN_UP_SIGN_IN',
+  'VITE_B2C_DOMAIN',
+  'VITE_APP_DOMAIN'
 ];
 
 const env = import.meta.env;

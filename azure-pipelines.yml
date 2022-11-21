@@ -23,7 +23,13 @@ stages:
         call yarn build
       displayName: 'yarn install and build'
       workingDirectory: '$(Build.SourcesDirectory)/'
-    
+      
+    - script: |
+        call yarn install
+        call yarn build
+      displayName: 'yarn install and build b2b templates'
+      workingDirectory: '$(Build.SourcesDirectory)/b2b-templates/'
+
     - task: CopyFiles@2
       displayName: 'Copy scripts'
       inputs:
