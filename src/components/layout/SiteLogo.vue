@@ -37,7 +37,6 @@ export default {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-family: Inter;
     font-weight: 800;
     letter-spacing: 0em;
 
