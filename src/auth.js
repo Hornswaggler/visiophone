@@ -5,6 +5,7 @@ import config from '/src/config';
 
 async function handleResponse(response) {
   if (response !== null) {
+    console.log(_msal);
     const tokenRequest = {..._tokenRequest};
     tokenRequest['account'] = client.getAccountByHomeId(response.account.homeAccountId);
     const tokenResponse = await client.acquireTokenSilent(tokenRequest);
