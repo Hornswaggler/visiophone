@@ -1,1 +1,2 @@
-import * as styles from '../src/styles/main.scss';
+
+import * as styles from '../src/styles/templates.scss';

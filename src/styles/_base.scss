@@ -11,7 +11,7 @@ html{
   background-color: $black;
   height:100%;
   // font-family: 'Helvetica', 'Arial', sans-serif;
-  font-family: Inter;
+  font-family: 'VCR_OSD_MONO';
   font-size: 16px;
   font-weight: 300;
   $cols: 10;
@@ -97,9 +97,6 @@ html{
 
 
 
-
-
-
   body {
     margin:0;
     height:100%;
@@ -111,7 +108,7 @@ html{
     width: 100vw;
     position: relative;
     overflow: hidden;
-    font-family: Inter;
+    font-family: 'VCR_OSD_MONO';
     font-weight: 300;
     textarea, input, select {
       border:0;
