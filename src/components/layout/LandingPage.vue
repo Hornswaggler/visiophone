@@ -1,23 +1,7 @@
 <template>
   <div 
     class="landing-page"
-    :style="{backgroundImage: `url(${visioloandUrl})`}"
   >
-    <!-- <div 
-      class="signup-button"
-      @click="onSignup"
-    >
-      signup
-    </div> -->
-    <div class="gradient-background fill" />
-    <visio-man>
-      <div
-        class="vp-button p0 login-button"
-        @click="onLogin"
-      >
-        LOGIN
-      </div>
-    </visio-man>
   </div>
 </template>
 
@@ -86,6 +70,7 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+  opacity:0.6;
 }
 
 .signup-button {
