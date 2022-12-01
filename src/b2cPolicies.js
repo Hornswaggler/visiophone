@@ -32,7 +32,7 @@ export const msalConfig = {
     // knownAuthorities: [VITE_AUTH_SIGN_UP_SIGN_IN_AUTHORITY_DOMAIN],
     knownAuthorities: ['visiophoneb2c.b2clogin.com/v2.0/'],
     
-    redirectUri: 'http://localhost:8080/'
+    redirectUri: VITE_AUTH_SIGN_UP_SIGN_IN_REDIRECT_URI
   },
   cache: {
     cacheLocation: "sessionStorage",
