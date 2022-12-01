@@ -20,13 +20,19 @@ export const tokenRequest = {
   forceRefresh: true // Set this to "true" to skip a cached token and go to the server to get a new token
 };
 
+//TODO: Fix this
 export const msalConfig = {
   auth: {
     clientId: VITE_AUTH_API_CLIENT_ID,
-    identityMetadata:VITE_AUTH_SIGN_UP_SIGN_IN_IDENTITY_METADATA_URL,
-    authority: VITE_AUTH_SIGN_UP_SIGN_IN_AUTHORITY,
-    knownAuthorities: [VITE_AUTH_SIGN_UP_SIGN_IN_AUTHORITY_DOMAIN],
-    redirectUri: VITE_AUTH_SIGN_UP_SIGN_IN_REDIRECT_URI
+    // clientId: '0134f7f5-3b4a-4e3f-b8f7-992875ad538f',
+    // identityMetadata:VITE_AUTH_SIGN_UP_SIGN_IN_IDENTITY_METADATA_URL,
+    identityMetadata: 'https://visiophoneb2c.b2clogin.com/visiophone.wtf/v2.0/.well-known/openid-configuration?p=B2C_1_SIGN_IN',
+    // authority: VITE_AUTH_SIGN_UP_SIGN_IN_AUTHORITY,
+    authority: 'https://visiophoneb2c.b2clogin.com/visiophone.wtf/B2C_1_SIGN_IN',
+    // knownAuthorities: [VITE_AUTH_SIGN_UP_SIGN_IN_AUTHORITY_DOMAIN],
+    knownAuthorities: ['visiophoneb2c.b2clogin.com/v2.0/'],
+    
+    redirectUri: 'http://localhost:8080/'
   },
   cache: {
     cacheLocation: "sessionStorage",

@@ -5,13 +5,6 @@
     <!-- TODO fix this  -->
     <div class="vp-form">
       <div class="vp-form-row">
-        <form-input
-          title="user name"
-          :initial-value="customUserName"
-          :on-changed="onUserNameChanged"
-        />
-      </div>
-      <div class="vp-form-row">
         <upload-file
           title="profile pic"
           :accept="IMAGE_MIME_TYPE"
@@ -75,7 +68,7 @@
 </template>
 <script>
 import Vue from 'vue';
-import { mapGetters, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import FormInputBase from '../../form/FormInputBase.vue';
 import UploadFile from '@/components/form/UploadFile.vue';
 import ImageEditor from '@/components/form/ImageEditor.vue';
@@ -94,23 +87,16 @@ export default {
     initialized: false,
     resampledBlob: {},
     imageBlob: {},
-    internalUserName:'',
     imageSrc: '',
     profileImage:{},
     IMAGE_MIME_TYPE
 
   }),
   computed:{
-    ...mapState('user',['customUserName', 'isAuthorizedSeller']),
-    ...mapGetters('user', ['profileImg', 'accountId']),
-
+    ...mapState('user',['customUserName', 'isAuthorizedSeller', 'profileImg']),
   },
   mounted(){
-    this.$store.commit('app/setSideNavigationIndex', 0);
-    this.internalUserName = this.customUserName;
-    if(this.profileImage) {
-      this.imageSrc = this.profileImg;
-    }
+    this.imageSrc = this.profileImg;
     this.$nextTick(() => {
       this.initialized = true;
     });
@@ -127,19 +113,13 @@ export default {
     onImageChanged(newImage) {
       Vue.set(this, 'resampledBlob', newImage);
     },
-
-    onUserNameChanged(userName){
-      this.internalUserName = userName;
-    },
-
+    
     async onSaveChanges() {
       this.$store.commit('app/isLoading', true);
 
       const result = await this.$store.dispatch(
         'user/uploadUserProfile', {
           blob: this.resampledBlob,
-          accountId: this.accountId,
-          customUserName: this.internalUserName
         }
       );
 

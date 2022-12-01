@@ -11,7 +11,7 @@ export default {
   computed:{
     ...mapState('user', ['stripeId'])
   },
-  mounted(){
+  mounted() {
     const {stripeId} = this;
     securePostJson(axios, {stripeId}, {slug: 'provision_stripe_standard_return'});
   }

@@ -1,5 +1,6 @@
 import LandingPage from '/src/components/layout/LandingPage.vue';
-import {LANDING, PROVISION_STRIPE_STANDARD_REFRESH} from '/src/router/routeNames';
+import StripeRedirect from '/src/components/layout/StripeRedirect.vue';
+import {LANDING} from '/src/router/routeNames';
 
 const routes = [
   {
@@ -9,15 +10,17 @@ const routes = [
     component: LandingPage
   },
   {
-    path: `/${PROVISION_STRIPE_STANDARD_REFRESH}`,
-    name: `/${PROVISION_STRIPE_STANDARD_REFRESH}`,
+    path: '/stripe-redirect',
+    name: 'Stripe Redirect',
     title: 'VISIOPHONE (╯°□°)╯︵ ┻━┻',
-    component: LandingPage
+    component: StripeRedirect
+
   },
+
   {
-    path: `/code*`,
-    name: `code`,
-    title: 'AUTH-VISIOPHONE (╯°□°)╯︵ ┻━┻',
+    path: '/',
+    name: `${LANDING}`,
+    title: 'VISIOPHONE (╯°□°)╯︵ ┻━┻',
     component: LandingPage
   }
 ];

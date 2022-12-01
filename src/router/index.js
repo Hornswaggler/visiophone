@@ -6,12 +6,7 @@ import routes from '/src/router/routes/index.js'
 Vue.use(Router);
 
 const router = new Router({
-  routes: [
-    {
-      path: '/',
-      redirect: '/landingPage'
-    }
-  ].concat(routes)
+  routes
 });
 
 router.beforeEach((to, from, next) => {
@@ -19,7 +14,7 @@ router.beforeEach((to, from, next) => {
   const onlyLoggedOut = to.matched.some(record => record.meta.onlyLoggedOut);
   const isPublic = to.matched.some(record => record.meta.public);
 
-  if (!isPublic && !authenticated && from.name !== to.name) {
+  if (!isPublic && !authenticated) {
     store.commit('app/setTargetUrl', to.path)
     return next({
       path: '/landingPage',

@@ -25,27 +25,12 @@ export default {
       if(newAuthenticated) this.$router.push('/sample');
     }
   },
+  async mounted(){
+    this.$store.dispatch('user/logon')
+  },
   methods:{
     onSignup() {
       
-    },
-    async onLogin() {
-      try{
-        // this.$store.commit('app/isLoading', true);
-        // const valid = await this.$store. dispatch('user/login');
-
-        // if(valid) {
-        //   this.error = '';
-        //   this.$store.commit('user/authenticated', true);
-        //   this.$router.push('/sample');
-        // } else{
-        //   this.error = 'Supplied credentials were incorrect.';
-        // }
-      } catch(e) {
-        //consume console.error('Login failed', e);
-      } finally {
-        this.$store.commit('app/isLoading', false);
-      }
     },
     async onLogout(){
       await this.$store.dispatch('user/logout');
@@ -59,19 +44,6 @@ export default {
 </script>
 
 <style lang="scss">
-.landing-page {
-  position:relative;
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  opacity:0.6;
-}
 
 .signup-button {
   position: fixed;

@@ -96,8 +96,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters('user', ['profileImg']),
-    ...mapState('user', ['customUserName']),
+    ...mapState('user', ['customUserName', 'profileImg']),
     ...mapState('sample', ['sortType']),
     isGroupTypeSelected(){
       return this.sortType === SORT_TYPES.GROUP;
