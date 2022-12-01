@@ -1,6 +1,5 @@
 const properties = [
   'VITE_BASE_URL',
-  'VITE_READ_SCOPE',
   'VITE_API_BASE_URL',
   'VITE_AUTH_CLIENT_ID',
   'VITE_AUTH_AUTHORITY',
@@ -45,10 +44,17 @@ export const PERSISTENT_MUTATIONS = [
   'sample/samples'
 ]
 
+export const STRIPE_ACCOUNT_STATUS = {
+  "NO_ACCOUNT": "NO_ACCOUNT" ,
+  "PENDING": "PENDING",
+  "APPROVED": "APPROVED"
+};
+
 export default {
   ...config,
   AUDIO_MIME_TYPE,
   IMAGE_MIME_TYPE,
-  PERSISTENT_MUTATIONS
+  PERSISTENT_MUTATIONS,
+  STRIPE_ACCOUNT_STATUS
 };
 

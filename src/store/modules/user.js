@@ -1,30 +1,55 @@
 import Vue from 'vue';
-import {securePostForm, securePostJson, axios } from '/src/axios.js';
+import {securePostForm, securePostJson, secureGet, axios } from '/src/axios.js';
 import config from '/src/config.js';
 import {makeSampleFromResult} from './sample';
-import { initializeAuth, logon, logOff, client } from '/src/auth';
+import auth from '/src/auth';
+
+const {STRIPE_ACCOUNT_STATUS} = config;
 
 //TODO: Localstorage access should be in persistence layer!
 export const makeNewUser = () => ({
   _id: localStorage._id || null,
   authenticated: false,
+
+
+
+
   publicStorageToken: '',
   apiToken:'',
+
+
+
   avatarId: localStorage.avatarId || '',
+
+
+
+
+  profileImg: '',
   customUserName: '',
   samples: [],
   forSale: [],
   owned: [],
-  isAuthorizedSeller: false,
-  stripeId: ''
+
+
+  
+  isStripeApproved: false,
+  stripeId: '',
+  stripeUri: ''
+
 });
+
 
 export default {
   namespaced: true,
   state: () => makeNewUser(),
   actions: {
-    //TODO This is no longer used...
-    initFromStorage( context, mutation, callback) {
+    async logon({dispatch}) {
+      const {homeAccountId} = await auth.logon();
+      dispatch('handleUserLogon', await auth.getAccessToken(homeAccountId))
+    },
+
+    refreshProfileImg({state:{avatarId}, commit}){
+      commit('profileImg', `${config.VITE_AVATAR_URI}${avatarId}.png?${new Date().getTime()}`);
     },
 
     async purchaseSample({ commit, state:{samples, accountId} }, {sample}) {
@@ -42,52 +67,42 @@ export default {
       commit('samples', [...samples, makeSampleFromResult({sample})]);
     },
 
-    async uploadUserProfile({commit, state:{avatarId, _id, accountId}}, {blob, customUserName}) {
+    async uploadUserProfile({commit, state:{avatarId, _id, accountId}}, {blob}) {
       const fd = new FormData();
       fd.append('file',blob,'fakename.png' );
-      fd.append('data', JSON.stringify({ accountId, avatarId , _id, customUserName }) );
-
       const { data } = await securePostForm(axios, fd, {slug: `set_user_profile`});
-
-      //TODO: refactor to "Make new"
-      commit('avatarId', data.avatarId);
       commit('_id', data._id);
-      commit('customUserName', customUserName);
     },
 
     async upgradeToSellerAccount({commit}) {
-      const result  = await securePostJson(axios, {}, { slug: config.VITE_API_PROVISION_STRIPE_STANDARD });
-      const {data:{url, id:stripeId}} = result;
-
+      const result  = await secureGet(axios, { slug: config.VITE_API_PROVISION_STRIPE_STANDARD });
+      const {data:{stripeUri, stripeId}} = result;
       
       commit('stripeId', stripeId);
-      window.location.href = url;
+      window.location.href = stripeUri;
     },
 
-    async getUserProfile({ state }) {
-      const {data} = await securePostJson(axios, { accountId: state.accountId }, { slug: 'get_user_profile' });
+    async getUserProfile({ state, commit }) {
+      const {data:{isStripeApproved, stripeId, stripeUri}} = await securePostJson(axios, { accountId: state.accountId }, { slug: 'get_user_profile' });
 
-      const forSale = (data.forSale || []).map(sample => sample.sampleId);
-      const owned = (data.owned || []).map(sample => sample.sampleId);
-      const samples = (data.samples || []).map(sample => makeSampleFromResult({sample}));
-
-      return {
-        ...data,
-        samples,
-        forSale,
-        owned
-      };
+      commit('isStripeApproved', isStripeApproved);
+      commit('stripeId', stripeId);
+      commit('stripeUri', stripeUri);
     },
 
-    handleUserLogon({commit},{token}){
-      commit('apiToken', token);
+    async handleUserLogon({commit, dispatch},tokenResponse){
+      commit('apiToken', tokenResponse.idToken);
+      commit('customUserName', tokenResponse.account.name);
+      commit('avatarId', tokenResponse.idTokenClaims.oid);
       commit('authenticated', true);
 
+      await dispatch('refreshProfileImg');
+      await dispatch('getUserProfile');
     },
 
     async logout({commit }) {
       try{
-        logOff();
+        auth.logOff();
         commit('authenticated', false);
         //TODO: Clear cache
 
@@ -105,9 +120,20 @@ export default {
     publicStorageToken: ({publicStorageToken:{accessToken = ''}}) => accessToken,
     accountId:({apiToken:{ account:{localAccountId = ''}}}) => localAccountId,
     userName: ({apiToken:{account:{name = ''}}}) => name,
-    profileImg: ({avatarId}) => `${config.VITE_AVATAR_URI}${avatarId}.png`,
     getForSale: ({samples, forSale}) => samples.filter(({_id}) => forSale.includes(_id)),
     getOwned: ({samples, owned}) => samples.filter(({_id}) => owned.includes(_id)),
+    stripeAccountStatus: ({stripeId, isStripeApproved}) => {
+      if((stripeId || '').trim() === '') {
+        return STRIPE_ACCOUNT_STATUS.NO_ACCOUNT;
+      } else if(!isStripeApproved) {
+
+
+        return STRIPE_ACCOUNT_STATUS.PENDING;
+      } else if(isStripeApproved) {
+        return STRIPE_ACCOUNT_STATUS.APPROVED;
+      }
+      return STRIPE_ACCOUNT_STATUS.NO_ACCOUNT;
+    }
   },
 
   mutations: {
@@ -119,12 +145,20 @@ export default {
       state.stripeId = stripeId
     },
 
+    stripeUri(state, stripeUri){
+      state.stripeUri = stripeUri;
+    },
+
     accountId(state, accountId) {
       state.accountId = accountId;
     },
     
     avatarId(state, avatarId) {
       state.avatarId = avatarId;
+    },
+
+    profileImg(state, profileImg){
+      state.profileImg = profileImg;
     },
 
     samples(state, samples){
@@ -148,6 +182,10 @@ export default {
 
     _id(state, _id) {
       state._id = _id;
+    },
+
+    isStripeApproved(state, isStripeApproved) {
+      state.isStripeApproved = isStripeApproved;
     },
 
     customUserName(state, customUserName){

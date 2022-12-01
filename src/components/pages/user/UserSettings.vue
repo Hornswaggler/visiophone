@@ -4,13 +4,15 @@
   >
     <!-- TODO fix this  -->
     <div class="vp-form">
+
       <div class="vp-form-row">
-        <form-input
-          title="user name"
-          :initial-value="customUserName"
-          :on-changed="onUserNameChanged"
+        <image-editor
+          class="flex-3"
+          :img-src="imageSrc"
+          :change-handler="onImageChanged"
         />
       </div>
+
       <div class="vp-form-row">
         <upload-file
           title="profile pic"
@@ -19,8 +21,9 @@
           :change-handler="onImageSelected"
         />
       </div>
+
       <div 
-        v-if="!isAuthorizedSeller"
+        v-if="stripeAccountStatus === 'NO_ACCOUNT'"
         class="vp-form-row"
       >
         <form-input-base>
@@ -50,6 +53,50 @@
           </template>
         </form-input-base>
       </div>
+
+      <div 
+        v-if="stripeAccountStatus === 'PENDING'"
+        class="vp-form-row"
+      >
+        <form-input-base>
+          <template v-slot:title>
+            Account Type
+          </template>
+          <template
+            v-slot:input
+            style="height:initial;" 
+          >
+            <div style="width:100%;">
+              <span style="padding:1em;text-align:left;font-size:0.8em;display:inline-block;">
+                Seller account access is pending authentication with Stripe, please sign into stripe and (maybe we should include a link to that? :|)
+              </span>
+            </div>
+          </template>
+        </form-input-base>
+      </div>
+
+      <div 
+        v-if="stripeAccountStatus === 'APPROVED'"
+        class="vp-form-row"
+      >
+        <form-input-base>
+          <template v-slot:title>
+            Account Type
+          </template>
+          <template
+            v-slot:input
+            style="height:initial;" 
+          >
+            <div style="width:100%;">
+              <span style="padding:1em;text-align:left;font-size:0.8em;display:inline-block;">
+                You have a <span style="color: var(--vp-highlight-color); display: inline-block;">seller</span> 
+                account. With this account, you can upload your samples for sale to Visiophone users. 
+              </span>
+            </div>
+          </template>
+        </form-input-base>
+      </div>
+
       <div class="flex-1" />
       <div class="vp-form-row flex"> 
         <div class="flex-1" />
@@ -62,20 +109,11 @@
         </button>
       </div>
     </div>
-    <div class="vp-form">
-      <div class="vp-form-row">
-        <image-editor
-          class="flex-3"
-          :img-src="imageSrc"
-          :change-handler="onImageChanged"
-        />
-      </div>
-    </div>
   </div>
 </template>
 <script>
 import Vue from 'vue';
-import { mapGetters, mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import FormInputBase from '../../form/FormInputBase.vue';
 import UploadFile from '@/components/form/UploadFile.vue';
 import ImageEditor from '@/components/form/ImageEditor.vue';
@@ -94,24 +132,18 @@ export default {
     initialized: false,
     resampledBlob: {},
     imageBlob: {},
-    internalUserName:'',
     imageSrc: '',
     profileImage:{},
     IMAGE_MIME_TYPE
 
   }),
-  computed:{
-    ...mapState('user',['customUserName', 'isAuthorizedSeller']),
-    ...mapGetters('user', ['profileImg', 'accountId']),
-
+  computed: {
+    ...mapState('user',['customUserName', 'isStripeApproved', 'profileImg']),
+    ...mapGetters('user', ['stripeAccountStatus'])
   },
-  mounted(){
-    this.$store.commit('app/setSideNavigationIndex', 0);
-    this.internalUserName = this.customUserName;
-    if(this.profileImage) {
-      this.imageSrc = this.profileImg;
-    }
-    this.$nextTick(() => {
+  mounted() {
+    this.imageSrc = this.profileImg;
+    this.$nextTick( async () => {
       this.initialized = true;
     });
   },
@@ -127,19 +159,13 @@ export default {
     onImageChanged(newImage) {
       Vue.set(this, 'resampledBlob', newImage);
     },
-
-    onUserNameChanged(userName){
-      this.internalUserName = userName;
-    },
-
+    
     async onSaveChanges() {
       this.$store.commit('app/isLoading', true);
 
       const result = await this.$store.dispatch(
         'user/uploadUserProfile', {
           blob: this.resampledBlob,
-          accountId: this.accountId,
-          customUserName: this.internalUserName
         }
       );
 

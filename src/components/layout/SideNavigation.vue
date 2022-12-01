@@ -16,7 +16,7 @@
       ><site-logo />
       </span>
       <div
-        v-for="option in sideNavigationMenuItems"
+        v-for="option in sideNavigationItemsForUser"
         :key="option._id"
         class="side-naviagation-option"
         :class="{ selected: sideNavigationIndex === option.id }"
@@ -52,7 +52,11 @@ export default {
   },
   computed:{
     ...mapState('app',['sideNavigationMenuItems','sideNavigationIndex', 'showMenu']),
-    ...mapGetters('user',['userName'])
+    ...mapGetters('user',['stripeAccountStatus']),
+    sideNavigationItemsForUser(){
+      return this.sideNavigationMenuItems
+        .filter(m =>  m.accountStatus.includes(this.stripeAccountStatus));
+    }
   },
   methods:{
     onBackgroundClicked() {

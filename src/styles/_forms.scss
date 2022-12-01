@@ -36,3 +36,18 @@
     color:black;
   }
 }
+
+//TODO Refactor This...
+.landing-page {
+  position:relative;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  opacity:0.6;
+}

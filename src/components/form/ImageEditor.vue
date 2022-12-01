@@ -101,12 +101,12 @@ export default {
     actualWidth: 0,
     actualHeight: 0,
     isWide: true,
-    anotherImgSrc:'',
     imageBlob: {},
     internalImgSrc: '',
     containerWidth: 'initial',
     containerHeight: '100%',
-    theBestSprite: {}
+    theBestSprite: {},
+    isLoading: true
   }),
   computed: {
     overflowX() {
@@ -130,12 +130,19 @@ export default {
   },
   watch:{
     imgSrc(){
-      this.imgSourceChanged();
+      if(!this.isLoading) this.imgSourceChanged();
     }
   },
   async mounted() {
-    this.$refs['scroll-panel'].addEventListener('scroll', this.handleScroll);
-    this.$refs['image'].addEventListener('load', this.domImgLoaded)
+
+    
+    this.$nextTick(() => {
+      this.internalImgSrc = this.imgSrc;
+      this.isLoading = false;
+
+      this.$refs['scroll-panel'].addEventListener('scroll', this.handleScroll);
+      this.$refs['image'].addEventListener('load', this.domImgLoaded);
+    });
   },
   beforeDestroy() {
     this.$refs['scroll-panel'].removeEventListener('scroll', this.handleScroll);
@@ -199,11 +206,11 @@ export default {
     },
 
     redrawImage() {
-      Vue.set(this, 'theBestSprite', new Image());
-      this.theBestSprite.crossOrigin="anonymous";
-      this.theBestSprite.onload = this.onSpriteLoaded;
-      
-      this.theBestSprite.src = this.imgSrc;
+      if(!this.isLoading) {
+        Vue.set(this, 'theBestSprite', new Image());
+        this.theBestSprite.onload = this.onSpriteLoaded;
+        this.theBestSprite.src = this.imgSrc;
+      }
     },
 
     handleScroll({target:{scrollLeft:offsetX, scrollTop:offsetY}}){

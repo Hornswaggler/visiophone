@@ -90,9 +90,6 @@ export default {
 
   },
 
-  mounted(){
-    this.$store.dispatch('app/setSideNavigationMenuItems', [...this.menuItems]);
-  },
 
   methods: {
     onSideNavigationChanged(){

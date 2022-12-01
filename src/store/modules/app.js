@@ -1,3 +1,7 @@
+import config from '@/config';
+
+const {STRIPE_ACCOUNT_STATUS:{NO_ACCOUNT, PENDING, APPROVED}} = config;
+
 const overlayOptionDefaults = () => ({
   showLoading: false,
   opacity: '0'
@@ -15,7 +19,38 @@ export default {
     opacity: '0',
     targetUrl:'',
     sideNavigationIndex: 0,
-    sideNavigationMenuItems: [],
+    sideNavigationMenuItems: [
+      {
+        title: 'Browse',
+        slug:'/sample',
+        icon:'fa-house',
+        id: 0,
+        accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
+      },
+      {
+        icon: 'fa-heart-music-camera-bolt',
+        title: 'Library',
+        slug: '/user/library',
+        id: 1,
+        accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
+      },
+      {
+
+        title: 'Upload',
+        slug:'/sample/upload',
+        icon:'fa-cloud-arrow-up',
+        id: 2,
+        accountStatus: [APPROVED]
+      },
+      {
+        icon: 'fa-gear',
+        title: 'Settings',
+        slug: '/user/settings',
+        id: 3,
+        accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
+      },
+
+    ],
     showMenu: false
   }),
 

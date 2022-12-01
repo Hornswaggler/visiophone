@@ -3,23 +3,26 @@ import { loginRequest, tokenRequest as _tokenRequest, msalConfig } from '/src/b2
 import store from '/src/store/';
 import config from '/src/config';
 
-async function handleResponse(response) {
+export const client = new _msal.PublicClientApplication(msalConfig);
+
+export const getAccessToken = async (homeAccountId = '') => {
+  const tokenRequest = {..._tokenRequest};
+  tokenRequest['account'] = client.getAccountByHomeId(homeAccountId);
+  return await client.acquireTokenSilent(tokenRequest);
+};
+
+const handleResponse = async (response) => {
   if (response !== null) {
-    console.log(_msal);
-    const tokenRequest = {..._tokenRequest};
-    tokenRequest['account'] = client.getAccountByHomeId(response.account.homeAccountId);
-    const tokenResponse = await client.acquireTokenSilent(tokenRequest);
-    store.dispatch('user/handleUserLogon', {token: tokenResponse.idToken})
+    store.dispatch('user/handleUserLogon', await getAccessToken(response.account.homeAccountId))
   } else {
       selectAccount();
   }
 }
 
-export const client = new _msal.PublicClientApplication(msalConfig);
-
 client.handleRedirectPromise()
   .then(response => {
       if (response) {
+          // authorized = true;
           /**
            * For the purpose of setting an active account for UI update, we want to consider only the auth response resulting
            * from SUSI flow. "tfp" claim in the id token tells us the policy (NOTE: legacy policies may use "acr" instead of "tfp").
@@ -31,15 +34,18 @@ client.handleRedirectPromise()
       }
   })
   .catch(error => {
-      console.log(error);
+      //Consume
   });
 
-
-client.loginRedirect(loginRequest);
-
 export const logon = async () => {
-  const result = await client.acquireTokenByCode();
-  return result;
+  const accounts = client.getAllAccounts();
+
+  if(accounts.length > 0) {
+    //TODO: Fix this, check the policies on the accounts / match the one this app is looking for
+    return accounts[0];
+  }
+
+  return client.loginRedirect(loginRequest);
 };
 
 export const logOff = async (accountId) => {
@@ -48,22 +54,10 @@ export const logOff = async (accountId) => {
   });
 };
 
-const getAccountFromCache = (currentAccounts) => {
-  if (!currentAccounts || currentAccounts.length < 1) {
-      return;
-  } else if (currentAccounts.length > 1) {
-      // TODO Add choose account code here
-  } else if (currentAccounts.length === 1) {
-      return currentAccounts[0];
-  }
-};
+export default {
+  getAccessToken,
+  logon,
+  logOff
+}
 
-export const initializeAuth = async () => {
-  await client.initialize();
-  const accounts = client.getAllAccounts();
 
-  return {
-    apiToken:'',
-    client: {}
-  };
-};

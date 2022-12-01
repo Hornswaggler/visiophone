@@ -10,10 +10,7 @@
 import {mapState} from 'vuex';
 import BaseLayout from '@/components/layout/BaseLayout.vue';
 import { axiosInit } from '@/axios.js';
-import moment from 'moment';
 import config from '@/config';
-
-const DEFAULT_HOME = '/sample';
 
 export default {
   name: 'App',
@@ -32,8 +29,12 @@ export default {
     this.$router.beforeEach(({path}, from, next) => {
       try {
         this.$nextTick(() => {
-          if(this.authenticated && path === '/landingPage') {
-            return next('/sample');
+          if(this.authenticated) {
+            if(path === '/landingPage') {
+              return next('/sample');
+            } else if (path === '/stripe-redirect') {
+              return next('/user/provision-stripe-standard-return');
+            }
           }
 
           this.$store.commit(
@@ -47,16 +48,6 @@ export default {
     });
 
     await axiosInit();
-    try{
-      // TODO Standardize / templatize route names "magic number"
-      // const authResult = await this.$store.dispatch('user/initialize');
-
-      // if(authResult) {
-      //   this.$router.push(this.targetUrl || DEFAULT_HOME);
-      // }
-    } catch(err){
-      //consume console.error('Error occurred in auth check', err);
-    }
   },
   methods:{
     initializePersistentStorage() {
