@@ -34,7 +34,6 @@ const RESPONSE_TYPES = {
 
 const getIdToken = store => store.getters['user/idToken'];
 const accessToken = store => store.getters['user/accessToken'];
-const publicStorageToken = store => store.getters['user/publicStorageToken'];
 
 export const secureGet = (_axios, {responseType = RESPONSE_TYPES.DEFAULT,slug = '', uri = '' }) => _axios.get(
   uri ? uri : `${config.VITE_API_BASE_URL}${slug}`, 
@@ -43,7 +42,7 @@ export const secureGet = (_axios, {responseType = RESPONSE_TYPES.DEFAULT,slug = 
     headers: {
       ..._axios.defaults.headers,
       "Access-Control-Allow-Origin": '*',
-      Authorization: `Bearer ${publicStorageToken(store)}`,
+      Authorization: `Bearer ${getIdToken(store)}`,
       "x-ms-version": '2021-06-08',
       'x-ms-date': (new Date()).toGMTString(),
       Accept: '*/*',

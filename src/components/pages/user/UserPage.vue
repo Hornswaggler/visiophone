@@ -77,10 +77,7 @@ export default {
         this.isDirty = true;
       }
     }
-  },
-  mounted(){
-    this.$store.dispatch('app/setSideNavigationMenuItems', [...this.sideNavigationMenuOptions]);
-  },
+  }
 }
 </script>
 
