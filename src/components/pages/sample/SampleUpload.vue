@@ -140,7 +140,6 @@ export default {
     Vue.set(this.sampleData, this.sampleForEdit);
 
     this.description = this.sampleData.description;
-    this.$store.commit('app/setSideNavigationIndex', 1);
   },
   beforeDestroy(){
     this.$store.dispatch('sample/persistToStorage', this.sampleData);

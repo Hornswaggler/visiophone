@@ -172,9 +172,6 @@ export default {
   }),
   computed:{
     ...mapGetters('user', ['getForSale', 'getOwned'])
-  },
-  mounted(){
-    this.$store.commit('app/setSideNavigationIndex', 1);
   }
 }
 </script>

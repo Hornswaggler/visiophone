@@ -149,7 +149,6 @@ export default {
   },
 
   async mounted() {
-    this.$store.commit('app/setSideNavigationIndex', 0);
     if(!this.isLoaded) {
       try {
         const {page} = this;
