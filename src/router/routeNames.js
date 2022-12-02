@@ -10,6 +10,8 @@ export const USER_LIBRARY = 'library';
 export const PROVISION_STRIPE_STANDARD_REFRESH = 'provision-stripe-standard-refresh';
 export const PROVISION_STRIPE_STANDARD_RETURN = 'provision-stripe-standard-return';
 
+export const DEFAULT_ROUTE = SAMPLE;
+
 export default {
   LANDING,
   SAMPLE,
@@ -18,5 +20,6 @@ export default {
   USER_SETTINGS,
   USER_LIBRARY,
   PROVISION_STRIPE_STANDARD_REFRESH,
-  PROVISION_STRIPE_STANDARD_RETURN
+  PROVISION_STRIPE_STANDARD_RETURN,
+  DEFAULT_ROUTE
 };

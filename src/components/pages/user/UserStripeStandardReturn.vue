@@ -1,19 +1,13 @@
 <template>
-  <div>HI</div>
+  <div></div>
 </template>
 
 <script>
-import {axios, securePostJson} from '@/axios';
-import { mapState } from 'vuex';
-
 export default {
   name: 'UserStripeStandardReturn',
-  computed:{
-    ...mapState('user', ['stripeId'])
-  },
   mounted() {
-    const {stripeId} = this;
-    securePostJson(axios, {stripeId}, {slug: 'provision_stripe_standard_return'});
+    this.$store.dispatch('user/handleProvisionReturn');
+    this.$router.push('/user/settings');
   }
 }
 </script>

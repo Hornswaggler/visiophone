@@ -22,13 +22,7 @@ const handleResponse = async (response) => {
 client.handleRedirectPromise()
   .then(response => {
       if (response) {
-          // authorized = true;
-          /**
-           * For the purpose of setting an active account for UI update, we want to consider only the auth response resulting
-           * from SUSI flow. "tfp" claim in the id token tells us the policy (NOTE: legacy policies may use "acr" instead of "tfp").
-           * To learn more about B2C tokens, visit https://docs.microsoft.com/en-us/azure/active-directory-b2c/tokens-overview
-           */
-          if (response.idTokenClaims['tfp'].toUpperCase() === config.VITE_AUTH_SIGN_UP_SIGN_IN_POLICY_NAME.toUpperCase()) {
+          if (response.idTokenClaims[config.VITE_AUTH_SIGN_UP_SIGN_IN_POLICY_KEY].toUpperCase() === config.VITE_AUTH_SIGN_UP_SIGN_IN_POLICY_NAME.toUpperCase()) {
               handleResponse(response);
           }
       }
@@ -45,7 +39,7 @@ export const logon = async () => {
     return accounts[0];
   }
 
-  return client.loginRedirect(loginRequest);
+  return await client.loginRedirect(loginRequest);
 };
 
 export const logOff = async (accountId) => {
