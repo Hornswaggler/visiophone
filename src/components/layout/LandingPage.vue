@@ -14,20 +14,16 @@ export default {
   components: {
     VisioMan
   },
+  
   data:() => ({
     visioloandUrl: new URL('../../assets/Visioland.png', import.meta.url).href
   }),
+
   computed:{
-    ...mapState('user', ['authenticated'])
+    ...mapState('user', ['authenticated']),
+    ...mapState('app', ['targetUrl'])
   },
-  watch:{
-    authenticated(newAuthenticated){
-      if(newAuthenticated) this.$router.push('/sample');
-    }
-  },
-  async mounted(){
-    this.$store.dispatch('user/logon')
-  },
+
   methods:{
     onSignup() {
       

@@ -5,7 +5,17 @@ import UserLibrary from '/src/components/pages/user/UserLibrary.vue'
 import SampleUpload from '/src/components/pages/sample/SampleUpload.vue';
 import Search from '/src/components/pages/sample/SampleSearch.vue';
 import UserStripeStandardReturn from '/src/components/pages/user/UserStripeStandardReturn.vue';
-import {SAMPLE, SAMPLE_UPLOAD, SAMPLE_SEARCH, USER, USER_SETTINGS, USER_LIBRARY, PROVISION_STRIPE_STANDARD_RETURN } from '/src/router/routeNames';
+import SamplePurchaseReturn from '/src/components/pages/sample/SamplePurchaseReturn.vue';
+import {
+  SAMPLE,
+  SAMPLE_UPLOAD,
+  SAMPLE_SEARCH,
+  USER,
+  USER_SETTINGS,
+  USER_LIBRARY,
+  PROVISION_STRIPE_STANDARD_RETURN,
+  PURCHASE_SAMPLE_RETURN
+} from '/src/router/routeNames';
 
 const routes = [
   {
@@ -23,6 +33,10 @@ const routes = [
       {
         path:'',
         component:Search
+      },
+      {
+        path: PURCHASE_SAMPLE_RETURN,
+        component: SamplePurchaseReturn
       }
 
     ]

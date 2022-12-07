@@ -54,7 +54,9 @@ export const securePost = (_axios, contentType, body, {slug}) =>
   _axios.post(slug, body, {
     headers: {
       ..._axios.defaults.headers,
+      // "Referer":"http://localhost:8080",
       "Access-Control-Allow-Origin": '*',
+      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       "Content-Type": contentType,
       Authorization: `Bearer ${getIdToken(store)}`,
       "x-ms-version": '2021-06-08',

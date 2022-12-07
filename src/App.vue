@@ -19,36 +19,36 @@ export default {
   },
 
   computed: {
-    ...mapState('user', ['authenticated']),
+    ...mapState('user', ['authenticated', 'isStripeApproved']),
     ...mapState('app', ['targetUrl', 'sideNavigationMenuItems'])
   },
 
   async mounted(){
-    this.initializePersistentStorage();
+    // this.initializePersistentStorage();
+
+
 
     this.$router.beforeEach(({path}, from, next) => {
-      try {
-        this.$nextTick(() => {
-          if(this.authenticated) {
-            if(path === '/landingPage') {
-              return next('/sample');
-            } else if (path === '/stripe-redirect') {
-              return next('/user/provision-stripe-standard-return');
-            }
-          }
-
-          this.$store.commit(
-            'app/setSideNavigationIndex',
-            this.sideNavigationMenuItems.findIndex(({slug}) => slug === path) || 0
-          );
-        });
-      } finally {
-        next();
-      }
+      this.$store.commit(
+        'app/setSideNavigationIndex',
+        this.sideNavigationMenuItems.findIndex(({slug}) => slug === path) || 0
+      );
+      next();
     });
-
     await axiosInit();
+
+    try{
+      await this.$store.dispatch('user/logon');
+    }catch(e) {
+      //consume
+    }
   },
+
+  watch:{
+    authenticated(newAuthenticated){
+      if(newAuthenticated) this.$router.push(this.targetUrl);
+    },
+  }, 
   methods:{
     initializePersistentStorage() {
       for(let i = 0; i < config.PERSISTENT_MUTATIONS.length; i++) {
@@ -181,7 +181,7 @@ html{
 
   .side-navigation-menu {
     opacity: 0.87;
-    transition: transform 0.28s, width 0.5s, margin 1s, background-color 1s; 
+    transition: transform 0.28s, width 0.5s, margin 1s, background-color 1s;
     background-color:var(--vp-side-navigation-background-color);
     left:0;
 

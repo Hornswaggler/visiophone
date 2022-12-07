@@ -3,7 +3,6 @@ import {securePostForm, securePostJson, secureGet, axios } from '/src/axios.js';
 import config from '/src/config.js';
 import {makeSampleFromResult} from './sample';
 import auth from '/src/auth';
-
 const {STRIPE_ACCOUNT_STATUS} = config;
 
 //TODO: Localstorage access should be in persistence layer!
@@ -45,26 +44,37 @@ export default {
   actions: {
     async logon({dispatch}) {
       const {homeAccountId} = await auth.logon();
-      dispatch('handleUserLogon', await auth.getAccessToken(homeAccountId))
+      await dispatch('handleUserLogon', await auth.getAccessToken(homeAccountId))
+    },
+
+    async getVisioTokens(){
+      console.log('Getting Visiotokens');
+
+      const result = await secureGet(axios, {slug: 'get_visio-tokens'});
     },
 
     refreshProfileImg({state:{avatarId}, commit}){
       commit('profileImg', `${config.VITE_AVATAR_URI}${avatarId}.png?${new Date().getTime()}`);
     },
 
-    async purchaseSample({ commit, state:{samples, accountId} }, {sample}) {
-      const {data} = await securePostJson(
+    async purchaseSample({ commit, state:{ samples } }, {sample}) {
+      const {data} = await secureGet(
         axios,
-        JSON.stringify({_id: sample._id, accountId}),
-        { slug: `sample_purchase` }
+        { responseType: "text", slug: `sample_purchase` }
       );
 
-      const forSale = (data.forSale || []).map(sample => sample.sampleId);
-      const owned = (data.owned || []).map(sample => sample.sampleId);
+      // JSON.stringify({samples: [
+      //   {priceId: sample.priceId }
+      // ]}),
 
-      commit('forSale', forSale);
-      commit('owned', owned)
-      commit('samples', [...samples, makeSampleFromResult({sample})]);
+      // const forSale = (data.forSale || []).map(sample => sample.sampleId);
+      // const owned = (data.owned || []).map(sample => sample.sampleId);
+
+      // commit('forSale', forSale);
+      // commit('owned', owned)
+      // commit('samples', [...samples, makeSampleFromResult({sample})]);
+
+      // window.location.href = data;
     },
 
     async uploadUserProfile({commit, state:{avatarId, _id, accountId}}, {blob}) {
@@ -83,8 +93,11 @@ export default {
     },
 
     async getUserProfile({ state, commit }) {
-      const {data:{isStripeApproved, stripeId, stripeUri}} = await securePostJson(axios, { accountId: state.accountId }, { slug: 'get_user_profile' });
-
+      const {data:{isStripeApproved, stripeId, stripeUri}} =  await securePostJson(
+        axios, 
+        { accountId: state.accountId }, 
+        { slug: 'get_user_profile' }
+      );
       commit('isStripeApproved', isStripeApproved);
       commit('stripeId', stripeId);
       commit('stripeUri', stripeUri);
@@ -100,6 +113,11 @@ export default {
       await dispatch('getUserProfile');
     },
 
+    async handleProvisionReturn({commit, state:{stripeId}}){
+      const {data:{isStripeApproved: isStripeApproved}} = await securePostJson(axios, {stripeId}, {slug: 'provision_stripe_standard_return'});
+      commit('isStripeApproved', isStripeApproved);
+    },
+
     async logout({commit }) {
       try{
         auth.logOff();
@@ -107,7 +125,7 @@ export default {
         //TODO: Clear cache
 
         return true;
-      } catch(e){
+      } catch(e) {
         console.error(e);
         throw e;
       }

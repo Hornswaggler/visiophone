@@ -22,16 +22,11 @@ router.beforeEach((to, from, next) => {
     });
   }
 
-  if (authenticated && onlyLoggedOut) {
-    return next();
-  }
-
   next();
 });
 
 const DEFAULT_TITLE = "VISIOPHONE (╯°□°)╯︵ ┻━┻";
 router.afterEach((to) => {
-
   // Use next tick to handle router history correctly
   // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
   Vue.nextTick(() => {
@@ -39,4 +34,4 @@ router.afterEach((to) => {
   });
 });
 
-export default router;  
+export default router;

@@ -1,4 +1,5 @@
 import config from '@/config';
+import {DEFAULT_ROUTE} from '@/router/routeNames';
 
 const {STRIPE_ACCOUNT_STATUS:{NO_ACCOUNT, PENDING, APPROVED}} = config;
 
@@ -17,7 +18,7 @@ export default {
     isMobile: !!window.navigator.userAgent.match(/Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/),
     closeOverlayOnclick: true,
     opacity: '0',
-    targetUrl:'',
+    targetUrl:`/${DEFAULT_ROUTE}`,
     sideNavigationIndex: 0,
     sideNavigationMenuItems: [
       {

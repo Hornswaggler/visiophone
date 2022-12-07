@@ -14,7 +14,6 @@
         v-model="internalValue"
         v-debounce="onChangeHandler"
         class="form-input-body"
-        style="height:100%;  font-size:0.8em;"
         @focus="onShowPlaceholder(false)"
         @blur="onShowPlaceholder(true)"
       >
@@ -109,11 +108,12 @@ export default {
 
 .form-input-body {
   border:none;
+  padding: var(--vp-input-padding);
   color:white;
   z-index:2;
   flex:1;
   background-color:transparent;
-  font-size: 1.5em;
+  font-size: var(--vp-form-text-size);
   min-width: 0;
   font-family: 'VCR_OSD_MONO';
   transition: all 0.5s;

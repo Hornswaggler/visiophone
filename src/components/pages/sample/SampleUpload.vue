@@ -4,6 +4,13 @@
       <div class="sample-upload-form">
         <div class="vp-form">
           <div class="vp-form-row mt0">
+            <form-input
+              :value="sampleData.name || ''"
+              title="name"
+              :onChanged="name => sampleData.name = name"
+            ></form-input>
+          </div>
+          <div class="vp-form-row">
             <upload-file
               :value="sampleData.imgUrl || ''"
               title="cover art"
@@ -67,7 +74,7 @@
           </div>
         </div>
 
-        <div style="flex:1;">
+        <div style="flex:1;padding-left:1em;">
           <div class="user-settings-image-container">
             <image-editor
               class="flex-3"
@@ -102,6 +109,7 @@ import { mapState, mapGetters } from 'vuex';
 import FormSelect from '@/components/form/FormSelect.vue';
 import { AUDIO_MIME_TYPE, IMAGE_MIME_TYPE } from '@/config';
 import { makeNewSample } from '@/store/modules/sample'
+import FormInput from '@/components/form/FormInput.vue';
 
 const TAG_TYPES = [
   { name: 'InfluencerCore'},
@@ -124,7 +132,7 @@ export default {
     description:''
   }),
   computed: {
-    ...mapGetters('user', ['accountId']),
+    // ...mapGetters('user', ['accountId']),
     ...mapState('user',['authenticated', 'customUserName']),
     ...mapState('sample', ['sampleForEdit']),
   },
@@ -134,13 +142,13 @@ export default {
     TextAreaInput,
     ImageEditor,
     FormNumberInput,
-    ScrollingContainer
+    ScrollingContainer,
+    FormInput
   },
-  mounted() {
+  mounted(){
     Vue.set(this.sampleData, this.sampleForEdit);
 
     this.description = this.sampleData.description;
-    this.$store.commit('app/setSideNavigationIndex', 1);
   },
   beforeDestroy(){
     this.$store.dispatch('sample/persistToStorage', this.sampleData);
@@ -172,7 +180,6 @@ export default {
           image: this.imageBlob,
           imageSrc: this.imageSrc,
           seller: this.customUserName,
-          accountId: this.accountId
         });
 
         this.$store.commit('user/addSampleForSale',newSample[0]);
