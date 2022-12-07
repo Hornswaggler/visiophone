@@ -46,7 +46,7 @@
                 </template>
                 <template v-slot:Title>
                   <form-sortable-table-cell>
-                    {{ sample.description }}
+                    {{ sample.name }}
                   </form-sortable-table-cell>
                 </template>
                 <template v-slot:Genre>
@@ -62,7 +62,7 @@
                 </template>
                 <template v-slot:Cost>
                   <form-sortable-table-cell>
-                    {{ sample.cost }}
+                    {{ `$${sample.cost * 0.01}` }}
                   </form-sortable-table-cell>
                 </template>
                 <template v-slot:Buy>
@@ -184,6 +184,9 @@ export default {
     },
 
     handlePurchaseSample(sample){
+
+      console.log('Purchasing Sample');
+
       this.$store.dispatch('user/purchaseSample', {sample})
     }
 

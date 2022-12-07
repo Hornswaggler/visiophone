@@ -5,6 +5,7 @@ import moment from 'moment';
 
 const DEFAULT_SAMPLE = {
   _id: null,
+  name:'',
   fileId: '',
   tag: '',
   description: '',
@@ -19,6 +20,7 @@ const DEFAULT_SAMPLE = {
 export const makeNewSample = (
   {
     _id,
+    name = '',
     fileId = '',
     tag = '',
     description = '',
@@ -31,6 +33,7 @@ export const makeNewSample = (
   } = DEFAULT_SAMPLE) => (
   {
     _id,
+    name,
     fileId,
     tag,
     description,
@@ -174,11 +177,10 @@ export default {
       await dispatch('search', {query, index: _nextResultIndex});
     },
 
-    async uploadSample({dispatch}, {sampleData, sample, image, imageSrc, accountId}) {
+    async uploadSample({dispatch}, {sampleData, sample, image, imageSrc}) {
         let fd = new FormData();
         fd.append('sample',sample);
         fd.append('image', image);
-        fd.append('accountId', accountId)
         fd.append('data', JSON.stringify(sampleData));
 
         const {data} = await securePostForm(axios, fd, {slug: `${config.VITE_API_SAMPLE_UPLOAD_URI}`});
@@ -225,7 +227,7 @@ export default {
       dispatch('addSamples', {samples, index});
     }
   },
-  mutations:{
+  mutations: {
     samples(state, value){
       Vue.set(state, 'samples', value);
     }

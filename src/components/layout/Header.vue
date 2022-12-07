@@ -13,11 +13,22 @@
           </div>
         </div>
 
-        <div class="flex-1">
-          &nbsp;
-        </div>
+        <!-- <div class="flex-1 align-start flex" style="cursor:pointer;" @click="onPurchaseVisiotokens">
+          <div class="p1">
+            <span>
+              <font-awesome-icon 
+                class="form-icon"
+                icon="fa-gem"
+                style="color:#22d522d4"
+              />
+            </span>
+            <span style="padding-left:0.25em;">0</span>
+            <span style="padding-left:0.25em;font-size: 0.65em;height:100%;">visiotokens</span>
+          </div>
+        </div> -->
 
         <div class="header-user-menu flex-1 justify-end">
+
           <span
             class="pr1 header-custom-user-name"
             style="font-size:0.65em;"
@@ -51,31 +62,6 @@ export default {
   data:() => ({
     inputWidth: '10em',
     menuItems: {
-      settings:{
-        displayName: 'Settings',
-        handler: async({$router, $store}) => {
-          await $store.dispatch('app/hideOverlay');
-          $router.push('/user-settings');
-        }
-      },
-
-      library: {
-        displayName: 'Library',
-        handler: async ({$router, $store}) => {
-          await $store.dispatch('app/hideOverlay');
-          $router.push('/user/library');
-        }
-      },
-      settings:{
-        displayName: 'Settings',
-        handler: async({$router, $store}) => {
-          await $store.dispatch('app/hideOverlay');
-
-          // TODO: Standardize these...
-          $router.push('/user/settings');
-        }
-      },
-
       logout:{
         displayName: 'Log Out',
         handler: async ({$store, $router}) => {
@@ -108,6 +94,12 @@ export default {
   methods: {
     onGo(direction){
       this.$router.go(direction)
+    },
+
+    onPurchaseVisiotokens(){
+      console.log('purchasing visiotokens');
+      this.$store.dispatch('user/getVisioTokens');
+
     },
   
     async onUserMenuClicked(e) {
@@ -172,7 +164,6 @@ export default {
 
 .header-search-input-content {
   border-radius: 1em;
-  height: var(--vp-input-min-height);
   flex:1;
 }
 

@@ -47,23 +47,34 @@ export default {
       await dispatch('handleUserLogon', await auth.getAccessToken(homeAccountId))
     },
 
+    async getVisioTokens(){
+      console.log('Getting Visiotokens');
+
+      const result = await secureGet(axios, {slug: 'get_visio-tokens'});
+    },
+
     refreshProfileImg({state:{avatarId}, commit}){
       commit('profileImg', `${config.VITE_AVATAR_URI}${avatarId}.png?${new Date().getTime()}`);
     },
 
-    async purchaseSample({ commit, state:{samples, accountId} }, {sample}) {
-      const {data} = await securePostJson(
+    async purchaseSample({ commit, state:{ samples } }, {sample}) {
+      const {data} = await secureGet(
         axios,
-        JSON.stringify({_id: sample._id, accountId}),
-        { slug: `sample_purchase` }
+        { responseType: "text", slug: `sample_purchase` }
       );
 
-      const forSale = (data.forSale || []).map(sample => sample.sampleId);
-      const owned = (data.owned || []).map(sample => sample.sampleId);
+      // JSON.stringify({samples: [
+      //   {priceId: sample.priceId }
+      // ]}),
 
-      commit('forSale', forSale);
-      commit('owned', owned)
-      commit('samples', [...samples, makeSampleFromResult({sample})]);
+      // const forSale = (data.forSale || []).map(sample => sample.sampleId);
+      // const owned = (data.owned || []).map(sample => sample.sampleId);
+
+      // commit('forSale', forSale);
+      // commit('owned', owned)
+      // commit('samples', [...samples, makeSampleFromResult({sample})]);
+
+      // window.location.href = data;
     },
 
     async uploadUserProfile({commit, state:{avatarId, _id, accountId}}, {blob}) {
