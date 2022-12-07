@@ -2,7 +2,7 @@
   "name": "visiophone",
   "version": "0.2.0",
   "scripts": {
-    "dev": "vite --port 8080",
+    "dev": "vite --port 8080 --host",
     "build": "vite build",
     "preview": "vite preview --port 4173"
   },

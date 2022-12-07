@@ -8,6 +8,20 @@ export default defineConfig(async ({command, mode}) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
+    server: {
+      proxy:{
+        '/api':{
+          target: 'http://192.168.0.103:7071',
+          changeOrigin: true,
+          // rewrite: (path) => path.replace(/^\/api/, '')
+        },
+        '/stripe':{
+          target: 'https://checkout.stripe.com',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/stripe/, '')
+        }
+      }
+    },
     define: {
       __APP_ENV__: env.APP_ENV
     },
