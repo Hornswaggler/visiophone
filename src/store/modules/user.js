@@ -63,6 +63,9 @@ export default {
         { responseType: "text", slug: `sample_purchase` }
       );
 
+      //This should only be executed in local,
+      //the server redirect should occur in higher level environments
+      window.location.href = data;
       // JSON.stringify({samples: [
       //   {priceId: sample.priceId }
       // ]}),
