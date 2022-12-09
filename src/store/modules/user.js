@@ -49,7 +49,6 @@ export default {
 
     async getVisioTokens(){
       console.log('Getting Visiotokens');
-
       const result = await secureGet(axios, {slug: 'get_visio-tokens'});
     },
 
@@ -57,11 +56,29 @@ export default {
       commit('profileImg', `${config.VITE_AVATAR_URI}${avatarId}.png?${new Date().getTime()}`);
     },
 
-    async purchaseSample({ commit, state:{ samples } }, {sample}) {
-      const {data} = await secureGet(
-        axios,
-        { responseType: "text", slug: `sample_purchase` }
-      );
+    async purchaseSample({ commit, getters:{ idToken }}, {sample}) {
+      // const {data} = await secureGet(
+      //   axios,
+      //   { responseType: "text/html", slug: `sample_purchase` }
+      // );
+
+
+      console.log('idToken', idToken);
+
+      // 'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      // "Content-Type": contentType,
+
+      const result = await fetch('https://api.visiophone.wtf/api/sample_purchase', {
+        // mode: 'cors', // no-cors, *cors, same-origin
+        headers: {
+          "Accept": "*/*",
+          "Access-Control-Allow-Origin": '*',
+          "Authorization": `Bearer ${idToken}`,
+        }
+      });
+
+      console.log(result);
+
 
       //This should only be executed in local,
       //the server redirect should occur in higher level environments
@@ -82,7 +99,7 @@ export default {
 
     async uploadUserProfile({commit, state:{avatarId, _id, accountId}}, {blob}) {
       const fd = new FormData();
-      fd.append('file',blob,'fakename.png' );
+      fd.append('file',blob,'fakename.png');
       const { data } = await securePostForm(axios, fd, {slug: `set_user_profile`});
       commit('_id', data._id);
     },
@@ -101,6 +118,7 @@ export default {
         { accountId: state.accountId }, 
         { slug: 'get_user_profile' }
       );
+
       commit('isStripeApproved', isStripeApproved);
       commit('stripeId', stripeId);
       commit('stripeUri', stripeUri);
