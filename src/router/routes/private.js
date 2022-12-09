@@ -38,7 +38,6 @@ const routes = [
         path: PURCHASE_SAMPLE_RETURN,
         component: SamplePurchaseReturn
       }
-
     ]
   },
   {
