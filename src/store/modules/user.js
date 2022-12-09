@@ -68,7 +68,7 @@ export default {
       // 'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       // "Content-Type": contentType,
 
-      const result = await fetch('https://api.visiophone.wtf/api/sample_purchase', {
+      const result = await fetch('https://visiophone.wtf/api/sample_purchase', {
         // mode: 'cors', // no-cors, *cors, same-origin
         headers: {
           "Accept": "*/*",
