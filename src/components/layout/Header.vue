@@ -13,20 +13,6 @@
           </div>
         </div>
 
-        <!-- <div class="flex-1 align-start flex" style="cursor:pointer;" @click="onPurchaseVisiotokens">
-          <div class="p1">
-            <span>
-              <font-awesome-icon 
-                class="form-icon"
-                icon="fa-gem"
-                style="color:#22d522d4"
-              />
-            </span>
-            <span style="padding-left:0.25em;">0</span>
-            <span style="padding-left:0.25em;font-size: 0.65em;height:100%;">visiotokens</span>
-          </div>
-        </div> -->
-
         <div class="header-user-menu flex-1 justify-end">
 
           <span
@@ -95,13 +81,6 @@ export default {
     onGo(direction){
       this.$router.go(direction)
     },
-
-    onPurchaseVisiotokens(){
-      console.log('purchasing visiotokens');
-      this.$store.dispatch('user/getVisioTokens');
-
-    },
-  
     async onUserMenuClicked(e) {
       const { clientX = 0, clientY = 0 } = e;
 
