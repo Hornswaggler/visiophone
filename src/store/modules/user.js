@@ -47,57 +47,11 @@ export default {
       await dispatch('handleUserLogon', await auth.getAccessToken(homeAccountId))
     },
 
-    async getVisioTokens(){
-      console.log('Getting Visiotokens');
-      const result = await secureGet(axios, {slug: 'get_visio-tokens'});
-    },
-
     refreshProfileImg({state:{avatarId}, commit}){
       commit('profileImg', `${config.VITE_AVATAR_URI}${avatarId}.png?${new Date().getTime()}`);
     },
 
-    async purchaseSample({ commit, getters:{ idToken }}, {sample}) {
-      // const {data} = await secureGet(
-      //   axios,
-      //   { responseType: "text/html", slug: `sample_purchase` }
-      // );
-
-
-      console.log('idToken', idToken);
-
-      // 'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-      // "Content-Type": contentType,
-
-      const result = await fetch('https://www.visiophone.wtf/api/sample_purchase', {
-        // mode: 'cors', // no-cors, *cors, same-origin
-        headers: {
-          "Accept": "*/*",
-          "Access-Control-Allow-Origin": '*',
-          "Authorization": `Bearer ${idToken}`,
-        }
-      });
-
-      console.log(result);
-
-
-      //This should only be executed in local,
-      //the server redirect should occur in higher level environments
-      window.location.href = data;
-      // JSON.stringify({samples: [
-      //   {priceId: sample.priceId }
-      // ]}),
-
-      // const forSale = (data.forSale || []).map(sample => sample.sampleId);
-      // const owned = (data.owned || []).map(sample => sample.sampleId);
-
-      // commit('forSale', forSale);
-      // commit('owned', owned)
-      // commit('samples', [...samples, makeSampleFromResult({sample})]);
-
-      // window.location.href = data;
-    },
-
-    async uploadUserProfile({commit, state:{avatarId, _id, accountId}}, {blob}) {
+    async uploadUserProfile({commit}, {blob}) {
       const fd = new FormData();
       fd.append('file',blob,'fakename.png');
       const { data } = await securePostForm(axios, fd, {slug: `set_user_profile`});

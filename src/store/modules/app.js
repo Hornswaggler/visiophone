@@ -1,4 +1,4 @@
-import config from '@/config';
+import config from '/src/config';
 import {DEFAULT_ROUTE} from '@/router/routeNames';
 
 const {STRIPE_ACCOUNT_STATUS:{NO_ACCOUNT, PENDING, APPROVED}} = config;

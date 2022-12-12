@@ -66,17 +66,20 @@
                   </form-sortable-table-cell>
                 </template>
                 <template v-slot:Buy>
-                  <div
-                    class="column-cell-right-aligned" 
-                    @click="handlePurchaseSample(sample)"
+                  <redirect-button
+                    :action="samplePurchaseUrl"
+                    :idToken="idToken"
+                    :prices="[sample.priceId]"
                   >
-                    <form-icon
-                      icon-size="1em"
-                      style="padding-right:0.5em;"
-                      class="vp-icon flex justify-end align-end download-icon"
-                      icon="fa-plus"
-                    />
-                  </div>
+                    <template v-slot:content>
+                      <form-icon
+                        icon-size="1em"
+                        style=""
+                        class="vp-icon flex justify-end align-end download-icon"
+                        icon="fa-plus"
+                      />
+                    </template>
+                  </redirect-button>
                 </template>
               </sortable-table-row>
             </template>
@@ -104,6 +107,7 @@ import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
 import FormSortableTableHeader from '../../form/FormSortableTableHeader.vue';
 import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
 import AudioPlayer from '@/components/form/AudioPlayer.vue';
+import RedirectButton from '@/components/form/RedirectButton.vue';
 
 export default {
   name:'SampleSearch',
@@ -117,7 +121,8 @@ export default {
     BootlegGroupIcon,
     FormSortableTableHeader,
     FormSortableTableCell,
-    AudioPlayer
+    AudioPlayer,
+    RedirectButton,
   },
   data: () => ({
     page: 0,
@@ -125,7 +130,8 @@ export default {
   }),
   computed: {
     ...mapGetters('sample', ['sampleArray']),
-    ...mapState('sample', ['isLoaded', 'sortType', 'sampleTableDefinition']),
+    ...mapGetters('user', ['idToken']),
+    ...mapState('sample', ['isLoaded', 'sortType', 'sampleTableDefinition', 'samplePurchaseUrl']),
 
     isCollapsed() {
       return this.sortType === SORT_TYPES.LIST;
@@ -182,14 +188,6 @@ export default {
     onColumnClicked(column) {
       this.$store.dispatch('sample/orderBy', column);
     },
-
-    handlePurchaseSample(sample){
-
-      console.log('Purchasing Sample');
-
-      this.$store.dispatch('user/purchaseSample', {sample})
-    }
-
   }
 }
 </script>

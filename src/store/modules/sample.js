@@ -87,6 +87,7 @@ export default {
     nextResultIndex: 0,
     query: '',
     sortType: SORT_TYPES.LIST,
+    samplePurchaseUrl: config['VITE_API_SAMPLE_PURCHASE'],
     sampleTableDefinition: {
       columns: [
         { 
