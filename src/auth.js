@@ -43,7 +43,7 @@ export const logon = async () => {
 };
 
 export const logOff = async (accountId) => {
-  return await client.logoutPopup({
+  return await client.logoutRedirect({
     account: client.getAccountByHomeId(accountId)
   });
 };
