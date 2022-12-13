@@ -12,11 +12,11 @@ const {
 } = config;
 
 export const loginRequest = {
-  scopes: [VITE_AUTH_SCOPE_OPENID, VITE_AUTH_SCOPE_SAMPLE_SEARCH],
+  scopes: [VITE_AUTH_SCOPE_OPENID],
 };
 
 export const tokenRequest = {
-  scopes: [VITE_AUTH_SCOPE_OPENID, VITE_AUTH_SCOPE_SAMPLE_SEARCH],
+  scopes: [VITE_AUTH_SCOPE_OPENID],
   forceRefresh: true // Set this to "true" to skip a cached token and go to the server to get a new token
 };
 
@@ -27,7 +27,6 @@ export const msalConfig = {
     identityMetadata:VITE_AUTH_SIGN_UP_SIGN_IN_IDENTITY_METADATA_URL,
     authority: VITE_AUTH_SIGN_UP_SIGN_IN_AUTHORITY,
     knownAuthorities: [VITE_AUTH_SIGN_UP_SIGN_IN_AUTHORITY_DOMAIN],
-    
     redirectUri: VITE_AUTH_SIGN_UP_SIGN_IN_REDIRECT_URI
   },
   cache: {
