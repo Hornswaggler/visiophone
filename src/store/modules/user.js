@@ -44,7 +44,7 @@ export default {
   actions: {
     async logon({dispatch}) {
       const {homeAccountId} = await auth.logon();
-      await dispatch('handleUserLogon', await auth.getAccessToken(homeAccountId))
+      await dispatch('handleUserLogon', await auth.getAccessToken(homeAccountId));
     },
 
     refreshProfileImg({state:{avatarId}, commit}){
