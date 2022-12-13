@@ -1,13 +1,14 @@
 <template>
   <form 
     class="redirect-button" 
-    :action="action" method="POST" 
-    style="height:100%;"
+    :action="action"
+    method="POST" 
   >
     <input
+      v-if="payload !== ''"
       type="text"
-      name="prices"
-      v-model="internalPrices"
+      name="payload"
+      v-model="payload"
     >
     <input 
       type="text"
@@ -39,9 +40,9 @@ export default {
       type: String,
       default: ""
     },
-    prices: {
-      type: Array,
-      default: () => []
+    payload: {
+      type: String,
+      default: ""
     }
   },
   mounted() {
@@ -53,8 +54,6 @@ export default {
 
 <style lang="scss">
 .redirect-button {
-  height:100%;
-
   input {
     display:none;
   }
@@ -65,14 +64,13 @@ export default {
     align-items: center;
     background-color:transparent;
     color:white;
-    height:100%;
     width:100%;
     border:none;
     transition: transform 0.3s;
     transform: scale(1);
 
     &:hover {
-      transform: scale(1.5);
+      // transform: scale(1.5);
     }
 
   }

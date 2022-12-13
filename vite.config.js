@@ -3,7 +3,6 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv, splitVendorChunkPlugin } from 'vite'
 import vue2 from '@vitejs/plugin-vue2'
 
-// https://vitejs.dev/config/
 export default defineConfig(async ({command, mode}) => {
   const env = loadEnv(mode, process.cwd(), '')
 
@@ -13,12 +12,6 @@ export default defineConfig(async ({command, mode}) => {
         '/api':{
           target: 'http://192.168.0.103:7071',
           changeOrigin: true,
-          // rewrite: (path) => path.replace(/^\/api/, '')
-        },
-        '/stripe':{
-          target: 'https://checkout.stripe.com',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/stripe/, '')
         }
       }
     },

@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import {securePostForm, securePostJson, secureGet, axios } from '/src/axios.js';
 import config from '/src/config.js';
-import {makeSampleFromResult} from './sample';
 import auth from '/src/auth';
 const {STRIPE_ACCOUNT_STATUS} = config;
 
@@ -9,32 +8,16 @@ const {STRIPE_ACCOUNT_STATUS} = config;
 export const makeNewUser = () => ({
   _id: localStorage._id || null,
   authenticated: false,
-
-
-
-
   publicStorageToken: '',
   apiToken:'',
-
-
-
   avatarId: localStorage.avatarId || '',
-
-
-
-
   profileImg: '',
   customUserName: '',
   samples: [],
   forSale: [],
   owned: [],
-
-
-  
   isStripeApproved: false,
   stripeId: '',
-  stripeUri: ''
-
 });
 
 
@@ -58,24 +41,15 @@ export default {
       commit('_id', data._id);
     },
 
-    async upgradeToSellerAccount({commit}) {
-      const result  = await secureGet(axios, { slug: config.VITE_API_PROVISION_STRIPE_STANDARD });
-      const {data:{stripeUri, stripeId}} = result;
-      
-      commit('stripeId', stripeId);
-      window.location.href = stripeUri;
-    },
-
-    async getUserProfile({ state, commit }) {
-      const {data:{isStripeApproved, stripeId, stripeUri}} =  await securePostJson(
+    async getStripeProfile({ state, commit }) {
+      const {data:{isStripeApproved, stripeId}} =  await securePostJson(
         axios, 
         { accountId: state.accountId }, 
-        { slug: 'get_user_profile' }
+        { slug: 'get_stripe_profile' }
       );
 
       commit('isStripeApproved', isStripeApproved);
       commit('stripeId', stripeId);
-      commit('stripeUri', stripeUri);
     },
 
     async handleUserLogon({commit, dispatch},tokenResponse){
@@ -85,7 +59,7 @@ export default {
       commit('authenticated', true);
 
       await dispatch('refreshProfileImg');
-      await dispatch('getUserProfile');
+      await dispatch('getStripeProfile');
     },
 
     async handleProvisionReturn({commit, state:{stripeId}}){
