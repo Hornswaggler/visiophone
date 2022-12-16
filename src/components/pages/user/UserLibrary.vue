@@ -1,52 +1,57 @@
 <template>
   <div style="position:relative;">
-    <div
-      class="vp-form-row"
-      style="text-align:left;"
-    >
-      <h3 @click="isCollapsed = !isCollapsed">
-        Uploads
-      </h3>
+
+
+    <div v-if="isStripeApproved">
+      <div
+        class="vp-form-row"
+        style="text-align:left;"
+      >
+        <h3 @click="isCollapsed = !isCollapsed">
+          Uploads
+        </h3>
+      </div>
+
+      <sortable-table
+        style="width:100%;"
+        :table-definition="tableDefinition"
+        :data="uploads"
+        :is-collapsed="isCollapsed"
+      >
+        <template v-slot:row="{ row:sample }">
+          <sortable-table-row
+            class="form-sortable-table-row"
+            :class="{expanded : !isCollapsed}"
+            :table-definition="tableDefinition"
+          >
+            <template v-slot:Image>
+            </template>
+            <template v-slot:Name>
+              <form-sortable-table-cell>
+                {{sample.name}}
+              </form-sortable-table-cell>
+            </template>
+            <template v-slot:Title>
+              <form-sortable-table-cell>
+                {{ sample.description }}
+              </form-sortable-table-cell>
+            </template>
+            <template v-slot:Genre>
+              <form-sortable-table-cell>
+                {{ sample.tag }}
+              </form-sortable-table-cell>
+            </template>
+            <template v-slot:BPM>
+              <form-sortable-table-cell>
+                {{ sample.bpm }}
+              </form-sortable-table-cell>
+            </template>
+          </sortable-table-row>
+        </template>
+      </sortable-table>
     </div>
 
 
-    <sortable-table
-      style="width:100%;"
-      :table-definition="tableDefinition"
-      :data="getForSale"
-      :is-collapsed="isCollapsed"
-    >
-      <template v-slot:row="{ row:sample }">
-        <sortable-table-row
-          class="form-sortable-table-row"
-          :class="{expanded : !isCollapsed}"
-          :table-definition="tableDefinition"
-        >
-          <template v-slot:Image>
-            <form-image
-              class="search-album-art"
-              :class="{expanded: !isCollapsed}"
-              :url="`${sample.imgUrl}`"
-            />
-          </template>
-          <template v-slot:Title>
-            <form-sortable-table-cell>
-              {{ sample.description }}
-            </form-sortable-table-cell>
-          </template>
-          <template v-slot:Genre>
-            <form-sortable-table-cell>
-              {{ sample.tag }}
-            </form-sortable-table-cell>
-          </template>
-          <template v-slot:BPM>
-            <form-sortable-table-cell>
-              {{ sample.bpm }}
-            </form-sortable-table-cell>
-          </template>
-        </sortable-table-row>
-      </template>
-    </sortable-table>
 
     <div
       class="vp-form-row"
@@ -61,7 +66,7 @@
     <sortable-table
       style="width:100%;"
       :table-definition="tableDefinition"
-      :data="getOwned"
+      :data="purchases"
       :is-collapsed="isCollapsed"
     >
       <template v-slot:row="{ row:sample }">
@@ -76,6 +81,11 @@
               :class="{expanded: !isCollapsed}"
               :url="`${sample.imgUrl}`"
             />
+          </template>
+          <template v-slot:Name>
+            <form-sortable-table-cell>
+              {{sample.name}}
+            </form-sortable-table-cell>
           </template>
           <template v-slot:Title>
             <form-sortable-table-cell>
@@ -95,34 +105,11 @@
         </sortable-table-row>
       </template>
     </sortable-table>
-
-
-    <!-- <div class="vp-form-row">
-      <div
-        v-for="sample in getForSale"
-        :key="sample._id"
-      >
-        <img :src="sample.imgUrl">
-      </div>
-    </div> -->
-
-    
-    <!-- <div class="vp-form-row">
-      <h3>Purchases</h3>
-    </div>
-    <div class="vp-form-row">
-      <div
-        v-for="sample in getOwned"
-        :key="sample._id"
-      >
-        <img :src="sample.imgUrl">
-      </div>
-    </div> -->
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import { mapState} from 'vuex';
 import SortableTable from '@/components/form/SortableTable.vue'
 import SortableTableRow from '@/components/form/SortableTableRow.vue';
 import FormImage from '@/components/form/FormImage.vue';
@@ -145,6 +132,12 @@ export default {
           name:'Image',
           isSort: false,
           show:false
+        },
+        {
+          ratio:'1',
+          name:'Name',
+          isSort: false,
+          show: true
         },
         {
           ratio:'2',
@@ -171,7 +164,7 @@ export default {
     }
   }),
   computed:{
-    ...mapGetters('user', ['getForSale', 'getOwned'])
+    ...mapState('user',['uploads', 'isStripeApproved', 'purchases']),
   }
 }
 </script>

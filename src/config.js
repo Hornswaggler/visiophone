@@ -40,7 +40,6 @@ export const PERSISTENT_MUTATIONS = [
   'user/samples',
   'user/avatarId',
   'user/forSale',
-  'user/owned',
   'user/stripeId',
   'user/_id',
   'sample/samples'

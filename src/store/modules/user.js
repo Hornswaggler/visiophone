@@ -8,16 +8,14 @@ const {STRIPE_ACCOUNT_STATUS} = config;
 export const makeNewUser = () => ({
   _id: localStorage._id || null,
   authenticated: false,
-  publicStorageToken: '',
-  apiToken:'',
+  idToken:'',
   avatarId: localStorage.avatarId || '',
   profileImg: '',
   customUserName: '',
-  samples: [],
-  forSale: [],
-  owned: [],
   isStripeApproved: false,
   stripeId: '',
+  uploads: [],
+  purchases: []
 });
 
 
@@ -42,24 +40,31 @@ export default {
     },
 
     async getStripeProfile({ state, commit }) {
-      const {data:{isStripeApproved, stripeId}} =  await securePostJson(
+      const {data:{isStripeApproved, stripeId, uploads}} =  await securePostJson(
         axios, 
         { accountId: state.accountId }, 
         { slug: 'get_stripe_profile' }
       );
 
+      commit('uploads', uploads);
       commit('isStripeApproved', isStripeApproved);
       commit('stripeId', stripeId);
     },
 
+    async getPurchases({commit}){
+      const {data} = await secureGet(axios, {slug: 'get_purchases'});
+      commit('purchases', data);
+    },
+
     async handleUserLogon({commit, dispatch},tokenResponse){
-      commit('apiToken', tokenResponse.idToken);
+      commit('idToken', tokenResponse.idToken);
       commit('customUserName', tokenResponse.account.name);
       commit('avatarId', tokenResponse.idTokenClaims.oid);
       commit('authenticated', true);
 
       await dispatch('refreshProfileImg');
       await dispatch('getStripeProfile');
+      await dispatch('getPurchases');
     },
 
     async handleProvisionReturn({commit, state:{stripeId}}){
@@ -82,19 +87,10 @@ export default {
   },
 
   getters: {
-    idToken:({apiToken}) => apiToken,
-    accessToken:({apiToken:{accessToken = ''}}) => accessToken,
-    publicStorageToken: ({publicStorageToken:{accessToken = ''}}) => accessToken,
-    accountId:({apiToken:{ account:{localAccountId = ''}}}) => localAccountId,
-    userName: ({apiToken:{account:{name = ''}}}) => name,
-    getForSale: ({samples, forSale}) => samples.filter(({_id}) => forSale.includes(_id)),
-    getOwned: ({samples, owned}) => samples.filter(({_id}) => owned.includes(_id)),
     stripeAccountStatus: ({stripeId, isStripeApproved}) => {
       if((stripeId || '').trim() === '') {
         return STRIPE_ACCOUNT_STATUS.NO_ACCOUNT;
       } else if(!isStripeApproved) {
-
-
         return STRIPE_ACCOUNT_STATUS.PENDING;
       } else if(isStripeApproved) {
         return STRIPE_ACCOUNT_STATUS.APPROVED;
@@ -128,24 +124,15 @@ export default {
       state.profileImg = profileImg;
     },
 
-    samples(state, samples){
-      state.samples = samples;
+
+    uploads(state, uploads){
+      Vue.set(state, 'uploads', uploads);
     },
 
-    addSampleForSale(state, newSample) {
-      state.samples.push(newSample);
-      state.forSale.push(newSample._id);
-
-      localStorage.forSale = JSON.stringify(state.forSale);
+    purchases(state, purchases) {
+      Vue.set(state, 'purchases'  , purchases);
     },
 
-    owned(state, owned){
-      state.owned = owned;
-    },
-
-    forSale(state, forSale){
-      state.forSale = forSale;
-    },
 
     _id(state, _id) {
       state._id = _id;
@@ -159,12 +146,8 @@ export default {
       state.customUserName = customUserName;
     },
 
-    publicStorageToken(state, publicStorageToken){
-      Vue.set(state, 'publicStorageToken', publicStorageToken);
-    },
-
-    apiToken(state, apiToken){
-      Vue.set(state, 'apiToken', apiToken);
+    idToken(state, idToken){
+      Vue.set(state, 'idToken', idToken);
     }
   }
 };

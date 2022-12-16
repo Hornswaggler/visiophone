@@ -130,8 +130,8 @@ export default {
   }),
   computed: {
     ...mapGetters('sample', ['sampleArray']),
-    ...mapGetters('user', ['idToken']),
     ...mapState('sample', ['isLoaded', 'sortType', 'sampleTableDefinition', 'samplePurchaseUrl']),
+    ...mapState('user', ['idToken']),
 
     isCollapsed() {
       return this.sortType === SORT_TYPES.LIST;

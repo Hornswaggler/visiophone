@@ -44,7 +44,7 @@
 
               <redirect-button
                 :action="accountUpgradeUri"
-                :idToken="apiToken"
+                :idToken="idToken"
               >
                 <template v-slot:content>
                   <div
@@ -145,8 +145,8 @@ export default {
     accountUpgradeUri: config.VITE_API_ACCOUNT_UPGRADE
   }),
   computed: {
-    ...mapState('user',['customUserName', 'isStripeApproved', 'profileImg', 'apiToken']),
-    ...mapGetters('user', ['stripeAccountStatus', 'idToken'])
+    ...mapState('user',['customUserName', 'isStripeApproved', 'profileImg', 'idToken']),
+    ...mapGetters('user', ['stripeAccountStatus'])
   },
   mounted() {
     this.imageSrc = this.profileImg;

@@ -5,7 +5,7 @@
 <script>
 export default {
   name: 'SamplePurchaseReturn',
-  mounted() {
+  async mounted() {
     console.log('RETURNED FROM SAMPLE PURCHASE SUCCESS');
   }
 }
