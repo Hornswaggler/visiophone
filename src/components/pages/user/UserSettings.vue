@@ -41,14 +41,19 @@
                 from Visiophone sellers but you cannot upload your samples. 
                 Upgrade to a seller's account to put your creations up for sale.
               </span>
-              <button
-                style="width:100%;"
-                class="vp-button"
-                type="button"
-                @click="onUpgradeToSeller"
+
+              <redirect-button
+                :action="accountUpgradeUri"
+                :idToken="idToken"
               >
-                Upgrade
-              </button>
+                <template v-slot:content>
+                  <div
+                    style="width:100%;"
+                    class="vp-button"
+                  >UPGRADE</div>
+                </template>
+              </redirect-button>
+
             </div>
           </template>
         </form-input-base>
@@ -77,7 +82,7 @@
 
       <div 
         v-if="stripeAccountStatus === 'APPROVED'"
-        class="vp-form-row"
+        class="vp-form-row flex-1"
       >
         <form-input-base>
           <template v-slot:title>
@@ -118,7 +123,8 @@ import FormInputBase from '../../form/FormInputBase.vue';
 import UploadFile from '@/components/form/UploadFile.vue';
 import ImageEditor from '@/components/form/ImageEditor.vue';
 import FormInput from '@/components/form/FormInput.vue';
-import { IMAGE_MIME_TYPE } from '@/config';
+import RedirectButton from '@/components/form/RedirectButton.vue';
+import config from '@/config';
 
 export default {
   name:'UserSettings',
@@ -126,7 +132,8 @@ export default {
     UploadFile,
     ImageEditor,
     FormInput,
-    FormInputBase
+    FormInputBase,
+    RedirectButton
   },
   data: () => ({
     initialized: false,
@@ -134,11 +141,11 @@ export default {
     imageBlob: {},
     imageSrc: '',
     profileImage:{},
-    IMAGE_MIME_TYPE
-
+    IMAGE_MIME_TYPE: config.IMAGE_MIME_TYPE,
+    accountUpgradeUri: config.VITE_API_ACCOUNT_UPGRADE
   }),
   computed: {
-    ...mapState('user',['customUserName', 'isStripeApproved', 'profileImg']),
+    ...mapState('user',['customUserName', 'isStripeApproved', 'profileImg', 'idToken']),
     ...mapGetters('user', ['stripeAccountStatus'])
   },
   mounted() {
@@ -148,9 +155,6 @@ export default {
     });
   },
   methods:{
-    onUpgradeToSeller(){
-      this.$store.dispatch('user/upgradeToSellerAccount');
-    },
     onImageSelected(file){
       Vue.set(this.imageBlob, file);
       this.imageSrc =  URL.createObjectURL(file);

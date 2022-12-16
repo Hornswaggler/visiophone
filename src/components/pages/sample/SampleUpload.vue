@@ -132,7 +132,6 @@ export default {
     description:''
   }),
   computed: {
-    // ...mapGetters('user', ['accountId']),
     ...mapState('user',['authenticated', 'customUserName']),
     ...mapState('sample', ['sampleForEdit']),
   },
@@ -181,8 +180,6 @@ export default {
           imageSrc: this.imageSrc,
           seller: this.customUserName,
         });
-
-        this.$store.commit('user/addSampleForSale',newSample[0]);
 
         Vue.set(this.sampleData, makeNewSample());
 

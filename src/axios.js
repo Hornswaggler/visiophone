@@ -32,8 +32,7 @@ const RESPONSE_TYPES = {
   DEFAULT: 'json'
 };
 
-const getIdToken = store => store.getters['user/idToken'];
-const accessToken = store => store.getters['user/accessToken'];
+const getIdToken = store => store.state['user']['idToken'];
 
 export const secureGet = (_axios, {responseType = RESPONSE_TYPES.DEFAULT,slug = '', uri = '' }) => _axios.get(
   uri ? uri : `${config.VITE_API_BASE_URL}${slug}`, 
@@ -54,7 +53,6 @@ export const securePost = (_axios, contentType, body, {slug}) =>
   _axios.post(slug, body, {
     headers: {
       ..._axios.defaults.headers,
-      // "Referer":"http://localhost:8080",
       "Access-Control-Allow-Origin": '*',
       'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       "Content-Type": contentType,
@@ -67,7 +65,6 @@ export const securePost = (_axios, contentType, body, {slug}) =>
   });
 
 export const secureGetJson = (_axios, {slug = '', uri = ''}) => secureGet(_axios, {responseType: RESPONSE_TYPES.JSON, slug, uri});
-export const secureGetBlob = (_axios, {slug = '', uri = ''}) => secureGet(_axios, {responseType: RESPONSE_TYPES.BLOB, slug, uri, token: accessToken(store)});
 export const securePostForm = (_axios, body, {slug}) => securePost(_axios, MIME_TYPES.MULTI_PART_FORM_DATA, body, {slug});
 export const securePostJson = (_axios, body, {slug}) => securePost(_axios, MIME_TYPES.APPLICATION_JSON, body, {slug});
 
@@ -76,7 +73,6 @@ export default {
   axiosInit,
   secureGet,
   securePost,
-  secureGetBlob,
   secureGetJson,
   securePostForm,
   securePostJson

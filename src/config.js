@@ -12,7 +12,6 @@ const properties = [
   'VITE_AVATAR_URI',
   'VITE_COVER_ART_URI',
   'VITE_IDENTITY_ISSUER',
-  'VITE_API_PROVISION_STRIPE_STANDARD',
   'VITE_AUTH_SIGN_UP_SIGN_IN_AUTHORITY',
   'VITE_AUTH_SIGN_UP_SIGN_IN_AUTHORITY_DOMAIN',
   'VITE_AUTH_SCOPE_SAMPLE_SEARCH',
@@ -22,6 +21,7 @@ const properties = [
   'VITE_AUTH_SIGN_UP_SIGN_IN_POLICY_NAME',
   'VITE_AUTH_SIGN_UP_SIGN_IN_POLICY_KEY',
   'VITE_API_SAMPLE_PURCHASE',
+  'VITE_API_ACCOUNT_UPGRADE',
   'VITE_AUTH_SIGN_UP_SIGN_IN_REDIRECT_URI'
 ];
 
@@ -40,7 +40,6 @@ export const PERSISTENT_MUTATIONS = [
   'user/samples',
   'user/avatarId',
   'user/forSale',
-  'user/owned',
   'user/stripeId',
   'user/_id',
   'sample/samples'

@@ -69,7 +69,7 @@
                   <redirect-button
                     :action="samplePurchaseUrl"
                     :idToken="idToken"
-                    :prices="[sample.priceId]"
+                    :payload="JSON.stringify([sample.priceId])"
                   >
                     <template v-slot:content>
                       <form-icon
@@ -130,8 +130,8 @@ export default {
   }),
   computed: {
     ...mapGetters('sample', ['sampleArray']),
-    ...mapGetters('user', ['idToken']),
     ...mapState('sample', ['isLoaded', 'sortType', 'sampleTableDefinition', 'samplePurchaseUrl']),
+    ...mapState('user', ['idToken']),
 
     isCollapsed() {
       return this.sortType === SORT_TYPES.LIST;
