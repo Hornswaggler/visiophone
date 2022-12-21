@@ -5,15 +5,17 @@
         <div class="vp-form">
           <div class="vp-form-row mt0">
             <form-input
-              :value="sampleData.name || ''"
+              fieldName="name"
+              :value="sampleData.name"
               title="name"
               :onChanged="name => sampleData.name = name"
             ></form-input>
           </div>
           <div class="vp-form-row">
             <upload-file
-              :value="sampleData.imgUrl || ''"
+              :value="sampleData.imgUrl"
               title="cover art"
+              fieldName="imgUrl"
               :accept="IMAGE_MIME_TYPE"
               button-text="Upload"
               :change-handler="onImageUpload"
@@ -23,6 +25,8 @@
           <div class="vp-form-row">
             <upload-file
               title="audio file"
+              fieldName="clipUri"
+              :value="sampleData.clipUri"
               :accept="AUDIO_MIME_TYPE"
               button-text="Upload"
               class="flex-3"
@@ -33,6 +37,7 @@
           <div class="vp-form-row">
             <form-select
               title="tag"
+              fieldName="tag"
               :options="tags"
               :value="sampleData.tag"
               class="flex-3"
@@ -40,7 +45,6 @@
             />
           </div>
 
-        
           <div
             class="vp-form-row"
             style="display:flex;flex-direction: column;"
@@ -48,16 +52,17 @@
             <div class="vp-input-body">
               <form-number-input
                 title="cost"
+                fieldName="cost"
                 :value="sampleData.cost"
                 :change-handler="cost => sampleData.cost = cost"
               />
             </div>
 
             <div style="width:1em;" />
-
             <div class="vp-input-body pt2">
               <form-number-input
                 title="bpm"
+                fieldName="bpm"
                 :value="sampleData.bpm"
                 :change-handler="bpm => sampleData.bpm = bpm"
               />
@@ -69,6 +74,7 @@
               class="flex-3"
               title="description"
               :value="description"
+              fieldName="description"
               :on-changed="description => sampleData.description = description"
             />
           </div>
@@ -105,7 +111,7 @@ import ImageEditor from '@/components/form/ImageEditor.vue';
 import TextAreaInput from '@/components/form/TextAreaInput.vue';
 import FormNumberInput from '@/components/form/FormNumberInput.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import FormSelect from '@/components/form/FormSelect.vue';
 import { AUDIO_MIME_TYPE, IMAGE_MIME_TYPE } from '@/config';
 import { makeNewSample } from '@/store/modules/sample'
@@ -129,11 +135,12 @@ export default {
     imageSrc: '',
     imageBlob:{},
     sampleBlob:{},
-    description:''
+    description:'',
   }),
   computed: {
     ...mapState('user',['authenticated', 'customUserName']),
     ...mapState('sample', ['sampleForEdit']),
+
   },
   components: {
     UploadFile,
@@ -142,17 +149,23 @@ export default {
     ImageEditor,
     FormNumberInput,
     ScrollingContainer,
-    FormInput
+    FormInput,
   },
-  mounted(){
+  async mounted(){
     Vue.set(this.sampleData, this.sampleForEdit);
 
+    await this.$store.dispatch('form/getForm', {formName: 'sample'});
     this.description = this.sampleData.description;
+
+    this.$store.dispatch('form/initialize', {model: this.sampleData, formName: 'sample'})
   },
   beforeDestroy(){
     this.$store.dispatch('sample/persistToStorage', this.sampleData);
   },
   methods: {
+    validate() {
+
+    },
     onThumbnailGenerated(file) {
       Vue.set(this, 'imageBlob', file);
       Vue.set(this.sampleData, 'imgUrl', URL.createObjectURL(file));
@@ -170,24 +183,25 @@ export default {
       Vue.set(this.sampleData, 'tag', newTag)
     },
     async handleSubmitForm() {
-      try {
-        this.$store.commit('app/isLoading', true);
+      if(await this.$store.dispatch('form/validateForm')){
+        try {
+          this.$store.commit('app/isLoading', true);
 
-        const newSample = await this.$store.dispatch('sample/uploadSample', {
-          sampleData: {...this.sampleData, seller: this.customUserName},
-          sample: this.sampleBlob,
-          image: this.imageBlob,
-          imageSrc: this.imageSrc,
-          seller: this.customUserName,
-        });
+          await this.$store.dispatch('sample/uploadSample', {
+            sampleData: {...this.sampleData},
+            sample: this.sampleBlob,
+            image: this.imageBlob,
+            imageSrc: this.imageSrc,
+          });
 
-        Vue.set(this.sampleData, makeNewSample());
+          Vue.set(this.sampleData, makeNewSample());
 
-        this.$router.push('/sample');
-      } catch (e) {
-        console.error(e);
-      } finally {
-        this.$store.commit('app/isLoading', false);
+          this.$router.push('/sample');
+        } catch (e) {
+          console.error(e);
+        } finally {
+          this.$store.commit('app/isLoading', false);
+        }
       }
     },
   }

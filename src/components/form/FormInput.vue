@@ -1,5 +1,11 @@
 <template>
-  <form-input-base class="form-input">
+  <form-input-base
+    :title="title"
+    :value="internalValue"
+    :blurred="blurred"
+    :fieldName="fieldName"
+    class="form-input"
+  >
     <template
       v-slot:title
     >
@@ -15,7 +21,7 @@
         v-debounce="onChangeHandler"
         class="form-input-body"
         @focus="onShowPlaceholder(false)"
-        @blur="onShowPlaceholder(true)"
+        @blur="onBlur"
       >
       <div
         class="search-input-icon-underlay toggle-show"
@@ -42,27 +48,36 @@ export default {
   name:'FormInput',
   components:{FormInputBase,FormIcon},
   props:{
+    fieldName: {
+      type: String,
+      default: ''
+    },
     title: {
       type: String,
       default: '',
     },
-    initialValue:{
+    initialValue: {
       type: String,
       default: ''
     },
     onChanged: {
       type: Function,
       default: () => {}
+    },
+    preview: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
     internalValue:'',
     internalShowPlaceholder: true,
+    blurred: false
   }),
   computed: {
     showPlaceholder(){
       return this.internalShowPlaceholder && this.internalValue.length === 0;
-    }
+    },
   },
   mounted(){
     this.internalValue = this.initialValue;
@@ -73,6 +88,10 @@ export default {
     },
     onChangeHandler(value){
       this.onChanged(value);
+    },
+    onBlur() {
+      this.onShowPlaceholder(true);
+      this.blurred = !this.blurred
     }
   }
 }

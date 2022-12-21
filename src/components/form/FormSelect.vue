@@ -1,5 +1,9 @@
 <template>
-  <form-input-base>
+  <form-input-base
+    :title="title"
+    :value="internalValue"
+    :fieldName="fieldName"
+  >
     <template 
       v-slot:title
     >
@@ -29,6 +33,10 @@ export default {
   name: 'FormSelect',
   components: { FormInputBase },
   props:{
+    fieldName: {
+      type: String,
+      default: ''
+    },
     title: {
       type: String,
       default: '',

@@ -11,7 +11,7 @@ const DEFAULT_SAMPLE = {
   description: '',
   seller: '',
   bpm: '120.0',
-  cost: "0",
+  cost: "100",
   imgUrl:'',
   clipUri:'',
   fileName:'',
@@ -26,7 +26,7 @@ export const makeNewSample = (
     description = '',
     seller = '',
     bpm = '120.0',
-    cost = "0",
+    cost = "100",
     imgUrl = '', 
     clipUri = '', 
     fileName = ''
