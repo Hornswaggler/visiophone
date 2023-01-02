@@ -6,7 +6,7 @@
       @click="onBackgroundClicked"
     />
     <div
-      class="side-navigation-menu"
+      class="responsive-layout-side-navigation"
       :class="{'show-nav': showMenu}"
       style="z-index:2;"
     >
@@ -88,7 +88,7 @@ export default {
   z-index: -1;
 }
 
-.side-navigation-menu {
+.responsive-layout-side-navigation {
   box-shadow: -20px 20px 30px 0px rgba(18, 18, 19, 0.75);
   z-index:3;
   color:white;

@@ -1,5 +1,5 @@
 <template>
-  <centered-responsive-layout>
+  <responsive-layout>
     <template v-slot:side-panel>
       <side-navigation />
     </template>
@@ -8,7 +8,7 @@
         class="user-settings-content-container" 
         style="position:relative;display:flex;flex-direction: column;"
       >
-        <Header />
+        <Header/>
         <scrolling-container style="flex:1;">
           <template v-slot:scrolling-content>
             <router-view />
@@ -19,12 +19,12 @@
         />
       </div>
     </template>
-  </centered-responsive-layout>
+  </responsive-layout>
 </template>
 
 <script>
 import {mapState, mapGetters}  from 'vuex';
-import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayout.vue';
+import ResponsiveLayout from '@/components/layout/ResponsiveLayout.vue';
 import Header from '@/components/layout/Header.vue';
 import SideNavigation from '@/components/layout/SideNavigation.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
@@ -33,7 +33,7 @@ import PageFooter from '../../layout/PageFooter.vue';
 export default {
   name:'UserSettingsPage',
   components:{
-    CenteredResponsiveLayout,
+    ResponsiveLayout,
     Header,
     SideNavigation,
     ScrollingContainer,

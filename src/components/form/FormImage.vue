@@ -19,11 +19,20 @@ export default {
 
 <style lang="scss">
 .form-image {
-  border-radius:8px;
+  height: var(--vp-cover-art-hw);
+  width: var(--vp-cover-art-hw);
   min-height:var(--vp-cover-art-hw);
   min-width:var(--vp-cover-art-hw);
+  border-radius:8px;
+
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+
+  &.expanded {
+    height: var(--vp-cover-art-hw-expanded);
+    width: var(--vp-cover-art-hw-expanded);
+  }
+
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <centered-responsive-layout>
+  <responsive-layout>
     <template v-slot:side-panel>
       <side-navigation
         :change-handler="onSideNavigationChanged"
@@ -9,20 +9,20 @@
       <div
         class="sample-page-body"
       >
-        <Header />
+        <Header/>
         <router-view />
         <page-footer
           :menu-items="menuItems"
         />
       </div>
     </template>
-  </centered-responsive-layout>
+  </responsive-layout>
 </template>
 
 <script>
 import {SORT_TYPES} from '@/store/modules/sample';
 import { mapGetters, mapState } from 'vuex';
-import CenteredResponsiveLayout from '@/components/layout/CenteredResponsiveLayout.vue';
+import ResponsiveLayout from '@/components/layout/ResponsiveLayout.vue';
 import SideNavigation from '@/components/layout/SideNavigation.vue';
 import Header from '@/components/layout/Header.vue';
 import PageFooter from '../../layout/PageFooter.vue';
@@ -32,7 +32,7 @@ import PageFooter from '../../layout/PageFooter.vue';
 export default {
   name: 'SamplePage',
   components: {
-    CenteredResponsiveLayout,
+    ResponsiveLayout,
     SideNavigation,
     Header,
     PageFooter

@@ -1,0 +1,32 @@
+.form-base {
+  display: flex;
+  flex-direction: column-reverse;
+
+  .vp-form {
+    flex: 1;
+
+    .vp-form-row {
+      &:first-child {
+        margin-top:0;
+      }
+
+      display:flex;
+      justify-content:flex-start;
+      font-size: 1em;
+      color: white;
+      width:100%;
+      margin-top: 2em;
+    }
+  }
+
+  .vp-form:first-child {
+    padding-top: 1em;
+  }
+
+  @include for-size(md) {
+    flex-direction: row;
+    .vp-form:first-child {
+      padding-top:0;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 <template>
   <scrolling-container>
     <template v-slot:scrolling-content>
-      <div class="sample-upload-form">
+      <div class="form-base">
         <div class="vp-form">
           <div class="vp-form-row mt0">
             <form-input
@@ -46,8 +46,7 @@
           </div>
 
           <div
-            class="vp-form-row"
-            style="display:flex;flex-direction: column;"
+            class="vp-form-row flex-column flex"
           >
             <div class="vp-input-body">
               <form-number-input
@@ -57,9 +56,10 @@
                 :change-handler="cost => sampleData.cost = cost"
               />
             </div>
+          </div>
 
-            <div style="width:1em;" />
-            <div class="vp-input-body pt2">
+          <div class="vp-form-row">
+            <div class="vp-input-body">
               <form-number-input
                 title="bpm"
                 fieldName="bpm"
@@ -80,7 +80,7 @@
           </div>
         </div>
 
-        <div style="flex:1;padding-left:1em;">
+        <div class="pl1 flex-1">
           <div class="user-settings-image-container">
             <image-editor
               class="flex-3"
@@ -163,9 +163,6 @@ export default {
     this.$store.dispatch('sample/persistToStorage', this.sampleData);
   },
   methods: {
-    validate() {
-
-    },
     onThumbnailGenerated(file) {
       Vue.set(this, 'imageBlob', file);
       Vue.set(this.sampleData, 'imgUrl', URL.createObjectURL(file));
@@ -207,6 +204,3 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-
-</style>

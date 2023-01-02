@@ -8,3 +8,24 @@ $secondary-color: #FF3399 !default;
 $link-color: #42b983 !default;
 
 $black: rgb(0, 0, 0) !default;
+
+html{
+  --image-editor-hw: 16em;
+  --vp-input-min-height: 1.5em;
+  --vp-cover-art-hw: 2em;
+  --vp-cover-art-hw-expanded: 10em;
+  --vp-form-text-size: 1em;
+  --vp-form-select-option-font-size: 1.2em;
+  --vp-form-select-option-color: rgb(226, 226, 226);
+  --vp-form-select-option-background-color: rgb(14, 14, 14);
+  --vp-highlight-color:rgba(20, 234, 253, 0.95);
+  --vp-default-background-color: rgb(255 255 255 / 14%);
+  --vp-side-navigation-background-color: rgb(44 47 50 / 62%);
+  --vp-form-button-background-color:rgba(0, 0, 0, 0.656);
+  --vp-form-button-hover-background-color: rgb(147, 147, 147);
+
+  --vp-input-padding: 0.5em;
+  --vp-side-navigation-width: 10em;
+  --vp-header-height: 3em;
+  --vp-scrolling-container-header-height: 3.5em;
+}

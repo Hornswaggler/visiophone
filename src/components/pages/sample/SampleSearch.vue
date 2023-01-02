@@ -1,97 +1,91 @@
 <template>
-  <div style="position:relative;">
-    <scrolling-container
-      :on-scroll-limit-reached="onScrollLimitReached"
-      style="flex:1;"
-    >
-      <template v-slot:header>
-        <div class="flex justify-end icon-group">
-          <bootleg-list-icon
-            :on-click="onViewListClicked"
-            :selected="isListTypeSelected"
-          />
-          <bootleg-group-icon 
-            :on-click="onViewGroupClicked"
-            :selected="isGroupTypeSelected"
-          />
-        </div>
-        
-        <form-sortable-table-header
+  <scrolling-container
+    :on-scroll-limit-reached="onScrollLimitReached"
+  >
+    <template v-slot:header>
+      <div class="flex justify-end icon-group">
+        <bootleg-list-icon
+          :on-click="onViewListClicked"
+          :selected="isListTypeSelected"
+        />
+        <bootleg-group-icon 
+          :on-click="onViewGroupClicked"
+          :selected="isGroupTypeSelected"
+        />
+      </div>
+      
+      <form-sortable-table-header
+        :table-definition="sampleTableDefinition"
+        :on-column-clicked="onColumnClicked"
+        :selected="true"
+      />
+    </template>
+
+    <template v-slot:scrolling-content>
+      <div class="scrolling-content">
+        <sortable-table
           :table-definition="sampleTableDefinition"
-          :on-column-clicked="onColumnClicked"
-          :selected="true"
-        />
-      </template>
+          :data="sampleArray"
+          :is-collapsed="isCollapsed"
+        >
+          <template v-slot:row="{ row:sample }">
+            <sortable-table-row
+              :class="{ expanded : !isCollapsed }"
+              :table-definition="sampleTableDefinition"
+              :is-collapsed="isCollapsed"
+            >
+              <template v-slot:Image>
+                <form-image
+                  :class="{expanded: !isCollapsed}"
+                  :url="`${sample.imgUrl}`"
+                />
+              </template>
+              <template v-slot:Title>
+                <form-sortable-table-cell>
+                  {{ sample.name }}
+                </form-sortable-table-cell>
+              </template>
+              <template v-slot:Genre>
+                <form-sortable-table-cell>
+                  {{ sample.tag }}
+                  <!-- <audio-player :sample="sample" /> -->
+                </form-sortable-table-cell>
+              </template>
+              <template v-slot:BPM>
+                <form-sortable-table-cell>
+                  {{ sample.bpm }}
+                </form-sortable-table-cell>
+              </template>
+              <template v-slot:Cost>
+                <form-sortable-table-cell>
+                  {{ `$${sample.cost * 0.01}` }}
+                </form-sortable-table-cell>
+              </template>
+              <template v-slot:Buy>
+                <redirect-button
+                  :action="samplePurchaseUrl"
+                  :idToken="idToken"
+                  :payload="JSON.stringify([sample.priceId])"
+                >
+                  <template v-slot:content>
+                    <form-icon
+                      icon-size="1em"
+                      class="vp-icon flex justify-end align-end download-icon"
+                      icon="fa-plus"
+                    />
+                  </template>
+                </redirect-button>
+              </template>
+            </sortable-table-row>
+          </template>
+        </sortable-table>
+      </div>
 
-      <template v-slot:scrolling-content>
-        <div class="sortable-column-content">
-          <sortable-table
-            :table-definition="sampleTableDefinition"
-            :data="sampleArray"
-            :is-collapsed="isCollapsed"
-          >
-            <template v-slot:row="{ row:sample }">
-              <sortable-table-row
-                class="form-sortable-table-row"
-                :class="{expanded : !isCollapsed}"
-                :table-definition="sampleTableDefinition"
-                :is-collapsed="isCollapsed"
-              >
-                <template v-slot:Image>
-                  <form-image
-                    class="search-album-art"
-                    :class="{expanded: !isCollapsed}"
-                    :url="`${sample.imgUrl}`"
-                  />
-                </template>
-                <template v-slot:Title>
-                  <form-sortable-table-cell>
-                    {{ sample.name }}
-                  </form-sortable-table-cell>
-                </template>
-                <template v-slot:Genre>
-                  <form-sortable-table-cell>
-                    {{ sample.tag }}
-                    <!-- <audio-player :sample="sample" /> -->
-                  </form-sortable-table-cell>
-                </template>
-                <template v-slot:BPM>
-                  <form-sortable-table-cell>
-                    {{ sample.bpm }}
-                  </form-sortable-table-cell>
-                </template>
-                <template v-slot:Cost>
-                  <form-sortable-table-cell>
-                    {{ `$${sample.cost * 0.01}` }}
-                  </form-sortable-table-cell>
-                </template>
-                <template v-slot:Buy>
-                  <redirect-button
-                    :action="samplePurchaseUrl"
-                    :idToken="idToken"
-                    :payload="JSON.stringify([sample.priceId])"
-                  >
-                    <template v-slot:content>
-                      <form-icon
-                        icon-size="1em"
-                        style=""
-                        class="vp-icon flex justify-end align-end download-icon"
-                        icon="fa-plus"
-                      />
-                    </template>
-                  </redirect-button>
-                </template>
-              </sortable-table-row>
-            </template>
-          </sortable-table>
-        </div>
-
-        <div
-          class="flex"
-        />
-      </template>
-    </scrolling-container>
-  </div>
+      <div
+        class="flex"
+      />
+    </template>
+  </scrolling-container>
 </template>
 
 <script>
@@ -126,7 +120,6 @@ export default {
   },
   data: () => ({
     page: 0,
-    bufferIndex: 0,
   }),
   computed: {
     ...mapGetters('sample', ['sampleArray']),
@@ -143,14 +136,6 @@ export default {
 
     isListTypeSelected(){
       return this.sortType === SORT_TYPES.LIST;
-    },
-
-    bufferLength() {
-      return this.sampleArray.length;
-    },
-
-    bufferRemaining() {
-      return this.sampleBufferLength - this.bufferIndex;
     }
   },
 
@@ -191,68 +176,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.column-cell-right-aligned {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-right: 0.5em;
-}
-
-.form-sortable-table-row {
-  height: var(--vp-cover-art-hw);
-  overflow: hidden;
-
-  .sortable-column-row {
-    height: 2em;
-  }
-
-
-  &.expanded {
-    height:10em;
-    width: 10em;
-    .sortable-column-row {
-      height:10em;
-    }
-  }
-}
-
-.icon-group {
-  height: 2em;
-  padding: 0 0.5em;
-  padding-right: 20px;
-}
-
-.search-album-art {
-  height: var(--vp-cover-art-hw);
-  width: var(--vp-cover-art-hw);
-  &.expanded {
-    height: var(--vp-cover-art-hw-expanded);
-    width: var(--vp-cover-art-hw-expanded);
-  }
-}
-
-.sortable-column-content {
-  width:100%;
-  .expanded{
-    .sortable-column-row{
-      height: var(--vp-cover-art-hw);
-    }
-  }
-
-  .sortable-column-row {
-    cursor:pointer;
-    height: var(--vp-cover-art-hw-expanded);
-    transition: background-color 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
-    background-color: var(--vp-form-button-background-color);
-    
-    &:hover {
-      background-color: var(--vp-side-navigation-background-color);
-    }
-    
-  };
-};
-</style>

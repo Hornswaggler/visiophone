@@ -20,7 +20,7 @@
       >
         <template v-slot:row="{ row:sample }">
           <sortable-table-row
-            class="form-sortable-table-row"
+            class="sortable-column-row"
             :class="{expanded : !isCollapsed}"
             :table-definition="tableDefinition"
           >
@@ -62,7 +62,6 @@
       </h3>
     </div>
 
-
     <sortable-table
       style="width:100%;"
       :table-definition="tableDefinition"
@@ -71,7 +70,7 @@
     >
       <template v-slot:row="{ row:sample }">
         <sortable-table-row
-          class="form-sortable-table-row"
+          class="sortable-column-row"
           :class="{expanded : !isCollapsed}"
           :table-definition="tableDefinition"
         >
