@@ -1,14 +1,35 @@
+.fill-height {
+  height: 100%;
+}
+
+.fill-width {
+  width: 100%;
+}
+
 .fill {
-  height:100%;
-  width:100%;
+  @extend .fill-height;
+  @extend .fill-width;
+}
+
+.fill-screen-width {
+  width: 100vw;
+}
+
+.fill-screen-height {
+  height: 100vh;
+}
+
+.fill-screen {
+  @extend .fill-screen-height;
+  @extend .fill-screen-width;
 }
 
 .flex {
-  display:flex;
+  display: flex;
 }
 
 .flex-column {
-  flex-direction:column
+  flex-direction: column
 }
 
 .flex-1 {
@@ -109,6 +130,9 @@
 
 .position-absolute {
   position:absolute;
+}
+
+.absolute-fill {
   top:0;
   bottom:0;
   left:0;

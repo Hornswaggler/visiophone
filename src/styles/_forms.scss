@@ -1,12 +1,12 @@
-
-
 .sort-icon {
+  @extend .flex;
+  @extend .flex-column;
+  @extend .justify-center;
+
   padding-left: 0.5em;
   font-size: 1.5em;
-  justify-content: center;
   align-content: center;
-  display: flex;
-  flex-direction: column;
+
   cursor: pointer;
   transform: scale(1);
   transition: transform 0.25s ease, color 0.25s ease;
@@ -14,39 +14,44 @@
 
   &:hover {
     transform: scale(1.2);
-    color: white;
+    color: $tertiary-color;
   }
 
   &.selected {
     transform:scale(1.1);
-    color:white;
+    color: $tertiary-color;
   }
 }
 
 .vp-form {
 
   .vp-form-row {
+    @extend .flex;
+    @extend .justify-start;
+
     &:first-child {
       margin-top:0;
     }
-    display:flex;
-    justify-content:flex-start;
     font-size: 1em;
-    color: white;
+    color: $tertiary-color;
     width:100%;
     margin-top: 2em;
   }
 }
 
 .vp-button {
+  @extend .flex;
+  @extend .align-center;
+  @extend .justify-center;
+  
+  border: $default-border;
+  color: $tertiary-color;
+  
   font: normal 100%/1.4 "VCR_OSD_MONO", "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Monaco", monospace;
   height:2em;
-  border: solid 1px white;
-  display:flex;
-  align-items: center;
-  justify-content: center;
+  
   cursor:pointer;
-  color:white;
+  
   background-color:black;
   transition: all 0.25s ease-in-out;
   background-color:var(--vp-form-button-background-color);
@@ -55,19 +60,4 @@
     background-color:var(--vp-form-button-hover-background-color);
     color:black;
   }
-}
-
-//TODO Refactor This...
-.landing-page {
-  position:relative;
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  opacity:0.6;
 }

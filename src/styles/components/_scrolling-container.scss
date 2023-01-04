@@ -14,9 +14,9 @@
     height: calc(100vh - (var(--vp-header-height) + var(--vp-scrolling-container-header-height) + 0.5em));
     border-radius: 6px;
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--vp-default-background-color);
+    @extend .flex;
+    @extend .flex-column;
+    background-color: $default-background-color;
     overflow-y: auto;
 
     &::-webkit-scrollbar-track {
@@ -44,7 +44,7 @@
 
     .scrolling-container-content {
       padding: 1em;
-      justify-content: flex-start;
+      @extend .justify-start;
 
       .scrolling-content {
         width:100%;

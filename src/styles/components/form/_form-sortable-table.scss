@@ -1,12 +1,12 @@
 .sortable-table {
-  display:flex;
+  @extend .flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: center;
+  @extend .justify-center;
 
   &.expanded {
     justify-content: initial;
-    flex-direction: column;
+    @extend .flex-column;
   }
 
   .sortable-table-row {
@@ -34,26 +34,21 @@
     }
 
     .sortable-column-row {
-      cursor:pointer;
-      display:flex;
+      @extend .flex;
+      cursor: pointer;
       border-radius: 8px;
-      flex:1;
       overflow-x: hidden;
       transition: background-color 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
       background-color: var(--vp-form-button-background-color);
     
       &:hover {
-        background-color: var(--vp-side-navigation-background-color);
+        background-color: $default-secondary-background-color;
       }
     
       .sortable-column {
-        height:100%;
-        width:100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-
+        @extend .flex;
+        @extend .align-center;
+        @extend .justify-center;
 
         .sortable-table-cell {
           height: var(--vp-cover-art-hw);
@@ -73,10 +68,10 @@
           }
 
           .sortable-table-cell-content {
+            @extend .flex;
             position: relative;
             height: 100%;
-            display: flex;
-            align-items: center;
+            @extend .align-center;
           }
         }
       }
@@ -85,13 +80,13 @@
 }
 
 .sortable-table-header {
-  display:flex;
+  @extend .flex;
   .sortable-table-header-column {
+    @extend .flex;
     cursor:pointer;
-    display:flex;
-    justify-content: flex-start;
+    @extend .justify-start;
     font-family: "VCR_OSD_MONO";
-    background-color:rgba(0, 0, 0, 0.355);
+    background-color: $primary-color;
     transition: all 250ms cubic-bezier(0.19, 1, 0.22, 1);
 
     &:hover {
@@ -99,10 +94,10 @@
       background-color:rgba(114, 114, 114, 0.463);
     }
 
-    .sortable-table-header-sort-options {
-      display:flex;
-      flex-direction: column; 
-      justify-content: center;
+      .sortable-table-header-sort-options {
+      @extend .fill;
+      @extend .flex-column; 
+      @extend .justify-center;
       padding-left:0.5em;
       opacity:0;
       transition: all 250ms cubic-bezier(0.075, 0.82, 0.165, 1);

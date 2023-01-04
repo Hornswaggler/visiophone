@@ -1,26 +1,31 @@
-#app{
+#app {
+  @extend .fill-screen;
   text-align: center;
   margin:0;
-  position:absolute;
-  height:100vh;
-  width:100vw;
   z-index:50;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 html {
-  background-color: $black;
-  height:100%;
   font-family: 'VCR_OSD_MONO';
   font-size: 16px;
   font-weight: 300;
-  $cols: 10;
-  $rows: 6;
-  $cells: $cols * $rows;
   $bgcolor: black;
-  $shapeHeight: 230;
-  $shapeWidth: 200;
+  margin: 0;
+
+  body {
+    @extend .fill;
+    @extend .position-relative;
+    margin: 0;
+    color: rgb(239, 239, 239);
+    overflow: hidden;
+    font-family: 'VCR_OSD_MONO';
+    font-weight: 300;
+    textarea, input, select {
+      border: 0;
+    }
+  }
 
   // Refactor this... shouldn't be in here :|
 
@@ -42,63 +47,7 @@ html {
       color: rgb(255, 51, 153);
     }
   }
-
-  //Invividual shapes
-  .shape {
-    width: $shapeWidth+px;
-    height: $shapeHeight+px;
-    //Create hexagon mask 
-    -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); 
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); 
-    
-    //Snap hexagon together by moving each "row" up and over
-    @for $i from 1 through $cells {
-      @if $i > $cols {
-        &:nth-child(#{$i}) {
-          transform: translate(-50%, -25%);   
-        }
-      }
-      @if $i > ($cols * 2) {
-        &:nth-child(#{$i}) {
-          transform: translate(0%, -50%);   
-        }
-      }
-      @if $i > ($cols * 3) {
-        &:nth-child(#{$i}) {
-          transform: translate(-50%, -75%);   
-        }
-      }
-      @if $i > ($cols * 4) {
-        &:nth-child(#{$i}) {
-          transform: translate(0%, -100%);   
-        }
-      }
-      @if $i > ($cols * 5) {
-        &:nth-child(#{$i}) {
-          transform: translate(-50%, -125%);   
-        }
-      }
-    }
-  }
         
-  body {
-    margin:0;
-    height:100%;
-    color: rgb(239, 239, 239);
-    overflow:hidden;
-    margin: 0; 
-    background-color: $bgcolor;
-    height: 100vh;
-    width: 100vw;
-    position: relative;
-    overflow: hidden;
-    font-family: 'VCR_OSD_MONO';
-    font-weight: 300;
-    textarea, input, select {
-      border:0;
-    }
-  }
-
   h3 {
     margin: 40px 0 0;
   }
@@ -111,10 +60,6 @@ html {
   li {
     display: inline-block;
     margin: 0 10px;
-  }
-  
-  a {
-    color: $link-color;
   }
 
   input, textarea, select {

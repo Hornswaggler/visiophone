@@ -1,8 +1,8 @@
 .form-input-base-container {
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  @extend .flex;
+  @extend .flex-column;
 
   .form-input-base {
     color: white;
@@ -10,7 +10,7 @@
     min-height: var(--vp-input-min-height);
   
     .form-input-container {
-      display: flex;
+      @extend .flex;
       position:relative;
       flex: 1;
   
@@ -18,8 +18,8 @@
         position:absolute;
         top:0;
         left:0;
-        display:flex; 
-        justify-content: flex-start;
+        @extend .flex; 
+        @extend .justify-start;
         align-content: flex-start;
       
         .form-input-title {
@@ -36,7 +36,7 @@
         font-size: var(--vp-form-text-size);
         background-color: var(--vp-input-background-color);
         flex:2;
-        display: flex;
+        @extend .flex;
         flex-direction:column;
         min-height: var(--vp-input-min-height);
         font-family: "VCR_OSD_MONO";
@@ -44,8 +44,8 @@
     }
   }
 
-  .form-input-error{
-    color:#c13809;
+  .form-input-error {
+    color: $error-color;
     font-size:0.7em;
     text-align: left;
   }

@@ -1,48 +1,50 @@
 .form-dropdown {
   position:fixed;
-  display:flex;
+  @extend .flex;
   z-index:200;
 
   .form-dropdown-content {
     width: 10em;
-    align-items: center;
+    @extend .align-center;
 
-    .form-dropdown-item:nth-child(odd){
-      background-color:rgb(158, 158, 158);
+    .form-dropdown-item:nth-child(odd) {
+      background-color:$secondary-color;
     }
 
     .form-dropdown-item {
-      border-right: solid white 1px;
-      border-left: solid white 1px;
-      padding:0;
+      @extend .flex;
+      @extend .justify-center;
+      @extend .align-center;
+      @extend .p0;
+
+      border-right: $default-border;
+      border-left: $default-border;
+      
       overflow:hidden;
       transition: width 0.25s, color 0.2s, opacity 0.5s, transform 0.25s;
       opacity: 0.9;
       cursor:pointer;
       background-color:grey;
-      height:2em;
-      display:flex;
-      justify-content: center;
-      align-items: center;
-      color:black;
+      height: 2em;
+      color: black;
 
-      &:first-child{
-        border-top: solid white 1px;
+      &:first-child {
+        border-top: $default-border;
       }
 
-      &:last-child{
-        border-bottom: solid white 1px;
+      &:last-child {
+        border-bottom: $default-border;
       }
 
-      &:hover{
+      &:hover {
         transform: scale(1.2);
         opacity: 1;
         z-index:1;
         background-color:rgb(189, 189, 189);
-        color:white;
+        color: white;
       }
 
-      &>*{
+      &>* {
         display:block;
         position:absolute;
         overflow:hidden;

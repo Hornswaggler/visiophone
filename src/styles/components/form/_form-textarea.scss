@@ -1,11 +1,12 @@
 
 .form-textarea-container {
   flex:1;
-  display:flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding:0;
   width: 100%;
+
+  @extend .flex;
+  @extend .justify-start;
+  @extend .align-center;
+  @extend .p0;
 
   .form-textarea {
     width:100%;

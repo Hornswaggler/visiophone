@@ -1,26 +1,30 @@
+$primary-color: rgba(17, 17, 17, 0.7) !default;
+$secondary-color: rgb(158, 158, 158) !default;
+$tertiary-color: rgb(226, 226, 226) !default;
+$quaternary-color: rgba(85, 85, 85, 0.7) !default;
+
+$highlight-color: rgba(20, 234, 253, 0.95);
+
+$error-color: #c13809;
+
+$default-border: solid $tertiary-color 1px;
+$default-background-color: rgb(255 255 255 / 14%);
+$default-secondary-background-color: rgb(44 47 50 / 62%);
+
 // $text-font-stack: 'VCR_OSD_MONO', 'Courier New', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Monaco', monospace !default;
 $text-font-stack: 'Helvetica', 'Arial', sans-serif !default;
 $code-font-stack: 'VCR_OSD_MONO', 'Courier New', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Monaco', monospace !default;
 
-$primary-color:#65FE00 !default;
-$secondary-color: #FF3399 !default;
 
-$link-color: #42b983 !default;
-
-$black: rgb(0, 0, 0) !default;
-
-html{
-  --image-editor-hw: 16em;
+html {
   --vp-input-min-height: 1.5em;
   --vp-cover-art-hw: 2em;
   --vp-cover-art-hw-expanded: 10em;
   --vp-form-text-size: 1em;
   --vp-form-select-option-font-size: 1.2em;
+
   --vp-form-select-option-color: rgb(226, 226, 226);
-  --vp-form-select-option-background-color: rgb(14, 14, 14);
-  --vp-highlight-color:rgba(20, 234, 253, 0.95);
-  --vp-default-background-color: rgb(255 255 255 / 14%);
-  --vp-side-navigation-background-color: rgb(44 47 50 / 62%);
+  --vp-highlight-color: $highlight-color;
   --vp-form-button-background-color:rgba(0, 0, 0, 0.656);
   --vp-form-button-hover-background-color: rgb(147, 147, 147);
 
@@ -28,4 +32,31 @@ html{
   --vp-side-navigation-width: 10em;
   --vp-header-height: 3em;
   --vp-scrolling-container-header-height: 3.5em;
+}
+
+
+
+
+body {
+  background-color: $secondary-color;
+
+  border-top: $default-border;
+  border-bottom: $default-border;
+  border-left: $default-border;
+  background: $tertiary-color;
+
+  background-color: $primary-color;
+  background-color: $primary-color;
+  background-color: $primary-color;
+  background-color: $quaternary-color;
+  background-color: $primary-color;
+  background-color: $primary-color;
+  background-color: $primary-color;
+
+  background-color:rgb(189, 189, 189);
+
+  color:rgba(255, 255, 255, 0.96);
+
+  transition: all 250ms cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
 }
