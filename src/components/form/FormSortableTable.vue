@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name:'SortableTable',
+  name:'FormSortableTable',
   props:{
     data: {
       type: Array,

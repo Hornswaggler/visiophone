@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import {mapState, mapGetters}  from 'vuex';
 import ResponsiveLayout from '@/components/layout/ResponsiveLayout.vue';
 import Header from '@/components/layout/Header.vue';
 import SideNavigation from '@/components/layout/SideNavigation.vue';
@@ -99,12 +98,6 @@ export default {
   flex-direction: column;
 }
 
-.user-settings-image-container {
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  height:100%;
-}
 
 .user-settings-content-container {
   position: relative;

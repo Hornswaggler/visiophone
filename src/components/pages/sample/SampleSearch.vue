@@ -23,7 +23,7 @@
 
     <template v-slot:scrolling-content>
       <div class="scrolling-content">
-        <sortable-table
+        <form-sortable-table
           :table-definition="sampleTableDefinition"
           :data="sampleArray"
           :is-collapsed="isCollapsed"
@@ -62,7 +62,7 @@
                 </form-sortable-table-cell>
               </template>
               <template v-slot:Buy>
-                <redirect-button
+                <form-redirect-button
                   :action="samplePurchaseUrl"
                   :idToken="idToken"
                   :payload="JSON.stringify([sample.priceId])"
@@ -74,11 +74,11 @@
                       icon="fa-plus"
                     />
                   </template>
-                </redirect-button>
+                </form-redirect-button>
               </template>
             </sortable-table-row>
           </template>
-        </sortable-table>
+        </form-sortable-table>
       </div>
 
       <div
@@ -92,7 +92,7 @@
 import { mapGetters, mapState } from 'vuex';
 import {SORT_TYPES} from '@/store/modules/sample';
 import FormImage from '@/components/form/FormImage.vue';
-import SortableTable from '@/components/form/SortableTable.vue';
+import FormSortableTable from '@/components/form/FormSortableTable.vue';
 import FormIcon from '@/components/form/FormIcon.vue';
 import SortableTableRow from '@/components/form/SortableTableRow.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
@@ -101,13 +101,13 @@ import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
 import FormSortableTableHeader from '../../form/FormSortableTableHeader.vue';
 import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
 import AudioPlayer from '@/components/form/AudioPlayer.vue';
-import RedirectButton from '@/components/form/RedirectButton.vue';
+import FormRedirectButton from '@/components/form/FormRedirectButton.vue';
 
 export default {
   name:'SampleSearch',
   components:{
     FormImage,
-    SortableTable,
+    FormSortableTable,
     FormIcon,
     SortableTableRow,
     ScrollingContainer,
@@ -116,7 +116,7 @@ export default {
     FormSortableTableHeader,
     FormSortableTableCell,
     AudioPlayer,
-    RedirectButton,
+    FormRedirectButton,
   },
   data: () => ({
     page: 0,

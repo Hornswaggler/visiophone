@@ -9,12 +9,11 @@
     </template>
     <template
       v-slot:input
-      style="height:initial;"
     >
       <input
         step="0.01"
         v-model="internalValue"
-        class="form-number-input"
+        class="form-input-body"
         type="number"
         @change="onChanged"
       >
@@ -61,14 +60,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.form-number-input {
-  border:none;
-  background-color: transparent;
-  box-sizing: border-box;
-  font-size: var(--vp-form-text-size);
-  padding: var(--vp-input-padding);
-  color: white;
-}
-</style>

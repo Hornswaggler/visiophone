@@ -1,6 +1,6 @@
 <template>
   <form 
-    class="redirect-button" 
+    class="form-redirect-button" 
     :action="action"
     method="POST" 
   >
@@ -18,7 +18,7 @@
     >
     <button 
       type="submit"
-      class="redirect-button-submit"
+      class="form-redirect-button-submit"
     >
       <slot name="content" />
     </button>
@@ -26,7 +26,7 @@
 </template>
 <script>
 export default {
-  name:'RedirectButton',
+  name:'FormRedirectButton',
   data: () => ({
     internalIdToken:"",
     internalPrices: ""
@@ -53,12 +53,12 @@ export default {
 </script>
 
 <style lang="scss">
-.redirect-button {
+.form-redirect-button {
   input {
     display:none;
   }
 
-  .redirect-button-submit {
+  .form-redirect-button-submit {
     display:flex;
     justify-content: center;
     align-items: center;
@@ -68,11 +68,6 @@ export default {
     border:none;
     transition: transform 0.3s;
     transform: scale(1);
-
-    &:hover {
-      // transform: scale(1.5);
-    }
-
   }
 }
 </style>

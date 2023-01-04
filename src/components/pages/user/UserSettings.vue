@@ -4,9 +4,8 @@
   >
     <!-- TODO fix this  -->
     <div class="vp-form">
-
       <div class="vp-form-row">
-        <image-editor
+        <form-image-editor
           class="flex-3"
           :img-src="imageSrc"
           :change-handler="onImageChanged"
@@ -14,7 +13,7 @@
       </div>
 
       <div class="vp-form-row">
-        <upload-file
+        <form-upload-file
           title="profile pic"
           :accept="IMAGE_MIME_TYPE"
           button-text="Upload"
@@ -42,7 +41,7 @@
                 Upgrade to a seller's account to put your creations up for sale.
               </span>
 
-              <redirect-button
+              <form-redirect-button
                 :action="accountUpgradeUri"
                 :idToken="idToken"
               >
@@ -52,7 +51,7 @@
                     class="vp-button"
                   >UPGRADE</div>
                 </template>
-              </redirect-button>
+              </form-redirect-button>
 
             </div>
           </template>
@@ -120,20 +119,20 @@
 import Vue from 'vue';
 import { mapState, mapGetters } from 'vuex';
 import FormInputBase from '../../form/FormInputBase.vue';
-import UploadFile from '@/components/form/UploadFile.vue';
-import ImageEditor from '@/components/form/ImageEditor.vue';
+import FormUploadFile from '@/components/form/FormUploadFile.vue';
+import FormImageEditor from '@/components/form/FormImageEditor.vue';
 import FormInput from '@/components/form/FormInput.vue';
-import RedirectButton from '@/components/form/RedirectButton.vue';
+import FormRedirectButton from '@/components/form/FormRedirectButton.vue';
 import config from '@/config';
 
 export default {
   name:'UserSettings',
   components:{
-    UploadFile,
-    ImageEditor,
+    FormUploadFile,
+    FormImageEditor,
     FormInput,
     FormInputBase,
-    RedirectButton
+    FormRedirectButton
   },
   data: () => ({
     initialized: false,
@@ -167,7 +166,7 @@ export default {
     async onSaveChanges() {
       this.$store.commit('app/isLoading', true);
 
-      const result = await this.$store.dispatch(
+      await this.$store.dispatch(
         'user/uploadUserProfile', {
           blob: this.resampledBlob,
         }

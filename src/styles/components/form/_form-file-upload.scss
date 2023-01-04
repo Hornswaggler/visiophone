@@ -1,0 +1,31 @@
+.form-file-upload {
+  display:flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .form-file-upload-button {
+    padding: 0 0.5em;
+    cursor: pointer;
+    display:flex;
+    align-items: center;
+    height: 100%;
+    transition: all 0.25s ease-in-out;
+    background-color:var(--vp-form-button-background-color);
+
+    &:hover {
+      background-color:var(--vp-form-button-hover-background-color);
+      color:black;
+      z-index: 2;
+    }
+  }
+
+  .form-file-upload-button-spacer {
+    height:2em;
+    flex:1;
+    border-left: solid 1px white;
+    overflow: hidden;
+    line-height: 2;
+    text-align:left;
+    padding: 0 0.5em;
+  }
+}

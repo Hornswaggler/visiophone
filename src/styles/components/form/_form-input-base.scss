@@ -1,0 +1,52 @@
+.form-input-base-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .form-input-base {
+    color: white;
+    border: solid 2px rgb(118, 118, 118);
+    min-height: var(--vp-input-min-height);
+  
+    .form-input-container {
+      display: flex;
+      position:relative;
+      flex: 1;
+  
+      .form-input-title-container {
+        position:absolute;
+        top:0;
+        left:0;
+        display:flex; 
+        justify-content: flex-start;
+        align-content: flex-start;
+      
+        .form-input-title {
+          margin-top: -0.85em;
+          margin-left: 1em;
+          height:1em;
+          color:white;
+          font-size: 0.8em;
+          opacity:0.8;
+        }
+      }
+  
+      .form-input-body-container {
+        font-size: var(--vp-form-text-size);
+        background-color: var(--vp-input-background-color);
+        flex:2;
+        display: flex;
+        flex-direction:column;
+        min-height: var(--vp-input-min-height);
+        font-family: "VCR_OSD_MONO";
+      }
+    }
+  }
+
+  .form-input-error{
+    color:#c13809;
+    font-size:0.7em;
+    text-align: left;
+  }
+}

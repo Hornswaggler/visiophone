@@ -9,13 +9,13 @@
     </template>
     <template
       v-slot:input
-      style="height:initial;"
     >
-      <div class="vp-text-area-input">
+      <div class="form-textarea-container">
+        <!-- TODO: Expose rows as a prop... -->
         <textarea
+          :rows="rows" 
           v-model="internalValue"
-          class="vp-textarea"
-          rows="2" 
+          class="form-textarea"
           type="text"
         />
       </div>
@@ -45,6 +45,10 @@ export default {
       type: String,
       default: ''
     },
+    rows: {
+      type: String,
+      default:'2'
+    }
   },
   data: () => ({
     internalValue:''
@@ -67,23 +71,3 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.vp-textarea {
-  width:100%;
-  height:100%;
-  background-color:transparent;
-  color:white;
-  padding: var(--vp-input-padding);
-  box-sizing: border-box;
-  font-size: var(--vp-form-text-size);
-}
-
-.vp-text-area-input {
-  flex:1;
-  display:flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding:0;
-  width: 100%;
-}
-</style>

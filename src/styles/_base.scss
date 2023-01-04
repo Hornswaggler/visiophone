@@ -33,14 +33,14 @@ html {
     background: radial-gradient(circle, transparent 0%, transparentize($bgcolor, .15) 100%);
   }
 
-  //Container to provide grid layout for all items
-  .container {
-    z-index: -3;
-    display: grid;
+  .hover-zoom {
+    cursor: pointer;
+    transition: transform 0.1s linear 0s;
 
-    grid-template-columns: repeat($cols, $shapeWidth+px);
-    grid-template-rows: repeat($rows, $shapeHeight+px);
-    transform: translate(-3%, -4%); // Starting point bleeds off edge
+    &:hover{
+      transform: scale(1.25, 1.25);
+      color: rgb(255, 51, 153);
+    }
   }
 
   //Invividual shapes

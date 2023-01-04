@@ -23,9 +23,6 @@ export default {
 
   async mounted(){
     // this.initializePersistentStorage();
-
-
-
     this.$router.beforeEach(({path}, from, next) => {
       this.$store.commit(
         'app/setSideNavigationIndex',
@@ -88,19 +85,6 @@ export default {
 
 <style lang="scss">
 @import "@/styles/main.scss";
-
-.header-custom-user-name {
-  @include for-size(xs) {
-    display: none;
-  }
-}
-
-.mobile-nav-hamburger {
-  @include for-size(xs) {
-    display: block;
-  }
-  display: none;
-}
 
 .user-settings-form {
   flex-direction: column-reverse;
