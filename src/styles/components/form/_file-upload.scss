@@ -9,12 +9,12 @@
     @extend .flex;
     @extend .align-center;
     height: 100%;
-    transition: all 0.25s ease-in-out;
+    transition: all $transition-cubic-bezier-250;
     background-color: var(--vp-form-button-background-color);
 
     &:hover {
       background-color: var(--vp-form-button-hover-background-color);
-      color:black;
+      color:$quinary-color;
       z-index: 2;
     }
   }

@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@use "sass:color";
 
 @import 'variables';
 @import 'helpers';
@@ -12,14 +13,17 @@
 @import 'gradients';
 @import './components/layout/responsive-layout';
 @import './components/scrolling-container';
-@import './components/form/form-base';
-@import './components/form/form-sortable-table';
-@import './components/form/form-dropdown';
-@import './components/form/form-input';
-@import './components/form/form-input-base';
-@import './components/form/form-select';
-@import './components/form/form-image-editor';
-@import './components/form/form-textarea';
-@import './components/form/form-file-upload';
+@import './components/form/base';
+@import './components/form/sortable-table';
+@import './components/form/dropdown';
+@import './components/form/input';
+@import './components/form/input-base';
+@import './components/form/select';
+@import './components/form/image-editor';
+@import './components/form/textarea';
+@import './components/form/file-upload';
+@import './components/form/button';
+@import './components/form/image';
+@import './components/form/redirect-button';
 @import './components/layout/responsive-layout-header';
 @import './components/pages/sample-page';

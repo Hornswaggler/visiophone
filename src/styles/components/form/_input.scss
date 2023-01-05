@@ -1,18 +1,18 @@
 .form-input-body {
   border:none;
   padding: var(--vp-input-padding);
-  color:white;
+  color: $primary-text-color;
   z-index:2;
   flex:1;
   background-color:transparent;
   font-size: var(--vp-form-text-size);
   min-width: 0;
   font-family: 'VCR_OSD_MONO';
-  transition: all 0.5s;
+  transition: all $transition-cubic-bezier-500;
 
   &::selection {
     background: $tertiary-color;
-    color:black;
+    color: $quinary-color;
   }
 }
 
@@ -30,7 +30,7 @@
 
 .toggle-show {
   opacity: 0.5;
-  transition: opacity 0.5s;
+  transition: opacity $transition-cubic-bezier-500;
   &.hide {
     opacity:0;
   }

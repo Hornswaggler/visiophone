@@ -3,7 +3,7 @@
     class="user-settings-form"
   >
     <!-- TODO fix this  -->
-    <div class="vp-form">
+    <div class="form-column">
       <div class="vp-form-row">
         <form-image-editor
           class="flex-3"

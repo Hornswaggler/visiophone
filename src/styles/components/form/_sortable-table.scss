@@ -1,8 +1,9 @@
 .sortable-table {
   @extend .flex;
+  @extend .justify-center;
+
   flex-wrap: wrap;
   flex-direction: row;
-  @extend .justify-center;
 
   &.expanded {
     justify-content: initial;
@@ -11,7 +12,7 @@
 
   .sortable-table-row {
     width: var(--vp-cover-art-hw);
-    transition:all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all $transition-cubic-bezier-250;
     width: var(--vp-cover-art-hw-expanded);
     height:var(--vp-cover-art-hw-expanded);
     margin-top:0.5em;
@@ -25,9 +26,11 @@
       width: 100%;
       height: 100%;
       padding: 0;
+
       &:hover {
         transform:none;
       }
+
       &:first-child{
         margin-top:0;
       }
@@ -38,11 +41,11 @@
       cursor: pointer;
       border-radius: 8px;
       overflow-x: hidden;
-      transition: background-color 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
-      background-color: var(--vp-form-button-background-color);
+      transition: background-color $transition-cubic-bezier-250;
+      background-color: $tertiary-background-color;
     
       &:hover {
-        background-color: $default-secondary-background-color;
+        background-color: $secondary-background-color;
       }
     
       .sortable-column {
@@ -83,24 +86,24 @@
   @extend .flex;
   .sortable-table-header-column {
     @extend .flex;
-    cursor:pointer;
     @extend .justify-start;
-    font-family: "VCR_OSD_MONO";
+    cursor: pointer;
+
     background-color: $primary-color;
-    transition: all 250ms cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all $transition-cubic-bezier-250;
 
     &:hover {
       transform: scale(1.05);
-      background-color:rgba(114, 114, 114, 0.463);
+      background-color:$quaternary-color;
     }
 
-      .sortable-table-header-sort-options {
+    .sortable-table-header-sort-options {
       @extend .fill;
       @extend .flex-column; 
       @extend .justify-center;
       padding-left:0.5em;
       opacity:0;
-      transition: all 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
+      transition: color $transition-cubic-bezier-250;
 
       &.selected {
         opacity: 1;
@@ -111,19 +114,18 @@
       }
 
       .sortable-table-header-form-icon {
-        opacity:0;
-        color: #a1a1a170;
+        color: $primary-background-color;
         font-size:0.8em;
         height:25%;
         user-select: none;
 
         &:hover{
-          color: #ffffffe1;
+          color: $primary-text-color;
         }
 
         &.selected {
           opacity:1;
-          color:rgba(255, 255, 255, 0.96);
+          color: $tertiary-color;
         }
       }
     }

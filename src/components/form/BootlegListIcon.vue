@@ -1,6 +1,6 @@
 <template>
   <div
-    class="sort-icon"
+    class="icon-button"
     :class="{selected}"
     @click="onClickHandler"
   >

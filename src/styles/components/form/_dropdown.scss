@@ -1,5 +1,5 @@
 .form-dropdown {
-  position:fixed;
+  position: fixed;
   @extend .flex;
   z-index:200;
 
@@ -17,16 +17,22 @@
       @extend .align-center;
       @extend .p0;
 
+      background-color:$quaternary-color;
+      color: $quinary-color;
+
       border-right: $default-border;
       border-left: $default-border;
       
       overflow:hidden;
-      transition: width 0.25s, color 0.2s, opacity 0.5s, transform 0.25s;
+      transition: 
+        width $transition-cubic-bezier-250, 
+        color $transition-cubic-bezier-250, 
+        opacity $transition-cubic-bezier-250, 
+        transform $transition-cubic-bezier-250;
+
       opacity: 0.9;
       cursor:pointer;
-      background-color:grey;
       height: 2em;
-      color: black;
 
       &:first-child {
         border-top: $default-border;
@@ -37,11 +43,11 @@
       }
 
       &:hover {
+        background-color: $secondary-color;
+        color: $primary-text-color;
         transform: scale(1.2);
         opacity: 1;
         z-index:1;
-        background-color:rgb(189, 189, 189);
-        color: white;
       }
 
       &>* {

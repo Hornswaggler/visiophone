@@ -51,23 +51,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss">
-.form-redirect-button {
-  input {
-    display:none;
-  }
 
-  .form-redirect-button-submit {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    background-color:transparent;
-    color:white;
-    width:100%;
-    border:none;
-    transition: transform 0.3s;
-    transform: scale(1);
-  }
-}
 </style>

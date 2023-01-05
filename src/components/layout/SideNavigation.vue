@@ -18,7 +18,7 @@
       <div
         v-for="option in sideNavigationItemsForUser"
         :key="option._id"
-        class="side-naviagation-option"
+        class="side-navigation-option"
         :class="{ selected: sideNavigationIndex === option.id }"
         @click="onMenuItemSelected(option)"
       >

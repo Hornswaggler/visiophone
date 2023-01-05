@@ -7,7 +7,7 @@
   padding: 0 1em;
   height: var(--vp-header-height);
   
-  color: #ffffffa1;
+  color: $secondary-color;
   @extend .justify-start;
   font-size: 1.2em;
   z-index: 1;

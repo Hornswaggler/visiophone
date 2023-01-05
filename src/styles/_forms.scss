@@ -1,4 +1,4 @@
-.sort-icon {
+.icon-button {
   @extend .flex;
   @extend .flex-column;
   @extend .justify-center;
@@ -9,8 +9,10 @@
 
   cursor: pointer;
   transform: scale(1);
-  transition: transform 0.25s ease, color 0.25s ease;
-  color: darkgray;
+  transition: 
+    transform $transition-cubic-bezier-250, 
+    color $transition-cubic-bezier-250;
+  color: color.scale($tertiary-color, $lightness: -50%); 
 
   &:hover {
     transform: scale(1.2);
@@ -20,44 +22,5 @@
   &.selected {
     transform:scale(1.1);
     color: $tertiary-color;
-  }
-}
-
-.vp-form {
-
-  .vp-form-row {
-    @extend .flex;
-    @extend .justify-start;
-
-    &:first-child {
-      margin-top:0;
-    }
-    font-size: 1em;
-    color: $tertiary-color;
-    width:100%;
-    margin-top: 2em;
-  }
-}
-
-.vp-button {
-  @extend .flex;
-  @extend .align-center;
-  @extend .justify-center;
-  
-  border: $default-border;
-  color: $tertiary-color;
-  
-  font: normal 100%/1.4 "VCR_OSD_MONO", "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Monaco", monospace;
-  height:2em;
-  
-  cursor:pointer;
-  
-  background-color:black;
-  transition: all 0.25s ease-in-out;
-  background-color:var(--vp-form-button-background-color);
-
-  &:hover{
-    background-color:var(--vp-form-button-hover-background-color);
-    color:black;
   }
 }

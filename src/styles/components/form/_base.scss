@@ -1,0 +1,37 @@
+.form-base {
+  @extend .flex;
+
+  flex-direction: column-reverse;
+
+  .form-column {
+    @extend .flex;
+    @extend .flex-1;
+    flex-direction: column;
+
+    .vp-form-row {
+      @extend .flex;
+      @extend .justify-start;
+      font-size: 1em;
+      margin-top: 2em;
+      
+      &:first-child {
+        @extend .mt0;
+      }
+    }
+  }
+
+  .vp-form:first-child {
+    @extend .p1;
+  }
+
+  @include for-size(md) {
+    flex-direction: row;
+    .vp-form:first-child {
+      padding-top:0;
+    }
+  }
+}
+
+.form-icon {
+  cursor:pointer;
+}

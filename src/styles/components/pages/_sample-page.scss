@@ -2,8 +2,8 @@
   position: relative;
   @extend .flex;
   @extend .flex-column;
-  box-shadow: 20px 20px 30px 0px rgba(0,0,0,0.75);
+  box-shadow: 20px 20px 30px 0px $primary-shadow-inset;
   height: 100vh;
   width: 100%;
-  background-color:rgba(0,0,0, 0.5);
+  background-color:$primary-color;
 }

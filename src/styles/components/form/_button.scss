@@ -1,0 +1,22 @@
+.vp-button {
+  @extend .flex;
+  @extend .align-center;
+  @extend .justify-center;
+  
+  height: 2em;
+
+  font: normal 100%/1.4 $text-font-stack;
+  border: $default-border;
+  color: $tertiary-color;
+
+  transition: all $transition-cubic-bezier-250;
+
+  cursor:pointer;
+  
+  background-color: var(--vp-form-button-background-color);
+
+  &:hover {
+    background-color: var(--vp-form-button-hover-background-color);
+    color: $secondary-text-color;
+  }
+}

@@ -5,8 +5,8 @@
   @extend .flex-column;
 
   .form-input-base {
-    color: white;
-    border: solid 2px rgb(118, 118, 118);
+    color: $primary-text-color;
+    border: solid 2px $secondary-color;
     min-height: var(--vp-input-min-height);
   
     .form-input-container {
@@ -15,28 +15,28 @@
       flex: 1;
   
       .form-input-title-container {
+        @extend .flex; 
+        @extend .justify-start;
         position:absolute;
         top:0;
         left:0;
-        @extend .flex; 
-        @extend .justify-start;
         align-content: flex-start;
       
         .form-input-title {
           margin-top: -0.85em;
           margin-left: 1em;
           height:1em;
-          color:white;
+          color: $primary-text-color;
           font-size: 0.8em;
           opacity:0.8;
         }
       }
   
       .form-input-body-container {
+        @extend .flex;
         font-size: var(--vp-form-text-size);
         background-color: var(--vp-input-background-color);
         flex:2;
-        @extend .flex;
         flex-direction:column;
         min-height: var(--vp-input-min-height);
         font-family: "VCR_OSD_MONO";
@@ -45,7 +45,7 @@
   }
 
   .form-input-error {
-    color: $error-color;
+    color: $primary-error-color;
     font-size:0.7em;
     text-align: left;
   }

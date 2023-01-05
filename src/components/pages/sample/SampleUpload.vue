@@ -2,7 +2,7 @@
   <scrolling-container>
     <template v-slot:scrolling-content>
       <div class="form-base">
-        <div class="vp-form">
+        <div class="form-column">
           <div class="vp-form-row mt0">
             <form-input
               fieldName="name"
@@ -76,7 +76,7 @@
           </div>
         </div>
 
-        <div class="pl1 flex-1">
+        <div class="pl1 form-column">
           <div class="vp-form-row user-settings-image-container">
             <form-image-editor
               class="flex-3"
