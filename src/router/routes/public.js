@@ -6,7 +6,7 @@ const routes = [
   {
     path: `/${TERMS_OF_SERVICE}`,
     name: 'Terms of Service',
-    title: 'VISIOPHONE ٩(̾●̮̮̃̾•̃̾)۶',
+    title: 'VISIOPHONE (╯°□°)╯︵ ┻━┻', // if we're going to have the same title on every page, we can probably put this into a global nav guard
     component: TermsOfService
   },
   {

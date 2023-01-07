@@ -25,6 +25,7 @@ export default {
   actions: {
     async logon({dispatch}) {
       const {homeAccountId} = await auth.logon();
+      console.log('homeAccountId::: ', homeAccountId)
       await dispatch('handleUserLogon', await auth.getAccessToken(homeAccountId));
     },
 
