@@ -92,7 +92,7 @@ import { mapState } from 'vuex';
 import LandingPage from '../../layout/LandingPage.vue';
 
 export default {
-    name: 'TOS',
+    name: 'TermsOfService',
     components: {
         LandingPage
     },
