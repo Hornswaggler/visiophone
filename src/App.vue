@@ -27,8 +27,6 @@ export default {
   async mounted(){
     // this.initializePersistentStorage();
 
-
-
     this.$router.beforeEach(({path}, from, next) => {
       this.$store.commit(
         'app/setSideNavigationIndex',
@@ -40,7 +38,6 @@ export default {
 
     try{
       console.log('App.routes::: ', routes.meta.isPublic)
-      // console.log()
       
       // await this.$store.dispatch('user/logon');
     }catch(e) {

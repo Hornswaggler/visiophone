@@ -1,4 +1,4 @@
-import * as _msal from '@azure/msal-browser';
+import * as _msal from '@azure/msal-browser'; // is tree shaking going to keep the whole msal object from being imported into this module?
 import { loginRequest, tokenRequest as _tokenRequest, msalConfig } from '/src/b2cPolicies';
 import store from '/src/store/';
 import config from '/src/config';
@@ -16,7 +16,7 @@ const handleResponse = async (response) => {
   if (response !== null) {
     store.dispatch('user/handleUserLogon', await getAccessToken(response.account.homeAccountId))
   } else {
-      selectAccount();
+      selectAccount();  // 
   }
 }
 
@@ -53,7 +53,8 @@ export const logOff = async (accountId) => {
   });
 };
 
-export default {
+export default { // in a React app, I'm pretty sure this would error out
+                  // also, we're exporting these variables multiple times
   getAccessToken,
   logon,
   logOff

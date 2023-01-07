@@ -60,7 +60,7 @@ export default {
       commit('idToken', tokenResponse.idToken);
       commit('customUserName', tokenResponse.account.name);
       commit('avatarId', tokenResponse.idTokenClaims.oid);
-      commit('authenticated', true);
+      commit('authenticated', true); // 
 
       await dispatch('refreshProfileImg');
       await dispatch('getStripeProfile');

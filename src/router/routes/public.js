@@ -1,7 +1,6 @@
-import { TERMS_OF_SERVICE } from '../routeNames';
+import { TERMS_OF_SERVICE, LANDING } from '../routeNames';
 import LandingPage from '/src/components/layout/LandingPage.vue';
 import TermsOfService from '/src/components/pages/publicPages/TermsOfService.vue'
-import { LANDING } from '/src/router/routeNames';
 
 const routes = [
   {

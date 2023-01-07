@@ -19,16 +19,14 @@ router.beforeEach((to, from, next) => {
   console.log('store::: ', store.state.user.authenticated)
 
 
-  // if (!isPublic && !authenticated) {
-  //   store.commit('app/setTargetUrl', to.path)
-  //   return next({
-  //     path: '/landingPage',
-  //     query: { redirect: to.fullPath }
-  //   });
-  // }
-
-
-  
+  if (!isPublic && !authenticated) {
+    console.log('router.index.js ::: ', isPublic, authenticated)
+    store.commit('app/setTargetUrl', to.path)
+    return next({
+      path: '/landingPage',
+      query: { redirect: to.fullPath }
+    });
+  }
 
   next();
 });
