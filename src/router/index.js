@@ -22,7 +22,7 @@ router.beforeEach((to, from, next) => {
     next()
   }
 
-  if (!isPublic && !authenticated) {
+  if (!authenticated) {
     console.log('router.index.js ::: ', isPublic, authenticated)
     store.commit('app/setTargetUrl', to.path)
     store.dispatch('user/logon')
