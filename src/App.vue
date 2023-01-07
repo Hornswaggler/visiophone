@@ -27,6 +27,9 @@ export default {
   async mounted(){
     // this.initializePersistentStorage();
 
+    // question here
+    // Does this need to be here b/c this needs to be bound to the instance specificall?
+    //  or can we refactor it into the router logic?
     this.$router.beforeEach(({path}, from, next) => {
       this.$store.commit(
         'app/setSideNavigationIndex',
@@ -34,6 +37,7 @@ export default {
       );
       next();
     });
+
     await axiosInit();
 
     try{
