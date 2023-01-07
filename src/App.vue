@@ -11,6 +11,7 @@ import {mapState} from 'vuex';
 import BaseLayout from '@/components/layout/BaseLayout.vue';
 import { axiosInit } from '@/axios.js';
 import config from '@/config';
+import routes from './router/routes';
 
 export default {
   name: 'App',
@@ -38,7 +39,10 @@ export default {
     await axiosInit();
 
     try{
-      await this.$store.dispatch('user/logon');
+      console.log('App.routes::: ', routes.meta.isPublic)
+      // console.log()
+      
+      // await this.$store.dispatch('user/logon');
     }catch(e) {
       //consume
     }

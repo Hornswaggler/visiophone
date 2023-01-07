@@ -3,6 +3,7 @@ export const LANDING = 'landingPage';
 export const SAMPLE = 'sample';
 export const SAMPLE_UPLOAD = 'upload';
 export const SAMPLE_SEARCH = 'search';
+export const TERMS_OF_SERVICE = 'terms-of-service';
 
 export const USER = 'user';
 export const USER_SETTINGS = 'settings';
@@ -23,5 +24,6 @@ export default {
   PROVISION_STRIPE_STANDARD_REFRESH,
   PROVISION_STRIPE_STANDARD_RETURN,
   DEFAULT_ROUTE,
-  PURCHASE_SAMPLE_RETURN
+  PURCHASE_SAMPLE_RETURN,
+  TOS
 };

@@ -61,5 +61,5 @@ const routes = [
 ];
 
 export default routes.map(route => {
-  return { ...route, meta: { public: false } }
+  return { ...route, meta: { isPublic: false } }
 });

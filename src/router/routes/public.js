@@ -1,7 +1,15 @@
+import { TERMS_OF_SERVICE } from '../routeNames';
 import LandingPage from '/src/components/layout/LandingPage.vue';
-import {LANDING} from '/src/router/routeNames';
+import TermsOfService from '/src/components/pages/publicPages/TermsOfService.vue'
+import { LANDING } from '/src/router/routeNames';
 
 const routes = [
+  {
+    path: `/${TERMS_OF_SERVICE}`,
+    name: 'Terms of Service',
+    title: 'VISIOPHONE ٩(̾●̮̮̃̾•̃̾)۶',
+    component: TermsOfService
+  },
   {
     path: `/${LANDING}`,
     name: `${LANDING}`,
@@ -13,14 +21,14 @@ const routes = [
     name: `${LANDING}`,
     title: 'VISIOPHONE (╯°□°)╯︵ ┻━┻',
     component: LandingPage
-  }
+  },
 ];
 
 export default routes.map(route => {
   const meta = {
     title: route.title,
-    public: true,
-    onlyLoggedOut: true
+    isPublic: true,
+    onlyLoggedOut: true //
   }
   return { ...route, meta }
 });

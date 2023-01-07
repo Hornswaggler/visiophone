@@ -12,15 +12,23 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const authenticated = store.state.user.authenticated;
   const onlyLoggedOut = to.matched.some(record => record.meta.onlyLoggedOut);
-  const isPublic = to.matched.some(record => record.meta.public);
+  const isPublic = to.matched.some(record => record.meta.isPublic);
 
-  if (!isPublic && !authenticated) {
-    store.commit('app/setTargetUrl', to.path)
-    return next({
-      path: '/landingPage',
-      query: { redirect: to.fullPath }
-    });
-  }
+  console.log('to::: ', to)
+  console.log('isPublic::: ', isPublic)
+  console.log('store::: ', store.state.user.authenticated)
+
+
+  // if (!isPublic && !authenticated) {
+  //   store.commit('app/setTargetUrl', to.path)
+  //   return next({
+  //     path: '/landingPage',
+  //     query: { redirect: to.fullPath }
+  //   });
+  // }
+
+
+  
 
   next();
 });

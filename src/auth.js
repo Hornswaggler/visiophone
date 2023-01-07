@@ -12,6 +12,7 @@ export const getAccessToken = async (homeAccountId = '') => {
 };
 
 const handleResponse = async (response) => {
+  console.log('auth.handleResponse.response::: ', response)
   if (response !== null) {
     store.dispatch('user/handleUserLogon', await getAccessToken(response.account.homeAccountId))
   } else {
@@ -21,11 +22,13 @@ const handleResponse = async (response) => {
 
 client.handleRedirectPromise()
   .then(response => {
+    console.log('auth.handleRedirectPromise::: ', response)
       if (response) {
           if (response.idTokenClaims[config.VITE_AUTH_SIGN_UP_SIGN_IN_POLICY_KEY].toUpperCase() === config.VITE_AUTH_SIGN_UP_SIGN_IN_POLICY_NAME.toUpperCase()) {
               handleResponse(response);
           }
       }
+      console.log('fish')
   })
   .catch(error => {
       //Consume
@@ -33,6 +36,8 @@ client.handleRedirectPromise()
 
 export const logon = async () => {
   const accounts = client.getAllAccounts();
+
+  console.log('accounts::: ', accounts)
 
   if(accounts.length > 0) {
     //TODO: Fix this, check the policies on the accounts / match the one this app is looking for
