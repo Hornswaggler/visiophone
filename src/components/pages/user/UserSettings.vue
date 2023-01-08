@@ -1,6 +1,6 @@
 <template>
   <div
-    class="user-settings-form"
+    class="form-base"
   >
     <!-- TODO fix this  -->
     <div class="form-column">

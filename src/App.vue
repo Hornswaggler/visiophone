@@ -87,6 +87,7 @@ export default {
 @import "@/styles/main.scss";
 
 .user-settings-form {
+  display:flex;
   flex-direction: column-reverse;
   .vp-form:first-child {
       padding-top: 1em;

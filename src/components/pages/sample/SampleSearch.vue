@@ -1,91 +1,96 @@
 <template>
-  <scrolling-container
-    :on-scroll-limit-reached="onScrollLimitReached"
-  >
-    <template v-slot:header>
-      <div class="flex justify-end icon-group">
-        <bootleg-list-icon
-          :on-click="onViewListClicked"
-          :selected="isListTypeSelected"
-        />
-        <bootleg-group-icon 
-          :on-click="onViewGroupClicked"
-          :selected="isGroupTypeSelected"
-        />
-      </div>
-      
-      <form-sortable-table-header
-        :table-definition="sampleTableDefinition"
-        :on-column-clicked="onColumnClicked"
-        :selected="true"
-      />
-    </template>
-
-    <template v-slot:scrolling-content>
-      <div class="scrolling-content">
-        <form-sortable-table
+  <div>
+    <div style="height: 5em; width: 100%;">
+      <carousel></carousel>
+    </div>
+    <scrolling-container
+      :on-scroll-limit-reached="onScrollLimitReached"
+    >
+      <template v-slot:header>
+        <div class="flex justify-end icon-group">
+          <bootleg-list-icon
+            :on-click="onViewListClicked"
+            :selected="isListTypeSelected"
+          />
+          <bootleg-group-icon
+            :on-click="onViewGroupClicked"
+            :selected="isGroupTypeSelected"
+          />
+        </div>
+        
+        <form-sortable-table-header
           :table-definition="sampleTableDefinition"
-          :data="sampleArray"
-          :is-collapsed="isCollapsed"
-        >
-          <template v-slot:row="{ row:sample }">
-            <sortable-table-row
-              :class="{ expanded : !isCollapsed }"
-              :table-definition="sampleTableDefinition"
-              :is-collapsed="isCollapsed"
-            >
-              <template v-slot:Image>
-                <form-image
-                  :class="{expanded: !isCollapsed}"
-                  :url="`${sample.imgUrl}`"
-                />
-              </template>
-              <template v-slot:Title>
-                <form-sortable-table-cell>
-                  {{ sample.name }}
-                </form-sortable-table-cell>
-              </template>
-              <template v-slot:Genre>
-                <form-sortable-table-cell>
-                  {{ sample.tag }}
-                  <!-- <audio-player :sample="sample" /> -->
-                </form-sortable-table-cell>
-              </template>
-              <template v-slot:BPM>
-                <form-sortable-table-cell>
-                  {{ sample.bpm }}
-                </form-sortable-table-cell>
-              </template>
-              <template v-slot:Cost>
-                <form-sortable-table-cell>
-                  {{ `$${sample.cost * 0.01}` }}
-                </form-sortable-table-cell>
-              </template>
-              <template v-slot:Buy>
-                <form-redirect-button
-                  :action="samplePurchaseUrl"
-                  :idToken="idToken"
-                  :payload="JSON.stringify([sample.priceId])"
-                >
-                  <template v-slot:content>
-                    <form-icon
-                      icon-size="1em"
-                      class="vp-icon flex justify-end align-end download-icon"
-                      icon="fa-plus"
-                    />
-                  </template>
-                </form-redirect-button>
-              </template>
-            </sortable-table-row>
-          </template>
-        </form-sortable-table>
-      </div>
+          :on-column-clicked="onColumnClicked"
+          :selected="true"
+        />
+      </template>
 
-      <div
-        class="flex"
-      />
-    </template>
-  </scrolling-container>
+      <template v-slot:scrolling-content>
+        <div class="scrolling-content">
+          <form-sortable-table
+            :table-definition="sampleTableDefinition"
+            :data="sampleArray"
+            :is-collapsed="isCollapsed"
+          >
+            <template v-slot:row="{ row:sample }">
+              <sortable-table-row
+                :class="{ expanded : !isCollapsed }"
+                :table-definition="sampleTableDefinition"
+                :is-collapsed="isCollapsed"
+              >
+                <template v-slot:Image>
+                  <form-image
+                    :class="{expanded: !isCollapsed}"
+                    :url="`${sample.imgUrl}`"
+                  />
+                </template>
+                <template v-slot:Title>
+                  <form-sortable-table-cell>
+                    {{ sample.name }}
+                  </form-sortable-table-cell>
+                </template>
+                <template v-slot:Genre>
+                  <form-sortable-table-cell>
+                    {{ sample.tag }}
+                    <!-- <audio-player :sample="sample" /> -->
+                  </form-sortable-table-cell>
+                </template>
+                <template v-slot:BPM>
+                  <form-sortable-table-cell>
+                    {{ sample.bpm }}
+                  </form-sortable-table-cell>
+                </template>
+                <template v-slot:Cost>
+                  <form-sortable-table-cell>
+                    {{ `$${sample.cost * 0.01}` }}
+                  </form-sortable-table-cell>
+                </template>
+                <template v-slot:Buy>
+                  <form-redirect-button
+                    :action="samplePurchaseUrl"
+                    :idToken="idToken"
+                    :payload="JSON.stringify([sample.priceId])"
+                  >
+                    <template v-slot:content>
+                      <form-icon
+                        icon-size="1em"
+                        class="vp-icon flex justify-end align-end download-icon"
+                        icon="fa-plus"
+                      />
+                    </template>
+                  </form-redirect-button>
+                </template>
+              </sortable-table-row>
+            </template>
+          </form-sortable-table>
+        </div>
+
+        <div
+          class="flex"
+        />
+      </template>
+    </scrolling-container>
+  </div>
 </template>
 
 <script>
@@ -102,6 +107,7 @@ import FormSortableTableHeader from '../../form/FormSortableTableHeader.vue';
 import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
 import AudioPlayer from '@/components/form/AudioPlayer.vue';
 import FormRedirectButton from '@/components/form/FormRedirectButton.vue';
+import Carousel from '@/components/form/Carousel.vue';
 
 export default {
   name:'SampleSearch',
@@ -117,6 +123,7 @@ export default {
     FormSortableTableCell,
     AudioPlayer,
     FormRedirectButton,
+    Carousel
   },
   data: () => ({
     page: 0,

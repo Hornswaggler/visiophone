@@ -1,15 +1,30 @@
 $side-navigation-width: 10em;
 
 .responsive-layout {
+  @extend .flex;
   .responsive-margin {
     @include for-size(xl){
-      width: 25vw;
-    }
+      width: 15vw;
+      height: 100vh;
+    };
+    background-color: $primary-color;
+    height: 0vh;
     width: 0vw;
   }
 
+  height:100vh;
+  width: 100vw;
+
   .responsive-layout-body {
     @extend .justify-center;
+
+    @include for-size(xl){
+      width: 70vw;
+    }
+
+    height:100vh;
+    width: 100vw;
+
     position: relative;
 
     .side-navigation-overlay {
