@@ -1,0 +1,133 @@
+.sortable-table {
+  @extend .flex;
+  @extend .justify-center;
+
+  flex-wrap: wrap;
+  flex-direction: row;
+
+  &.expanded {
+    justify-content: initial;
+    @extend .flex-column;
+  }
+
+  .sortable-table-row {
+    width: var(--vp-cover-art-hw);
+    transition: all $transition-cubic-bezier-250;
+    width: var(--vp-cover-art-hw-expanded);
+    height:var(--vp-cover-art-hw-expanded);
+    margin-top:0.5em;
+    padding: 0.5em;
+
+    &:hover {
+      transform:scale(1.1);
+    }
+
+    &.expanded {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+
+      &:hover {
+        transform:none;
+      }
+
+      &:first-child{
+        margin-top:0;
+      }
+    }
+
+    .sortable-column-row {
+      @extend .flex;
+      cursor: pointer;
+      border-radius: 8px;
+      overflow-x: hidden;
+      transition: background-color $transition-cubic-bezier-250;
+      background-color: $tertiary-background-color;
+    
+      &:hover {
+        background-color: $secondary-background-color;
+      }
+    
+      .sortable-column {
+        @extend .flex;
+        @extend .align-center;
+        @extend .justify-center;
+
+        .sortable-table-cell {
+          height: var(--vp-cover-art-hw);
+          text-align:left;
+          font-size:large;
+          position: relative;
+          width:100%;
+          overflow:hidden;
+
+          .sortable-table-cell-overflow {
+            white-space:nowrap;
+            position:absolute;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+          }
+
+          .sortable-table-cell-content {
+            @extend .flex;
+            position: relative;
+            height: 100%;
+            @extend .align-center;
+          }
+        }
+      }
+    };
+  }
+}
+
+.sortable-table-header {
+  @extend .flex;
+  .sortable-table-header-column {
+    @extend .flex;
+    @extend .justify-start;
+    cursor: pointer;
+
+    background-color: $primary-color;
+    transition: all $transition-cubic-bezier-250;
+
+    &:hover {
+      transform: scale(1.05);
+      background-color:$quaternary-color;
+    }
+
+    .sortable-table-header-sort-options {
+      @extend .fill;
+      @extend .flex-column; 
+      @extend .justify-center;
+      padding-left:0.5em;
+      opacity:0;
+      transition: color $transition-cubic-bezier-250;
+
+      &.selected {
+        opacity: 1;
+      }
+
+      &:hover{
+        opacity: 0.8;
+      }
+
+      .sortable-table-header-form-icon {
+        color: $primary-background-color;
+        font-size:0.8em;
+        height:25%;
+        user-select: none;
+
+        &:hover{
+          color: $primary-text-color;
+        }
+
+        &.selected {
+          opacity:1;
+          color: $tertiary-color;
+        }
+      }
+    }
+  }
+}

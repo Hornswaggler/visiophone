@@ -18,7 +18,6 @@ export const forms = () => {
             message = message.replace(matches[i], fieldValidations[validationKey]);
           }
         }
-        console.log('setting message(s)',message, validationKey, fieldValidations[validationKey], matches);
 
         acc[validationKey] = {
           message

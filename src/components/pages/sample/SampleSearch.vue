@@ -1,8 +1,12 @@
 <template>
-  <div style="position:relative;">
+  <div>
+    <div style="height: 5em; width: 100%;">
+      <carousel
+        :elements="headerElements"
+      ></carousel>
+    </div>
     <scrolling-container
       :on-scroll-limit-reached="onScrollLimitReached"
-      style="flex:1;"
     >
       <template v-slot:header>
         <div class="flex justify-end icon-group">
@@ -10,7 +14,7 @@
             :on-click="onViewListClicked"
             :selected="isListTypeSelected"
           />
-          <bootleg-group-icon 
+          <bootleg-group-icon
             :on-click="onViewGroupClicked"
             :selected="isGroupTypeSelected"
           />
@@ -24,22 +28,20 @@
       </template>
 
       <template v-slot:scrolling-content>
-        <div class="sortable-column-content">
-          <sortable-table
+        <div class="scrolling-content">
+          <form-sortable-table
             :table-definition="sampleTableDefinition"
             :data="sampleArray"
             :is-collapsed="isCollapsed"
           >
-            <template v-slot:row="{ row:sample }">
+            <template v-slot:row="{ row: sample }">
               <sortable-table-row
-                class="form-sortable-table-row"
-                :class="{expanded : !isCollapsed}"
+                :class="{ expanded : !isCollapsed }"
                 :table-definition="sampleTableDefinition"
                 :is-collapsed="isCollapsed"
               >
                 <template v-slot:Image>
                   <form-image
-                    class="search-album-art"
                     :class="{expanded: !isCollapsed}"
                     :url="`${sample.imgUrl}`"
                   />
@@ -66,7 +68,7 @@
                   </form-sortable-table-cell>
                 </template>
                 <template v-slot:Buy>
-                  <redirect-button
+                  <form-redirect-button
                     :action="samplePurchaseUrl"
                     :idToken="idToken"
                     :payload="JSON.stringify([sample.priceId])"
@@ -74,16 +76,15 @@
                     <template v-slot:content>
                       <form-icon
                         icon-size="1em"
-                        style=""
                         class="vp-icon flex justify-end align-end download-icon"
                         icon="fa-plus"
                       />
                     </template>
-                  </redirect-button>
+                  </form-redirect-button>
                 </template>
               </sortable-table-row>
             </template>
-          </sortable-table>
+          </form-sortable-table>
         </div>
 
         <div
@@ -98,7 +99,7 @@
 import { mapGetters, mapState } from 'vuex';
 import {SORT_TYPES} from '@/store/modules/sample';
 import FormImage from '@/components/form/FormImage.vue';
-import SortableTable from '@/components/form/SortableTable.vue';
+import FormSortableTable from '@/components/form/FormSortableTable.vue';
 import FormIcon from '@/components/form/FormIcon.vue';
 import SortableTableRow from '@/components/form/SortableTableRow.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
@@ -107,13 +108,21 @@ import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
 import FormSortableTableHeader from '../../form/FormSortableTableHeader.vue';
 import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
 import AudioPlayer from '@/components/form/AudioPlayer.vue';
-import RedirectButton from '@/components/form/RedirectButton.vue';
+import FormRedirectButton from '@/components/form/FormRedirectButton.vue';
+import Carousel from '@/components/form/Carousel.vue';
+
+const headerElements = [
+  'http://localhost:8080/Visioland_text.png',
+  'http://localhost:8080/crispy.png',
+  'http://localhost:8080/JedsSmoothInfluencercore.png',
+  'http://localhost:8080/Psy.png',
+];
 
 export default {
   name:'SampleSearch',
   components:{
     FormImage,
-    SortableTable,
+    FormSortableTable,
     FormIcon,
     SortableTableRow,
     ScrollingContainer,
@@ -122,11 +131,12 @@ export default {
     FormSortableTableHeader,
     FormSortableTableCell,
     AudioPlayer,
-    RedirectButton,
+    FormRedirectButton,
+    Carousel
   },
   data: () => ({
     page: 0,
-    bufferIndex: 0,
+    headerElements
   }),
   computed: {
     ...mapGetters('sample', ['sampleArray']),
@@ -143,14 +153,6 @@ export default {
 
     isListTypeSelected(){
       return this.sortType === SORT_TYPES.LIST;
-    },
-
-    bufferLength() {
-      return this.sampleArray.length;
-    },
-
-    bufferRemaining() {
-      return this.sampleBufferLength - this.bufferIndex;
     }
   },
 
@@ -191,68 +193,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.column-cell-right-aligned {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-right: 0.5em;
-}
-
-.form-sortable-table-row {
-  height: var(--vp-cover-art-hw);
-  overflow: hidden;
-
-  .sortable-column-row {
-    height: 2em;
-  }
-
-
-  &.expanded {
-    height:10em;
-    width: 10em;
-    .sortable-column-row {
-      height:10em;
-    }
-  }
-}
-
-.icon-group {
-  height: 2em;
-  padding: 0 0.5em;
-  padding-right: 20px;
-}
-
-.search-album-art {
-  height: var(--vp-cover-art-hw);
-  width: var(--vp-cover-art-hw);
-  &.expanded {
-    height: var(--vp-cover-art-hw-expanded);
-    width: var(--vp-cover-art-hw-expanded);
-  }
-}
-
-.sortable-column-content {
-  width:100%;
-  .expanded{
-    .sortable-column-row{
-      height: var(--vp-cover-art-hw);
-    }
-  }
-
-  .sortable-column-row {
-    cursor:pointer;
-    height: var(--vp-cover-art-hw-expanded);
-    transition: background-color 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
-    background-color: var(--vp-form-button-background-color);
-    
-    &:hover {
-      background-color: var(--vp-side-navigation-background-color);
-    }
-    
-  };
-};
-</style>

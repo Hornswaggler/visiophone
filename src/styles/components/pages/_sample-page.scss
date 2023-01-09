@@ -1,0 +1,9 @@
+.sample-page-body {
+  position: relative;
+  @extend .flex;
+  @extend .flex-column;
+  box-shadow: 20px 20px 30px 0px $primary-shadow-inset;
+  height: 100vh;
+  width: 100%;
+  background-color:$primary-color;
+}

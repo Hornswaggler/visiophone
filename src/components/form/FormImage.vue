@@ -16,14 +16,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.form-image {
-  border-radius:8px;
-  min-height:var(--vp-cover-art-hw);
-  min-width:var(--vp-cover-art-hw);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-</style>

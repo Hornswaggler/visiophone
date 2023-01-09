@@ -1,10 +1,43 @@
-// $text-font-stack: 'VCR_OSD_MONO', 'Courier New', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Monaco', monospace !default;
-$text-font-stack: 'Helvetica', 'Arial', sans-serif !default;
-$code-font-stack: 'VCR_OSD_MONO', 'Courier New', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Monaco', monospace !default;
+$primary-color: rgba(17, 17, 17, 0.7) !default;
+$secondary-color: rgb(158, 158, 158) !default;
+$tertiary-color: rgb(226, 226, 226) !default;
+$quaternary-color: rgba(85, 85, 85, 0.7) !default;
+$quinary-color: rgb(17, 17, 17);
 
-$primary-color:#65FE00 !default;
-$secondary-color: #FF3399 !default;
+$primary-text-color: rgb(226, 226, 226);
+$secondary-text-color: black;
 
-$link-color: #42b983 !default;
+$primary-highlight-color: rgba(20, 234, 253, 0.95);
 
-$black: rgb(0, 0, 0) !default;
+$primary-error-color: #c13809;
+
+$default-border: solid $tertiary-color 1px;
+$primary-background-color: rgb(239 239 239 / 15%);
+$secondary-background-color: rgb(44 47 50 / 62%);
+$tertiary-background-color: $primary-color;
+
+$primary-shadow-inset: rgba(0,0,0,.3);
+
+$text-font-stack: "VCR_OSD_MONO", "Epilogue", "Courier New", monospace !default;
+
+$transition-cubic-bezier-250: 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+$transition-linear-180: 0.18s linear;
+$transition-cubic-bezier-500: 500ms cubic-bezier(0.165, 0.84, 0.44, 1);
+
+html {
+  --vp-input-min-height: 1.5em;
+  --vp-cover-art-hw: 2em;
+  --vp-cover-art-hw-expanded: 10em;
+  --vp-form-text-size: 1em;
+  --vp-form-select-option-font-size: 1.2em;
+
+  --vp-form-select-option-color: #{$tertiary-color};
+  --vp-highlight-color: #{$primary-highlight-color};
+  --vp-form-button-background-color: #{$quinary-color};
+  --vp-form-button-hover-background-color: #{$tertiary-color};
+
+  --vp-input-padding: 0.5em;
+  --vp-side-navigation-width: 10em;
+  --vp-header-height: 3em;
+  --vp-scrolling-container-header-height: 3.5em;
+}

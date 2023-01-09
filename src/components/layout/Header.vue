@@ -17,17 +17,16 @@
 
           <span
             class="pr1 header-custom-user-name"
-            style="font-size:0.65em;"
           >{{ customUserName }}</span>
 
           <img
-            class="header-profile-image circle"
+            class="circle"
             :src="profileImg"
             @click="onUserMenuClicked"
           >
         </div>
       </div>
-      <div class="sample-search-input-background" />
+      <div class="header-search-input-background" />
     </div>
   </div>
 </template>
@@ -99,7 +98,7 @@ export default {
     },
 
     async onFormDropdownChanged() {
-      await this.$store.dispatch('dropdown/hideDropdown', {showLoading: false, opacity: '0'});
+      await this.$store.dispatch('dropdown/hideDropdown', { showLoading: false, opacity: '0' });
     },
 
     onSearchChanged(query) {
@@ -121,45 +120,3 @@ export default {
  
 }
 </script>
-
-<style lang="scss">
-
-.header-search-container {
-  display: flex;
-  justify-content: flex-end;
-  flex: 1;
-
-  .header-user-menu {
-    background-color: transparent;
-    display: flex;
-    align-items: center;  }
-
-  .header-search-input {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-.header-search-input-content {
-  border-radius: 1em;
-  flex:1;
-}
-
-.header-container {
-  padding: 0 1em;
-  height: var(--vp-header-height);
-  background-color: rgba(33, 35, 35, 0.5);
-  color: #ffffffa1;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 1.2em;
-  z-index: 1;
-  
-  .form-icon {
-    font-size:0.5em;
-    height:2em;
-  }
-}
-</style>

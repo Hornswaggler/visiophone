@@ -1,0 +1,84 @@
+$default-image-editor-hw: 16em;
+
+html {
+  --image-editor-hw: $default-image-editor-hw;
+}
+
+.form-image-editor-container {
+  @extend .flex;
+  justify-content:center;
+  overflow: hidden;
+
+  .form-image-editor-resize-container {
+    @extend .flex;
+    @extend .flex-column;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom:0;
+    position: absolute;
+    height: $default-image-editor-hw;
+    width: $default-image-editor-hw;
+    z-index: 1;
+  }
+
+  .form-image-editor-image-spacer {
+    width: 100%;
+    height: $default-image-editor-hw;
+    z-index: 1;
+    flex: 1;
+    background-color: $primary-color;
+  }
+
+  .form-image-editor-preview-container {
+    height: $default-image-editor-hw;
+    .form-image-editor-preview-img {
+      transition: all $transition-cubic-bezier-250;
+    }
+
+    .form-image-editor-preview {
+      height: $default-image-editor-hw;
+      width: $default-image-editor-hw;
+      max-height: $default-image-editor-hw;
+      max-width: $default-image-editor-hw;
+      @extend .flex;
+      position:relative;
+      background-color: transparent;
+
+      .form-image-editor-preview-mask {
+        z-index:1;
+        @extend .flex;
+        @extend .justify-start;
+        @extend .align-center;
+        height: $default-image-editor-hw;
+        width: $default-image-editor-hw;
+
+        &::-webkit-scrollbar-track {
+          -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+          box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+          border-radius: 10px;
+          background-color: $primary-color;
+        }
+
+        &::-webkit-scrollbar {
+          width: 12px;
+          background-color: $primary-color;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border-radius: 10px;
+          -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+          box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+          background-color: $quaternary-color;
+        } 
+      }
+
+      .form-image-editor-preview-lens {
+        height:100%;    
+        &>img {
+          height: 100%;
+        }
+      }
+    }
+  }
+}

@@ -1,87 +1,70 @@
 <template>
-  <div
-    class="fill image-editor-container"
-  >
-    <div ref="resize-canvas-container">
+  <div class="form-image-editor-container">
+    <div ref="form-image-editor-resize-container">
       <canvas
         id="fred"
         ref="otherCanvas"
         crossorigin="anonymous"
-        style="display:none;"
+        class="hidden"
         :height="imageWidth > imageHeight ? imageHeight : imageWidth"
         :width="imageWidth > imageHeight ? imageHeight : imageWidth"
       />
     </div>
-    <div class="image-spacer">
-          &nbsp;
+    <div class="form-image-editor-image-spacer">
+      &nbsp;
     </div>    
-    <div
-      class="flex flex-column"
-      style="height:100%;"
-    >
-      <div style="display:flex;height:var(--image-editor-hw);">
-        <div style="display:flex;height:100%;position:relative;">
-          <div class="absolute-container">
-            <img
-              ref="image"
-              class="image-preview-img"
-              :src="internalImgSrc"
-              :style="{
-                transform: isWide ? tranlslateX : translateY,
-                width: containerWidth,
-                height: containerHeight,
-              }"
-            >
-          </div>  
+    <div class="form-image-editor-preview-container position-relative">
+      <div class="position-absolute fill-height">
+        <img
+          ref="image"
+          class="form-image-editor-preview-img"
+          :src="internalImgSrc"
+          :style="{
+            transform: isWide ? tranlslateX : translateY,
+            width: containerWidth,
+            height: containerHeight,
+          }"
+        >
+      </div>  
+      <div
+        ref="form-image-editor-preview-pane"
+        class="form-image-editor-preview"
+      >
+        <div
+          ref="scroll-panel"
+          class="form-image-editor-preview-mask"
+          :style="{ 
+            overflowX,
+            overflowY
+          }"
+        >
           <div
-            ref="image-preview-pane"
-            class="image-preview"
+            :style="{height, width}"
           >
-            <div
-              ref="scroll-panel"
-              class="image-preview-mask"
-              :style="{ 
-                overflowX,
-                overflowY
-              }"
-            >
-              <div
-                style="background-color: transparent;"
-                :style="{height, width}"
-              >
-                <div class="flex">
-                  <div 
-                    class="image-preview-lens"
-                    style="flex:1;"
-                  >
-                    <div
-                      ref="image-editor-lens"
-                      :style="{width, height}"
-                    />
-                  </div>
-                </div>
+            <div class="flex">
+              <div class="form-image-editor-preview-lens flex-1">
+                <div
+                  ref="image-editor-lens"
+                  :style="{width, height}"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="image-spacer" />
+    <div class="form-image-editor-image-spacer" />
   </div>
 </template>
 <script>
 import Vue from 'vue';
-import { mapState } from 'vuex';
 import { debounce } from 'vue-debounce';
 import {IMAGE_MIME_TYPE} from '@/config';
 
 const DEFAULT_LENS_SIZE = 'var(--image-editor-hw)';
-// const IMAGE_HW = "var(--image-editor-hw)";
-
-
 
 export default {
-  name:'ImageEditor',
+  name:'FormImageEditor',
   props:{
     imgSrc:{
       type: String,
@@ -134,8 +117,6 @@ export default {
     }
   },
   async mounted() {
-
-    
     this.$nextTick(() => {
       this.internalImgSrc = this.imgSrc;
       this.isLoading = false;
@@ -239,91 +220,3 @@ export default {
   }
 }
 </script>
-<style  lang="scss">
-.resize-canvas-container {
-  display: flex;
-  flex-direction: column;
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom:0;
-  position: absolute;
-  height: var(--image-editor-hw);
-  width: var(--image-editor-hw);
-  z-index: 1;
-}
-
-.image-spacer {
-  width: 100%;
-  height: var(--image-editor-hw);
-  z-index: 1;
-  flex: 1;
-  background-color: rgb(31 25 25 / 77%);
-}
-
-.image-editor-container {
-  display:flex;
-  justify-content:center;
-}
-
-.image-preview-img{
-  transition: all 300ms;
-}
-
-.image-preview {
-  height: var(--image-editor-hw);
-  width: var(--image-editor-hw);
-  max-height: var(--image-editor-hw);
-  max-width: var(--image-editor-hw);
-  display:flex;
-
-  &.vp-form-row {
-    font-size: 1em;
-  }
-
-  position:relative;
-  display:flex;
-  background-color: transparent;
-
-  .image-preview-mask {
-
-
-    &::-webkit-scrollbar-track
-  {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 10px;
-    background-color: rgba(17, 17, 17, 0);
-  }
-
-  &::-webkit-scrollbar
-  {
-    width: 12px;
-    background-color: rgba(17, 17, 17, 0.7);
-  }
-
-  &::-webkit-scrollbar-thumb
-  {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color: rgba(85, 85, 85, 0.7);
-  }
-
-    z-index:1;
-
-    display:flex;
-    justify-content: flex-start;
-    align-items: center;
-    height: var(--image-editor-hw);
-    width: var(--image-editor-hw);
-  }
-
-  .image-preview-lens {
-    height:100%;    
-    &>img {
-      height: 100%;
-    }
-  }
-}
-</style>

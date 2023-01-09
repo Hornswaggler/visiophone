@@ -4,21 +4,19 @@
     :value="internalValue"
     :fieldName="fieldName"
   >
-    <template 
-      v-slot:title
-    >
+    <template v-slot:title>
       {{ title }}
     </template>
     <template v-slot:input>
       <select 
         v-model="internalValue"
-        class="vp-select"
+        class="form-select"
         @change="onChange"
       >
         <option 
           v-for="option in internalOptions"
           :key="option._id" 
-          class="vp-select-option"
+          class="form-select-option"
         >
           {{ option.name }}
         </option>
@@ -69,29 +67,3 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.vp-select {
-  font-size: var(--vp-form-text-size);
-  padding: var(--vp-input-padding);
-  flex:1;
-  display:flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  background-color:transparent;
-  color:white;
-  cursor:pointer;
-
-  .vp-select-option {
-    font-size: var(--vp-form-select-option-font-size);
-    color: var(--vp-form-select-option-color);
-    background-color: var(--vp-form-select-option-background-color);
-    cursor:pointer;
-    &:hover {
-      cursor:pointer;
-    }
-  }
-
-
-}
-</style>

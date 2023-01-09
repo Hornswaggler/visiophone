@@ -12,7 +12,7 @@
         </h3>
       </div>
 
-      <sortable-table
+      <form-sortable-table
         style="width:100%;"
         :table-definition="tableDefinition"
         :data="uploads"
@@ -20,7 +20,7 @@
       >
         <template v-slot:row="{ row:sample }">
           <sortable-table-row
-            class="form-sortable-table-row"
+            class="sortable-column-row"
             :class="{expanded : !isCollapsed}"
             :table-definition="tableDefinition"
           >
@@ -48,7 +48,7 @@
             </template>
           </sortable-table-row>
         </template>
-      </sortable-table>
+      </form-sortable-table>
     </div>
 
 
@@ -62,8 +62,7 @@
       </h3>
     </div>
 
-
-    <sortable-table
+    <form-sortable-table
       style="width:100%;"
       :table-definition="tableDefinition"
       :data="purchases"
@@ -71,7 +70,7 @@
     >
       <template v-slot:row="{ row:sample }">
         <sortable-table-row
-          class="form-sortable-table-row"
+          class="sortable-column-row"
           :class="{expanded : !isCollapsed}"
           :table-definition="tableDefinition"
         >
@@ -104,13 +103,13 @@
           </template>
         </sortable-table-row>
       </template>
-    </sortable-table>
+    </form-sortable-table>
   </div>
 </template>
 
 <script>
 import { mapState} from 'vuex';
-import SortableTable from '@/components/form/SortableTable.vue'
+import FormSortableTable from '@/components/form/FormSortableTable.vue'
 import SortableTableRow from '@/components/form/SortableTableRow.vue';
 import FormImage from '@/components/form/FormImage.vue';
 import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
@@ -118,7 +117,7 @@ import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
 export default {
   name:'UserLibrary',
   components:{
-    SortableTable,
+    FormSortableTable,
     SortableTableRow,
     FormSortableTableCell,
     FormImage

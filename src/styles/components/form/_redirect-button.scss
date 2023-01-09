@@ -1,0 +1,17 @@
+.form-redirect-button {
+  input {
+    display:none;
+  }
+
+  .form-redirect-button-submit {
+    @extend .flex;
+    justify-content: center;
+    align-items: center;
+    background-color:transparent;
+    color:$primary-text-color;
+    width:100%;
+    border:none;
+    transition: transform $transition-cubic-bezier-250;
+    transform: scale(1);
+  }
+}

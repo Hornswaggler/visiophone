@@ -1,0 +1,22 @@
+.form-select {
+  flex: 1;
+  width: 100%;
+  padding: var(--vp-input-padding);
+  @extend .flex;
+  @extend .justify-start;
+  @extend .align-center;
+  background-color: transparent;
+  color: $primary-text-color;
+  cursor: pointer;
+  font-size: var(--vp-form-text-size);
+
+  .form-select-option {
+    font-size: var(--vp-form-select-option-font-size);
+    color: var(--vp-form-select-option-color);
+    background-color: $primary-color;
+    cursor: pointer;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

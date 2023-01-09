@@ -31,8 +31,3 @@ export default {
   }
 }
 </script>
-<style>
-.form-icon {
-  cursor:pointer;
-}
-</style>

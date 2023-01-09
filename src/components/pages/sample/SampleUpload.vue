@@ -1,8 +1,8 @@
 <template>
   <scrolling-container>
     <template v-slot:scrolling-content>
-      <div class="sample-upload-form">
-        <div class="vp-form">
+      <div class="form-base">
+        <div class="form-column">
           <div class="vp-form-row mt0">
             <form-input
               fieldName="name"
@@ -12,7 +12,7 @@
             ></form-input>
           </div>
           <div class="vp-form-row">
-            <upload-file
+            <form-upload-file
               :value="sampleData.imgUrl"
               title="cover art"
               fieldName="imgUrl"
@@ -23,7 +23,7 @@
           </div>
 
           <div class="vp-form-row">
-            <upload-file
+            <form-upload-file
               title="audio file"
               fieldName="clipUri"
               :value="sampleData.clipUri"
@@ -46,27 +46,23 @@
           </div>
 
           <div
-            class="vp-form-row"
-            style="display:flex;flex-direction: column;"
+            class="vp-form-row flex-column flex"
           >
-            <div class="vp-input-body">
-              <form-number-input
-                title="cost"
-                fieldName="cost"
-                :value="sampleData.cost"
-                :change-handler="cost => sampleData.cost = cost"
-              />
-            </div>
+            <form-number-input
+              title="cost"
+              fieldName="cost"
+              :value="sampleData.cost"
+              :change-handler="cost => sampleData.cost = cost"
+            />
+          </div>
 
-            <div style="width:1em;" />
-            <div class="vp-input-body pt2">
-              <form-number-input
-                title="bpm"
-                fieldName="bpm"
-                :value="sampleData.bpm"
-                :change-handler="bpm => sampleData.bpm = bpm"
-              />
-            </div>
+          <div class="vp-form-row">
+            <form-number-input
+              title="bpm"
+              fieldName="bpm"
+              :value="sampleData.bpm"
+              :change-handler="bpm => sampleData.bpm = bpm"
+            />
           </div>
 
           <div class="vp-form-row">
@@ -80,9 +76,9 @@
           </div>
         </div>
 
-        <div style="flex:1;padding-left:1em;">
-          <div class="user-settings-image-container">
-            <image-editor
+        <div class="pl1 form-column">
+          <div class="vp-form-row user-settings-image-container">
+            <form-image-editor
               class="flex-3"
               :img-src="imageSrc"
               :change-handler="onThumbnailGenerated"
@@ -106,8 +102,8 @@
 </template>
 <script>
 import Vue from 'vue';
-import UploadFile from '@/components/form/UploadFile.vue';
-import ImageEditor from '@/components/form/ImageEditor.vue';
+import FormUploadFile from '@/components/form/FormUploadFile.vue';
+import FormImageEditor from '@/components/form/FormImageEditor.vue';
 import TextAreaInput from '@/components/form/TextAreaInput.vue';
 import FormNumberInput from '@/components/form/FormNumberInput.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
@@ -143,10 +139,10 @@ export default {
 
   },
   components: {
-    UploadFile,
+    FormUploadFile,
     FormSelect,
     TextAreaInput,
-    ImageEditor,
+    FormImageEditor,
     FormNumberInput,
     ScrollingContainer,
     FormInput,
@@ -163,9 +159,6 @@ export default {
     this.$store.dispatch('sample/persistToStorage', this.sampleData);
   },
   methods: {
-    validate() {
-
-    },
     onThumbnailGenerated(file) {
       Vue.set(this, 'imageBlob', file);
       Vue.set(this.sampleData, 'imgUrl', URL.createObjectURL(file));
@@ -207,6 +200,3 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-
-</style>

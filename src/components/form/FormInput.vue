@@ -4,7 +4,6 @@
     :value="internalValue"
     :blurred="blurred"
     :fieldName="fieldName"
-    class="form-input"
   >
     <template
       v-slot:title
@@ -12,9 +11,9 @@
       {{ title }}
     </template>
 
+    <!-- TODO: Inline Style -->
     <template
       v-slot:input
-      style="height:initial;width:100%;"
     >
       <input
         v-model="internalValue"
@@ -24,7 +23,7 @@
         @blur="onBlur"
       >
       <div
-        class="search-input-icon-underlay toggle-show"
+        class="form-input-icon-underlay toggle-show"
         :class="{ hide: !showPlaceholder }"
       >
         <form-icon
@@ -96,51 +95,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-
-.toggle-show {
-  opacity: 0.5;
-  transition: opacity 0.5s;
-  &.hide {
-    opacity:0;
-  }
-}
-
-.search-input-icon-underlay {
-  font-family: 'VCR_OSD_MONO';
-  position:absolute;
-  top:0;
-  left:0.5em;
-  bottom:0;
-  right:0;
-  display:flex;
-  align-items: center;
-  
-  z-index: -1;
-}
-
-.form-input {
-  display:flex;
-  flex:1;
-}
-
-.form-input-body {
-  border:none;
-  padding: var(--vp-input-padding);
-  color:white;
-  z-index:2;
-  flex:1;
-  background-color:transparent;
-  font-size: var(--vp-form-text-size);
-  min-width: 0;
-  font-family: 'VCR_OSD_MONO';
-  transition: all 0.5s;
-
-  &::selection {
-    background: rgb(255, 255, 255);
-    color:black;
-  }
-}
-
-</style>
