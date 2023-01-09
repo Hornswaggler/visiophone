@@ -3,12 +3,14 @@ import user from './user';
 import app from './app';
 import sample from './sample';
 import dropdown from './dropdown';
+import form from './form';
 
 const store = {
   user,
   app,
   sample,
-  dropdown
+  dropdown,
+  form
 };
 
 const initFromStorage = context => {

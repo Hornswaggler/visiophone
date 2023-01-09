@@ -1,5 +1,9 @@
 <template>
-  <form-input-base>
+  <form-input-base
+    :title="title"
+    :value="internalValue"
+    :fieldName="fieldName"
+  >
     <template v-slot:title>
       {{ title }}
     </template>
@@ -8,6 +12,7 @@
       style="height:initial;"
     >
       <input
+        step="0.01"
         v-model="internalValue"
         class="form-number-input"
         type="number"
@@ -29,6 +34,10 @@ export default {
     internalValue:''
   }),
   props:{
+    fieldName: {
+      type: String,
+      default: ''
+    },
     title:{
       type: String,
       default: ''

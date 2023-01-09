@@ -1,5 +1,9 @@
 <template>
-  <form-input-base>
+  <form-input-base
+    :title="title"
+    :value="internalValue"    
+    :fieldName="fieldName"
+  >
     <template v-slot:title>
       {{ title }}
     </template>
@@ -36,7 +40,11 @@ export default {
     onChanged: {
       type: Function,
       default: () => {}
-    }
+    },
+    fieldName: {
+      type: String,
+      default: ''
+    },
   },
   data: () => ({
     internalValue:''

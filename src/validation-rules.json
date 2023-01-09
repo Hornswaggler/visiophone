@@ -1,0 +1,15 @@
+{
+  "required": {
+    "pattern": "^.+",
+    "message": "is required"
+  },
+  "max-length": {
+    "message": "must be less than {0} characters long."
+  },
+  "gt":{
+    "message": "must be greater than {0}"
+  },
+  "gte":{
+    "message": "must be greater than or equal to {0}"
+  }
+}

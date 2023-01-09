@@ -1,5 +1,10 @@
 <template>
-  <form-input-base>
+  <form-input-base
+    :title="title"
+    :validations="validations"
+    :value="fileName"
+    :fieldName="fieldName"
+  >
     <template v-slot:title>
       {{ title }}
     </template>
@@ -41,6 +46,10 @@ export default {
     fileName:''
   }),
   props: {
+    validations:{
+      type: Object,
+      default: () => {}
+    },
     title: {
       type: String,
       default: ''
@@ -56,6 +65,10 @@ export default {
     changeHandler:{
       type: Function,
       default: () => {}
+    },
+    fieldName: {
+      type: String,
+      default: ''
     }
   },
   computed: {
@@ -67,6 +80,7 @@ export default {
       this.changeHandler(files[0]);
     },
     handleBrowseUpload() {
+      this.$refs.file.focus();
       this.$refs.file.click();
     },
   }
