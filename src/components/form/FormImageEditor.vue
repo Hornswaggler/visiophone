@@ -14,7 +14,7 @@
       &nbsp;
     </div>    
     <div class="form-image-editor-preview-container position-relative">
-      <div class="position-absolute">
+      <div class="position-absolute fill-height">
         <img
           ref="image"
           class="form-image-editor-preview-img"
