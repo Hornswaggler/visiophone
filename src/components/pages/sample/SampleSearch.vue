@@ -1,7 +1,9 @@
 <template>
   <div>
     <div style="height: 5em; width: 100%;">
-      <carousel></carousel>
+      <carousel
+        :elements="headerElements"
+      ></carousel>
     </div>
     <scrolling-container
       :on-scroll-limit-reached="onScrollLimitReached"
@@ -32,7 +34,7 @@
             :data="sampleArray"
             :is-collapsed="isCollapsed"
           >
-            <template v-slot:row="{ row:sample }">
+            <template v-slot:row="{ row: sample }">
               <sortable-table-row
                 :class="{ expanded : !isCollapsed }"
                 :table-definition="sampleTableDefinition"
@@ -109,6 +111,13 @@ import AudioPlayer from '@/components/form/AudioPlayer.vue';
 import FormRedirectButton from '@/components/form/FormRedirectButton.vue';
 import Carousel from '@/components/form/Carousel.vue';
 
+const headerElements = [
+  'http://localhost:8080/Visioland_text.png',
+  'http://localhost:8080/crispy.png',
+  'http://localhost:8080/JedsSmoothInfluencercore.png',
+  'http://localhost:8080/Psy.png',
+];
+
 export default {
   name:'SampleSearch',
   components:{
@@ -127,6 +136,7 @@ export default {
   },
   data: () => ({
     page: 0,
+    headerElements
   }),
   computed: {
     ...mapGetters('sample', ['sampleArray']),

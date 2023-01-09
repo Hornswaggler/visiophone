@@ -1,0 +1,12 @@
+.carousel {
+  @extend .position-relative;
+  @extend .fill;
+  overflow: hidden;
+
+  .carousel-item {
+    @extend .position-absolute;
+    @extend .absolute-fill;
+
+    transition: transform 1250ms ease-in-out
+  }
+}

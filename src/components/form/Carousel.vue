@@ -3,13 +3,13 @@
     class="carousel"
   >
     <carousel-item
-      :url="elements[currentIndex]"
+      :url="primaryBuffer[primaryIndex]"
       initialState="SHOW"
-      :show="loaded"
+      :show="showPrimaryBuffer"
     ></carousel-item>
     <carousel-item
-      :url="elements[currentIndex + 1]"
-      :show="!loaded"
+      :url="secondaryBuffer[secondaryIndex]"
+      :show="!showPrimaryBuffer"
     ></carousel-item>
   </div>
 
@@ -27,42 +27,43 @@ export default {
   data: () => ({
     interval: 10000,
     intervalFunction: () => {},
-    loaded: true,
     showPrimaryBuffer: true,
-    currentIndex: 0,
-    elements: [
-      'http://localhost:8080/Visioland_text.png',
-      'http://localhost:8080/crispy.png',
-    ]
+    primaryIndex: 0,
+    secondaryIndex: 0,
+    primaryBuffer:[],
+    secondaryBuffer: []
   }),
-  mounted(){
+  props:{
+    elements: {
+      type: Array,
+      default: []
+    }
+  },
+  mounted() {
+    for(let i = 0; i < this.elements.length; i++){
+      if(i % 2 === 0) {
+        this.primaryBuffer.push(this.elements[i]);
+      } else {
+        this.secondaryBuffer.push(this.elements[i]);
+      }
+    }
+
     Vue.set(this, 'intervalFunction', setInterval(() => {
-      console.log('FIRED!');
-      this.loaded = !this.loaded;
-      const nextIndex = this.currentIndex + 2;
-      if(nextIndex % 2 === 0 && nextIndex < elements.length) {
-        
+      if(document.hasFocus()) {
+        this.showPrimaryBuffer = !this.showPrimaryBuffer;
+
+        if(!this.showPrimaryBuffer){
+          this.secondaryIndex = this.secondaryIndex + 1 >= this.secondaryBuffer.length ? 0 : this.secondaryIndex + 1 ;
+        } else {
+          this.primaryIndex = this.primaryIndex + 1 >= this.primaryBuffer.length ? 0 : this.primaryIndex + 1 ;
+        }
       }
     }, this.interval));
   },
-  destroyed(){
+  beforeDestroy(){
     if(this.intervalFunction){
       clearInterval(this.intervalFunction);
     }
   }
 }
 </script>
-<style lang="scss">
-.intro {
-  background-blend-mode: hard-light;
-  animation: hue-rotate 3s linear infinite;
-}
-
-.carousel {
-  width:100%;
-  height:100%;
-  position:relative;
-  overflow: hidden;
-  
-}
-</style>

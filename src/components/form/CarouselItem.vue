@@ -7,10 +7,6 @@
       transform: `translateX(${transitionState.translateX})`,
       opacity: `${opacity}`
     }"
-    style="
-      width: 100%;
-      height: 100%;
-      background-color: orange"
   >
   </div>
 </template>
@@ -57,16 +53,12 @@ export default {
     }
   },
   watch:{
-    show(newShow){
-      console.log(newShow);
-        if(newShow) {
+    show(newShow) {
+      if(newShow) {
         this.transitionState = TRANSITION_STATES[SHOW];
       } else {
         this.transitionState = TRANSITION_STATES[TRANSITION_OUT];
-        //TODO: wait for animation end and then set back to TRANSITION_IN
       }
-      
-
     }
   },
   mounted() {
@@ -78,41 +70,15 @@ export default {
   },
   methods:{
     onTransitionEnd(event){
-      console.log(this.transitionState.name);
-
-      // this.$nextTick(() => {
-        
-      // })
-      this.$nextTick(() => {
-        if(this.transitionState.name === TRANSITION_IN) {
-          console.log('IN', this.initialState);
-          this.opacity = 1;
-        }
-        if(this.transitionState.name === TRANSITION_OUT){
-          console.log('OUT', this.initialState);
-          this.transitionState = TRANSITION_STATES[TRANSITION_IN];
-          this.opacity = 0;
-        } 
-      });
-
-
-  
-        
-      
-
+      if(this.transitionState.name === TRANSITION_IN) {
+        this.opacity = 1;
+      }
+      if(this.transitionState.name === TRANSITION_OUT){
+        this.transitionState = TRANSITION_STATES[TRANSITION_IN];
+        this.opacity = 0;
+      } 
     }
   }
 }
 
 </script>
-<style lang="scss">
-  .carousel-item {
-    position:absolute;
-    top:0;
-    bottom:0;
-    left: 0;
-    right: 0;
-    transition:
-      transform 2750ms ease-in-out
-  }
-</style>
