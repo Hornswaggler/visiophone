@@ -1,7 +1,13 @@
 .carousel {
   @extend .position-relative;
   @extend .fill;
+  // height: 4em;
   overflow: hidden;
+
+  .carousel-content {
+    @extend .position-absolute;
+    @extend .absolute-fill;
+  }
 
   .carousel-item {
     @extend .position-absolute;

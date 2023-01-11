@@ -15,6 +15,7 @@ const DEFAULT_SAMPLE = {
   imgUrl:'',
   clipUri:'',
   fileName:'',
+  key: ''
 };
 
 export const makeNewSample = (
@@ -29,7 +30,8 @@ export const makeNewSample = (
     cost = "100",
     imgUrl = '', 
     clipUri = '', 
-    fileName = ''
+    fileName = '',
+    key = ''
   } = DEFAULT_SAMPLE) => (
   {
     _id,
@@ -43,6 +45,7 @@ export const makeNewSample = (
     imgUrl,
     clipUri, 
     fileName,
+    key
 });
 
 export const makeSampleFromResult = ({sample, isNew = false}) => {

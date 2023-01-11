@@ -1,5 +1,11 @@
 import config from '/src/config';
 import {DEFAULT_ROUTE} from '@/router/routeNames';
+import {
+  SAMPLE_UPLOAD,
+  SAMPLE_SEARCH,
+  USER_SETTINGS,
+  USER_LIBRARY,
+} from '/src/router/routeNames';
 
 const {STRIPE_ACCOUNT_STATUS:{NO_ACCOUNT, PENDING, APPROVED}} = config;
 
@@ -23,7 +29,7 @@ export default {
     sideNavigationMenuItems: [
       {
         title: 'Browse',
-        slug:'/sample',
+        slug: `/${SAMPLE_SEARCH}`,
         icon:'fa-house',
         id: 0,
         accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
@@ -31,14 +37,14 @@ export default {
       {
         icon: 'fa-heart-music-camera-bolt',
         title: 'Library',
-        slug: '/user/library',
+        slug: `/${USER_LIBRARY}`,
         id: 1,
         accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
       },
       {
 
         title: 'Upload',
-        slug:'/sample/upload',
+        slug: `/${SAMPLE_UPLOAD}`,
         icon:'fa-cloud-arrow-up',
         id: 2,
         accountStatus: [APPROVED]
@@ -46,7 +52,7 @@ export default {
       {
         icon: 'fa-gear',
         title: 'Settings',
-        slug: '/user/settings',
+        slug: `/${USER_SETTINGS}`,
         id: 3,
         accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
       },

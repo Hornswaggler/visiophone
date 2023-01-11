@@ -16,6 +16,7 @@ $side-navigation-width: 10em;
   width: 100vw;
 
   .responsive-layout-body {
+    @extend .flex;
     @extend .justify-center;
 
     @include for-size(xl){
