@@ -1,4 +1,6 @@
 .bg-gradient {
+  position: absolute;
+  z-index: -1;
 	background: linear-gradient(120deg, rgb(195, 140, 223), rgb(3, 53, 15), rgb(0, 255, 30));
 	background-size: 180% 180%;
 	animation: background-gradient 18s ease infinite;

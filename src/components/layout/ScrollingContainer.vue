@@ -1,6 +1,10 @@
 <template>
   <div class="scrolling-container">
-    <div class="scrolling-container-header">
+    <div
+      ref="header"
+      :style="{ height: headerHeight }"
+      class="scrolling-container-header"
+    >
       <slot name="header" />
     </div>
     <div
@@ -24,12 +28,19 @@ export default {
   name: 'ScrollingContainer',
 
   data: () => ({
-    debounce: debounce((callback, val) => callback(val), 200)
+    debounce: debounce((callback, val) => callback(val), 200),
+    loaded: false
   }),
 
   computed: {
     //TODO: This should be a prop
-    ...mapState('sample',['nextResultIndex'])
+    ...mapState('sample',['nextResultIndex']),
+    headerHeight() {
+      if(this.loaded && this.$refs['header'].children.length > 0){
+        return 'initial';
+      }
+      return '0';
+    }
   },
 
   props:{
@@ -41,6 +52,7 @@ export default {
 
   mounted() {
     this.$refs.scrollingContainer.onscroll = this.onScroll;
+    this.loaded = true;
   },
   methods:{
     onScroll(){

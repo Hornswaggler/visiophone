@@ -1,7 +1,9 @@
 <template>
   <scrolling-container>
     <template v-slot:scrolling-content>
-      <div class="form-base">
+      <div 
+        class="form-base" 
+      >
         <div class="form-column">
           <div class="vp-form-row mt0">
             <form-input
@@ -43,6 +45,15 @@
               class="flex-3"
               :change-handler="onTagChanged"
             />
+          </div>
+
+          <div class="vp-form-row mt0">
+            <form-input
+              fieldName="key"
+              :value="sampleData.key"
+              title="key"
+              :onChanged="key => sampleData.key = key"
+            ></form-input>
           </div>
 
           <div
@@ -136,7 +147,6 @@ export default {
   computed: {
     ...mapState('user',['authenticated', 'customUserName']),
     ...mapState('sample', ['sampleForEdit']),
-
   },
   components: {
     FormUploadFile,
@@ -145,7 +155,7 @@ export default {
     FormImageEditor,
     FormNumberInput,
     ScrollingContainer,
-    FormInput,
+    FormInput
   },
   async mounted(){
     Vue.set(this.sampleData, this.sampleForEdit);

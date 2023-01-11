@@ -3,11 +3,6 @@
     <div class="animated-text lg-logo">
       VISIOPHONE
     </div>
-    <img
-      class="xs-logo"
-      style="height:2.5em; width: 2.5em"
-      :src="animatedVisiomanPath"
-    >
   </div>
 </template>
 
@@ -22,11 +17,11 @@ export default {
 }
 </script>
 <style lang="scss">
+// TODO: Are these being used???
 .logo-container {
   display:flex;
   justify-content: center;
   align-items: center;
-  height: 3em;
 
   .animated-text {
     font-size: 1.4em;
@@ -39,7 +34,6 @@ export default {
     -webkit-text-fill-color: transparent;
     font-weight: 800;
     letter-spacing: 0em;
-
   }
 }
 

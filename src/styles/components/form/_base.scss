@@ -1,6 +1,8 @@
 .form-base {
   @extend .flex;
 
+  transition: background-color $transition-cubic-bezier-250;
+  background-color:initial;
   flex-direction: column-reverse;
 
   .form-column {

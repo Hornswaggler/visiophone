@@ -10,8 +10,7 @@
   }
   
   .scrolling-container-scrollable-content {
-    //TODO: Fix this... :| 
-    height: calc(100vh - (var(--vp-header-height) + var(--vp-scrolling-container-header-height) + 0.5em));
+    height: 100%;
     border-radius: 6px;
     flex: 1;
     @extend .flex;

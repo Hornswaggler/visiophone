@@ -11,9 +11,12 @@
       :url="secondaryBuffer[secondaryIndex]"
       :show="!showPrimaryBuffer"
     ></carousel-item>
+    <div
+      class="carousel-content"
+    >
+      <slot></slot>
+    </div>
   </div>
-
-
 </template>
 <script>
 import Vue from 'vue';

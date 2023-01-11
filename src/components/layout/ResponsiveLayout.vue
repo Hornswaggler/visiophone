@@ -2,7 +2,7 @@
   <div class="responsive-layout">
     <div class="responsive-margin" />
 
-    <div class="flex responsive-layout-body">
+    <div class="responsive-layout-body">
       <slot name="side-panel" />
       <slot name="content" />
     </div>

@@ -7,12 +7,6 @@ const routes = [
     name: `${LANDING}`,
     title: 'VISIOPHONE (╯°□°)╯︵ ┻━┻',
     component: LandingPage
-  },
-  {
-    path: '/',
-    name: `${LANDING}`,
-    title: 'VISIOPHONE (╯°□°)╯︵ ┻━┻',
-    component: LandingPage
   }
 ];
 
