@@ -4,9 +4,9 @@
       <side-navigation />
     </template>
     <template v-slot:content>
-      <div class="sample-page-body">
-        <Header style="height: 10vh;" />
-        <router-view style="height:90vh;" />
+      <div class="page-body">
+        <!-- <Header style="height: 10vh;" /> -->
+        <router-view/>
         <page-footer />
       </div>
     </template>

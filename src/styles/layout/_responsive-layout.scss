@@ -4,27 +4,27 @@ $side-navigation-width: 10em;
   @extend .flex;
   .responsive-margin {
     @include for-size(xl){
-      width: 15vw;
-      height: 100vh;
+      width: 15%;
+      height: 100%;
     };
     background-color: $primary-color;
-    height: 0vh;
-    width: 0vw;
+    height: 0;
+    width: 0;
   }
 
-  height:100vh;
-  width: 100vw;
+  height:100%;
+  width: 100%;
 
   .responsive-layout-body {
     @extend .flex;
     @extend .justify-center;
 
     @include for-size(xl){
-      width: 70vw;
+      width: 70%;
     }
 
-    height:100vh;
-    width: 100vw;
+    height:100%;
+    width: 100%;
 
     position: relative;
 
@@ -124,7 +124,7 @@ $side-navigation-width: 10em;
 
     .sample-search-input {
       @include for-size(xs) {
-        max-width: 100vw;
+        // max-width: 100vw;
         margin:0;
       }
     }

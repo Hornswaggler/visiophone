@@ -25,6 +25,9 @@ $transition-linear-180: 0.18s linear;
 $transition-cubic-bezier-500: 500ms cubic-bezier(0.165, 0.84, 0.44, 1);
 
 html {
+
+  --scrollable-content-header-height: 3.5em;
+
   --vp-input-min-height: 1.5em;
   --vp-cover-art-hw: 2em;
   --vp-cover-art-hw-expanded: 10em;
@@ -39,5 +42,5 @@ html {
   --vp-input-padding: 0.5em;
   --vp-side-navigation-width: 10em;
   --vp-header-height: 3em;
-  --vp-scrolling-container-header-height: 10vh;
+  --vp-scrolling-container-header-height: 10%;
 }

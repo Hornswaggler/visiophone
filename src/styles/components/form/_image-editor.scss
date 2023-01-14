@@ -39,8 +39,6 @@ html {
     .form-image-editor-preview {
       height: $default-image-editor-hw;
       width: $default-image-editor-hw;
-      max-height: $default-image-editor-hw;
-      max-width: $default-image-editor-hw;
       @extend .flex;
       position:relative;
       background-color: transparent;

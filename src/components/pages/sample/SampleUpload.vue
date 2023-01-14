@@ -3,6 +3,7 @@
     <template v-slot:scrolling-content>
       <div 
         class="form-base" 
+        :style="{backgroundColor: `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`}"
       >
         <div class="form-column">
           <div class="vp-form-row mt0">
@@ -108,6 +109,9 @@
           </button>
         </div>
       </div>
+      <compact
+        v-model="colors"
+      ></compact>
     </template>
   </scrolling-container>
 </template>
@@ -123,6 +127,7 @@ import FormSelect from '@/components/form/FormSelect.vue';
 import { AUDIO_MIME_TYPE, IMAGE_MIME_TYPE } from '@/config';
 import { makeNewSample } from '@/store/modules/sample'
 import FormInput from '@/components/form/FormInput.vue';
+import { Photoshop, Compact } from 'vue-color'
 
 const TAG_TYPES = [
   { name: 'InfluencerCore'},
@@ -143,10 +148,14 @@ export default {
     imageBlob:{},
     sampleBlob:{},
     description:'',
+    colors: { r: 255, g: 0, b: 0 }
   }),
   computed: {
     ...mapState('user',['authenticated', 'customUserName']),
     ...mapState('sample', ['sampleForEdit']),
+    rgba(){
+      return this.colors.rgba || {r:0,g:0,b:0,a:0};
+    }
   },
   components: {
     FormUploadFile,
@@ -155,7 +164,9 @@ export default {
     FormImageEditor,
     FormNumberInput,
     ScrollingContainer,
-    FormInput
+    FormInput,
+    Photoshop,
+    Compact
   },
   async mounted(){
     Vue.set(this.sampleData, this.sampleForEdit);

@@ -182,14 +182,14 @@ export default {
     },
 
     async uploadSample({dispatch}, {sampleData, sample, image, imageSrc}) {
-        let fd = new FormData();
-        fd.append('sample',sample);
-        fd.append('image', image);
-        fd.append('data', JSON.stringify(sampleData));
+      let fd = new FormData();
+      fd.append('sample',sample);
+      fd.append('image', image);
+      fd.append('data', JSON.stringify(sampleData));
 
-        const {data} = await securePostForm(axios, fd, {slug: `${config.VITE_API_SAMPLE_UPLOAD_URI}`});
-        data.imgUrl = imageSrc;
-        return dispatch('addSamples', {samples:[data], index: 1, isNew:true});
+      const {data} = await securePostForm(axios, fd, {slug: `${config.VITE_API_SAMPLE_UPLOAD_URI}`});
+      data.imgUrl = imageSrc;
+      return dispatch('addSamples', {samples: [data], index: 1, isNew: true});
     },
 
     setIsLoaded({commit}, isLoaded){
@@ -214,8 +214,11 @@ export default {
       return initSamples;
     },
 
-    async search({ dispatch, commit, state:{ nextResultIndex: _nextResultIndex }}, { query, index = 0 }){
-       const { data:{ samples, nextResultIndex }} = await securePostJson(
+    async search({ dispatch, commit, state:{ nextResultIndex: _nextResultIndex }}, { query, index = 0 }) {      
+      if(_nextResultIndex < 0) return;
+
+      const {
+        data:{ samples, nextResultIndex }} = await securePostJson(
         axios,
         JSON.stringify({query, index}),
         { slug: `${config.VITE_API_SAMPLE_SEARCH_URI}` }

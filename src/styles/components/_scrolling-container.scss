@@ -1,7 +1,13 @@
 .scrolling-container {
+  height: 100%;
+  width: 100%;
+
+  @include for-size(xs) {
+      height: calc(100% - 3em);
+  }
 
   .scrolling-container-header {
-    height: var(--vp-scrolling-container-header-height);
+    width:100%;
     .icon-group {
       height: 2em;
       padding: 0 0.5em;
@@ -10,11 +16,13 @@
   }
   
   .scrolling-container-scrollable-content {
-    height: 100%;
-    border-radius: 6px;
-    flex: 1;
     @extend .flex;
     @extend .flex-column;
+
+    height: calc(100% - var(--scrollable-content-header-height));
+    width:100%;
+    border-radius: 6px;
+    flex: 1;
     background-color: $primary-background-color;
     overflow-y: auto;
 
@@ -37,13 +45,12 @@
       background-color: $primary-background-color;
     }
 
-    @include for-size(xs) {
-      height:calc(100vh - 10.75em);
-    }
-
     .scrolling-container-content {
-      padding: 1em;
+      @extend .flex;
+      @extend .flex-column;
       @extend .justify-start;
+
+      padding: 1em;
 
       .scrolling-content {
         width:100%;

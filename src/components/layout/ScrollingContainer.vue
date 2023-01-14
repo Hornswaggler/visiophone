@@ -2,7 +2,6 @@
   <div class="scrolling-container">
     <div
       ref="header"
-      :style="{ height: headerHeight }"
       class="scrolling-container-header"
     >
       <slot name="header" />
@@ -11,9 +10,7 @@
       ref="scrollingContainer"
       class="scrolling-container-scrollable-content"
     >
-      <div
-        class="scrolling-container-content flex flex-column"
-      >
+      <div class="scrolling-container-content">
         <slot name="scrolling-content" />
       </div>
     </div>

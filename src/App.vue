@@ -1,28 +1,34 @@
 <template>
   <div id="app" class="app-content-container">
-    <BaseLayout />
+    <background />
+    <form-dropdown />
+    <loading />
+    <router-view />
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex';
-import BaseLayout from '@/components/layout/BaseLayout.vue';
 import { axiosInit } from '@/axios.js';
 import config from '@/config';
+import Background from '@/components/layout/Background.vue';
+import Loading from '@/components/layout/Loading.vue';
+import FormDropdown from '@/components/form/FormDropdown.vue';
 
 export default {
   name: 'App',
   components: {
-    BaseLayout
+    Loading,
+    Background,
+    FormDropdown
   },
 
   computed: {
     ...mapState('user', ['authenticated', 'isStripeApproved']),
-    ...mapState('app', ['targetUrl', 'sideNavigationMenuItems'])
+    ...mapState('app', ['targetUrl', 'sideNavigationMenuItems', 'loading'])
   },
 
   async mounted(){
-    // this.initializePersistentStorage();
     this.$router.beforeEach(({path}, from, next) => {
       this.$store.commit(
         'app/setSideNavigationIndex',

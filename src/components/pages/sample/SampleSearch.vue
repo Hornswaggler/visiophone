@@ -3,22 +3,18 @@
     :on-scroll-limit-reached="onScrollLimitReached"
   >
     <template v-slot:header>
-      <div
-        class="flex"
-        style="background-color: black"
-      >
-        <div class="flex-1 flex">
-          
+      <div class="search-header">
+        <div style="width:50%;" class="flex-1 flex">
           <form-input
             class="header-search-input"
             style="padding:0;border:none;"
             :on-changed="onSearchChanged"
           />
               
-          <div class="header-search-input-background" />
+          <div class="header-search-input-background"></div>
         </div>
 
-        <div class="flex justify-end icon-group">
+        <div style="width:50%;" class="flex justify-end icon-group">
           <bootleg-list-icon
             :on-click="onViewListClicked"
             :selected="isListTypeSelected"
@@ -198,6 +194,11 @@ export default {
 }
 </script>
 <style lang="scss">
+
+.search-header {
+  height:2em;
+}
+
 // TODO: What's up w/ this???
 .header-search-input {
   .form-input-base {

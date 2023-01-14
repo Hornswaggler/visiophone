@@ -1,0 +1,7 @@
+.page-body {
+  .search-header {
+    @extend .flex;
+    height: 2em;
+    background-color: black;
+  }
+}
