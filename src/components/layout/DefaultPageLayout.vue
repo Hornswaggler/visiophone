@@ -5,9 +5,9 @@
     </template>
     <template v-slot:content>
       <div class="page-body">
-        <!-- <Header style="height: 10vh;" /> -->
+        <Header />
         <router-view/>
-        <page-footer />
+        <page-footer/>
       </div>
     </template>
   </responsive-layout>
@@ -27,11 +27,6 @@ export default {
     SideNavigation,
     ScrollingContainer,
     PageFooter
-  },
-  methods: {
-    onScrollLimitReached() {
-      this.$store.dispatch('sample/loadMoreSamples');
-    },
   }
 }
 </script>

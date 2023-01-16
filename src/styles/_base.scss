@@ -1,7 +1,8 @@
 #app {
-  @extend .fill-screen;
-  text-align: center;
+  @extend .fill-screen; 
   @extend .m0;
+
+  text-align: center;
   z-index:50;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

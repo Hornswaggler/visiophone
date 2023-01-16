@@ -1,4 +1,5 @@
 <template>
+
   <scrolling-container>
     <template v-slot:scrolling-content>
       <div 
@@ -114,6 +115,7 @@
       ></compact>
     </template>
   </scrolling-container>
+
 </template>
 <script>
 import Vue from 'vue';

@@ -8,7 +8,9 @@
       v-if="loading"
       class="lds-facebook"
     >
-      <div /><div /><div />
+      <div />
+      <div />
+      <div />
     </div>
   </div>
 </template>

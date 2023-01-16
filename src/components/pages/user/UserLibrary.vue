@@ -3,17 +3,21 @@
     <template v-slot:scrolling-content>
       <div>
         <div v-if="isStripeApproved">
-          <div class="vp-form-row" style="text-align:left;">
-            <h3 @click="isCollapsed = !isCollapsed">
+          <div class="vp-form-row" >
+            <h3 @click="isGridView = !isGridView">
               Uploads
             </h3>
           </div>
 
-          <form-sortable-table style="width:100%;" :table-definition="tableDefinition" :data="uploads"
-            :is-collapsed="isCollapsed">
+          <form-sortable-table 
+            :table-definition="tableDefinition" 
+            :data="uploads"
+            :is-grid-view="true">
             <template v-slot:row="{ row:sample }">
-              <sortable-table-row class="sortable-column-row" :class="{expanded : !isCollapsed}"
-                :table-definition="tableDefinition">
+              <sortable-table-row 
+                class="sortable-column-row"
+                :table-definition="tableDefinition"
+              >
                 <template v-slot:Image>
                 </template>
                 <template v-slot:Name>
@@ -44,18 +48,28 @@
 
 
         <div class="vp-form-row" style="text-align:left;">
-          <h3 @click="isCollapsed = !isCollapsed">
+          <h3 @click="isGridView = !isGridView">
             Purchases
           </h3>
         </div>
 
-        <form-sortable-table style="width:100%;" :table-definition="tableDefinition" :data="purchases"
-          :is-collapsed="isCollapsed">
+        <form-sortable-table 
+          :table-definition="tableDefinition" 
+          :data="purchases"
+          :is-grid-view="true"
+        >
           <template v-slot:row="{ row:sample }">
-            <sortable-table-row class="sortable-column-row" :class="{expanded : !isCollapsed}"
-              :table-definition="tableDefinition">
+            <sortable-table-row 
+              class="sortable-column-row" 
+              :class="{expanded : !isGridView}"
+              :table-definition="tableDefinition"
+            >
               <template v-slot:Image>
-                <form-image class="search-album-art" :class="{expanded: !isCollapsed}" :url="`${sample.imgUrl}`" />
+                <form-image 
+                  class="search-album-art" 
+                  :class="{expanded: !isGridView}" 
+                  :url="`${sample.imgUrl}`" 
+                />
               </template>
               <template v-slot:Name>
                 <form-sortable-table-cell>
@@ -103,7 +117,7 @@ export default {
     ScrollingContainer
   },
   data: () => ({
-    isCollapsed:true,
+    isGridView:true,
     tableDefinition: {
       columns: [
         { 

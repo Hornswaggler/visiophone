@@ -1,8 +1,5 @@
 .page-body {
-  @extend .fill;
-  @extend .flex;
-  @extend .flex-column;
-
+  @extend .fill-width;
   background-color: $primary-color;
   position: relative;
 }

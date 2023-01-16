@@ -1,9 +1,13 @@
 .scrolling-container {
-  height: 100%;
+  height: calc(100% - var(--main-banner-height));
   width: 100%;
 
   @include for-size(xs) {
-      height: calc(100% - 3em);
+    height: calc(100% - var(--mobile-footer-height) - var(--main-banner-height));
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
   }
 
   .scrolling-container-header {
@@ -19,7 +23,7 @@
     @extend .flex;
     @extend .flex-column;
 
-    height: calc(100% - var(--scrollable-content-header-height));
+    height: calc(100% - var(--search-header-height));
     width:100%;
     border-radius: 6px;
     flex: 1;
@@ -46,20 +50,7 @@
     }
 
     .scrolling-container-content {
-      @extend .flex;
-      @extend .flex-column;
-      @extend .justify-start;
-
       padding: 1em;
-
-      .scrolling-content {
-        width:100%;
-        .expanded {
-          .sortable-column-row {
-            height: var(--vp-cover-art-hw);
-          }
-        }
-      };
     }
 
   }

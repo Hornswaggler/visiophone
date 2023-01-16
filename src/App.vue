@@ -1,5 +1,9 @@
 <template>
-  <div id="app" class="app-content-container">
+  <div
+    ref="app"
+    id="app"
+    class="app-content-container"
+  >
     <background />
     <form-dropdown />
     <loading />
@@ -28,8 +32,14 @@ export default {
     ...mapState('app', ['targetUrl', 'sideNavigationMenuItems', 'loading'])
   },
 
-  async mounted(){
-    this.$router.beforeEach(({path}, from, next) => {
+  async mounted() {
+    
+    this.$store.dispatch('app/setOnSetCssProperty', this.onSetCssProperty);
+
+    //TODO: fix this nonsense...
+    this.$router.beforeEach((stuff, from, next) => {
+      const {path} = stuff;
+
       this.$store.commit(
         'app/setSideNavigationIndex',
         this.sideNavigationMenuItems.findIndex(({slug}) => slug === path) || 0
@@ -51,6 +61,9 @@ export default {
     },
   }, 
   methods:{
+    onSetCssProperty({key, value}){
+      this.$refs['app'].style.setProperty(key, value);
+    },
     //TODO: Are we using this???
     initializePersistentStorage() {
       for(let i = 0; i < config.PERSISTENT_MUTATIONS.length; i++) {
@@ -88,21 +101,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss">
 @import "@/styles/main.scss";
-
-.user-settings-form {
-  display:flex;
-  flex-direction: column-reverse;
-  .vp-form:first-child {
-      padding-top: 1em;
-    }
-  @include for-size(md) {
-    flex-direction: row;
-    .vp-form:first-child {
-      padding-top: 0;
-    }
-  }
-}
 </style>

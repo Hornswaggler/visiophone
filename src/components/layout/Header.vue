@@ -1,5 +1,6 @@
 <template>
   <carousel
+    class="header-container"
     :elements="headerElements"
   >
     <div class="fill flex justify-end"></div>

@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import config from '/src/config';
 import {DEFAULT_ROUTE} from '@/router/routeNames';
 import {
@@ -18,6 +19,7 @@ export default {
   namespaced: true,
   
   state: () => ({
+    onSetCssProperty: () => {},
     isLoading: false,
     loading: false,
     showOverlay: false,
@@ -71,6 +73,14 @@ export default {
   },
 
   actions: {
+    onSetCssProperty({state:{onSetCssProperty}}, {key, value}){
+      onSetCssProperty({key, value});
+    },
+
+    setOnSetCssProperty({commit}, onSetCssProperty) {
+      commit('onSetCssProperty', onSetCssProperty);
+    },
+
     showOverlay({commit}, {showLoading, opacity} = overlayOptionDefaults()) {
       commit('setLoading', showLoading);
       commit('setOpacity', opacity);
@@ -89,6 +99,10 @@ export default {
   },
 
   mutations: {
+    onSetCssProperty(state, onSetCssProperty){
+      Vue.set(state, 'onSetCssProperty', onSetCssProperty);
+    },
+
     setShowMenu(state, showMenu) {
       state.showMenu = showMenu;
     },

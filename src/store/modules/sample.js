@@ -214,8 +214,8 @@ export default {
       return initSamples;
     },
 
-    async search({ dispatch, commit, state:{ nextResultIndex: _nextResultIndex }}, { query, index = 0 }) {      
-      if(_nextResultIndex < 0) return;
+    async search({ dispatch, commit, state:{ nextResultIndex: _nextResultIndex, query: _query = '' }}, { query = '', index = 0 }) {
+      if(query === _query && _nextResultIndex < 0) return;
 
       const {
         data:{ samples, nextResultIndex }} = await securePostJson(
