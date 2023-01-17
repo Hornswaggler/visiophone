@@ -93,6 +93,7 @@
               v-slot:input
               style="height:initial;" 
             >
+              <!-- TODO: Fix this: -->
               <div style="width:100%;">
                 <span style="padding:1em;text-align:left;font-size:0.8em;display:inline-block;">
                   You have a <span style="color: var(--vp-highlight-color); display: inline-block;">seller</span> 

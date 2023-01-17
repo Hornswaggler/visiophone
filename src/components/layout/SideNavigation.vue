@@ -1,6 +1,7 @@
 <template>
   <div class="responsive-layout-side-navigation">
     <div class="flex-1 p1">
+      <!-- TODO: Fix this: -->
       <div style="margin-top:0;display:flex;flex-direction: column;align-items: center;justify-content: space-around;">
         <site-logo />
       </div>
