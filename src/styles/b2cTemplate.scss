@@ -28,13 +28,22 @@
 @import './components/form/redirect-button';
 @import './components/form/carousel';
 
+#app {
+  --main-banner-height: 0em;
+}
+
 .b2c-template {
-  max-width: 50em;
+  --main-banner-height: 0em;
+  font-size: 1em;
   background: rgba(128, 128, 128, 0.46);
   padding: 2em;
   font: "VCR_OSD_MONO", "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Monaco", monospace;
   border-radius: 1em;
   text-shadow: 1px 2px 8px #2b1414a4;
+
+  @include for-size(xs) {
+    font-size: 3em;
+  }
 
   img {
     max-height: 3em;
@@ -58,6 +67,9 @@
         border: solid 2px rgb(158, 158, 158);
         font-size: 1em;
         color: white;
+
+
+    
       }
     }
 
