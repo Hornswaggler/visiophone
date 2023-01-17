@@ -1,6 +1,5 @@
-export const LANDING = 'landingPage';
+export const AUTH = 'auth';
 
-export const SAMPLE = 'sample';
 export const SAMPLE_UPLOAD = 'upload';
 export const SAMPLE_SEARCH = 'search';
 
@@ -11,11 +10,10 @@ export const PROVISION_STRIPE_STANDARD_REFRESH = 'provision-stripe-standard-refr
 export const PROVISION_STRIPE_STANDARD_RETURN = 'provision-stripe-standard-return';
 export const PURCHASE_SAMPLE_RETURN = 'purchase-sample-return'
 
-export const DEFAULT_ROUTE = SAMPLE;
+export const DEFAULT_ROUTE = SAMPLE_SEARCH;
 
 export default {
-  LANDING,
-  SAMPLE,
+  AUTH,
   SAMPLE_UPLOAD,
   USER,
   USER_SETTINGS,

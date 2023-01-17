@@ -1,45 +1,39 @@
-$side-navigation-width: 10em;
-
 .responsive-layout {
+  @extend .fill;
   @extend .flex;
   .responsive-margin {
     @include for-size(xl){
-      width: 15vw;
-      height: 100vh;
+      width: 15%;
+      height: 100%;
     };
     background-color: $primary-color;
-    height: 0vh;
-    width: 0vw;
+    height: 0;
+    width: 0;
   }
 
-  height:100vh;
-  width: 100vw;
-
   .responsive-layout-body {
+    @extend .fill;
     @extend .flex;
     @extend .justify-center;
 
-    @include for-size(xl){
-      width: 70vw;
-    }
-
-    height:100vh;
-    width: 100vw;
-
     position: relative;
 
-    .side-navigation-overlay {
+    @include for-size(xl){
+      width: 70%;
+    }
+
+    .menu-overlay {
       @extend .position-absolute;
       @extend .absolute-fill;
+      height: 100%;
       background-color: $primary-color;
       z-index: -1;
     }
 
     .responsive-layout-side-navigation {
-      @extend .fill-screen-height;
       @extend .flex;
-      @extend .align-center;
-      width: $side-navigation-width;
+
+      flex: 1;
       opacity: 0.87;
       background-color: $tertiary-background-color;
 
@@ -49,6 +43,8 @@ $side-navigation-width: 10em;
         @extend .flex;
         @extend .align-center;
 
+        width: 100%;
+
         border-top: $default-border;
 
         border-radius: 10px;
@@ -56,7 +52,6 @@ $side-navigation-width: 10em;
         max-height:1.5em;
         min-height:1.5em;
         background-color: $secondary-background-color;
-        width:75%;
         justify-content: space-evenly;
         margin-top: 1em;
         padding: 0.2em 0;
@@ -75,28 +70,22 @@ $side-navigation-width: 10em;
         }
       }
 
-      >div:first-of-type{
-        margin-top: 1em;
-      }
-
       .xs-logo {
         display:none;
       }
 
       @include for-size(xs) {
-        position:absolute;
+        display: none;
         background-color:$quaternary-color;
-        width: 33vw;
-        transform: translateX(-33vw);
-
-        &.show-nav {
-          transform: translateX(0);
-        }
 
         .logo-container{
           display:none;
         }
       }
+    }
+
+    .page-body {
+      flex: 8;
     }
 
     .header-search-container{
@@ -124,7 +113,7 @@ $side-navigation-width: 10em;
 
     .sample-search-input {
       @include for-size(xs) {
-        max-width: 100vw;
+        // max-width: 100vw;
         margin:0;
       }
     }
@@ -136,24 +125,18 @@ $side-navigation-width: 10em;
       }
     }
 
-    .sample-detail-container.isCollapsed .sample-detail-image-card .form-image {
+    .sample-detail-container.isGridView .sample-detail-image-card .form-image {
       @include for-size(xs) {
         min-height: 6em;
         min-width: 6em;
       }
     }
 
-    .scrolling-container {
-      @include for-size(xs) {
-        padding: 0;
-        justify-content: center;
-        align-items: center;
-        padding: 0;
-      }
-    }
-
     .page-footer-container {
+      height: var(--mobile-footer-height);
       display:none;
+      align-items: center;
+      justify-content: space-around; 
 
       @include for-size(xs) {
         display:flex;
@@ -161,7 +144,7 @@ $side-navigation-width: 10em;
     }
 
     .sample-detail-container {
-      &.isCollapsed{
+      &.isGridView{
         .sample-detail-image-card {
           .form-image {
             @include for-size(xs) {

@@ -4,7 +4,6 @@
       v-for="column in tableDefinition.columns"
       :key="column._id"
       class="sortable-column"
-      :class="{ expanded: !isCollapsed }"
       :style="{ flex: column.ratio }"
     >
       <slot :name="column.name" />
@@ -19,10 +18,6 @@ export default {
     tableDefinition:{
       type: Object,
       default: () => {}
-    },
-    isCollapsed: {
-      type: Boolean,
-      default: false,
     }
   }
 }

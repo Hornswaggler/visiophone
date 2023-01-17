@@ -1,16 +1,7 @@
 <template>
-  <div>
-    <div
-      class="side-navigation-overlay"
-      :style="{ ['z-index']: showMenu ? 2 : -1}"
-      @click="onBackgroundClicked"
-    />
-    <div
-      class="responsive-layout-side-navigation"
-      :class="{'show-nav': showMenu}"
-      style="z-index:2;"
-    >
-      <div style="height:10vh; margin-top:0;display:flex;flex-direction: column;align-items: center;justify-content: space-around;">
+  <div class="responsive-layout-side-navigation">
+    <div class="flex-1 p1">
+      <div style="margin-top:0;display:flex;flex-direction: column;align-items: center;justify-content: space-around;">
         <site-logo />
       </div>
 
@@ -27,20 +18,20 @@
         />
         <div>{{ option.title }}</div>
       </div>
-
-      <div class="fill flex-1 flex flex-column justify-end">
-        <img
-          class="circle p1"
-          :src="profileImg"
-          @click="onUserMenuClicked"
-        >
-      </div>
+    </div>
+    <div class="flex-1 flex flex-column justify-end p1 ">
+      <img
+        class="circle"
+        :src="profileImg"
+        @click="onUserMenuClicked"
+      >
     </div>
   </div>
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
 import SiteLogo from './SiteLogo.vue';
+import { AUTH } from '@/router/routeNames';
 
 export default {
   name:'SideNavigation',
@@ -63,7 +54,7 @@ export default {
           );
           if (await $store.dispatch('user/logout')) {
 
-            $router.push('/landingPage');
+            $router.push(`/${AUTH}`);
           }
         }
       }
@@ -90,6 +81,8 @@ export default {
   },
   methods:{
     async onUserMenuClicked(e) {
+      this.$store.dispatch('app/showOverlay', { showLoading: false, opacity: '0.9' });
+
       const { clientX = 0, clientY = 0 } = e;
 
       await this.$store.dispatch('dropdown/showDropdown', {
@@ -103,14 +96,11 @@ export default {
         this.$store.commit('dropdown/setItemWidth', this.inputWidth);
       });
 
-      this.$store.dispatch('app/showOverlay', { showLoading: false, opacity: '0.9' });
     },
     async onFormDropdownChanged() {
       await this.$store.dispatch('dropdown/hideDropdown', { showLoading: false, opacity: '0' });
     },
-    onBackgroundClicked() {
-      this.$store.commit('app/setShowMenu', false);
-    },
+
     onMenuItemSelected({id,slug}) {
       if(this.sideNavigationIndex !== id) {
         this.$store.commit('app/setSideNavigationIndex', id )

@@ -1,5 +1,6 @@
 <template>
   <carousel
+    class="header-container"
     :elements="headerElements"
   >
     <div class="fill flex justify-end"></div>
@@ -10,10 +11,10 @@
 import Carousel from '@/components/form/Carousel.vue';
 
 const headerElements = [
-  'https://visiophone.wtf/assets/Visioland_text.png',
-  'https://visiophone.wtf/assets/crispy.png',
-  'https://visiophone.wtf/assets/JedsSmoothInfluencercore.png',
-  'https://visiophone.wtf/assets/Psy.png',
+  'https://visiophone.wtf/avatars/Visioland_text.png',
+  'https://visiophone.wtf/avatars/crispy.png',
+  'https://visiophone.wtf/avatars/JedsSmoothInfluencercore.png',
+  'https://visiophone.wtf/avatars/Psy.png',
 ];
 
 export default {
@@ -21,7 +22,6 @@ export default {
   components:{
     Carousel
   },
-
   data:() => ({
     headerElements,
   }),

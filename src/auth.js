@@ -38,7 +38,7 @@ export const logon = async () => {
     //TODO: Fix this, check the policies on the accounts / match the one this app is looking for
     return accounts[0];
   }
-
+  
   return await client.loginRedirect(loginRequest);
 };
 

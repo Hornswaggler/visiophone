@@ -11,7 +11,8 @@
 @import 'shapes';
 @import 'animations';
 @import 'gradients';
-@import './components/layout/responsive-layout';
+@import './layout/responsive-layout';
+@import './layout/responsive-layout-header';
 @import './components/scrolling-container';
 @import './components/form/base';
 @import './components/form/sortable-table';
@@ -26,8 +27,6 @@
 @import './components/form/image';
 @import './components/form/redirect-button';
 @import './components/form/carousel';
-@import './components/layout/responsive-layout-header';
-@import './components/pages/sample-page';
 
 .b2c-template {
   max-width: 50em;

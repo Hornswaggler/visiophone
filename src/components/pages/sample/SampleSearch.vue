@@ -3,29 +3,28 @@
     :on-scroll-limit-reached="onScrollLimitReached"
   >
     <template v-slot:header>
-      <div
-        class="flex"
-        style="background-color: black"
-      >
-        <div class="flex-1 flex">
-          
+      <div class="search-header">
+        <div style="width:50%;" class="flex-1 flex">
           <form-input
             class="header-search-input"
             style="padding:0;border:none;"
             :on-changed="onSearchChanged"
           />
               
-          <div class="header-search-input-background" />
+          <div class="header-search-input-background"></div>
         </div>
 
-        <div class="flex justify-end icon-group">
+        <div
+          style="width:50%;" 
+          class="flex justify-end icon-group"
+        >
           <bootleg-list-icon
             :on-click="onViewListClicked"
             :selected="isListTypeSelected"
           />
           <bootleg-group-icon
             :on-click="onViewGroupClicked"
-            :selected="isGroupTypeSelected"
+            :selected="!isListTypeSelected"
           />
         </div>
       </div>
@@ -37,66 +36,58 @@
     </template>
 
     <template v-slot:scrolling-content>
-      <div class="scrolling-content">
-        <form-sortable-table
-          :table-definition="sampleTableDefinition"
-          :data="sampleArray"
-          :is-collapsed="isCollapsed"
-        >
-          <template v-slot:row="{ row: sample }">
-            <sortable-table-row
-              :class="{ expanded : !isCollapsed }"
-              :table-definition="sampleTableDefinition"
-              :is-collapsed="isCollapsed"
-            >
-              <template v-slot:Image>
-                <form-image
-                  :class="{expanded: !isCollapsed}"
-                  :url="`${sample.imgUrl}`"
-                />
-              </template>
-              <template v-slot:Title>
-                <form-sortable-table-cell>
-                  {{ sample.name }}
-                </form-sortable-table-cell>
-              </template>
-              <template v-slot:Genre>
-                <form-sortable-table-cell>
-                  {{ sample.tag }}
-                  <!-- <audio-player :sample="sample" /> -->
-                </form-sortable-table-cell>
-              </template>
-              <template v-slot:BPM>
-                <form-sortable-table-cell>
-                  {{ sample.bpm }}
-                </form-sortable-table-cell>
-              </template>
-              <template v-slot:Cost>
-                <form-sortable-table-cell>
-                  {{ `$${sample.cost * 0.01}` }}
-                </form-sortable-table-cell>
-              </template>
-              <template v-slot:Buy>
-                <form-redirect-button
-                  :action="samplePurchaseUrl"
-                  :idToken="idToken"
-                  :payload="JSON.stringify([sample.priceId])"
-                >
-                  <template v-slot:content>
-                    <form-icon
-                      icon-size="1em"
-                      class="vp-icon flex justify-end align-end download-icon"
-                      icon="fa-plus"
-                    />
-                  </template>
-                </form-redirect-button>
-              </template>
-            </sortable-table-row>
-          </template>
-        </form-sortable-table>
-      </div>
-
-      <div class="flex" />
+      <form-sortable-table
+        :data="sampleArray"
+        :is-grid-view="!isGridView"
+      >
+        <template v-slot:row="{ row: sample }">
+          <sortable-table-row
+            :table-definition="sampleTableDefinition"
+          >
+            <template v-slot:Image>
+              <form-image
+                :url="`${sample.imgUrl}`"
+              />
+            </template>
+            <template v-slot:Title>
+              <form-sortable-table-cell>
+                {{ sample.name }}
+              </form-sortable-table-cell>
+            </template>
+            <template v-slot:Genre>
+              <form-sortable-table-cell>
+                {{ sample.tag }}
+                <!-- <audio-player :sample="sample" /> -->
+              </form-sortable-table-cell>
+            </template>
+            <template v-slot:BPM>
+              <form-sortable-table-cell>
+                {{ sample.bpm }}
+              </form-sortable-table-cell>
+            </template>
+            <template v-slot:Cost>
+              <form-sortable-table-cell>
+                {{ `$${sample.cost * 0.01}` }}
+              </form-sortable-table-cell>
+            </template>
+            <template v-slot:Buy>
+              <form-redirect-button
+                :action="samplePurchaseUrl"
+                :idToken="idToken"
+                :payload="JSON.stringify([sample.priceId])"
+              >
+                <template v-slot:content>
+                  <form-icon
+                    icon-size="1em"
+                    class="vp-icon flex justify-end align-end download-icon"
+                    icon="fa-plus"
+                  />
+                </template>
+              </form-redirect-button>
+            </template>
+          </sortable-table-row>
+        </template>
+      </form-sortable-table>
     </template>
   </scrolling-container>
 </template>
@@ -143,11 +134,7 @@ export default {
     ...mapState('sample', ['isLoaded', 'sortType', 'sampleTableDefinition', 'samplePurchaseUrl']),
     ...mapState('user', ['idToken']),
 
-    isCollapsed() {
-      return this.sortType === SORT_TYPES.LIST;
-    },
-
-    isGroupTypeSelected() {
+    isGridView() {
       return this.sortType === SORT_TYPES.GROUP;
     },
 
@@ -176,7 +163,7 @@ export default {
     },
 
     onViewGroupClicked(){
-      if(!this.isGroupTypeSelected) {
+      if(this.isListTypeSelected) {
         this.$store.dispatch('sample/setSortType', SORT_TYPES.GROUP);
       }
     },
@@ -192,22 +179,8 @@ export default {
     },
 
     onSearchChanged(query) {
-      this.$store.dispatch('sample/search', {query });
+      this.$store.dispatch('sample/search', { query });
     },
   }
 }
 </script>
-<style lang="scss">
-// TODO: What's up w/ this???
-.header-search-input {
-  .form-input-base {
-    border:0;
-    .form-input-body {
-      padding-left: 1em;
-    }
-    .form-input-icon-underlay {
-      left: 1em;
-    }
-  }
-}
-</style>

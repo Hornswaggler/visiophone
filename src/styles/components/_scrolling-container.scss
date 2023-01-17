@@ -1,7 +1,17 @@
 .scrolling-container {
+  height: calc(100% - var(--main-banner-height));
+  width: 100%;
+
+  @include for-size(xs) {
+    height: calc(100% - var(--mobile-footer-height) - var(--main-banner-height));
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
 
   .scrolling-container-header {
-    height: var(--vp-scrolling-container-header-height);
+    width:100%;
     .icon-group {
       height: 2em;
       padding: 0 0.5em;
@@ -10,11 +20,13 @@
   }
   
   .scrolling-container-scrollable-content {
-    height: 100%;
-    border-radius: 6px;
-    flex: 1;
     @extend .flex;
     @extend .flex-column;
+
+    height: calc(100% - var(--search-header-height));
+    width:100%;
+    border-radius: 6px;
+    flex: 1;
     background-color: $primary-background-color;
     overflow-y: auto;
 
@@ -37,22 +49,8 @@
       background-color: $primary-background-color;
     }
 
-    @include for-size(xs) {
-      height:calc(100vh - 10.75em);
-    }
-
     .scrolling-container-content {
       padding: 1em;
-      @extend .justify-start;
-
-      .scrolling-content {
-        width:100%;
-        .expanded {
-          .sortable-column-row {
-            height: var(--vp-cover-art-hw);
-          }
-        }
-      };
     }
 
   }

@@ -1,13 +1,16 @@
 #app {
-  @extend .fill-screen;
-  text-align: center;
+  @extend .fill-screen; 
   @extend .m0;
+
+  text-align: center;
   z-index:50;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 html {
+  height:100%;
+  width: 100%;
   font-size: 16px;
   font-weight: 300;
   @extend .m0;
@@ -19,21 +22,8 @@ html {
 
     color: $primary-text-color;
     background-color: $primary-background-color;
-
     overflow: hidden;
-
     border: 0;
-  }
-
-  // Refactor this... shouldn't be in here :|
-
-  //Radial gradient to fade edges of viewport
-  .overlay {
-    width: 100vw;
-    height: 100vh;
-    position: absolute; 
-    z-index: -2;
-    background: radial-gradient(circle, transparent 0%, transparentize($primary-background-color, .15) 100%);
   }
 
   .hover-zoom {

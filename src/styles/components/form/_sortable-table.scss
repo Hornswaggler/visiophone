@@ -5,28 +5,14 @@
   flex-wrap: wrap;
   flex-direction: row;
 
-  &.expanded {
+  &.isGridView {
     justify-content: initial;
     @extend .flex-column;
-  }
 
-  .sortable-table-row {
-    width: var(--vp-cover-art-hw);
-    transition: all $transition-cubic-bezier-250;
-    width: var(--vp-cover-art-hw-expanded);
-    height:var(--vp-cover-art-hw-expanded);
-    margin-top:0.5em;
-    padding: 0.5em;
-
-    &:hover {
-      transform:scale(1.1);
-    }
-
-    &.expanded {
-      width: 100%;
-      height: 100%;
+    .sortable-table-row {
+      @extend .fill;
       padding: 0;
-
+  
       &:hover {
         transform:none;
       }
@@ -34,6 +20,28 @@
       &:first-child{
         margin-top:0;
       }
+
+      .sortable-column-row {
+        height: var(--vp-cover-art-hw);
+      }
+
+      .form-image {
+        height: var(--vp-cover-art-hw);
+        width: var(--vp-cover-art-hw);
+      }
+    }
+  }
+
+  .sortable-table-row {
+    transition: all $transition-cubic-bezier-250;
+
+    height:var(--vp-cover-art-hw-expanded);
+    width: var(--vp-cover-art-hw-expanded);
+    margin-top:0.5em;
+    padding: 0.5em;
+
+    &:hover {
+      transform:scale(1.1);
     }
 
     .sortable-column-row {
@@ -84,6 +92,10 @@
 
 .sortable-table-header {
   @extend .flex;
+
+  height: 1.5em;
+  background-color:black;
+  
   .sortable-table-header-column {
     @extend .flex;
     @extend .justify-start;
@@ -101,6 +113,7 @@
       @extend .fill;
       @extend .flex-column; 
       @extend .justify-center;
+
       padding-left:0.5em;
       opacity:0;
       transition: color $transition-cubic-bezier-250;

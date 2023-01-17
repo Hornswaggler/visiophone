@@ -1,0 +1,18 @@
+.page-body {
+  .search-header {
+    @extend .flex;
+    height: 2em;
+    background-color: black;
+  }
+  .header-search-input {
+    .form-input-base {
+      border:0;
+      .form-input-body {
+        padding-left: 1em;
+      }
+      .form-input-icon-underlay {
+        left: 1em;
+      }
+    }
+  }
+}

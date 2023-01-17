@@ -1,13 +1,12 @@
 <template>
   <div
     class="sortable-table"
-    :class="{expanded: isCollapsed}"
+    :class="{isGridView: isGridView}"
   >
     <div
       v-for="row in data"
       :key="row._id"
       class="sortable-table-row"
-      :class="{expanded: isCollapsed}"
     >
       <slot
         name="row"
@@ -25,13 +24,9 @@ export default {
       type: Array,
       default: () => []
     },
-    isCollapsed:{
+    isGridView:{
       type: Boolean,
       default: false
-    },
-    tableDefinition: {
-      type: Object,
-      default: () => {}
     }
   },
 }

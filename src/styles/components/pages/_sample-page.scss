@@ -1,9 +1,0 @@
-.sample-page-body {
-  @extend .flex;
-  @extend .flex-column;
-
-  position: relative;
-  height: 100vh;
-  width: 100%;
-  background-color: $primary-color;
-}

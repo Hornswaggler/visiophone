@@ -1,29 +1,45 @@
 <template>
-  <div id="app" class="app-content-container">
-    <BaseLayout />
+  <div
+    ref="app"
+    id="app"
+    class="app-content-container"
+  >
+    <background />
+    <form-dropdown />
+    <loading />
+    <router-view />
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex';
-import BaseLayout from '@/components/layout/BaseLayout.vue';
 import { axiosInit } from '@/axios.js';
 import config from '@/config';
+import Background from '@/components/layout/Background.vue';
+import Loading from '@/components/layout/Loading.vue';
+import FormDropdown from '@/components/form/FormDropdown.vue';
 
 export default {
   name: 'App',
   components: {
-    BaseLayout
+    Loading,
+    Background,
+    FormDropdown
   },
 
   computed: {
     ...mapState('user', ['authenticated', 'isStripeApproved']),
-    ...mapState('app', ['targetUrl', 'sideNavigationMenuItems'])
+    ...mapState('app', ['targetUrl', 'sideNavigationMenuItems', 'loading'])
   },
 
-  async mounted(){
-    // this.initializePersistentStorage();
-    this.$router.beforeEach(({path}, from, next) => {
+  async mounted() {
+    
+    this.$store.dispatch('app/setOnSetCssProperty', this.onSetCssProperty);
+
+    //TODO: fix this nonsense...
+    this.$router.beforeEach((stuff, from, next) => {
+      const {path} = stuff;
+
       this.$store.commit(
         'app/setSideNavigationIndex',
         this.sideNavigationMenuItems.findIndex(({slug}) => slug === path) || 0
@@ -45,6 +61,9 @@ export default {
     },
   }, 
   methods:{
+    onSetCssProperty({key, value}){
+      this.$refs['app'].style.setProperty(key, value);
+    },
     //TODO: Are we using this???
     initializePersistentStorage() {
       for(let i = 0; i < config.PERSISTENT_MUTATIONS.length; i++) {
@@ -82,21 +101,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss">
 @import "@/styles/main.scss";
-
-.user-settings-form {
-  display:flex;
-  flex-direction: column-reverse;
-  .vp-form:first-child {
-      padding-top: 1em;
-    }
-  @include for-size(md) {
-    flex-direction: row;
-    .vp-form:first-child {
-      padding-top: 0;
-    }
-  }
-}
 </style>
