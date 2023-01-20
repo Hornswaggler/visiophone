@@ -11,7 +11,7 @@
     <template
       v-slot:input
     >
-      <div class="form-file-upload">
+      <div class="form-file-upload form-input-body">
         <span
           class="form-file-upload-button"
           @click="handleBrowseUpload"

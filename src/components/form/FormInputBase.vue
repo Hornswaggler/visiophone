@@ -1,25 +1,30 @@
 <template>
   <div class="form-input-base-container">
+    <div class="form-input-title">
+        <slot name="title" />
+      </div>
     <div class="form-input-base">
+
       <div
         class="form-input-container"
       >
-        <div class="form-input-title-container">
-          <div class="form-input-title">
-            <slot name="title" />
-          </div>
-        </div>
         <div class="form-input-body-container">
           <slot name="input" />
         </div>
       </div>
     </div>
-    <div
-      v-for="error in errors[fieldName]"
-      :key="error.id"
-      class="form-input-error"
+    <div 
+      class="form-input-error-container"
+      :class="{hasError: ((errors[fieldName]) || []).length > 0}"
+
     >
-      {{error.msg}}
+      <div
+        v-for="error in errors[fieldName]"
+        :key="error.id"
+        class="form-input-error"
+      >
+        {{error.msg}}
+      </div>
     </div>
   </div>
 </template>

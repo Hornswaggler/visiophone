@@ -1,4 +1,4 @@
-import DefaultPageLayout from '/src/components/layout/DefaultPageLayout.vue';
+import ResponsiveLayout from '/src/components/layout/ResponsiveLayout.vue';
 import UserSettings from '/src/components/pages/user/UserSettings.vue';
 import UserLibrary from '/src/components/pages/user/UserLibrary.vue'
 import SampleUpload from '/src/components/pages/sample/SampleUpload.vue';
@@ -23,7 +23,7 @@ import {
 export default [
   {
     path:'/',
-    component: DefaultPageLayout,
+    component: ResponsiveLayout,
     children:[
       {
         path: `/${AUTH}`,
@@ -48,7 +48,10 @@ export default [
       },
       {
         path: SAMPLE_UPLOAD,
-        component: SampleUpload
+        component: SampleUpload,
+        meta: {
+          headerHeight: '--default-search-header-height'
+        }
       },
       {
         path: PURCHASE_SAMPLE_RETURN,

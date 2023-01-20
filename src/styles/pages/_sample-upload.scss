@@ -1,0 +1,20 @@
+.sample-upload {
+  .form-base {
+    .form-column {
+      &:first-child {
+        padding-right: 0;
+      }
+      &:last-child {
+        padding-left: 0;
+      }
+      @include for-size(md) {
+        &:first-child {
+          padding-right: 0.5em;
+        }
+        &:last-child {
+          padding-left: 0.5em;
+        }
+      }
+    }
+  }
+}      

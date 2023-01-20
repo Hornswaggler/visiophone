@@ -23,7 +23,8 @@ const properties = [
   'VITE_API_SAMPLE_PURCHASE',
   'VITE_API_ACCOUNT_UPGRADE',
   'VITE_AUTH_SIGN_UP_SIGN_IN_REDIRECT_URI',
-  'VITE_APP_TITLE'
+  'VITE_APP_TITLE',
+  'VITE_API_SAMPLE_PACK_UPLOAD_URI'
 ];
 
 const env = import.meta.env;

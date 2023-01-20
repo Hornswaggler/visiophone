@@ -4,7 +4,7 @@
   @extend .justify-center;
 
   padding-left: 0.5em;
-  font-size: 1.5em;
+  font-size: var(--vp-input-min-height);
   align-content: center;
 
   cursor: pointer;

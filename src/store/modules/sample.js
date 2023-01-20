@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import { v4 as uuidv4 } from 'uuid';
 import {axios, securePostJson, securePostForm} from '/src/axios.js';
 import config from '/src/config.js';
 import moment from 'moment';
@@ -71,6 +72,27 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
     clipUri
   };
 }
+
+const addSampleDataToForm = (form, {sampleData, sample, image}) => {
+  const requestId = uuidv4();
+  const sampleKey = `sample-${requestId}`;
+  const imageKey = `image-${requestId}`
+  const sampleFileName = `${sampleKey}${sample.name.slice(sample.name.lastIndexOf('.'))}`;
+  const imageFileName = `${imageKey}${image.name.slice(image.name.lastIndexOf('.'))}`;
+
+  // debugger;
+  const sampleRequest = {
+    requestId,
+    sampleMetadata: sampleData,
+    sampleFileName,
+    imageFileName
+  };
+
+  form.append(sampleFileName, sample);
+  form.append(imageFileName, image);
+
+  return sampleRequest;
+};
 
 export const SORT_TYPES = {
   LIST: 'LIST',
@@ -182,14 +204,35 @@ export default {
     },
 
     async uploadSample({dispatch}, {sampleData, sample, image, imageSrc}) {
-      let fd = new FormData();
-      fd.append('sample',sample);
-      fd.append('image', image);
-      fd.append('data', JSON.stringify(sampleData));
+      const form = new FormData();
+      const sampleRequest = addSampleDataToForm(form, {sampleData, sample, image});
 
-      const {data} = await securePostForm(axios, fd, {slug: `${config.VITE_API_SAMPLE_UPLOAD_URI}`});
-      data.imgUrl = imageSrc;
-      return dispatch('addSamples', {samples: [data], index: 1, isNew: true});
+      form.append('data', JSON.stringify( {
+        name: 'a sample pack',
+        description: 'This is a description',
+        sampleRequests: [
+          sampleRequest
+        ]
+      }));
+
+      // TODO: Fix this.
+      await securePostForm(axios, form, {slug: `${config.VITE_API_SAMPLE_PACK_UPLOAD_URI}`});
+
+      // const {data} = await securePostForm(axios, form, {slug: `${config.VITE_API_SAMPLE_UPLOAD_URI}`});
+      // data.imgUrl = imageSrc;
+      // return dispatch('addSamples', {samples: data, index: 1, isNew: true});
+    },
+
+    async uploadSamplePack({dispatch}, {name, samples}){
+      let fd = new FormData();
+      const sampleRequests = [];
+      for({sampleData, sample, image} in samples) {
+        const sampleRequest = addSampleDataToForm(fd, {sampleData, sample, image});
+        form.append(`data-${sampleRequest.requestId}`, sampleRequest);
+        sampleRequests.push(sampleRequest);
+      }
+
+      await securePostForm(axios, fd, {slug: `${config.VITE_API_SAMPLE_PACK_UPLOAD_URI}`})
     },
 
     setIsLoaded({commit}, isLoaded){

@@ -20,7 +20,8 @@
     "moment": "2.29.4",
     "axios": "0.26.0",
     "@azure/msal-browser": "2.28.1",
-    "vue-color": "2.8.1"
+    "vue-color": "2.8.1",
+    "uuid": "9.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue2": "^1.1.2",

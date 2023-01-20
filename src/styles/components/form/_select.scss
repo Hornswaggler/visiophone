@@ -1,7 +1,6 @@
 .form-select {
   flex: 1;
   width: 100%;
-  padding: var(--vp-input-padding);
   @extend .flex;
   @extend .justify-start;
   @extend .align-center;
