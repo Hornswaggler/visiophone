@@ -15,7 +15,8 @@
         v-model="internalValue"
         class="form-input-body"
         type="number"
-        @change="onChanged"
+        v-debounce="onChangeHandler"
+        @blur="onChangeHandler(internalValue)"
       >
     </template>
   </form-input-base>
@@ -45,7 +46,7 @@ export default {
       type: String,
       default: "0"
     },
-    changeHandler:{
+    onChanged:{
       type: Function,
       default: () => {}
     }
@@ -54,8 +55,9 @@ export default {
     this.internalValue = this.value;
   },
   methods:{
-    onChanged({target:{value}}){
-      this.changeHandler(value);
+    onChangeHandler(value){
+      this.onChanged(value);
+      this.$store.dispatch('form/validateField', {field: this.fieldName, value});
     }
   }
 }

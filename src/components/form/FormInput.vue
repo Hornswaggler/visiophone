@@ -2,16 +2,12 @@
   <form-input-base
     :title="title"
     :value="internalValue"
-    :blurred="blurred"
     :fieldName="fieldName"
   >
-    <template
-      v-slot:title
-    >
+    <template v-slot:title>
       {{ title }}
     </template>
 
-    <!-- TODO: Inline Style -->
     <template
       v-slot:input
     >
@@ -20,7 +16,7 @@
         v-debounce="onChangeHandler"
         class="form-input-body"
         @focus="onShowPlaceholder(false)"
-        @blur="onBlur"
+        @blur="onChangeHandler(internalValue)"
       >
       <div
         class="form-input-icon-underlay toggle-show"
@@ -31,7 +27,7 @@
           icon="fa-solid fa-magnifying-glass"
         >
           <template v-slot:post-content>
-            <div>&nbsp;Search</div>
+            <div>&nbsp;{{title}}</div>
           </template>
         </form-icon>
       </div>
@@ -62,16 +58,11 @@ export default {
     onChanged: {
       type: Function,
       default: () => {}
-    },
-    preview: {
-      type: String,
-      default: ''
     }
   },
   data: () => ({
     internalValue:'',
     internalShowPlaceholder: true,
-    blurred: false
   }),
   computed: {
     showPlaceholder(){
@@ -87,10 +78,7 @@ export default {
     },
     onChangeHandler(value){
       this.onChanged(value);
-    },
-    onBlur() {
-      this.onShowPlaceholder(true);
-      this.blurred = !this.blurred
+      this.$store.dispatch('form/validateField', {field: this.fieldName, value});
     }
   }
 }

@@ -17,6 +17,7 @@
     @extend .fill;
     @extend .flex;
     @extend .position-relative;
+    box-shadow: 10px 10px 5px 0px rgb(0 0 0 / 45%);
 
     .responsive-layout-body-content{
       @extend .flex-column;

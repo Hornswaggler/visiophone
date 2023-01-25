@@ -1,10 +1,4 @@
 .form-base {
-  @extend .flex;
-
-  transition: background-color $transition-cubic-bezier-250;
-  background-color:initial;
-  flex-direction: column-reverse;
-
   .form-column {
     @extend .flex;
     @extend .flex-1;
@@ -14,14 +8,6 @@
       @extend .flex;
       @extend .justify-start;
       font-size: 1em;
-    }
-  }
-
-
-  @include for-size(md) {
-    flex-direction: row;
-    .vp-form:first-child {
-      padding-top: 0;
     }
   }
 }

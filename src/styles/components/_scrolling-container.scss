@@ -1,7 +1,6 @@
 .scrolling-container {
   height: calc(100% - var(--main-banner-height));
   width: 100%;
-  overflow-y: auto;    
 
   .search-header {
     @extend .flex;
@@ -21,24 +20,7 @@
     }
   }
 
-  &::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 10px;
-    background-color: $primary-color;
-  }
-
-  &::-webkit-scrollbar {
-    width: 12px;
-    background-color: $quinary-color;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px $primary-shadow-inset;
-    box-shadow: inset 0 0 6px $primary-shadow-inset;
-    background-color: $primary-background-color;
-  }
+  
 
   @include for-size(xs) {
     height: calc(100% - var(--mobile-footer-height) - var(--main-banner-height));
@@ -58,13 +40,39 @@
   } 
   
   .scrolling-container-scrollable-content {
+    @extend .flex;
+    @extend .flex-column;
     @extend .fill;
-    @extend .flex-1;
-    border-radius: 6px;
+
+    overflow-y: auto;
     flex: 1;
 
     .scrolling-container-content {
-      padding: 1em;
+      @extend .flex;
+      @extend .flex-column;
+      @extend .flex-1;
+      @extend .p1;
+      background-color: #5c5e7336;
+      box-shadow: 10px 10px 23px -3px rgba(0,0,0,0.25) inset;
+    }
+
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+      box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+      border-radius: 10px;
+      background-color: $primary-color;
+    }
+  
+    &::-webkit-scrollbar {
+      width: 12px;
+      background-color: $quinary-color;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px $primary-shadow-inset;
+      box-shadow: inset 0 0 6px $primary-shadow-inset;
+      background-color: $primary-background-color;
     }
   }
 }

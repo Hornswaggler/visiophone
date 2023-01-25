@@ -4,6 +4,7 @@
   @extend .justify-center;
   
   height: 2em;
+  min-width: 2em; 
 
   font: normal 100%/1.4 $text-font-stack;
   border: $default-border;

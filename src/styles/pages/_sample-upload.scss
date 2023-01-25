@@ -1,4 +1,29 @@
 .sample-upload {
+
+  
+  &>.vp-form-row {
+    @include for-size(sm) {
+      &:last-child {
+        background-color:red;
+      }
+    }
+
+  }
+
+  .add-sample-panel {
+    @extend .flex;
+    @extend .fill-width;
+    flex-direction: column-reverse;
+
+    @include for-size(md) {
+      flex-direction: row;
+      .vp-form:first-child {
+        padding-top: 0;
+      }
+    }
+  }
+
+  @extend .flex-column;
   .form-base {
     .form-column {
       &:first-child {

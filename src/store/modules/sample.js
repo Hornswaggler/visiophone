@@ -28,7 +28,7 @@ export const makeNewSample = (
     description = '',
     seller = '',
     bpm = '120.0',
-    cost = "100",
+    cost = "",
     imgUrl = '', 
     clipUri = '', 
     fileName = '',
@@ -80,7 +80,6 @@ const addSampleDataToForm = (form, {sampleData, sample, image}) => {
   const sampleFileName = `${sampleKey}${sample.name.slice(sample.name.lastIndexOf('.'))}`;
   const imageFileName = `${imageKey}${image.name.slice(image.name.lastIndexOf('.'))}`;
 
-  // debugger;
   const sampleRequest = {
     requestId,
     sampleMetadata: sampleData,

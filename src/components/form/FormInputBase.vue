@@ -4,19 +4,16 @@
         <slot name="title" />
       </div>
     <div class="form-input-base">
-
-      <div
-        class="form-input-container"
-      >
+      <div class="form-input-container">
         <div class="form-input-body-container">
           <slot name="input" />
         </div>
       </div>
     </div>
+
     <div 
       class="form-input-error-container"
       :class="{hasError: ((errors[fieldName]) || []).length > 0}"
-
     >
       <div
         v-for="error in errors[fieldName]"
@@ -49,10 +46,6 @@ export default {
       type:String,
       default: ''
     },
-    blurred: {
-      type: Boolean,
-      default: false
-    },
     fieldName: {
       type: String,
       default: ''
@@ -60,27 +53,6 @@ export default {
   },
   computed:{
     ...mapState('form', ['errors']),
-    ...mapGetters('form', ['currentForm']),
-    validations(){
-      return this.currentForm[this.title];
-    }
   },
-  mounted() {
-    this.$watch('value', async newValue => {
-      this.updateState(newValue);
-    });
-    this.$watch('blurred', () => this.updateState(this.value));
-
-    Object.assign(this.validInternal, {
-      ...defaultValidations(),
-      ...this.validations
-    });
-  },
-  methods: {
-    async updateState(newValue){
-      await this.$store.dispatch('form/setField', {field: this.fieldName, value: newValue})
-      this.$store.dispatch('form/validateField', {field: this.fieldName});
-    },
-  }
 }
 </script>
