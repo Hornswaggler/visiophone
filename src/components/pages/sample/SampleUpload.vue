@@ -9,8 +9,11 @@
         <div class="form-base pt05 flex-1"
           :style="{ backgroundColor: `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})` }">
 
-          <div v-for="(sample, key) in samplePack.sampleData" :key="key">
-            <div>
+          <collapsible-panel
+            v-for="(sample, key) in samplePack.sampleData"
+            :key="key"
+          >
+            <template v-slot:header>
               <button 
                 class="vp-button sm delete-button"
                 type="button" 
@@ -18,12 +21,15 @@
               >
                 -
               </button>
-            </div>
-            <div class="add-sample-panel">
+            </template>
+            <template v-slot:content>
               <div class="form-column">
                 <div class="vp-form-row">
-                  <form-input :fieldName="`sampleData.${key}.name`" :value="sample.name" title="name"
-                    :on-changed="name => sample.name = name"></form-input>
+                  <form-input
+                    :fieldName="`sampleData.${key}.name`"
+                    :value="sample.name" title="name"
+                    :on-changed="name => sample.name = name">
+                  </form-input>
                 </div>
 
                 <!-- <div class="vp-form-row">
@@ -74,12 +80,8 @@
 
               </div>
 
-
-            </div>
-            <!-- THIS IS THE DATA{{ sampleData }} -->
-
-
-          </div>
+            </template>
+          </collapsible-panel>
 
           <!-- <div class="pl1 form-column">
             <div class="vp-form-row user-settings-image-container">
@@ -125,6 +127,7 @@ import FormUploadFile from '@/components/form/FormUploadFile.vue';
 import FormImageEditor from '@/components/form/FormImageEditor.vue';
 import TextAreaInput from '@/components/form/TextAreaInput.vue';
 import FormNumberInput from '@/components/form/FormNumberInput.vue';
+import CollapsiblePanel from '../../form/CollapsiblePanel.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
 import { mapState } from 'vuex';
 import FormSelect from '@/components/form/FormSelect.vue';
@@ -155,7 +158,8 @@ export default {
     FormInput,
     Photoshop,
     Compact,
-    FormToggleSelect
+    FormToggleSelect,
+    CollapsiblePanel
   },
 
   data: () => ({

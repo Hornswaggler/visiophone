@@ -23,6 +23,12 @@
     }
   }
 
+  .form-panel {
+    &:not(:first-child) {
+      padding-top: 0.5em;
+    }
+  }
+
   @extend .flex-column;
   .form-base {
     .form-column {
