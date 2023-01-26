@@ -3,8 +3,8 @@
   @extend .align-center;
   @extend .justify-center;
   
-  height: 2em;
-  min-width: 2em; 
+  // height: 2em;
+  // width: 2em; 
 
   font: normal 100%/1.4 $text-font-stack;
   border: $default-border;
@@ -15,6 +15,11 @@
   cursor:pointer;
   
   background-color: var(--vp-form-button-background-color);
+
+  &.sm{
+    height: 1em;
+    width: 1em; 
+  }
 
   &:hover {
     background-color: var(--vp-form-button-hover-background-color);

@@ -2,107 +2,82 @@
   <scrolling-container>
     <template v-slot:scrolling-content>
       <div class="vp-form-row">
-        <form-toggle-select
-          :options="options"
-          :on-changed="option => isSamplePack = option === 'Pack' "
-        ></form-toggle-select>
+        <form-toggle-select :options="options"
+          :on-changed="option => isSamplePack = option === 'Pack'"></form-toggle-select>
       </div>
       <div class="sample-upload">
-        <div 
-          class="form-base pt05 flex-1" 
-          :style="{backgroundColor: `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`}"
-        >
-          <div
-            v-for="(sample, key) in samplePack.sampleData"
-            :key="key"
-            class="add-sample-panel"
-          >
+        <div class="form-base pt05 flex-1"
+          :style="{ backgroundColor: `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})` }">
+
+          <div v-for="(sample, key) in samplePack.sampleData" :key="key">
+            <div>
+              <button 
+                class="vp-button sm delete-button"
+                type="button" 
+                @click="deleteSample(key)"
+              >
+                -
+              </button>
+            </div>
+            <div class="add-sample-panel">
+              <div class="form-column">
+                <div class="vp-form-row">
+                  <form-input :fieldName="`sampleData.${key}.name`" :value="sample.name" title="name"
+                    :on-changed="name => sample.name = name"></form-input>
+                </div>
+
+                <!-- <div class="vp-form-row">
+                  <form-upload-file
+                    :value="sampleMetadata.imgUrl"
+                    title="cover art"
+                    fieldName="imgUrl"
+                    :accept="IMAGE_MIME_TYPE"
+                    button-text="Upload"
+                    :change-handler="onImageUpload"
+                  />
+                </div> -->
+
+                <div class="vp-form-row mt0">
+                  <form-input :fieldName="`sampleData.${key}.key`" :value="sample.key" title="key"
+                    :on-changed="key => sample.key = key"></form-input>
+                </div>
+
+                <div class="vp-form-row">
+                  <text-area-input class="flex-3" title="description" :value="sample.description"
+                    :fieldName="`sampleData.${key}.description`"
+                    :on-changed="description => sample.description = description" />
+                </div>
+              </div>
+
+              <div class="form-column">
+                <div class="vp-form-row">
+                  <form-upload-file title="audio file" :fieldName="`sampleData.${key}.clipUri`" :value="sample.clipUri"
+                    :accept="AUDIO_MIME_TYPE" button-text="Upload" class="flex-3"
+                    :change-handler="file => onSamplechanged(file, sample)" />
+                </div>
+
+                <div class="vp-form-row">
+                  <form-select title="tag" :fieldName="`sampleData.${key}.tag`" :options="tags" :value="sample.tag"
+                    class="flex-3" :on-changed="tag => sample.tag = tag" />
+                </div>
+
+                <div class="vp-form-row flex-column flex">
+                  <form-number-input title="cost" :fieldName="`sampleData.${key}.cost`" :value="sample.cost"
+                    :onChanged="cost => sample.cost = cost" />
+                </div>
+
+                <div class="vp-form-row">
+                  <form-number-input title="bpm" :fieldName="`sampleData.${key}.bpm`" :value="sample.bpm"
+                    :change-handler="bpm => sample.bpm = bpm" />
+                </div>
+
+
+              </div>
+
+
+            </div>
             <!-- THIS IS THE DATA{{ sampleData }} -->
-            <div class="form-column">
-              <div class="vp-form-row">
-                <form-input
-                  :fieldName="`sampleData.${key}.name`"
-                  :value="sample.name"
-                  title="name"
-                  :on-changed="name => sample.name = name"
-                ></form-input>
-              </div>
-              
-              <!-- <div class="vp-form-row">
-                <form-upload-file
-                  :value="sampleMetadata.imgUrl"
-                  title="cover art"
-                  fieldName="imgUrl"
-                  :accept="IMAGE_MIME_TYPE"
-                  button-text="Upload"
-                  :change-handler="onImageUpload"
-                />
-              </div> -->
-              
-              <div class="vp-form-row mt0">
-                <form-input
-                  :fieldName="`sampleData.${key}.key`"
-                  :value="sample.key"
-                  title="key"
-                  :on-changed="key => sample.key = key"
-                ></form-input>
-              </div>
 
-              <div class="vp-form-row">
-                <text-area-input
-                  class="flex-3"
-                  title="description"
-                  :value="sample.description"
-                  :fieldName="`sampleData.${key}.description`"
-                  :on-changed="description => sample.description = description"
-                />
-              </div>
-            </div>
-
-            <div class="form-column">
-              <div class="vp-form-row">
-                <form-upload-file
-                  title="audio file"
-                  :fieldName="`sampleData.${key}.clipUri`"
-                  :value="sample.clipUri"
-                  :accept="AUDIO_MIME_TYPE"
-                  button-text="Upload"
-                  class="flex-3"
-                  :change-handler="file => onSamplechanged(file, sample)"
-                />
-              </div>
-
-              <div class="vp-form-row">
-                <form-select
-                  title="tag"
-                  :fieldName="`sampleData.${key}.tag`"
-                  :options="tags"
-                  :value="sample.tag"
-                  class="flex-3"
-                  :on-changed="tag => sample.tag = tag"
-                />
-              </div>
-
-              <div class="vp-form-row flex-column flex">
-                <form-number-input
-                  title="cost"
-                  :fieldName="`sampleData.${key}.cost`"
-                  :value="sample.cost"
-                  :onChanged="cost => sample.cost = cost"
-                />
-              </div>
-
-              <div class="vp-form-row">
-                <form-number-input
-                  title="bpm"
-                  :fieldName="`sampleData.${key}.bpm`"
-                  :value="sample.bpm"
-                  :change-handler="bpm => sample.bpm = bpm"
-                />
-              </div>
-
-
-            </div>
 
           </div>
 
@@ -119,26 +94,24 @@
 
       </div>
       <div class="vp-form-row flex justify-end pb1">
-        <button
-            class="vp-button ml1"
-            type="button"
-            @click="addSample"
-          >
-            +
-          </button>
+
       </div>
       <div class="vp-form-row flex-1">
-        <div class=" flex justify-end fill-height align-end">
-          <button
-            class="vp-button ml1"
-            type="button"
-            @click="handleSubmitForm"
-          >
-            Upload
-          </button>
+        <div class=" flex fill-height" style="justify-content:space-between">
+          <div style="flex:1">&nbsp;</div>
+          <div class="flex-1 flex justify-center align-end" style="flex:1">
+            <button class="vp-button sm" type="button" @click="addSample">
+              +
+            </button>
+          </div>
+          <div class="flex-1 flex justify-end  align-end">
+            <button ref="submitButton" class="vp-button" type="button" @click="handleSubmitForm">
+              Upload
+            </button>
+          </div>
         </div>
       </div>
-      
+
       <!-- <compact
         v-model="colors"
       ></compact> -->
@@ -163,15 +136,15 @@ import { Photoshop, Compact } from 'vue-color';
 import { v4 as uuidv4 } from 'uuid';
 
 const TAG_TYPES = [
-  { name: 'InfluencerCore'},
+  { name: 'InfluencerCore' },
   { name: 'jazz' },
   { name: 'rnb' },
   { name: 'smooth influencercore' }
-].map((type, i) => ({...type, _id: i }));
+].map((type, i) => ({ ...type, _id: i }));
 
 export default {
   name: 'SampleUpload',
-  
+
   components: {
     FormUploadFile,
     FormSelect,
@@ -201,18 +174,18 @@ export default {
     description: '',
     colors: { r: 255, g: 0, b: 0 },
     isSamplePack: false,
-    options: ['Single', 'Pack' ],
+    options: ['Single', 'Pack'],
   }),
 
   computed: {
-    ...mapState('user',['authenticated', 'customUserName']),
+    ...mapState('user', ['authenticated', 'customUserName']),
     ...mapState('sample', ['sampleForEdit']),
     rgba() {
-      return this.colors.rgba || {r:0,g:0,b:0,a:0};
+      return this.colors.rgba || { r: 0, g: 0, b: 0, a: 0 };
     },
-    samplePackArray(){
+    samplePackArray() {
       const result = Object.keys(this.samplePack).map(key => {
-        return {...this.samplePack[key], key};
+        return { ...this.samplePack[key], key };
       });
 
       return result;
@@ -221,10 +194,10 @@ export default {
 
   async mounted() {
     this.addSample();
-    this.$store.dispatch('form/initialize', {formName: 'sample'});
+    this.$store.dispatch('form/initialize', { formName: 'sample' });
   },
 
-  beforeDestroy(){
+  beforeDestroy() {
     this.$store.dispatch('sample/persistToStorage', this.sampleMetadata);
   },
 
@@ -235,27 +208,33 @@ export default {
         _tempId,
         ...makeNewSample()
       });
+      this.$nextTick(() => {
+        this.$store.dispatch('app/scrollToElement', this.$refs.submitButton);
+      });
+    },
+    deleteSample(key) {
+      Vue.delete(this.samplePack.sampleData, key)
     },
     onThumbnailGenerated(file) {
       Vue.set(this, 'imageBlob', file);
       Vue.set(this.sampleMetadata, 'imgUrl', URL.createObjectURL(file));
     },
     onImageUpload(file) {
-      Vue.set(this.sampleMetadata, 'fileName',file.name)
+      Vue.set(this.sampleMetadata, 'fileName', file.name)
       Vue.set(this.imageBlob, file);
       this.imageSrc = URL.createObjectURL(file);
     },
-    onSamplechanged({clipUri, file}, sample) {
+    onSamplechanged({ clipUri, file }, sample) {
       sample.clipUri = clipUri;
       Vue.set(this.sampleBlobs, sample._tempId, file);
     },
     async handleSubmitForm() {
-      if(await this.$store.dispatch('form/validateForm', {formData: this.samplePack})){
+      if (await this.$store.dispatch('form/validateForm', { formData: this.samplePack })) {
         try {
           this.$store.commit('app/isLoading', true);
-          
+
           await this.$store.dispatch('sample/uploadSample', {
-            sampleData: {...this.sampleMetadata},
+            sampleData: { ...this.sampleMetadata },
             sample: this.sampleBlobs,
             image: this.imageBlob,
             imageSrc: this.imageSrc,
@@ -270,7 +249,7 @@ export default {
           //     imageSrc: this.imageSrc,
           //   }]
           // });
-          
+
           Vue.set(this.sampleMetadata, makeNewSample());
 
           this.$router.push('/search');
@@ -279,8 +258,18 @@ export default {
         } finally {
           this.$store.commit('app/isLoading', false);
         }
+      } else {
+        this.$store.dispatch('app/scrollToFirstError');
       }
     },
   }
 }
 </script>
+<style lang="scss">
+.delete-button {
+  cursor: pointer;
+  .show {
+    cursor: initial;
+  }
+}
+</style>

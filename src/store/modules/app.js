@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import scrollIntoView from 'scroll-into-view-if-needed'
 import config from '/src/config';
 import {DEFAULT_ROUTE} from '@/router/routeNames';
 import {
@@ -95,6 +96,26 @@ export default {
 
     setSideNavigationMenuItems({commit}, sideNavigationMenuItems) {
       commit('assignObject', {key: 'sideNavigationMenuItems', value: sideNavigationMenuItems});
+    },
+
+    scrollToElement(context, element){
+      scrollIntoView(element, {
+        behavior: 'smooth', 
+        scrollMode: 'if-needed'
+      });
+    },
+
+    scrollToFirstError({dispatch}){
+      const errors = [...document.getElementsByClassName('form-input-error')]
+      .map(el=>({offsetTop: el.offsetTop, el}))
+      .sort(({offsetTop:a}, {offsetTop:b}) => a - b)
+      .map(({el}) => el);
+
+      console.log('el', errors);
+
+      if(errors.length > 0){
+        dispatch('scrollToElement', errors[0]);
+      }
     }
   },
 

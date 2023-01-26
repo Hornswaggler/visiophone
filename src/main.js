@@ -1,12 +1,12 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import App from './App.vue';
 import Glitch from 'vue-glitch';
 import vueDebounce from 'vue-debounce';
 import ProgressBar from 'vuejs-progress-bar';
 import VueParticles from 'vue-particles';
 import store from './store/';
 import router from '/src/router';
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faPlay,
   faGem,
@@ -25,9 +25,10 @@ import {
   faHeartMusicCameraBolt,
   faCaretUp,
   faCaretDown
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import config from '/src/config';
+
 
 library.add(faPlay);
 library.add(faGem);
