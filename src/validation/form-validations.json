@@ -1,5 +1,10 @@
 {
   "sample": {
-    "sampleData": ["sample-type"]
+    "name": {
+      "required": true
+    },
+    "sampleData": [
+      "sample-type"
+    ]
   }
 }

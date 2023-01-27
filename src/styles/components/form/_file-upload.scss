@@ -21,6 +21,8 @@
   }
 
   .form-file-upload-button-spacer {
+    max-height: 1em;
+    overflow-y: hidden;
     flex:1;
     overflow: hidden;
     text-align:left;

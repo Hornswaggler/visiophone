@@ -24,7 +24,9 @@ import {
   faCloudArrowUp,
   faHeartMusicCameraBolt,
   faCaretUp,
-  faCaretDown
+  faCaretDown,
+  faMaximize,
+  faWindowMinimize
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import config from '/src/config';
@@ -47,6 +49,8 @@ library.add(faCloudArrowUp);
 library.add(faHeartMusicCameraBolt);
 library.add(faCaretUp);
 library.add(faCaretDown);
+library.add(faMaximize);
+library.add(faWindowMinimize);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 

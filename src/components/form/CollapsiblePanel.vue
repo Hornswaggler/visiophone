@@ -10,8 +10,9 @@
     </div>
     <div
       ref="collapsiblePanelContent"
-      :style="{height: clientHeight, opacity: collapsed ? 0 : 1 }"
-      class="form-panel-content add-sample-panel ">
+      :style="{height: clientHeight, opacity: collapsedInternal ? 0 : 1 }"
+      class="form-panel-content add-sample-panel "
+    >
       <slot name="content"></slot>
     </div>
   </div>
@@ -21,46 +22,49 @@
 export default {
   name: 'CollapsiblePanel',
   data: () => ({
-    collapsed: false,
+    collapsedInternal: false,
     clientHeight: 'initial',
-    lastClientHeight: 'initial'
   }),
-
-  mounted(){
-    this.$refs['collapsiblePanelContent'].addEventListener('transitionend', this.onTransitionEnd);
-
+  props:{
+    collapsed: {
+      type: Boolean,
+      default: false
+    }, 
+    onChanged: {
+      type: Function,
+      default: () => {}
+    }
   },
-  beforeDestroy(){
-    this.$refs['collapsiblePanelContent'].removeEventListener('transitionend', this.onTransitionEnd);
-  },
-  methods: {
-    onTransitionEnd(){
-      console.log('TRANSITION ENDED: ', this.collapsed);
-      if(!this.collapsed){
-        this.clientHeight = 'initial'
-      }   
-
-    },
-    onTogglePanelClicked(){
-
-      if(!this.collapsed) {
-        this.collapsed = true;
-        this.clientHeight = `${this.$refs['collapsiblePanelContent'].clientHeight}px`;
-        this.lastClientHeight = this.clientHeight;
-
-        setTimeout(()=>{
-          this.clientHeight = '0px';
-        }, 1);
-
+  watch:{
+    collapsed(newValue) {
+      if(newValue){
+        this.onCollapse()
       } else {
-        this.collapsed = false;
-        this.clientHeight = this.lastClientHeight;
+        this.onExpand();
       }
+    }
+  },
+  mounted(){
+    this.collapsedInternal = this.collapsed;
+  },
+
+  methods: {
+    onExpand(){
+      this.clientHeight = 'initial';
+      this.collapsedInternal = false;
+    },
+    onCollapse(){
+      this.clientHeight = 0;
+      this.collapsedInternal = true;
+    },
+    onTogglePanelClicked() {
+      if(!this.collapsedInternal) {
+        this.onCollapse();
+      } else {
+        this.onExpand();
+      }
+      this.onChanged(this.collapsedInternal);
     }
   }
 }
 </script>
-
-<style>
-
-</style>

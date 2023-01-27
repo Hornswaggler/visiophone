@@ -1,26 +1,59 @@
 <template>
   <scrolling-container>
     <template v-slot:scrolling-content>
-      <div class="vp-form-row">
-        <form-toggle-select :options="options"
-          :on-changed="option => isSamplePack = option === 'Pack'"></form-toggle-select>
+      <div class="vp-form-row flex justify-space-between">
+        <form-toggle-select
+          :options="options"
+          :on-changed="option => isSamplePack = option === 'Pack'"
+        >
+        </form-toggle-select>
+        <div
+          class="flex"
+        >
+          <div
+            @click="canCollapseAll && onCollapseExpandAll(true)"
+            :style="{opacity: !canCollapseAll ? 0.2 : 1}"
+            class="vp-button"
+          >
+            <font-awesome-icon
+              icon="fa-solid fa-window-minimize"
+              style="height:1.25em;width: 1.25em;"
+            />
+          </div>
+          <div
+            @click="canExpandAll && onCollapseExpandAll(false)"
+            :style="{opacity: !canExpandAll ? 0.2 : 1}"
+            class="vp-button"
+            style="margin-left: 0.5em;"
+          >
+            <font-awesome-icon
+              icon="fas fa-maximize"
+              style="height:1.25em;width:1.25em;"
+            />
+          </div>
+        </div>
+
       </div>
       <div class="sample-upload">
         <div class="form-base pt05 flex-1"
-          :style="{ backgroundColor: `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})` }">
-
+          :style="{ backgroundColor: `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})` }"
+        >
           <collapsible-panel
             v-for="(sample, key) in samplePack.sampleData"
+            :collapsed="samplePanelState[key]"
             :key="key"
+            :on-changed="value => onPanelChanged({key, value})"
           >
             <template v-slot:header>
-              <button 
-                class="vp-button sm delete-button"
-                type="button" 
-                @click="deleteSample(key)"
-              >
-                -
-              </button>
+              <div class="flex" style="justify-content:space-between;">
+                <button 
+                  class="vp-button sm delete-button"
+                  type="button" 
+                  @click="deleteSample(key)"
+                >
+                  -
+                </button>
+              </div>
             </template>
             <template v-slot:content>
               <div class="form-column">
@@ -164,6 +197,7 @@ export default {
 
   data: () => ({
     sampleMetadata: makeNewSample(),
+    samplePanelState: {},
     samplePack: {
       name: '',
       sampleData: {}
@@ -187,12 +221,32 @@ export default {
     rgba() {
       return this.colors.rgba || { r: 0, g: 0, b: 0, a: 0 };
     },
+
     samplePackArray() {
       const result = Object.keys(this.samplePack).map(key => {
         return { ...this.samplePack[key], key };
       });
-
       return result;
+    },
+
+    canCollapseAll() {
+      const keys =  Object.keys(this.samplePanelState);
+      for(let i = 0; i < keys.length; i++) {
+        if(!this.samplePanelState[keys[i]]) {
+          return true;
+        }
+      }
+      return false;
+    },
+
+    canExpandAll() {
+      const keys =  Object.keys(this.samplePanelState);
+      for(let i = 0; i < keys.length; i++) {
+        if(this.samplePanelState[keys[i]]) {
+          return true;
+        }
+      }
+      return false;
     }
   },
 
@@ -206,12 +260,22 @@ export default {
   },
 
   methods: {
+    onPanelChanged({key, value}){
+      this.samplePanelState[key] = value;
+    },
+    onCollapseExpandAll(isCollapsed){
+      const keys = Object.keys(this.samplePanelState);
+      for(let i = 0; i < keys.length; i++) {
+        this.samplePanelState[keys[i]] = isCollapsed;
+      }
+    },
     addSample() {
       const _tempId = uuidv4();
-      Vue.set(this.samplePack.sampleData, uuidv4(), {
+      Vue.set(this.samplePack.sampleData, _tempId, {
         _tempId,
         ...makeNewSample()
       });
+      Vue.set(this.samplePanelState, _tempId, false);
       this.$nextTick(() => {
         this.$store.dispatch('app/scrollToElement', this.$refs.submitButton);
       });
@@ -263,6 +327,7 @@ export default {
           this.$store.commit('app/isLoading', false);
         }
       } else {
+        this.onCollapseExpandAll(false);
         this.$store.dispatch('app/scrollToFirstError');
       }
     },

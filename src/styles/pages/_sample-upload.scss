@@ -1,19 +1,16 @@
 .sample-upload {
-
-  
-  &>.vp-form-row {
-    @include for-size(sm) {
-      &:last-child {
-        background-color:red;
-      }
-    }
-
-  }
+  // &>.vp-form-row {
+  //   @include for-size(sm) {
+  //     &:last-child {
+  //       background-color:red;
+  //     }
+  //   }
+  // }
 
   .add-sample-panel {
     @extend .flex;
     @extend .fill-width;
-    flex-direction: column-reverse;
+    flex-direction: column;
 
     @include for-size(md) {
       flex-direction: row;
@@ -33,18 +30,12 @@
   .form-base {
     .form-column {
       &:first-child {
-        padding-right: 0;
+        padding-right: 0.25em;
+        padding-left: 0.5em
       }
       &:last-child {
-        padding-left: 0;
-      }
-      @include for-size(md) {
-        &:first-child {
-          padding-right: 0.5em;
-        }
-        &:last-child {
-          padding-left: 0.5em;
-        }
+        padding-left: 0.25em;
+        padding-right: 0.5em
       }
     }
   }
