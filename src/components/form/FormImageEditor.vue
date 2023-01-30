@@ -12,20 +12,42 @@
     </div>
     <div class="form-image-editor-image-spacer">
       &nbsp;
-    </div>    
-    <div class="form-image-editor-preview-container position-relative">
-      <div class="position-absolute fill-height">
-        <img
-          ref="image"
-          class="form-image-editor-preview-img"
-          :src="internalImgSrc"
-          :style="{
-            transform: isWide ? tranlslateX : translateY,
-            width: containerWidth,
-            height: containerHeight,
-          }"
+    </div>
+    
+    <div
+      class="form-image-editor-preview-container"
+      :class="{ ['show-icon']: internalImgSrc === ''}"
+    >
+      <div class="image-icon position-absolute fill flex align-center justify-center">
+        <input
+          type="file"
+          style="z-index:2;"
+          class="cover transparent cursor-pointer"
+          @change="onInputChanged"
+        />
+        <div
+          style="font-size: 3em;"
+          class=" "
         >
-      </div>  
+          <font-awesome-icon icon="fa-solid fa-image" />
+        </div>
+      </div>
+
+      <div class="position-absolute fill flex ">
+        <div class="position-absolute fill-height">
+          <img
+            ref="image"
+            class="form-image-editor-preview-img"
+            :src="internalImgSrc"
+            :style="{
+              transform: isWide ? tranlslateX : translateY,
+              width: containerWidth,
+              height: containerHeight,
+            }"
+          >
+        </div>
+      </div>
+
       <div
         ref="form-image-editor-preview-pane"
         class="form-image-editor-preview"
@@ -33,9 +55,10 @@
         <div
           ref="scroll-panel"
           class="form-image-editor-preview-mask"
-          :style="{ 
+          :style="{
             overflowX,
-            overflowY
+            overflowY,
+            cursor: isMousedown ? 'grab' : 'pointer'
           }"
         >
           <div
@@ -76,6 +99,7 @@ export default {
     }
   },
   data: () => ({
+    imgUrl:'',
     debounce: debounce((callback, val) => callback && callback(val), 20),
     offsetX: 0,
     offsetY: 0,
@@ -89,7 +113,9 @@ export default {
     containerWidth: 'initial',
     containerHeight: '100%',
     theBestSprite: {},
-    isLoading: true
+    isLoading: true,
+    IMAGE_MIME_TYPE,
+    isMousedown: false,
   }),
   computed: {
     overflowX() {
@@ -99,7 +125,7 @@ export default {
       return this.isWide ? 'hidden' : 'scroll';
     },
     height() {
-      return this.isWide ? DEFAULT_LENS_SIZE : `${this.imageHeight}px`; 
+      return this.isWide ? DEFAULT_LENS_SIZE : `${this.imageHeight}px`;
     },
     width() {
       return this.isWide ? `${this.imageWidth}px` : DEFAULT_LENS_SIZE;
@@ -117,6 +143,16 @@ export default {
     }
   },
   async mounted() {
+
+    this.$refs['scroll-panel'].addEventListener('mousemove', ({movementX, movementY}) => {
+      if(this.isMousedown) {
+        this.$refs['scroll-panel'].scrollLeft -= movementX;
+        this.$refs['scroll-panel'].scrollTop -= movementY;
+      }
+    });
+    this.$refs['scroll-panel'].addEventListener('mousedown', () => this.onMousedownChanged(true));
+    document.addEventListener('mouseup', () => this.onMousedownChanged(false));
+
     this.$nextTick(() => {
       this.internalImgSrc = this.imgSrc;
       this.isLoading = false;
@@ -127,10 +163,33 @@ export default {
   },
   beforeDestroy() {
     this.$refs['scroll-panel'].removeEventListener('scroll', this.handleScroll);
-    this.$refs['image'].removeEventListener('load', this.domImgLoaded)
+    this.$refs['image'].removeEventListener('load', this.domImgLoaded);
+    this.$refs['scroll-panel'].removeEventListener('mousemove', this.domImgLoaded)
+    document.removeEventListener('mouseup', this.onMousedownChanged);
 
   },
   methods: {
+    onMousedownChanged(isMousedown){
+      this.isMousedown = isMousedown;
+    },
+    onInputChanged({target:{files}}) {
+      const file = files[0];
+      const clipUri = URL.createObjectURL(file);
+
+      this.internalImgSrc = clipUri;
+      this.changeHandler({clipUri, file});
+
+      this.fileName = (file && file.name) || '';
+
+      //TODO: Fix This validation
+      // this.$store.dispatch('form/validateField', {field: this.fieldName, clipUri});
+    },
+    // onImageUpload({clipUri, file}) {
+    //   console.log('clipUri', 'file', clipUri, file);
+    //   // Vue.set(this.sampleMetadata, 'fileName', file.name)
+    //   // Vue.set(this.imageBlob, file);
+    //   // this.imageSrc = clipUri;
+    // },
     async domImgLoaded(ev){
       const {scrollWidth, scrollHeight} = ev.target;
 
@@ -143,7 +202,7 @@ export default {
         });
       })
     },
-    
+
     async imgSourceChanged(){
       Vue.set(this, 'imageBlob', new Image());
       this.imageBlob.crossOrigin = "anonymous";
@@ -155,17 +214,15 @@ export default {
 
       this.containerHeight = this.isWide ? '100%' : 'initial';
       this.containerWidth = this.isWide ?  'initial': '100%';
-      
+
       this.$nextTick(() => {
         this.internalImgSrc = this.imgSrc;
       });
     },
-    
+
     onSpriteLoaded(){
       const ctx = this.$refs['otherCanvas'].getContext("2d");
       ctx.clearRect(0, 0, this.actualWidth, this.actualHeight);
-
-      const self = this;
 
       var ratio = this.actualWidth / this.actualHeight;
       var width = this.imageWidth;
@@ -195,9 +252,11 @@ export default {
     },
 
     handleScroll({target:{scrollLeft:offsetX, scrollTop:offsetY}}){
-      this.debounce && this.debounce(() => this.handleScrollDebounce({offsetX, offsetY}));
+      //TODO: Optimize this...
+      // this.debounce && this.debounce(() => this.handleScrollDebounce({offsetX, offsetY}));
+      this.handleScrollDebounce({offsetX, offsetY});
     },
-  
+
     handleScrollDebounce({offsetX, offsetY}){
       this.offsetX = offsetX;
       this.offsetY = offsetY;

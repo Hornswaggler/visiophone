@@ -13,7 +13,7 @@
 
     <div 
       class="form-input-error-container"
-      :class="{hasError: ((errors[fieldName]) || []).length > 0}"
+      :class="{hasError}"
     >
       <div
         v-for="error in errors[fieldName]"
@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import {mapState, mapGetters} from 'vuex';
+import {mapState} from 'vuex';
 
 const defaultValidations = () => ({
   required: false
@@ -37,6 +37,15 @@ export default {
   data: () => ({
     validInternal: defaultValidations(),
   }),
+  computed: {
+    ...mapState('form', ['errors']),
+    hasError(){
+      if(this.errors != null && this.fieldName != null && this.errors[this.fieldName] != null){
+        return ((this.errors[this.fieldName]) || []).length > 0;
+      }
+      return [];
+    }
+  },
   props:{
     title: {
       type: String,
@@ -50,9 +59,6 @@ export default {
       type: String,
       default: ''
     },
-  },
-  computed:{
-    ...mapState('form', ['errors']),
-  },
+  }
 }
 </script>

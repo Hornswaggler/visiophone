@@ -26,7 +26,8 @@ import {
   faCaretUp,
   faCaretDown,
   faMaximize,
-  faWindowMinimize
+  faWindowMinimize,
+  faImage
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import config from '/src/config';
@@ -51,6 +52,7 @@ library.add(faCaretUp);
 library.add(faCaretDown);
 library.add(faMaximize);
 library.add(faWindowMinimize);
+library.add(faImage);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 

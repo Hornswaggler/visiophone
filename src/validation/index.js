@@ -1,3 +1,4 @@
+//TODO: CLean this whole file up... :| :|
 export function validateField(value, field, rules) {
   const fieldPath = field.split('.');
   const fieldName = fieldPath[fieldPath.length -1];
@@ -5,14 +6,16 @@ export function validateField(value, field, rules) {
   const validationErrors = [];
   Object.keys(rules).forEach(f => {
     if(rules[f] && !rules[f].test(value)) {
-      validationErrors.push({msg: `${fieldName} ${rules[f]['message']}`, id: `${field}.${f}`});
+      validationErrors.push({
+        msg: `${fieldName} ${rules[f]['message']}`, 
+        id: `${field}.${f}`});
     }
   });
 
   return validationErrors;
 };
 
-export function validateBranch(branch, ruleset, path = '', isArray = false) {
+export function validateBranch(branch, ruleset, path = '', errors = {}, isArray = false) {
   const validationErrors = {};
 
   if(isArray) {
@@ -23,35 +26,53 @@ export function validateBranch(branch, ruleset, path = '', isArray = false) {
       Object.keys(ruleset).forEach(validatorName => {
         const fieldValidation = validateField(branch[id][validatorName], validatorName, ruleset[validatorName]);
         if(fieldValidation.length > 0){
-          if(!Object.keys(validationErrors).includes(`${path}.${id}.${validatorName}`)){
-            validationErrors[`${path}.${id}.${validatorName}`] = [];
+          if(!Object.keys(errors).includes(`${path}.${id}.${validatorName}`)){
+            errors[`${path}.${id}.${validatorName}`] = [];
           }
-          fieldValidation.forEach(v => validationErrors[`${path}.${id}.${validatorName}`].push(v));          
+          fieldValidation.forEach(v => errors[`${path}.${id}.${validatorName}`].push(v));          
         }
       });
     }
-    return validationErrors;
+
+    return errors;
   } else {
     const rulenames = Object.keys(ruleset);
-    for(let i = 0; i < rulenames.length; i++){
+    for(let i = 0; i < rulenames.length; i++) {
       const rulename = rulenames[i];
       const validator = ruleset[rulenames[i]];
+      const newPath = `${path !== '' ? `${path}.` : ''}${rulename}`;
 
       if(Array.isArray(validator)){
         const result = validateBranch(
           branch[rulename],
-          validator[0], 
-          `${path !== '' ? `${path}.` : ''}${rulename}`,
+          validator[0],
+          newPath,
+          errors,
           true
         );
 
-        Object.assign(validationErrors, {
-          ...validationErrors,
+        Object.assign(errors, {
+          ...errors,
           ...result
-        })
+        });
+      } else {
+        const fieldValidation = validateField(
+          branch[rulename], 
+          newPath,
+          validator
+        );
+
+        //TODO: REFACTOR DUPLICATE ABOVE...
+        if(fieldValidation.length > 0) {
+          if(!Object.keys(errors).includes(newPath)) {
+            errors[newPath] = [];
+          }
+
+          fieldValidation.forEach(v => errors[newPath].push(v));
+        }
       }
     }
-    return validationErrors;
+    return errors;
   }
 
 }

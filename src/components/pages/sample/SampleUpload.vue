@@ -38,6 +38,39 @@
         <div class="form-base pt05 flex-1"
           :style="{ backgroundColor: `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})` }"
         >
+          <div class="add-sample-panel">
+            <div class="form-column" style="padding-left:0;">
+              <div class="vp-form-row">
+                <form-input
+                  fieldName="name"
+                  :value="samplePack.name"
+                  title="sample pack name"
+                  :on-changed="name => samplePack.name = name"
+                >
+                </form-input>
+              </div>
+              <div class="vp-form-row">
+                <form-input
+                  fieldName="description"
+                  :value="samplePack.description"
+                  title="sample pack description"
+                  :on-changed="description => samplePack.description = description"
+                >
+                </form-input>
+              </div>
+            </div>
+            <div class="form-column" style="padding-right:0;">
+              <div class="vp-form-row user-settings-image-container">
+                <form-image-editor
+                  class="flex-3"
+                  :img-src="imageSrc"
+                  :change-handler="onThumbnailGenerated"
+                />
+              </div>
+            </div>
+          </div>
+
+
           <collapsible-panel
             v-for="(sample, key) in samplePack.sampleData"
             :collapsed="samplePanelState[key]"
@@ -46,9 +79,9 @@
           >
             <template v-slot:header>
               <div class="flex" style="justify-content:space-between;">
-                <button 
+                <button
                   class="vp-button sm delete-button"
-                  type="button" 
+                  type="button"
                   @click="deleteSample(key)"
                 >
                   -
@@ -60,29 +93,27 @@
                 <div class="vp-form-row">
                   <form-input
                     :fieldName="`sampleData.${key}.name`"
-                    :value="sample.name" title="name"
+                    :value="sample.name"
+                    title="name"
                     :on-changed="name => sample.name = name">
                   </form-input>
                 </div>
 
-                <!-- <div class="vp-form-row">
-                  <form-upload-file
-                    :value="sampleMetadata.imgUrl"
-                    title="cover art"
-                    fieldName="imgUrl"
-                    :accept="IMAGE_MIME_TYPE"
-                    button-text="Upload"
-                    :change-handler="onImageUpload"
-                  />
-                </div> -->
+
 
                 <div class="vp-form-row mt0">
-                  <form-input :fieldName="`sampleData.${key}.key`" :value="sample.key" title="key"
-                    :on-changed="key => sample.key = key"></form-input>
+                  <form-input 
+                    :fieldName="`sampleData.${key}.key`"
+                    :value="sample.key" 
+                    title="key"
+                    :on-changed="key => sample.key = key">
+                  </form-input>
                 </div>
 
                 <div class="vp-form-row">
-                  <text-area-input class="flex-3" title="description" :value="sample.description"
+                  <text-area-input
+                    title="description"
+                    :value="sample.description"
                     :fieldName="`sampleData.${key}.description`"
                     :on-changed="description => sample.description = description" />
                 </div>
@@ -90,18 +121,30 @@
 
               <div class="form-column">
                 <div class="vp-form-row">
-                  <form-upload-file title="audio file" :fieldName="`sampleData.${key}.clipUri`" :value="sample.clipUri"
-                    :accept="AUDIO_MIME_TYPE" button-text="Upload" class="flex-3"
+                  <form-upload-file title="audio file"
+                    :fieldName="`sampleData.${key}.clipUri`" 
+                    :value="sample.clipUri"
+                    :accept="AUDIO_MIME_TYPE" 
+                    button-text="Upload" 
                     :change-handler="file => onSamplechanged(file, sample)" />
                 </div>
 
                 <div class="vp-form-row">
-                  <form-select title="tag" :fieldName="`sampleData.${key}.tag`" :options="tags" :value="sample.tag"
-                    class="flex-3" :on-changed="tag => sample.tag = tag" />
+                  <form-select 
+                    title="tag"
+                    :fieldName="`sampleData.${key}.tag`"
+                    :options="tags" 
+                    :value="sample.tag"
+                    :on-changed="tag => sample.tag = tag" 
+                  />
                 </div>
 
-                <div class="vp-form-row flex-column flex">
-                  <form-number-input title="cost" :fieldName="`sampleData.${key}.cost`" :value="sample.cost"
+                <div 
+                  class="vp-form-row flex-column flex">
+                  <form-number-input 
+                    title="cost" 
+                    :fieldName="`sampleData.${key}.cost`" 
+                    :value="sample.cost"
                     :onChanged="cost => sample.cost = cost" />
                 </div>
 
@@ -109,7 +152,6 @@
                   <form-number-input title="bpm" :fieldName="`sampleData.${key}.bpm`" :value="sample.bpm"
                     :change-handler="bpm => sample.bpm = bpm" />
                 </div>
-
 
               </div>
 
@@ -199,6 +241,7 @@ export default {
     sampleMetadata: makeNewSample(),
     samplePanelState: {},
     samplePack: {
+      description: '',
       name: '',
       sampleData: {}
     },
@@ -251,7 +294,7 @@ export default {
   },
 
   async mounted() {
-    this.addSample();
+    this.addSample({scrollToElement: false});
     this.$store.dispatch('form/initialize', { formName: 'sample' });
   },
 
@@ -263,39 +306,49 @@ export default {
     onPanelChanged({key, value}){
       this.samplePanelState[key] = value;
     },
+
     onCollapseExpandAll(isCollapsed){
       const keys = Object.keys(this.samplePanelState);
       for(let i = 0; i < keys.length; i++) {
         this.samplePanelState[keys[i]] = isCollapsed;
       }
     },
-    addSample() {
+
+    addSample({scrollToElement = true}) {
       const _tempId = uuidv4();
       Vue.set(this.samplePack.sampleData, _tempId, {
         _tempId,
         ...makeNewSample()
       });
+
       Vue.set(this.samplePanelState, _tempId, false);
-      this.$nextTick(() => {
-        this.$store.dispatch('app/scrollToElement', this.$refs.submitButton);
-      });
+      if(scrollToElement) {
+        this.$nextTick(() => {
+          this.$store.dispatch('app/scrollToElement', this.$refs.submitButton);
+        });
+      }
     },
+
     deleteSample(key) {
       Vue.delete(this.samplePack.sampleData, key)
     },
-    onThumbnailGenerated(file) {
+
+    onThumbnailGenerated({ file, clipUri }) {
       Vue.set(this, 'imageBlob', file);
-      Vue.set(this.sampleMetadata, 'imgUrl', URL.createObjectURL(file));
+      Vue.set(this.sampleMetadata, 'imgUrl', clipUri);
     },
-    onImageUpload(file) {
+
+    onImageUpload({clipUri, file}) {
       Vue.set(this.sampleMetadata, 'fileName', file.name)
       Vue.set(this.imageBlob, file);
-      this.imageSrc = URL.createObjectURL(file);
+      this.imageSrc = clipUri;
     },
+
     onSamplechanged({ clipUri, file }, sample) {
       sample.clipUri = clipUri;
       Vue.set(this.sampleBlobs, sample._tempId, file);
     },
+
     async handleSubmitForm() {
       if (await this.$store.dispatch('form/validateForm', { formData: this.samplePack })) {
         try {

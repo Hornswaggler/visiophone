@@ -1,12 +1,4 @@
 .sample-upload {
-  // &>.vp-form-row {
-  //   @include for-size(sm) {
-  //     &:last-child {
-  //       background-color:red;
-  //     }
-  //   }
-  // }
-
   .add-sample-panel {
     @extend .flex;
     @extend .fill-width;
@@ -29,13 +21,15 @@
   @extend .flex-column;
   .form-base {
     .form-column {
-      &:first-child {
-        padding-right: 0.25em;
-        padding-left: 0.5em
-      }
-      &:last-child {
-        padding-left: 0.25em;
-        padding-right: 0.5em
+      @include for-size(md) {
+        &:first-child {
+          padding-right: 0.25em;
+          padding-left: 0.5em
+        }
+        &:last-child {
+          padding-left: 0.25em;
+          padding-right: 0.5em
+        }
       }
     }
   }

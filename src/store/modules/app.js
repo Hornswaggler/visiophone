@@ -111,8 +111,6 @@ export default {
       .sort(({offsetTop:a}, {offsetTop:b}) => a - b)
       .map(({el}) => el);
 
-      console.log('el', errors);
-
       if(errors.length > 0){
         dispatch('scrollToElement', errors[0]);
       }

@@ -1,3 +1,11 @@
+.cursor-pointer {
+  cursor: pointer;
+ }
+
+ .text-align-left {
+  text-align: left;
+ }
+
 .fill-height {
   height: 100%;
 }
@@ -48,6 +56,14 @@
   display:none;
 }
 
+.overflow-hidden {
+  overflow: hidden
+}
+
+.transparent {
+  opacity: 0;
+}
+
 .align-start {
   align-items:flex-start;
 }
@@ -58,6 +74,14 @@
 
 .align-end {
   align-items:flex-end;
+}
+
+.cover {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
 
 .justify-space-between {
@@ -81,7 +105,6 @@
 }
 
 .m0 {
-  
   margin:0;
 }
 
@@ -99,6 +122,8 @@
 
 .p0 {
   padding: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .p1{

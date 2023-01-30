@@ -3,6 +3,9 @@
     "name": {
       "required": true
     },
+    "description": {
+      "required": true
+    },
     "sampleData": [
       "sample-type"
     ]

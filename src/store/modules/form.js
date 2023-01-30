@@ -7,7 +7,7 @@ export default {
   state: () => ({
     forms: parseValidators(),
     selectedForm: '',
-    errors: () => {}
+    errors: []
   }),
   getters:{
     currentForm({forms, selectedForm}){
@@ -57,6 +57,7 @@ export default {
 
     async validateForm({getters:{currentForm = {}}, commit}, {formData}) {
       const result = validateBranch(formData, currentForm);
+
       commit('errors', validateBranch(formData, currentForm));
 
       return false;

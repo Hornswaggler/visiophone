@@ -27,7 +27,11 @@
           icon="fa-solid fa-magnifying-glass"
         >
           <template v-slot:post-content>
-            <div>&nbsp;{{title}}</div>
+            <div class="
+              text-align-left
+              overflow-hidden
+              fill-height"
+            >&nbsp;{{title}}</div>
           </template>
         </form-icon>
       </div>
