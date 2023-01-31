@@ -99,8 +99,6 @@
                   </form-input>
                 </div>
 
-
-
                 <div class="vp-form-row mt0">
                   <form-input 
                     :fieldName="`sampleData.${key}.key`"
@@ -157,16 +155,6 @@
 
             </template>
           </collapsible-panel>
-
-          <!-- <div class="pl1 form-column">
-            <div class="vp-form-row user-settings-image-container">
-              <form-image-editor
-                class="flex-3"
-                :img-src="imageSrc"
-                :change-handler="onThumbnailGenerated"
-              />
-            </div>
-          </div> -->
         </div>
 
       </div>
@@ -189,6 +177,7 @@
         </div>
       </div>
 
+      <!-- TODO Implement this for something... -->
       <!-- <compact
         v-model="colors"
       ></compact> -->
@@ -243,6 +232,7 @@ export default {
     samplePack: {
       description: '',
       name: '',
+      imgUrl: '',
       sampleData: {}
     },
     tags: [...TAG_TYPES],
@@ -314,7 +304,7 @@ export default {
       }
     },
 
-    addSample({scrollToElement = true}) {
+    addSample({scrollToElement = false}) {
       const _tempId = uuidv4();
       Vue.set(this.samplePack.sampleData, _tempId, {
         _tempId,
@@ -333,9 +323,10 @@ export default {
       Vue.delete(this.samplePack.sampleData, key)
     },
 
+    // TODO: Move the image processing to the back end so it cannot be overridden
     onThumbnailGenerated({ file, clipUri }) {
       Vue.set(this, 'imageBlob', file);
-      Vue.set(this.sampleMetadata, 'imgUrl', clipUri);
+      Vue.set(this.samplePack, 'imgUrl', clipUri);
     },
 
     onImageUpload({clipUri, file}) {
@@ -346,7 +337,7 @@ export default {
 
     onSamplechanged({ clipUri, file }, sample) {
       sample.clipUri = clipUri;
-      Vue.set(this.sampleBlobs, sample._tempId, file);
+      Vue.set(sample, 'sampleBlob', file);
     },
 
     async handleSubmitForm() {
@@ -354,11 +345,13 @@ export default {
         try {
           this.$store.commit('app/isLoading', true);
 
+          const { samplePack, sampleBlobs, imageBlob, imageSrc } = this;
+
           await this.$store.dispatch('sample/uploadSample', {
-            sampleData: { ...this.sampleMetadata },
-            sample: this.sampleBlobs,
-            image: this.imageBlob,
-            imageSrc: this.imageSrc,
+            samplePack,
+            sampleBlobs,
+            imageBlob,
+            imageSrc
           });
 
           // await this.$store.dispatch('sample/uploadSamplePack',{
@@ -373,7 +366,7 @@ export default {
 
           Vue.set(this.sampleMetadata, makeNewSample());
 
-          this.$router.push('/search');
+          // this.$router.push('/search');
         } catch (e) {
           console.error(e);
         } finally {

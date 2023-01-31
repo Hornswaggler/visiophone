@@ -7,6 +7,7 @@ import moment from 'moment';
 const DEFAULT_SAMPLE = {
   _id: null,
   name:'',
+  sampleFile: {},
   fileId: '',
   tag: '',
   description: '',
@@ -19,6 +20,7 @@ const DEFAULT_SAMPLE = {
   key: ''
 };
 
+//TODO: Move into data model class...
 export const makeNewSample = (
   {
     _id,
@@ -30,7 +32,8 @@ export const makeNewSample = (
     bpm = '120.0',
     cost = "",
     imgUrl = '', 
-    clipUri = '', 
+    clipUri = '',
+    sampleFile = {},
     fileName = '',
     key = ''
   } = DEFAULT_SAMPLE) => (
@@ -49,6 +52,7 @@ export const makeNewSample = (
     key
 });
 
+//TODO: Move into factory pattern
 export const makeSampleFromResult = ({sample, isNew = false}) => {
   const newSample = {
     ...makeNewSample({...sample}),
@@ -71,14 +75,19 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
     imgUrl,
     clipUri
   };
-}
+};
 
-const addSampleDataToForm = (form, {sampleData, sample, image}) => {
+const encodeFormBlob = ({form, key, blob }) => {
+  const filename = `${key}${blob.name.slice(blob.name.lastIndexOf('.'))}`;
+  form.append(filename, blob);
+  return filename;
+};
+
+const addSamplePackToForm = (form, {sampleData, sample, imageBlob}) => {
   const requestId = uuidv4();
-  const sampleKey = `sample-${requestId}`;
-  const imageKey = `image-${requestId}`
-  const sampleFileName = `${sampleKey}${sample.name.slice(sample.name.lastIndexOf('.'))}`;
-  const imageFileName = `${imageKey}${image.name.slice(image.name.lastIndexOf('.'))}`;
+
+  const sampleFileName = encodeFormBlob({ form, key: `sample-${requestId}`, blob: sample });
+  const imageFileName = encodeFormBlob({ form, key: `image-${requestId}`, blob: imageBlob });
 
   const sampleRequest = {
     requestId,
@@ -86,9 +95,6 @@ const addSampleDataToForm = (form, {sampleData, sample, image}) => {
     sampleFileName,
     imageFileName
   };
-
-  form.append(sampleFileName, sample);
-  form.append(imageFileName, image);
 
   return sampleRequest;
 };
@@ -202,17 +208,30 @@ export default {
       await dispatch('search', {query, index: _nextResultIndex});
     },
 
-    async uploadSample({dispatch}, {sampleData, sample, image, imageSrc}) {
+    async uploadSample({dispatch}, {samplePack, sampleBlobs, imageBlob}) {
       const form = new FormData();
-      const sampleRequest = addSampleDataToForm(form, {sampleData, sample, image});
+      encodeFormBlob({ form, key: `image`, blob: imageBlob });
 
-      form.append('data', JSON.stringify( {
-        name: 'a sample pack',
-        description: 'This is a description',
-        sampleRequests: [
-          sampleRequest
-        ]
-      }));
+      const samplePackRequest = {
+        name: samplePack.name,
+        description: samplePack.description,
+        sampleRequests: []
+      }
+
+      const keys = Object.keys(samplePack.sampleData);
+      for(let i = 0; i < keys.length; i++) {
+        const sample = samplePack.sampleData[keys[i]];
+        console.log('SAMPLE: ', sample);
+
+        const sampleFileName = encodeFormBlob({ form, key: `sample-${sample._tempId}`, blob: sample.sampleBlob });
+      
+        samplePackRequest.sampleRequests.push({
+          ...sample,
+          sampleFileName
+        });
+      }
+
+      form.append('data', JSON.stringify(samplePackRequest));
 
       // TODO: Fix this.
       await securePostForm(axios, form, {slug: `${config.VITE_API_SAMPLE_PACK_UPLOAD_URI}`});
@@ -224,11 +243,11 @@ export default {
 
     async uploadSamplePack({dispatch}, {name, samples}){
       let fd = new FormData();
-      const sampleRequests = [];
+
+      const imageFileName = encodeFormBlob({ form, key: `sample-${requestId}`, blob: imageBlob });
+
       for({sampleData, sample, image} in samples) {
-        const sampleRequest = addSampleDataToForm(fd, {sampleData, sample, image});
-        form.append(`data-${sampleRequest.requestId}`, sampleRequest);
-        sampleRequests.push(sampleRequest);
+        const sampleRequest = addSamplePackToForm(fd, {sampleData, sample, image});
       }
 
       await securePostForm(axios, fd, {slug: `${config.VITE_API_SAMPLE_PACK_UPLOAD_URI}`})

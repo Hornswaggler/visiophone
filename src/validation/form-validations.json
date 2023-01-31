@@ -6,6 +6,9 @@
     "description": {
       "required": true
     },
+    "imgUrl": {
+      "required": true
+    },
     "sampleData": [
       "sample-type"
     ]

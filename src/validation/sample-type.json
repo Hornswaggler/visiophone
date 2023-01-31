@@ -3,9 +3,6 @@
     "required": true,
     "max-length": 48
   },
-  "imgUrl": {
-    "required": true
-  },
   "clipUri":{
     "required": true
   },

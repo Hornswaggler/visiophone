@@ -33,11 +33,12 @@
   }
 
   .sortable-table-row {
+    @extend .flex-1;
     transition: all $transition-cubic-bezier-250;
 
-    height:var(--vp-cover-art-hw-expanded);
+    height: var(--vp-cover-art-hw-expanded);
     width: var(--vp-cover-art-hw-expanded);
-    margin-top:0.5em;
+    margin-top: 0.5em;
     padding: 0.5em;
 
     &:hover {

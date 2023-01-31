@@ -23,7 +23,7 @@ export default {
       const fieldPath = field.split('.');
       const lastIndex = fieldPath.length - 1;
       const validator = fieldPath.reduce((acc, key, i) => {
-        if(Array.isArray(acc[key])){
+        if(Array.isArray(acc[key])) {
           acc = acc[key][0];
           return acc;
         } else if(acc[key] != null){
@@ -56,11 +56,10 @@ export default {
     },
 
     async validateForm({getters:{currentForm = {}}, commit}, {formData}) {
-      const result = validateBranch(formData, currentForm);
+      const errors = validateBranch(formData, currentForm);
 
-      commit('errors', validateBranch(formData, currentForm));
-
-      return false;
+      commit('errors', errors);
+      return Object.keys(errors).length === 0;
     }
   },
   mutations:{
