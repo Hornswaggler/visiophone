@@ -34,6 +34,9 @@ export default {
   }),
   mounted(){
     this.internalOptions = this.options.map((value, key) => ({value, key}));
+    this.$nextTick(() => {
+      this.internalIndex = this.initialIndex;
+    });
   },
   methods:{
     selectOption(index){

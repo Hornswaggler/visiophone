@@ -54,16 +54,10 @@ export default {
   data: () => ({
     internalValue:''
   }),
-  watch:{
-    internalValue(val){
-      this.onChanged(val);
-    },
-    value(value){
-      if(!this.internalValue) this.internalValue = value;
-    }
-  },
   mounted() {
-    this.internalValue = this.value;
+    this.$nextTick(() => {
+      this.internalValue = this.value;
+    });
   },
   methods:{
     onChangeHandler(value){

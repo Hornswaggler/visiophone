@@ -184,12 +184,6 @@ export default {
       //TODO: Fix This validation
       // this.$store.dispatch('form/validateField', {field: this.fieldName, clipUri});
     },
-    // onImageUpload({clipUri, file}) {
-    //   console.log('clipUri', 'file', clipUri, file);
-    //   // Vue.set(this.sampleMetadata, 'fileName', file.name)
-    //   // Vue.set(this.imageBlob, file);
-    //   // this.imageSrc = clipUri;
-    // },
     async domImgLoaded(ev){
       const {scrollWidth, scrollHeight} = ev.target;
 

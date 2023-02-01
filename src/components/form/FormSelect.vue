@@ -57,8 +57,10 @@ export default {
     internalValue: ''
   }),
   mounted(){
-    this.internalValue = this.value;
-    this.internalOptions = this.options;
+    this.$nextTick(() => {
+      this.internalValue = this.value;
+      this.internalOptions = this.options;
+    });
   },
   methods:{
     onChangeHandler(value) {

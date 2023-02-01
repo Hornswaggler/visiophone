@@ -2,6 +2,8 @@ import ResponsiveLayout from '/src/components/layout/ResponsiveLayout.vue';
 import UserSettings from '/src/components/pages/user/UserSettings.vue';
 import UserLibrary from '/src/components/pages/user/UserLibrary.vue'
 import SampleUpload from '/src/components/pages/sample/SampleUpload.vue';
+import SamplePackUpload from '/src/components/pages/sample/SamplePackUpload.vue';
+import SingleSampleUpload from '/src/components/pages/sample/SingleSampleUpload.vue';
 import Search from '/src/components/pages/sample/SampleSearch.vue';
 import UserStripeStandardReturn from '/src/components/pages/user/UserStripeStandardReturn.vue';
 import SamplePurchaseReturn from '/src/components/pages/sample/SamplePurchaseReturn.vue';
@@ -40,7 +42,7 @@ export default [
         component: Search
       },
       {
-        path: SAMPLE_SEARCH,
+        path: `/${SAMPLE_SEARCH}`,
         component: Search,
         meta: {
           headerHeight: '--sample-search-header-height'
@@ -48,10 +50,23 @@ export default [
       },
       {
         path: SAMPLE_UPLOAD,
+        name: SAMPLE_UPLOAD,
         component: SampleUpload,
         meta: {
           headerHeight: '--default-search-header-height'
-        }
+        },
+        children:[
+          {
+            path: 'Single',
+            name: 'Single',
+            component: SingleSampleUpload
+          },
+          {
+            path: 'Pack',
+            name: 'Pack',
+            component: SamplePackUpload
+          }
+        ]
       },
       {
         path: PURCHASE_SAMPLE_RETURN,

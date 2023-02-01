@@ -44,10 +44,11 @@ export default {
         id: 1,
         accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
       },
+      // TODO: Fix this...
       {
 
         title: 'Upload',
-        slug: `/${SAMPLE_UPLOAD}`,
+        slug: `/${SAMPLE_UPLOAD}/pack`,
         icon:'fa-cloud-arrow-up',
         id: 2,
         accountStatus: [APPROVED]

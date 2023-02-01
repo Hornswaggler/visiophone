@@ -1,5 +1,5 @@
 {
-  "sample": {
+  "samplePack": {
     "name": {
       "required": true
     },
@@ -12,5 +12,29 @@
     "sampleData": [
       "sample-type"
     ]
+  },
+  "sample": {
+    "name": {
+      "required": true,
+      "max-length": 48
+    },
+    "clipUri":{
+      "required": true
+    },
+    "tag":{
+      "required": true
+    },
+    "cost": {
+      "gte": 100,
+      "required": true
+    },
+    "bpm": {
+      "gt": 0,
+      "required": true
+    },
+    "description": {
+      "max-length": 256,
+      "required": true
+    }
   }
 }

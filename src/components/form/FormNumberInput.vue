@@ -52,7 +52,9 @@ export default {
     }
   },
   mounted(){
-    this.internalValue = this.value;
+    this.$nextTick(() => {
+      this.internalValue = this.value;
+    })
   },
   methods:{
     onChangeHandler(value){

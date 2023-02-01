@@ -8,7 +8,6 @@ const DEFAULT_SAMPLE = {
   _id: null,
   name:'',
   sampleFile: {},
-  fileId: '',
   tag: '',
   description: '',
   seller: '',
@@ -25,7 +24,6 @@ export const makeNewSample = (
   {
     _id,
     name = '',
-    fileId = '',
     tag = '',
     description = '',
     seller = '',
@@ -40,7 +38,6 @@ export const makeNewSample = (
   {
     _id,
     name,
-    fileId,
     tag,
     description,
     seller,
@@ -208,7 +205,7 @@ export default {
       await dispatch('search', {query, index: _nextResultIndex});
     },
 
-    async uploadSample({dispatch}, {samplePack, sampleBlobs, imageBlob}) {
+    async uploadSamplePack(ctx, {samplePack, imageBlob}) {
       const form = new FormData();
       encodeFormBlob({ form, key: `image`, blob: imageBlob });
 
@@ -221,8 +218,6 @@ export default {
       const keys = Object.keys(samplePack.sampleData);
       for(let i = 0; i < keys.length; i++) {
         const sample = samplePack.sampleData[keys[i]];
-        console.log('SAMPLE: ', sample);
-
         const sampleFileName = encodeFormBlob({ form, key: `sample-${sample._tempId}`, blob: sample.sampleBlob });
       
         samplePackRequest.sampleRequests.push({
@@ -234,23 +229,25 @@ export default {
       form.append('data', JSON.stringify(samplePackRequest));
 
       // TODO: Fix this.
-      await securePostForm(axios, form, {slug: `${config.VITE_API_SAMPLE_PACK_UPLOAD_URI}`});
-
-      // const {data} = await securePostForm(axios, form, {slug: `${config.VITE_API_SAMPLE_UPLOAD_URI}`});
-      // data.imgUrl = imageSrc;
-      // return dispatch('addSamples', {samples: data, index: 1, isNew: true});
+      await securePostForm(
+        axios,
+        form, 
+        { slug: `${config.VITE_API_SAMPLE_PACK_UPLOAD_URI}` }
+      );
     },
 
-    async uploadSamplePack({dispatch}, {name, samples}){
-      let fd = new FormData();
+    async uploadSample(ctx, {sample}){
+      let form = new FormData();
 
-      const imageFileName = encodeFormBlob({ form, key: `sample-${requestId}`, blob: imageBlob });
+      const sampleFileName = encodeFormBlob({ form, key: `sample`, blob: sample.sampleBlob });
+      const sampleRequest = {
+        ...sample,
+        sampleFileName
+      };
 
-      for({sampleData, sample, image} in samples) {
-        const sampleRequest = addSamplePackToForm(fd, {sampleData, sample, image});
-      }
+      form.append('data', JSON.stringify(sampleRequest));
 
-      await securePostForm(axios, fd, {slug: `${config.VITE_API_SAMPLE_PACK_UPLOAD_URI}`})
+      await securePostForm(axios, form, {slug: `${config.VITE_API_SAMPLE_UPLOAD_URI}`});
     },
 
     setIsLoaded({commit}, isLoaded){

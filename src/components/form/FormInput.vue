@@ -55,7 +55,7 @@ export default {
       type: String,
       default: '',
     },
-    initialValue: {
+    value: {
       type: String,
       default: ''
     },
@@ -74,7 +74,9 @@ export default {
     },
   },
   mounted(){
-    this.internalValue = this.initialValue;
+    this.$nextTick(() => {
+      this.internalValue = this.value;
+    });
   },
   methods: {
     onShowPlaceholder(internalShowPlaceholder) {

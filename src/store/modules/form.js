@@ -10,13 +10,14 @@ export default {
     errors: []
   }),
   getters:{
-    currentForm({forms, selectedForm}){
+    currentForm({forms, selectedForm}) {
       return selectedForm === '' ? {} : forms[selectedForm];
     }
   },
   actions:{
     initialize({commit}, {formName}) {
       commit('selectedForm', formName);
+      commit('errors', []);
     },
 
     validateField({state:{errors}, getters:{currentForm}, commit}, {field, value}) {
