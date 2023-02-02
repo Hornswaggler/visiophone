@@ -33,7 +33,6 @@
             </template>
             <template
               v-slot:input
-            
             >
               <div style="width:100%;">
                 <span style="padding:1em;text-align:left;font-size:0.8em;display:inline-block;">
@@ -132,6 +131,7 @@ import FormImageEditor from '@/components/form/FormImageEditor.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import FormRedirectButton from '@/components/form/FormRedirectButton.vue';
 import config from '@/config';
+import {slugs, getUriForSlug} from '@/slugs';
 
 export default {
   name:'UserSettings',
@@ -150,7 +150,7 @@ export default {
     imageSrc: '',
     profileImage:{},
     IMAGE_MIME_TYPE: config.IMAGE_MIME_TYPE,
-    accountUpgradeUri: config.VITE_API_ACCOUNT_UPGRADE
+    accountUpgradeUri: getUriForSlug(slugs.StripeProvisionUser)
   }),
   computed: {
     ...mapState('user',['customUserName', 'isStripeApproved', 'profileImg', 'idToken']),

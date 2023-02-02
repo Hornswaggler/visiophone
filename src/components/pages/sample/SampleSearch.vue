@@ -72,7 +72,7 @@
             </template>
             <template v-slot:Buy>
               <form-redirect-button
-                :action="samplePurchaseUrl"
+                :action="samplePurchaseUri"
                 :idToken="idToken"
                 :payload="JSON.stringify([sample.priceId])"
               >
@@ -95,6 +95,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import {SORT_TYPES} from '@/store/modules/sample';
+import {slugs, getUriForSlug} from '@/slugs';
 import FormImage from '@/components/form/FormImage.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import FormSortableTable from '@/components/form/FormSortableTable.vue';
@@ -128,10 +129,11 @@ export default {
   },
   data: () => ({
     page: 0,
+    samplePurchaseUri: getUriForSlug(slugs.SamplePurchase)
   }),
   computed: {
     ...mapGetters('sample', ['sampleArray']),
-    ...mapState('sample', ['isLoaded', 'sortType', 'sampleTableDefinition', 'samplePurchaseUrl']),
+    ...mapState('sample', ['isLoaded', 'sortType', 'sampleTableDefinition']),
     ...mapState('user', ['idToken']),
 
     isGridView() {

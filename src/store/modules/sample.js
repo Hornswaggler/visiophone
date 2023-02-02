@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {axios, securePostJson, securePostForm} from '/src/axios.js';
 import config from '/src/config.js';
 import moment from 'moment';
+import { slugs } from '/src/slugs';
 
 const DEFAULT_SAMPLE = {
   _id: null,
@@ -114,7 +115,6 @@ export default {
     nextResultIndex: 0,
     query: '',
     sortType: SORT_TYPES.LIST,
-    samplePurchaseUrl: config['VITE_API_SAMPLE_PURCHASE'],
     sampleTableDefinition: {
       columns: [
         { 
@@ -232,7 +232,7 @@ export default {
       await securePostForm(
         axios,
         form, 
-        { slug: `${config.VITE_API_SAMPLE_PACK_UPLOAD_URI}` }
+        { slug: slugs.SamplePackUpload }
       );
     },
 
@@ -247,7 +247,7 @@ export default {
 
       form.append('data', JSON.stringify(sampleRequest));
 
-      await securePostForm(axios, form, {slug: `${config.VITE_API_SAMPLE_UPLOAD_URI}`});
+      await securePostForm(axios, form, {slug: slugs.SampleUpload});
     },
 
     setIsLoaded({commit}, isLoaded){
@@ -279,7 +279,7 @@ export default {
         data:{ samples, nextResultIndex }} = await securePostJson(
         axios,
         JSON.stringify({query, index}),
-        { slug: `${config.VITE_API_SAMPLE_SEARCH_URI}` }
+        { slug: slugs.SampleSearch }
       );
 
       commit('assignObject', {key: 'query', value: query});

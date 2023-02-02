@@ -14,7 +14,6 @@ export const axios = _axios.create({
   headers: {"Access-Control-Allow-Origin": '*'}
 })
 
-
 export const axiosInit = async () => {
   return axios.interceptors.request.use((config) => ({
     ...config, 

@@ -11,6 +11,7 @@
   },
   "cost": {
     "gte": 100,
+    "lte": 99999999,
     "required": true
   },
   "bpm": {

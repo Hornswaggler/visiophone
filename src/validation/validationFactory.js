@@ -63,6 +63,16 @@ const parseField = (key, fieldValidations) => {
           return result;
         };
         break;
+      case 'lte':
+        acc[validationKey]['test'] = value => {
+          let result = false;
+          try {
+            result = parseFloat(value) <= fieldValidations[validationKey];
+          } catch (e) {
+            console.error(e);
+          }
+          return result;
+        }
     }
     return acc;
   }, {});
