@@ -70,9 +70,6 @@ export default {
       default: ''
     }
   },
-  computed: {
-    ...mapState('sample', ['sampleForEdit'])
-  },
   methods:{
     onInputChanged({target:{files}}) {
       const file = files[0];

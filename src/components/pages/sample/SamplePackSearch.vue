@@ -28,7 +28,7 @@
         </div>
       </div>
       <form-sortable-table-header
-        :table-definition="sampleTableDefinition"
+        :table-definition="samplePackTableDefinition"
         :on-column-clicked="onColumnClicked"
         :selected="true"
       />
@@ -36,53 +36,29 @@
 
     <template v-slot:scrolling-content>
       <form-sortable-table
-        :data="sampleArray"
+        :data="samplePackArray"
         :is-grid-view="!isGridView"
       >
-        <template v-slot:row="{ row: sample }">
+        <template v-slot:row="{ row: samplePack }">
           <sortable-table-row
-            :table-definition="sampleTableDefinition"
+            :table-definition="samplePackTableDefinition"
           >
             <template v-slot:Image>
-              <form-image
+              <!-- <form-image
                 :url="`${sample.imgUrl}`"
-              />
+              /> -->
+              <div>:D</div>
             </template>
-            <template v-slot:Title>
+            <template v-slot:Name>
               <form-sortable-table-cell>
-                {{ sample.name }}
+                {{ samplePack.name }}
               </form-sortable-table-cell>
             </template>
-            <template v-slot:Genre>
+            <template v-slot:Description>
               <form-sortable-table-cell>
-                {{ sample.tag }}
+                {{ samplePack.description }}
                 <!-- <audio-player :sample="sample" /> -->
               </form-sortable-table-cell>
-            </template>
-            <template v-slot:BPM>
-              <form-sortable-table-cell>
-                {{ sample.bpm }}
-              </form-sortable-table-cell>
-            </template>
-            <template v-slot:Cost>
-              <form-sortable-table-cell>
-                {{ `$${sample.cost * 0.01}` }}
-              </form-sortable-table-cell>
-            </template>
-            <template v-slot:Buy>
-              <form-redirect-button
-                :action="samplePurchaseUri"
-                :idToken="idToken"
-                :payload="JSON.stringify([sample.priceId])"
-              >
-                <template v-slot:content>
-                  <form-icon
-                    icon-size="1em"
-                    class="vp-icon flex justify-end align-end download-icon"
-                    icon="fa-plus"
-                  />
-                </template>
-              </form-redirect-button>
             </template>
           </sortable-table-row>
         </template>
@@ -93,8 +69,8 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import {SORT_TYPES} from '@/store/modules/sample';
-import {slugs, getUriForSlug} from '@/slugs';
+import { SORT_TYPES } from '@/store/modules/sample';
+import { slugs, getUriForSlug } from '@/slugs';
 import FormImage from '@/components/form/FormImage.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import FormSortableTable from '@/components/form/FormSortableTable.vue';
@@ -108,7 +84,7 @@ import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
 import AudioPlayer from '@/components/form/AudioPlayer.vue';
 import FormRedirectButton from '@/components/form/FormRedirectButton.vue';
 import Carousel from '@/components/form/Carousel.vue';
-import {sampleTableDefinition} from '@/components/pages/sample/sampleTableDefinition';
+import { samplePackTableDefinition } from '@/components/pages/sample/samplePackTableDefinition';
 
 export default {
   name:'SampleSearch',
@@ -129,12 +105,11 @@ export default {
   },
   data: () => ({
     page: 0,
-    samplePurchaseUri: getUriForSlug(slugs.SamplePurchase),
-    sampleTableDefinition
+    samplePackTableDefinition
   }),
   computed: {
-    ...mapGetters('sample', ['sampleArray']),
-    ...mapState('sample', ['isLoaded', 'sortType']),
+    ...mapGetters('samplePack', ['samplePackArray']),
+    ...mapState('samplePack', ['isLoaded', 'sortType']),
     ...mapState('user', ['idToken']),
 
     isGridView() {
@@ -151,7 +126,7 @@ export default {
       try {
         const {page} = this;
         await this.$store.dispatch(
-          'sample/initialize',
+          'samplePack/initialize',
           {page}
         );
       } finally {

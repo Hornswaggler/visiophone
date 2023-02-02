@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import { v4 as uuidv4 } from 'uuid';
 import {axios, securePostJson, securePostForm} from '/src/axios.js';
 import config from '/src/config.js';
 import moment from 'moment';
@@ -14,7 +13,6 @@ const DEFAULT_SAMPLE = {
   seller: '',
   bpm: '120.0',
   cost: "100",
-  imgUrl:'',
   clipUri:'',
   fileName:'',
   key: ''
@@ -30,7 +28,6 @@ export const makeNewSample = (
     seller = '',
     bpm = '120.0',
     cost = "",
-    imgUrl = '', 
     clipUri = '',
     sampleFile = {},
     fileName = '',
@@ -44,8 +41,8 @@ export const makeNewSample = (
     seller,
     bpm,
     cost,
-    imgUrl,
-    clipUri, 
+    clipUri,
+    sampleFile,
     fileName,
     key
 });
@@ -58,10 +55,10 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
     lastRefresh: moment().valueOf(),
   };
 
-  let imgUrl= newSample.imgUrl || '';
-  if(newSample._id && !isNew) {
-    imgUrl=`${config.VITE_COVER_ART_URI}${newSample._id}.png`;
-  }
+  // let imgUrl= newSample.imgUrl || '';
+  // if(newSample._id && !isNew) {
+  //   imgUrl=`${config.VITE_COVER_ART_URI}${newSample._id}.png`;
+  // }
 
   let clipUri = newSample.clipUri || '';
   if(newSample._id && !isNew) {
@@ -81,22 +78,6 @@ const encodeFormBlob = ({form, key, blob }) => {
   return filename;
 };
 
-const addSamplePackToForm = (form, {sampleData, sample, imageBlob}) => {
-  const requestId = uuidv4();
-
-  const sampleFileName = encodeFormBlob({ form, key: `sample-${requestId}`, blob: sample });
-  const imageFileName = encodeFormBlob({ form, key: `image-${requestId}`, blob: imageBlob });
-
-  const sampleRequest = {
-    requestId,
-    sampleMetadata: sampleData,
-    sampleFileName,
-    imageFileName
-  };
-
-  return sampleRequest;
-};
-
 export const SORT_TYPES = {
   LIST: 'LIST',
   GROUP: 'GROUP'
@@ -109,57 +90,10 @@ export default {
     sortAsc: true,
     sampleForEdit: {},
     isLoaded: false,
-    formData: {},
-    fileBuffer: {},
     samples: {},
     nextResultIndex: 0,
     query: '',
-    sortType: SORT_TYPES.LIST,
-    sampleTableDefinition: {
-      columns: [
-        { 
-          ratio:'1',
-          name:'Image',
-          isSort: false,
-          show:false
-        },
-        { 
-          ratio:'2',
-          name: 'Title',
-          path: 'description',
-          isSort: true,
-          show: true
-        },
-        {
-          ratio:'2',
-          name: 'Genre',
-          path: 'tag',
-          isSort: true,
-          show: true
-        },
-        {
-          ratio:'1',
-          name: 'BPM',
-          path: 'bpm',
-          isSort: true,
-          show: true
-        },
-        {
-          ratio:'1',
-          name: 'Cost',
-          path: 'cost',
-          isSort: false,
-          show: true
-
-        },
-        {
-          ratio:'1',
-          name: 'Buy',
-          isSort: false,
-          show: false
-        }
-      ].map((col, _id) => ({...col, _id}))
-    }
+    sortType: SORT_TYPES.LIST
   }),
   getters: {
     sampleArray({samples, nextResultIndex, sortBy, sortAsc}) {
@@ -203,37 +137,6 @@ export default {
 
     async loadMoreSamples({dispatch, state:{nextResultIndex: _nextResultIndex, query, samples: _samples}}) {
       await dispatch('search', {query, index: _nextResultIndex});
-    },
-
-    async uploadSamplePack(ctx, {samplePack, imageBlob}) {
-      const form = new FormData();
-      encodeFormBlob({ form, key: `image`, blob: imageBlob });
-
-      const samplePackRequest = {
-        name: samplePack.name,
-        description: samplePack.description,
-        sampleRequests: []
-      }
-
-      const keys = Object.keys(samplePack.sampleData);
-      for(let i = 0; i < keys.length; i++) {
-        const sample = samplePack.sampleData[keys[i]];
-        const sampleFileName = encodeFormBlob({ form, key: `sample-${sample._tempId}`, blob: sample.sampleBlob });
-      
-        samplePackRequest.sampleRequests.push({
-          ...sample,
-          sampleFileName
-        });
-      }
-
-      form.append('data', JSON.stringify(samplePackRequest));
-
-      // TODO: Fix this.
-      await securePostForm(
-        axios,
-        form, 
-        { slug: slugs.SamplePackUpload }
-      );
     },
 
     async uploadSample(ctx, {sample}){

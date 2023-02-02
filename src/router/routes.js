@@ -5,6 +5,7 @@ import SampleUpload from '/src/components/pages/sample/SampleUpload.vue';
 import SamplePackUpload from '/src/components/pages/sample/SamplePackUpload.vue';
 import SingleSampleUpload from '/src/components/pages/sample/SingleSampleUpload.vue';
 import Search from '/src/components/pages/sample/SampleSearch.vue';
+import SamplePackSearch from '/src/components/pages/sample/SamplePackSearch.vue';
 import UserStripeStandardReturn from '/src/components/pages/user/UserStripeStandardReturn.vue';
 import SamplePurchaseReturn from '/src/components/pages/sample/SamplePurchaseReturn.vue';
 import LandingPage from '/src/components/layout/LandingPage.vue';
@@ -39,11 +40,11 @@ export default [
       },
       {
         path: '',
-        component: Search
+        component: SamplePackSearch
       },
       {
         path: `/${SAMPLE_SEARCH}`,
-        component: Search,
+        component: SamplePackSearch,
         meta: {
           headerHeight: '--sample-search-header-height'
         }

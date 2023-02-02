@@ -43,7 +43,7 @@ export default {
     async getStripeProfile({ state, commit }) {
       const {data:{isStripeApproved, stripeId, uploads}} =  await securePostJson(
         axios, 
-        { accountId: state.accountId }, 
+        {}, 
         { slug: slugs.StripeProfileGet }
       );
 

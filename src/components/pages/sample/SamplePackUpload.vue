@@ -85,8 +85,6 @@ import FormUploadFile from '@/components/form/FormUploadFile.vue';
 import FormSelect from '@/components/form/FormSelect.vue';
 import FormNumberInput from '@/components/form/FormNumberInput.vue';
 import SampleEditor from './SampleEditor.vue';
-import { JsonTypes } from '@azure/msal-common/dist/utils/Constants';
-
 
 const TAG_TYPES = [
   { name: 'InfluencerCore' },
@@ -165,7 +163,7 @@ export default {
           this.$store.commit('app/isLoading', true);
           const { samplePack, imageBlob, imageSrc } = this;
 
-          await this.$store.dispatch('sample/uploadSamplePack', {
+          await this.$store.dispatch('samplePack/uploadSamplePack', {
             samplePack,
             imageBlob,
             imageSrc
