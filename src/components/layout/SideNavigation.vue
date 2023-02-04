@@ -40,7 +40,7 @@ export default {
     SiteLogo
   },
   data: () => ({
-    inputWidth: '10em',
+    inputWidth: '10rem',
     menuItems: {
       logout:{
         displayName: 'Log Out',

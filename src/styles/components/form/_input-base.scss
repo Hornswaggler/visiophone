@@ -1,20 +1,56 @@
+.form-input-error-container {
+  @extend .flex;
+  @extend .justify-end;
+  height: var(--form-input-error-height);
+  opacity: 0;
+  transition: opacity $transition-cubic-bezier-250;
+
+  &.hasError {
+    opacity: 1;
+  }
+
+  .form-input-error {
+    display: inline-block;
+    color: $primary-error-color;
+    font-size:0.7rem;
+    text-align: left;
+    padding-left: 1rem;
+    
+    &::after {
+      content: ','
+    }
+
+    &:first-child{
+      padding-left: 0;
+    }
+
+    &:last-child{
+            
+      &::after {
+        content: ''
+      }
+    }
+  }
+}
+
 .form-input-base-container {
-  height: 100%;
-  width: 100%;
   @extend .flex;
   @extend .flex-column;
+  height: 100%;
+  width: 100%;
 
   .form-input-title {
     text-align: left;
-    height:1em;
+    height: var(--form-input-title-height);
     color: $primary-text-color;
-    font-size: 0.8em;    
+    font-size: var(--font-sm);
   }
 
   .form-input-base {
+    margin: 0 var(--form-input-border-size);
     color: $primary-text-color;
-    border: solid 2px $secondary-color;
-    min-height: var(--vp-input-min-height);
+    outline: solid var(--form-input-border-size) $secondary-color;
+   
   
     .form-input-container {
       @extend .flex;
@@ -44,39 +80,6 @@
     }
   }
 
-  .form-input-error-container {
-    @extend .flex;
-    @extend .justify-end;
-    height: 1em;
-    opacity: 0;
-    transition: opacity $transition-cubic-bezier-250;
 
-    &.hasError {
-      opacity: 1;
-    }
-
-    .form-input-error {
-      display: inline-block;
-      color: $primary-error-color;
-      font-size:0.7em;
-      text-align: left;
-      padding-left: 1em;
-      
-      &::after {
-        content: ','
-      }
-
-      &:first-child{
-        padding-left: 0;
-      }
-
-      &:last-child{
-              
-        &::after {
-          content: ''
-        }
-      }
-    }
-  }
 
 }

@@ -7,7 +7,7 @@
     .vp-form-row {
       @extend .flex;
       @extend .justify-start;
-      font-size: 1em;
+      font-size: 1rem;
     }
   }
 }
@@ -29,6 +29,10 @@
       background-color: rgba(0, 0, 0, 0.265);
 
     }
+  }
+
+  .form-column {
+    margin: 0 0.5rem;
   }
 
   .form-panel-header{

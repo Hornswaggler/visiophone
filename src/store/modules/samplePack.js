@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import {axios, securePostForm, securePostJson} from '/src/axios.js';
 import moment from 'moment';
+import {encodeFormBlob} from '/src/store/modules/form';
 import {slugs} from '/src/slugs';
+import { v4 as uuidv4 } from 'uuid';
 
 export const SORT_TYPES = {
   LIST: 'LIST',
@@ -39,16 +41,6 @@ export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
     ...makeNewSamplePack({...samplePack}),
     lastRefresh: moment().valueOf(),
   };
-
-  // let imgUrl= newSample.imgUrl || '';
-  // if(newSample._id && !isNew) {
-  //   imgUrl=`${config.VITE_COVER_ART_URI}${newSample._id}.png`;
-  // }
-
-  // let clipUri = newSample.clipUri || '';
-  // if(newSample._id && !isNew) {
-  //   clipUri = `${config.VITE_CLIP_URI}${newSample._id}.wav.ogg`;
-  // }
 
   return {
     ...newSamplePack
@@ -110,9 +102,6 @@ export default {
       const nextIndex = sampleCount < nextResultIndex ? -1 : nextResultIndex;
       
       commit('assignObject', {key: 'nextResultIndex', value: nextIndex});
-
-      console.log('SamplePacks', data);
-
       dispatch('addSamplePacks', {newSamplePacks: data, index});
     },
     addSamplePacks({commit}, {newSamplePacks, isNew = false, index = 0}){
@@ -127,11 +116,12 @@ export default {
     },
     async uploadSamplePack(ctx, {samplePack, imageBlob}) {
       const form = new FormData();
-      encodeFormBlob({ form, key: `image`, blob: imageBlob });
+      const imageFileName = encodeFormBlob({ form, key: uuidv4(), blob: imageBlob });
 
       const samplePackRequest = {
         name: samplePack.name,
         description: samplePack.description,
+        imageFileName,
         sampleRequests: []
       }
 

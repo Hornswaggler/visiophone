@@ -1,13 +1,22 @@
-$default-image-editor-hw: 16em;
+$default-image-editor-hw: 16rem;
 
 html {
   --image-editor-hw: $default-image-editor-hw;
+}
+
+.form-image-editor-title {
+  height: var(--form-input-title-height);
+  font-size: var(--font-sm);
+  text-align: left;
+
 }
 
 .form-image-editor-container {
   @extend .flex;
   justify-content:center;
   overflow: hidden;
+  height: var(--image-editor-height);
+
 
   .form-image-editor-resize-container {
     @extend .flex;
@@ -17,8 +26,8 @@ html {
     top: 0;
     bottom:0;
     position: absolute;
-    height: $default-image-editor-hw;
-    width: $default-image-editor-hw;
+    height: var(--image-editor-height);
+    width: var(--image-editor-height);
     z-index: 1;
   }
 
@@ -63,8 +72,8 @@ html {
     }
 
     .form-image-editor-preview {
-      height: $default-image-editor-hw;
-      width: $default-image-editor-hw;
+      height: var(--image-editor-height);
+      width: var(--image-editor-height);
       @extend .flex;
       position:relative;
       background-color: transparent;
@@ -74,8 +83,8 @@ html {
         @extend .flex;
         @extend .justify-start;
         @extend .align-center;
-        height: $default-image-editor-hw;
-        width: $default-image-editor-hw;
+        height: var(--image-editor-height);
+        width: var(--image-editor-height);
         
         -webkit-user-select: none; /* Safari */
         -ms-user-select: none; /* IE 10 and IE 11 */

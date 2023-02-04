@@ -34,7 +34,7 @@
 
   .form-panel {
     &:not(:first-child) {
-      padding-top: 0.5em;
+      padding-top: 0.5rem;
     }
   }
 
@@ -43,12 +43,12 @@
     .form-column {
       @include for-size(md) {
         &:first-child {
-          padding-right: 0.25em;
-          padding-left: 0.5em
+          padding-right: 0.25rem;
+          padding-left: 0.5rem
         }
         &:last-child {
-          padding-left: 0.25em;
-          padding-right: 0.5em
+          padding-left: 0.25rem;
+          padding-right: 0.5rem
         }
       }
     }

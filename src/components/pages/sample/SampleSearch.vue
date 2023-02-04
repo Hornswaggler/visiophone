@@ -77,7 +77,7 @@
               >
                 <template v-slot:content>
                   <form-icon
-                    icon-size="1em"
+                    icon-size="1rem"
                     class="vp-icon flex justify-end align-end download-icon"
                     icon="fa-plus"
                   />

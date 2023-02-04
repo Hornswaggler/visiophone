@@ -2,6 +2,12 @@ import Vue from 'vue';
 import {parseValidators} from '/src/validation/validationFactory';
 import {validateBranch, validateField} from '/src/validation';
 
+export const encodeFormBlob = ({form, key, blob }) => {
+  const filename = `${key}${blob.name.slice(blob.name.lastIndexOf('.'))}`;
+  form.append(filename, blob);
+  return filename;
+};
+
 export default {
   namespaced: true,
   state: () => ({

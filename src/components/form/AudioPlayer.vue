@@ -7,8 +7,8 @@
     <canvas
       ref="canvas"
       style="
-        height:2em;
-        width:10em;
+        height:2rem;
+        width:10rem;
         background-color:purple"
     />
     

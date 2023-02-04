@@ -4,12 +4,12 @@
   @extend .align-center;
 
   .form-file-upload-button {
-    padding: 0 0.5em;
+    padding: 0 0.5rem;
     cursor: pointer;
     @extend .flex;
     @extend .align-center;
     height: 100%;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     transition: all $transition-cubic-bezier-250;
     background-color: var(--vp-form-button-background-color);
 
@@ -21,11 +21,11 @@
   }
 
   .form-file-upload-button-spacer {
-    max-height: 1em;
+    max-height: 1rem;
     overflow-y: hidden;
     flex:1;
     overflow: hidden;
     text-align:left;
-    padding-left: 0.5em;
+    padding-left: 0.5rem;
   }
 }

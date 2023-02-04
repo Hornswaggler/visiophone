@@ -4,7 +4,7 @@
   z-index:200;
 
   .form-dropdown-content {
-    width: 10em;
+    width: 10rem;
     @extend .align-center;
 
     .form-dropdown-item:nth-child(odd) {
@@ -32,7 +32,7 @@
 
       opacity: 0.9;
       cursor:pointer;
-      height: 2em;
+      height: 2rem;
 
       &:first-child {
         border-top: $default-border;

@@ -9,7 +9,7 @@
 }
 
 .legal {
-  --main-banner-height: 0em;
+  --main-banner-height: 0rem;
   background-color:rgba(0, 0, 0, 0.6755);
   text-align:left;
 }
@@ -17,7 +17,7 @@
 html {
   height:100%;
   width: 100%;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 300;
   @extend .m0;
 

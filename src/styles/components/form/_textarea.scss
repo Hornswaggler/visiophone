@@ -11,7 +11,7 @@
   .form-textarea {
     padding:0;
     width:100%;
-    min-height: calc(2 * var(--vp-input-min-height) + 2em);
+    height: calc(2 * var(--vp-input-min-height));
     background-color: transparent;
     color: $primary-text-color;
     box-sizing: border-box;

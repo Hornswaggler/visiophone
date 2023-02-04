@@ -1,3 +1,4 @@
+import {encodeFormBlob} from '/src/store/modules/form';
 import Vue from 'vue';
 import {axios, securePostJson, securePostForm} from '/src/axios.js';
 import config from '/src/config.js';
@@ -55,11 +56,6 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
     lastRefresh: moment().valueOf(),
   };
 
-  // let imgUrl= newSample.imgUrl || '';
-  // if(newSample._id && !isNew) {
-  //   imgUrl=`${config.VITE_COVER_ART_URI}${newSample._id}.png`;
-  // }
-
   let clipUri = newSample.clipUri || '';
   if(newSample._id && !isNew) {
     clipUri = `${config.VITE_CLIP_URI}${newSample._id}.wav.ogg`;
@@ -70,12 +66,6 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
     imgUrl,
     clipUri
   };
-};
-
-const encodeFormBlob = ({form, key, blob }) => {
-  const filename = `${key}${blob.name.slice(blob.name.lastIndexOf('.'))}`;
-  form.append(filename, blob);
-  return filename;
 };
 
 export const SORT_TYPES = {

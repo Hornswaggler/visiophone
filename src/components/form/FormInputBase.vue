@@ -1,8 +1,8 @@
 <template>
   <div class="form-input-base-container">
     <div class="form-input-title">
-        <slot name="title" />
-      </div>
+      <slot name="title" />
+    </div>
     <div class="form-input-base">
       <div class="form-input-container">
         <div class="form-input-body-container">

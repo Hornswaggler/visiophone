@@ -2,9 +2,6 @@
   @extend .flex;
   @extend .align-center;
   @extend .justify-center;
-  
-  // height: 2em;
-  // width: 2em; 
 
   font: normal 100%/1.4 $text-font-stack;
   border: $default-border;
@@ -17,8 +14,8 @@
   background-color: var(--vp-form-button-background-color);
 
   &.sm{
-    height: 1em;
-    width: 1em; 
+    height: 1rem;
+    width: 1rem; 
   }
 
   &:hover {

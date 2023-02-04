@@ -1,27 +1,34 @@
 <template>
 <div>
     <div>
-      <div class="form-base pt05 flex-1"
+      <div class="form-base flex-1"
         :style="{ backgroundColor: `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})` }">
         <div class="add-sample-panel">
           <div class="form-column" style="padding-left:0;">
             <div class="vp-form-row">
-              <form-input fieldName="name" :value="samplePack.name" title="sample pack name"
-                :on-changed="name => samplePack.name = name">
-              </form-input>
+              <form-input
+                fieldName="name"
+                :value="samplePack.name"
+                title="sample pack name"
+                :on-changed="name => samplePack.name = name"
+              />
             </div>
             <div class="vp-form-row">
-              <form-input fieldName="description" :value="samplePack.description" title="sample pack description"
-                :on-changed="description => samplePack.description = description">
-              </form-input>
+              <form-input
+                fieldName="description"
+                :value="samplePack.description"
+                title="sample pack description"
+                :on-changed="description => samplePack.description = description"
+              />
             </div>
           </div>
           <div class="form-column" style="padding-right:0;">
             <div class="vp-form-row user-settings-image-container">
               <form-image-editor
                 class="flex-1"
-                :img-src="imageSrc" 
-                :change-handler="onThumbnailGenerated" 
+                fieldName="imgUrl" 
+                :img-src="imageSrc"
+                :change-handler="onThumbnailGenerated"
               />
             </div>
           </div>
@@ -34,11 +41,12 @@
           :on-changed="value => onPanelChanged({ key, value })"
         >
           <template v-slot:header>
-            <div class="flex" style="justify-content:space-between;">
+            <div class="flex justify-space-between">
               <button
                 class="vp-button sm delete-button"
                 type="button"
-                @click="deleteSample(key)">
+                @click="deleteSample(key)"
+              >
                 -
               </button>
             </div>
@@ -56,15 +64,24 @@
     <div class="vp-form-row flex justify-end pb1">
     </div>
     <div class="vp-form-row flex-1">
-      <div class=" flex fill-height" style="justify-content: space-between">
-        <div style="flex:1">&nbsp;</div>
-        <div class="flex-1 flex justify-center align-end" style="flex:1">
-          <button class="vp-button sm" type="button" @click="addSample">
+      <div class="flex fill-height justify-space-between">
+        <div class="flex-1">&nbsp;</div>
+        <div class="flex-1 flex justify-center align-end">
+          <button 
+            class="vp-button sm"
+            type="button"
+            @click="addSample"
+          >
             +
           </button>
         </div>
         <div class="flex-1 flex justify-end  align-end">
-          <button ref="submitButton" class="vp-button" type="button" @click="handleSubmitForm">
+          <button 
+            ref="submitButton" 
+            class="vp-button" 
+            type="button" 
+            @click="handleSubmitForm"
+          >
             Upload
           </button>
         </div>
@@ -169,6 +186,7 @@ export default {
             imageSrc
           });
 
+          //TODO: Uncomment once completed...
           // this.$router.push('/search');
         } catch (e) {
           console.error(e);

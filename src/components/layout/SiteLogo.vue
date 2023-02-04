@@ -24,7 +24,7 @@ export default {
   align-items: center;
 
   .animated-text {
-    font-size: 1.4em;
+    font-size: 1.4rem;
     background: linear-gradient(180deg, #2cd8d5 0%, #9fafd3 50%, #5a2288 100%);
     animation: animated_text 10s ease infinite;
     background-size: 300%;
@@ -33,7 +33,7 @@ export default {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
-    letter-spacing: 0em;
+    letter-spacing: 0rem;
   }
 }
 

@@ -4,7 +4,7 @@
 
   .search-header {
     @extend .flex;
-    height: 2em;
+    height: 2rem;
     background-color: black;
   }
 
@@ -12,10 +12,10 @@
     .form-input-base {
       border:0;
       .form-input-body {
-        padding-left: 1em;
+        padding-left: 1rem;
       }
       .form-input-icon-underlay {
-        left: 1em;
+        left: 1rem;
       }
     }
   }
@@ -36,8 +36,8 @@
   .scrolling-container-header {
     width:100%;
     .icon-group {
-      height: 2em;
-      padding: 0 0.5em;
+      height: 2rem;
+      padding: 0 0.5rem;
       padding-right: 20px;
     }
   } 

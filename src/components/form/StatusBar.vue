@@ -36,7 +36,7 @@ export default {
 <style lang="scss">
 .vs-statusbar {
   width:100%;
-  height:1em;
+  height:1rem;
   border: solid 1px lightgrey;
   display:flex;
 

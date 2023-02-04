@@ -23,7 +23,7 @@
         :class="{ hide: !showPlaceholder }"
       >
         <form-icon
-          icon-size="1.25em"
+          icon-size="1.25rem"
           icon="fa-solid fa-magnifying-glass"
         >
           <template v-slot:post-content>
@@ -66,7 +66,7 @@ export default {
   },
   data: () => ({
     internalValue:'',
-    internalShowPlaceholder: true,
+    internalShowPlaceholder: false,
   }),
   computed: {
     showPlaceholder(){
