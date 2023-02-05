@@ -37,7 +37,7 @@
     <template v-slot:scrolling-content>
       <form-sortable-table
         :data="sampleArray"
-        :is-grid-view="!isGridView"
+        :is-list-view="isListTypeSelected"
       >
         <template v-slot:row="{ row: sample }">
           <sortable-table-row

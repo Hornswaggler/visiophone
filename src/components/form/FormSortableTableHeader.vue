@@ -12,6 +12,9 @@
         <div v-if="column.show">
           {{ column.name }}
         </div>
+        <div v-else>
+          &nbsp;
+        </div>
       </div>
       <div
         class="sortable-table-header-sort-options"

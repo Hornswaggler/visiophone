@@ -169,7 +169,8 @@ export default {
       if(query === _query && _nextResultIndex < 0) return;
 
       const {
-        data:{ samples, nextResultIndex }} = await securePostJson(
+        data:{ samples, nextResultIndex }
+      } = await securePostJson(
         axios,
         JSON.stringify({query, index}),
         { slug: slugs.SampleSearch }

@@ -4,6 +4,9 @@ import moment from 'moment';
 import {encodeFormBlob} from '/src/store/modules/form';
 import {slugs} from '/src/slugs';
 import { v4 as uuidv4 } from 'uuid';
+import config from '/src/config';
+
+const {VITE_COVER_ART_URI} = config;
 
 export const SORT_TYPES = {
   LIST: 'LIST',
@@ -39,6 +42,7 @@ export const makeNewSamplePack = (
 export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
   const newSamplePack = {
     ...makeNewSamplePack({...samplePack}),
+    imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
     lastRefresh: moment().valueOf(),
   };
 
@@ -138,17 +142,22 @@ export default {
 
       form.append('data', JSON.stringify(samplePackRequest));
 
-      // TODO: Fix this.
       await securePostForm(
         axios,
         form,
         { slug: slugs.SamplePackUpload }
       );
     },
+    setSortType({commit}, sortType){      
+      commit('sortType', sortType);
+    },
   },
   mutations: {
     samplePacks(state, value){
       Vue.set(state, 'samplePacks', value);
+    },
+    sortType(state, value) {
+      state.sortType = value;
     }
   }
 }

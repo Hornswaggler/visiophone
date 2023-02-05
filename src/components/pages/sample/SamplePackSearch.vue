@@ -4,7 +4,7 @@
   >
     <template v-slot:header>
       <div class="search-header">
-        <div style="width:50%;" class="flex-1 flex">
+        <div style="width: 50%;" class="flex-1 flex">
           <form-input
             class="header-search-input"
             style="padding:0;border:none;"
@@ -14,7 +14,7 @@
         </div>
 
         <div
-          style="width:50%;"
+          style="width: 50%;"
           class="flex justify-end icon-group"
         >
           <bootleg-list-icon
@@ -37,17 +37,18 @@
     <template v-slot:scrolling-content>
       <form-sortable-table
         :data="samplePackArray"
-        :is-grid-view="!isGridView"
+        :is-list-view="isListTypeSelected"
       >
         <template v-slot:row="{ row: samplePack }">
           <sortable-table-row
             :table-definition="samplePackTableDefinition"
           >
             <template v-slot:Image>
-              <!-- <form-image
-                :url="`${sample.imgUrl}`"
-              /> -->
-              <div>:D</div>
+              <form-sortable-table-cell class="grid-image">
+                <form-image
+                  :url="`${samplePack.imgUrl}`"
+                />
+              </form-sortable-table-cell>
             </template>
             <template v-slot:Name>
               <form-sortable-table-cell>
@@ -70,7 +71,6 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import { SORT_TYPES } from '@/store/modules/sample';
-import { slugs, getUriForSlug } from '@/slugs';
 import FormImage from '@/components/form/FormImage.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import FormSortableTable from '@/components/form/FormSortableTable.vue';
@@ -112,7 +112,7 @@ export default {
     ...mapState('samplePack', ['isLoaded', 'sortType']),
     ...mapState('user', ['idToken']),
 
-    isGridView() {
+    isListView() {
       return this.sortType === SORT_TYPES.GROUP;
     },
 
@@ -142,18 +142,18 @@ export default {
 
     onViewGroupClicked(){
       if(this.isListTypeSelected) {
-        this.$store.dispatch('sample/setSortType', SORT_TYPES.GROUP);
+        this.$store.dispatch('samplePack/setSortType', SORT_TYPES.GROUP);
       }
     },
 
     onViewListClicked(){
       if(!this.isListTypeSelected) {
-        this.$store.dispatch('sample/setSortType', SORT_TYPES.LIST);
+        this.$store.dispatch('samplePack/setSortType', SORT_TYPES.LIST);
       }
     },
 
     onColumnClicked(column) {
-      this.$store.dispatch('sample/orderBy', column);
+      this.$store.dispatch('samplePack/orderBy', column);
     },
 
     onSearchChanged(query) {

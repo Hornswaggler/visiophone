@@ -5,7 +5,6 @@
   .search-header {
     @extend .flex;
     height: 2rem;
-    background-color: black;
   }
 
   .header-search-input {
@@ -34,7 +33,9 @@
   }
 
   .scrolling-container-header {
-    width:100%;
+    background-color:rgba(0, 0, 0, 0.734);
+    padding: 0 1rem;
+    overflow: hidden;
     .icon-group {
       height: 2rem;
       padding: 0 0.5rem;

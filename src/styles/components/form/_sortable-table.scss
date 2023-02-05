@@ -1,17 +1,23 @@
 .sortable-table {
   @extend .flex;
-  @extend .justify-center;
+  @extend .justify-start;
 
   flex-wrap: wrap;
   flex-direction: row;
 
-  &.isGridView {
+  &.isListView {
     justify-content: initial;
     @extend .flex-column;
 
     .sortable-table-row {
-      @extend .fill;
-      padding: 0;
+      height: var(--vp-cover-art-hw);
+      width: 100%;
+      
+      margin-top:0.25rem;
+      margin-left:0;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
   
       &:hover {
         transform:none;
@@ -22,24 +28,33 @@
       }
 
       .sortable-column-row {
-        height: var(--vp-cover-art-hw);
-      }
-
-      .form-image {
-        height: var(--vp-cover-art-hw);
-        width: var(--vp-cover-art-hw);
+        .sortable-column {
+          .sortable-table-cell {
+            @extend .fill;
+            &.grid-image {
+              height: var(--vp-cover-art-hw);
+              width: var(--vp-cover-art-hw);
+            }
+          }
+        }
       }
     }
   }
 
   .sortable-table-row {
-    @extend .flex-1;
-    transition: all $transition-cubic-bezier-250;
+    height: calc(var(--vp-cover-art-hw-expanded));
+    width: calc(var(--vp-cover-art-hw-expanded));
 
-    height: var(--vp-cover-art-hw-expanded);
-    width: var(--vp-cover-art-hw-expanded);
-    margin-top: 0.5rem;
-    padding: 0.5rem;
+    transition: 
+      height $transition-cubic-bezier-500, 
+      width $transition-cubic-bezier-500,
+      transform $transition-cubic-bezier-500;
+
+    margin-left: 0.75rem;
+
+    -webkit-box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
+    -moz-box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
+    box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
 
     &:hover {
       transform:scale(1.1);
@@ -49,10 +64,12 @@
       @extend .flex;
       cursor: pointer;
       border-radius: 8px;
-      overflow-x: hidden;
-      transition: background-color $transition-cubic-bezier-250;
+      overflow: hidden;
+
       background-color: $tertiary-background-color;
-    
+
+      transition: background-color $transition-cubic-bezier-250;
+
       &:hover {
         background-color: $secondary-background-color;
       }
@@ -63,27 +80,33 @@
         @extend .justify-center;
 
         .sortable-table-cell {
-          height: var(--vp-cover-art-hw);
           text-align:left;
           font-size:large;
           position: relative;
-          width:100%;
-          overflow:hidden;
+          width: 0%;
 
-          .sortable-table-cell-overflow {
-            white-space:nowrap;
-            position:absolute;
-            top:0;
-            bottom:0;
-            left:0;
-            right:0;
+          &.grid-image {
+            height: var(--vp-cover-art-hw-expanded);
+            width: var(--vp-cover-art-hw-expanded);
+
+            transition: 
+              height $transition-cubic-bezier-500, 
+              width $transition-cubic-bezier-500;
+
+            .form-image{
+              height: 100%;
+              width:100%;
+            }
           }
 
           .sortable-table-cell-content {
             @extend .flex;
-            position: relative;
-            height: 100%;
             @extend .align-center;
+            height: 100%;
+
+            overflow:hidden;
+            word-break:keep-all;
+            white-space: nowrap;
           }
         }
       }
@@ -95,15 +118,15 @@
   @extend .flex;
 
   height: var(--vp-input-min-height);
-  background-color:black;
   
   .sortable-table-header-column {
     @extend .flex;
     @extend .justify-start;
     cursor: pointer;
 
-    background-color: $primary-color;
-    transition: all $transition-cubic-bezier-250;
+    min-height: var(--vp-cover-art-hw);
+    min-width: var(--vp-cover-art-hw);
+    transition: transform $transition-cubic-bezier-250;
 
     &:hover {
       transform: scale(1.05);
