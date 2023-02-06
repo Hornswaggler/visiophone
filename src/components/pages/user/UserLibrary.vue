@@ -1,5 +1,7 @@
 <template>
-  <scrolling-container>
+  <scrolling-container
+    class="user-library-page"
+  >
     <template v-slot:scrolling-content>
       <div>
         <div v-if="isStripeApproved">
@@ -12,7 +14,7 @@
           <form-sortable-table 
             :table-definition="tableDefinition" 
             :data="uploads"
-            :is-grid-view="true">
+          >
             <template v-slot:row="{ row:sample }">
               <sortable-table-row 
                 class="sortable-column-row"
@@ -30,7 +32,7 @@
                     {{ sample.description }}
                   </form-sortable-table-cell>
                 </template>
-                <template v-slot:Genre>
+                <!-- <template v-slot:Genre>
                   <form-sortable-table-cell>
                     {{ sample.tag }}
                   </form-sortable-table-cell>
@@ -39,7 +41,7 @@
                   <form-sortable-table-cell>
                     {{ sample.bpm }}
                   </form-sortable-table-cell>
-                </template>
+                </template> -->
               </sortable-table-row>
             </template>
           </form-sortable-table>
@@ -120,12 +122,6 @@ export default {
     isGridView:true,
     tableDefinition: {
       columns: [
-        { 
-          ratio:'1',
-          name:'Image',
-          isSort: false,
-          show:false
-        },
         {
           ratio:'1',
           name:'Name',
@@ -139,20 +135,20 @@ export default {
           isSort: true,
           show: true
         },
-        {
-          ratio:'2',
-          name: 'Genre',
-          path: 'tag',
-          isSort: true,
-          show: true
-        },
-        {
-          ratio:'1',
-          name: 'BPM',
-          path: 'bpm',
-          isSort: true,
-          show: true
-        }
+        // {
+        //   ratio:'2',
+        //   name: 'Genre',
+        //   path: 'tag',
+        //   isSort: true,
+        //   show: true
+        // },
+        // {
+        //   ratio:'1',
+        //   name: 'BPM',
+        //   path: 'bpm',
+        //   isSort: true,
+        //   show: true
+        // }
       ].map((col, _id) => ({...col, _id}))
     }
   }),

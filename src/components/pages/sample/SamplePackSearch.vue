@@ -131,14 +131,14 @@ export default {
           {page}
         );
       } finally {
-        this.$store.dispatch('sample/setIsLoaded', true);
+        this.$store.dispatch('samplePack/setIsLoaded', true);
       }
     }
   },
 
   methods: {
     onScrollLimitReached(){
-      this.$store.dispatch('sample/loadMoreSamples');
+      this.$store.dispatch('samplePack/loadMoreSamples');
     },
 
     onViewGroupClicked(){
@@ -158,7 +158,7 @@ export default {
     },
 
     onSearchChanged(query) {
-      this.$store.dispatch('sample/search', { query });
+      this.$store.dispatch('samplePack/search', { query });
     },
   }
 }

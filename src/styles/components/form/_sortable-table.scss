@@ -1,12 +1,12 @@
 .sortable-table {
   @extend .flex;
-  @extend .justify-start;
 
   flex-wrap: wrap;
   flex-direction: row;
+  justify-content: center;
 
   &.isListView {
-    justify-content: initial;
+    justify-content: flex-start;
     @extend .flex-column;
 
     .sortable-table-row {
@@ -15,6 +15,7 @@
       
       margin-top:0.25rem;
       margin-left:0;
+      
       -webkit-box-shadow: none;
       -moz-box-shadow: none;
       box-shadow: none;
@@ -28,7 +29,9 @@
       }
 
       .sortable-column-row {
+        min-height: var(--vp-cover-art-hw);
         .sortable-column {
+          overflow: hidden;
           .sortable-table-cell {
             @extend .fill;
             &.grid-image {
@@ -50,6 +53,7 @@
       width $transition-cubic-bezier-500,
       transform $transition-cubic-bezier-500;
 
+    margin-top: 0.75rem;
     margin-left: 0.75rem;
 
     -webkit-box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
@@ -123,6 +127,7 @@
     @extend .flex;
     @extend .justify-start;
     cursor: pointer;
+    z-index: 1;
 
     min-height: var(--vp-cover-art-hw);
     min-width: var(--vp-cover-art-hw);
@@ -130,7 +135,9 @@
 
     &:hover {
       transform: scale(1.05);
-      background-color:$quaternary-color;
+      background-color: $quaternary-color;
+      opacity: 1;
+      z-index: 2;
     }
 
     .sortable-table-header-sort-options {

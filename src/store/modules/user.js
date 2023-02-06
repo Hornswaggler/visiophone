@@ -30,7 +30,7 @@ export default {
     },
 
     refreshProfileImg({state:{avatarId}, commit}){
-      commit('profileImg', `${config.VITE_AVATAR_URI}${avatarId}.png?${new Date().getTime()}`);
+      commit('profileImg', `${config.VITE_AVATAR_URI}${avatarId}.png`);
     },
 
     async uploadUserProfile({commit}, {blob}) {
@@ -129,7 +129,6 @@ export default {
     profileImg(state, profileImg){
       state.profileImg = profileImg;
     },
-
 
     uploads(state, uploads){
       Vue.set(state, 'uploads', uploads);

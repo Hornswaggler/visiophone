@@ -26,7 +26,8 @@
             <div class="vp-form-row user-settings-image-container">
               <form-image-editor
                 class="flex-1"
-                fieldName="imgUrl" 
+                fieldName="imgUrl"
+                title="sample pack image"
                 :img-src="imageSrc"
                 :change-handler="onThumbnailGenerated"
               />

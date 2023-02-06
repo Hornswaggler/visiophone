@@ -2,7 +2,6 @@
   @extend .fill;
   @extend .flex;
 
-
   .responsive-margin {
     @include for-size(xl) {
       width: 15%;
@@ -19,11 +18,13 @@
     @extend .position-relative;
     box-shadow: 10px 10px 5px 0px rgb(0 0 0 / 45%);
 
-    .responsive-layout-body-content{
+    .responsive-layout-body-content {
       @extend .flex-column;
       @extend .flex;
       @extend .flex-1;
       @extend .justify-center;
+
+      max-width: calc(100vw - var(--responsive-layoutside-navigation-width));
     }
 
     .menu-overlay {
@@ -36,10 +37,12 @@
 
     .responsive-layout-side-navigation {
       @extend .flex;
+      @extend .flex-column;
+
+      width: var(--responsive-layoutside-navigation-width);
+
       opacity: 0.87;
       background-color: $tertiary-background-color;
-
-      @extend .flex-column;
 
       .side-navigation-option {
         @extend .flex;
@@ -79,7 +82,6 @@
       @include for-size(xs) {
         display: none;
         background-color: $quaternary-color;
-
         .logo-container {
           display: none;
         }
@@ -88,7 +90,6 @@
 
     .header-search-container {
       .logo-container {
-        width: 0;
 
         .xs-logo {
           display: none;

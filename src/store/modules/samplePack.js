@@ -62,23 +62,25 @@ export default {
     sortBy:'name',
   }),
   getters: {
-    samplePackArray({samplePacks, nextResultIndex, sortBy, sortAsc}) {
+    samplePackArray({samplePacks, sortBy, sortAsc}) {
       const sort = sortAsc ? 
         (a,b) => a[sortBy].localeCompare(b[sortBy]) :
         (a,b) => b[sortBy].localeCompare(a[sortBy]);
 
       const result = Object.values(samplePacks);
-      if(nextResultIndex === -1) return result.sort(sort);
-
-      const sampleCount = Object.keys(samplePacks).length;
-      const nextIndex = sampleCount < nextResultIndex ? sampleCount : nextResultIndex;
-      return result.slice(0, nextIndex).reverse();
+      return result.sort(sort);
     },
   },
   actions: {
     initialize({dispatch}, {page}){
       return dispatch('search', {page});
     },
+
+    async loadMoreSamples({dispatch, state:{nextResultIndex: _nextResultIndex, query, samples: _samples}}) {
+      //TODO Endpoints should come from env
+      await dispatch('search', {query, index: _nextResultIndex});
+    },
+
     orderBy({state:{sortBy, sortAsc}, commit}, column) {
       if(!column.path) return;
 
@@ -101,20 +103,16 @@ export default {
       );
 
       commit('assignObject', {key: 'query', value: query});
-
-      const sampleCount = Object.keys(data).length;
-      const nextIndex = sampleCount < nextResultIndex ? -1 : nextResultIndex;
-      
-      commit('assignObject', {key: 'nextResultIndex', value: nextIndex});
+      commit('assignObject', {key: 'nextResultIndex', value: nextResultIndex});
       dispatch('addSamplePacks', {newSamplePacks: data, index});
     },
-    addSamplePacks({commit}, {newSamplePacks, isNew = false, index = 0}){
+    addSamplePacks({commit, state:{samplePacks}}, {newSamplePacks, isNew = false, index = 0}){
       const initSamplePacks = newSamplePacks.map(samplePack => makeSamplePackFromResult({samplePack, isNew}));
       const result = initSamplePacks.reduce((acc, samplePack) => {
           acc[samplePack._id] = samplePack;
           return acc;
         }, {});
-      commit('samplePacks', index > 0 ? {...samplePack,  ...result } : {...result});
+      commit('samplePacks', index > 0 ? {...samplePacks,  ...result } : {...result});
 
       return initSamplePacks;
     },
@@ -151,6 +149,9 @@ export default {
     setSortType({commit}, sortType){      
       commit('sortType', sortType);
     },
+    setIsLoaded({commit}, isLoaded){
+      commit('isLoaded', isLoaded);
+    },
   },
   mutations: {
     samplePacks(state, value){
@@ -158,6 +159,9 @@ export default {
     },
     sortType(state, value) {
       state.sortType = value;
+    },
+    isLoaded(state, value) {
+      state.isLoaded = value;
     }
   }
 }

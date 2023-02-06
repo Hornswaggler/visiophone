@@ -1,13 +1,13 @@
 @charset "UTF-8";
 @use "sass:color";
 
+@import 'mixins';
 @import 'variables';
 @import 'helpers';
 @import 'base';
 @import 'fonts';
 @import 'typography';
 @import 'forms';
-@import 'mixins';
 @import 'shapes';
 @import 'animations';
 @import 'gradients';
@@ -33,3 +33,6 @@
 @import './pages/sample-search';
 @import './pages/sample-upload';
 @import './pages/sample-pack-search';
+@import './pages/user-library';
+@import './pages/user-settings';
+
