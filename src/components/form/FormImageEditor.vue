@@ -1,7 +1,10 @@
 <template>
 <div>
-  <div class="form-image-editor-title">
-      sample pack image
+  <div
+    v-if="title != ''"
+    class="form-image-editor-title"
+  >
+      {{ title }}
   </div>
   <div class="form-image-editor-container">
     <div ref="form-image-editor-resize-container">
@@ -109,6 +112,10 @@ export default {
       default:''
     },
     fieldName: {
+      type: String,
+      default: ''
+    },
+    title: {
       type: String,
       default: ''
     },
