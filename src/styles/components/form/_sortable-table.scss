@@ -117,7 +117,7 @@
 .sortable-table-header {
   @extend .flex;
 
-  height: var(--vp-input-min-height);
+  height: var(--sortable-table-column-name-height);
   
   .sortable-table-header-column {
     @extend .flex;

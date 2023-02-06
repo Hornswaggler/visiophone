@@ -1,0 +1,8 @@
+.sample-pack-search-page {
+  height: calc(100% - var(--main-banner-height));
+  &.scrolling-container {
+    .scrolling-container-scrollable-content {
+      height: calc(100% - var(--sortable-table-header-height));
+    }
+  }
+}

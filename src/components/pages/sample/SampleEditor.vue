@@ -92,7 +92,8 @@ const TAG_TYPES = [
   { name: 'InfluencerCore' },
   { name: 'jazz' },
   { name: 'rnb' },
-  { name: 'smooth influencercore' }
+  { name: 'smooth influencercore' },
+  { name: 'Influencing Influencercore' }
 ].map((type, i) => ({ ...type, _id: i }));
 
 export default {

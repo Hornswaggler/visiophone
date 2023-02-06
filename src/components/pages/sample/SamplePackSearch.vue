@@ -1,5 +1,6 @@
 <template>
   <scrolling-container
+    class="sample-pack-search-page"
     :on-scroll-limit-reached="onScrollLimitReached"
   >
     <template v-slot:header>
