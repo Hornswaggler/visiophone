@@ -26,7 +26,7 @@ export default {
     },
     isListView:{
       type: Boolean,
-      default: false
+      default: true
     }
   },
 }
