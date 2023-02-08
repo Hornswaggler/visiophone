@@ -18,6 +18,8 @@
 <script>
 import FormInputBase from '@/components/form/FormInputBase.vue';
 
+// TODO: THIS DOESN"T APPEAR TO BE BEING USED
+
 export default {
   name: 'StatusBar',
   components:{ FormInputBase },
@@ -46,5 +48,4 @@ export default {
     transition: all 1s ease-in-out;
   }
 }
-
 </style>

@@ -7,10 +7,9 @@
     />
     <div class="vp-form-row flex-1">
         <div 
-          class=" flex fill-height" 
-          style="justify-content: space-between"
+          class="flex fill-height justify-space-between" 
         >
-          <div style="flex:1">&nbsp;</div>
+          <div class="flex-1">&nbsp;</div>
 
           <div class="flex-1 flex justify-end  align-end">
             <button 

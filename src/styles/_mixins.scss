@@ -11,3 +11,48 @@
     @media (min-width: 1800px) { @content; }
   }
 }
+
+@mixin alternate-colors($primary, $secondary, $opacity, $hover: true) {
+  &:nth-child(even) {
+    background-color: transparentize($primary, $opacity);
+    @if hover {
+      &:hover {
+        background-color: $secondary;
+      }
+    }
+  }
+  &:nth-child(odd) {
+    background-color: transparentize($secondary, $opacity);
+    @if hover {
+      &:hover {
+        background-color: $primary;
+      }
+    }
+  }
+}
+
+@mixin alternate-colors-2($primary-selector, $primary, $secondary-selector, $secondary, $opacity) {
+  &:nth-child(even) {
+    .#{$primary-selector}{
+      background-color: transparentize($primary, $opacity);
+    }
+    .#{secondary-selector} {
+      background-color: transparentize($secondary, $opacity);
+    }
+  }
+
+  &:nth-child(odd){
+    .#{$primary-selector}{
+      background-color: transparentize($secondary, $opacity);
+    }
+    .#{$secondary-selector} {
+      background-color: transparentize($primary, $opacity);
+    }
+  }
+}
+
+@mixin hover-zoom($scale) {
+  &:hover {
+    transform:scale(#{$scale});
+  }
+}

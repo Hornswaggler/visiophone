@@ -10,7 +10,6 @@
     <div ref="form-image-editor-resize-container">
       <canvas
         class="hidden"
-        id="fred"
         ref="otherCanvas"
         crossorigin="anonymous"
         :height="imageWidth > imageHeight ? imageHeight : imageWidth"
@@ -25,17 +24,12 @@
       class="form-image-editor-preview-container"
       :class="{ ['show-icon']: imgPreviewSrc === ''}"
     >
-      <div class="image-icon position-absolute fill flex align-center justify-center">
+      <div class="form-image-editor-file-input">
         <input
           type="file"
-          style="z-index:2;"
-          class="cover transparent cursor-pointer"
           @change="onInputChanged"
         />
-        <div
-          style="font-size: 3rem;"
-          class=" "
-        >
+        <div class="image-icon noselect">
           <font-awesome-icon icon="fa-solid fa-image" />
         </div>
       </div>
@@ -245,6 +239,8 @@ export default {
     },
 
     onSpriteLoaded() {
+      //TODO: don't fire this unless the dom is loaded...
+
       const ctx = this.$refs['otherCanvas'].getContext("2d");
       ctx.clearRect(0, 0, this.actualWidth, this.actualHeight);
 

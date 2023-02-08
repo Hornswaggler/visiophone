@@ -1,5 +1,5 @@
 .page-body {
   @extend .fill-width;
-  background-color: $primary-color;
+  background-color: var(--primary-background-color);
   position: relative;
 }

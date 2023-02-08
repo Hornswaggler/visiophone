@@ -24,9 +24,9 @@
               <template
                 v-slot:input
               >
-                <div style="width:100%;">
-                  <span style="padding:1em;text-align:left;font-size:0.8rem;display:inline-block;">
-                    You have a <span style="color: var(--vp-highlight-color); display: inline-block;">buyer's</span> 
+                <div class="fill-width">
+                  <span class="info-block">
+                    You have a <span class="info-highlight">buyer's</span> 
                     account. With this account, you can purchase samples 
                     from Visiophone sellers but you cannot upload your samples. 
                     Upgrade to a seller's account to put your creations up for sale.
@@ -37,13 +37,9 @@
                     :idToken="idToken"
                   >
                     <template v-slot:content>
-                      <div
-                        style="width:100%;"
-                        class="vp-button"
-                      >UPGRADE</div>
+                      <div class="vp-button fill-width">UPGRADE</div>
                     </template>
                   </form-redirect-button>
-
                 </div>
               </template>
             </form-input-base>
@@ -59,10 +55,10 @@
               </template>
               <template
                 v-slot:input
-                style="height:initial;" 
+               
               >
-                <div style="width:100%;">
-                  <span style="padding:1em;text-align:left;font-size:0.8rem;display:inline-block;">
+                <div class="fill-width">
+                  <span class="info-block">
                     Seller account access is pending authentication with Stripe, please sign into stripe and (maybe we should include a link to that? :|)
                   </span>
                 </div>
@@ -80,12 +76,11 @@
               </template>
               <template
                 v-slot:input
-                style="height:initial;" 
               >
                 <!-- TODO: Fix this: -->
-                <div style="width:100%;">
-                  <span style="padding:1em;text-align:left;font-size:0.8rem;display:inline-block;">
-                    You have a <span style="color: var(--vp-highlight-color); display: inline-block;">seller</span> 
+                <div class="fill-width">
+                  <span class="info-block">
+                    You have a <span class="info-highlight">seller</span> 
                     account. With this account, you can upload your samples for sale to Visiophone users. 
                   </span>
                 </div>

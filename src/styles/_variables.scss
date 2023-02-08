@@ -1,84 +1,73 @@
-$primary-color: rgba(17, 17, 17, 0.7) !default;
-$secondary-color: rgb(158, 158, 158) !default;
-$tertiary-color: rgb(226, 226, 226) !default;
-$quaternary-color: rgb(85, 85, 85) !default;
-$quinary-color: rgb(17, 17, 17);
+$primary-color: rgba(17, 17, 17);
+$secondary-color: rgb(158, 158, 158);
 
-$primary-text-color: rgb(226, 226, 226);
-$secondary-text-color: black;
-
-$primary-highlight-color: rgba(20, 234, 253, 0.95);
-
-$primary-error-color: #c13809;
-
-$default-border: solid $tertiary-color 1px;
-$primary-background-color: rgb(239 239 239 / 15%);
-$secondary-background-color: rgb(44 47 50 / 62%);
-$tertiary-background-color: $primary-color;
-
-$primary-shadow-inset: rgba(0,0,0,.3);
-
-$text-font-stack: "VCR_OSD_MONO", "Epilogue", "Courier New", monospace !default;
+$primary-font-color: rgb(226, 226, 226) !default;
+$secondary-font-color: rgb(17, 17, 17);
 
 $transition-cubic-bezier-250: 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 $transition-linear-180: 0.18s linear;
 $transition-cubic-bezier-500: 500ms cubic-bezier(0.165, 0.84, 0.44, 1);
 
+$primary-font-family: "VCR_OSD_MONO";
+
+$default-image-editor-hw: 16rem;
+body {
+  --text-font-stack: #{$primary-font-family}, "Epilogue", "Courier New", monospace;
+}
+
 #app {
+  --primary-background-color: #{transparentize($primary-color, 0.3)};
+  --secondary-background-color: #{$secondary-color};
+  --tertiary-background-color: rgb(85, 85, 85);
+
+  --primary-font-color: #{$primary-font-color};
+  --secondary-font-color: #{$secondary-font-color};
+  --default-font-size: 1rem;
+  --font-sm: 0.8rem;
+  --select-option-font-size: 1.2rem;
+
+  --default-border: solid #{$primary-font-color} 1px;
+
+  --primary-highlight-color: rgba(20, 234, 253, 0.95);
+  --primary-error-color: #c13809;
+
+  --scrollbar-color: rgb(239 239 239 / 15%);
+  --navigation-option-background-color: rgb(239 239 239 / 15%);
+  --primary-shadow-inset: rgba(0,0,0,.3);
+
   --responsive-layoutside-navigation-width: 10rem;
   @include for-size(xs) {
     --responsive-layoutside-navigation-width: 0rem;
   }
-  --search-header-height: 0rem;
 
-  --main-banner-height: 2.5rem;
-  --sample-upload-height: 1.5rem;
-  --mobile-footer-height: 2.5rem;
-  
   --sortable-table-column-name-height: 1.5rem;
   --sortable-table-search-container-height: 2rem;
 
-  --sortable-table-header-height: 
+  --main-banner-height: 2.5rem;
+  --mobile-footer-height: 2.5rem;
+
+  --sample-pack-upload-height: 1.5rem;
+  --sample-pack-search-header-height: 
     calc(
       var(--sortable-table-column-name-height) 
-      + var(--sortable-table-search-container-height)
+        + var(--sortable-table-search-container-height)
     );
-  
-  --default-search-header-height: 0rem;
 
-  --sample-search-header-height: 3.5rem;
+  --input-info-container-height: 1rem;
+  --input-min-height: 1.5rem;
+  --input-border-size: 2px;
 
-  --font-sm: 0.8rem;
-
-  --form-input-title-height: 1rem;
-  --form-input-height: 1.5rem;
-  --form-input-error-height: 1rem;
-  --form-input-border-size: 2px;
-
-  --form-input-min-height: calc(
-    var(--vp-input-min-height) 
-    + var(--form-input-title-height) 
-    + var(--form-input-error-height)
+  --form-textarea-height: calc(
+    (4 * var(--input-min-height)) 
+      - var(--input-info-container-height)
   );
-  --image-editor-height: calc((5 * var(--form-input-min-height)) - var(--form-input-title-height) - var(--form-input-error-height) + (2 *var(--form-input-border-size)));
+  
+  --image-editor-height: #{$default-image-editor-hw};
 
-  --vp-input-min-height: 1.5rem;
-  --vp-cover-art-hw: 2rem;
-  --vp-cover-art-hw-expanded: 10rem;
+  --sortable-table-list-view-image-hw: 1.5rem;
+  --sortable-table-grid-view-image-hw: 10rem;
   @include for-size(xs) {
-    --vp-cover-art-hw-expanded: 7.7rem;
+    --sortable-table-grid-view-image-hw: 7.7rem;
   }
 
-  --vp-form-text-size: 1rem;
-  --vp-form-select-option-font-size: 1.2rem;
-
-  --vp-form-select-option-color: #{$tertiary-color};
-  --vp-highlight-color: #{$primary-highlight-color};
-  --vp-form-button-background-color: #{$quinary-color};
-  --vp-form-button-hover-background-color: #{$tertiary-color};
-
-  --vp-input-padding: 0.5rem;
-  --vp-side-navigation-width: 10rem;
-  --vp-header-height: 3rem;
-  --vp-scrolling-container-header-height: 10%;
 }

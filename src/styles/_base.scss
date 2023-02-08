@@ -1,5 +1,5 @@
 #app {
-  @extend .fill-screen; 
+  @extend .fill; 
   @extend .m0;
 
   text-align: left;
@@ -10,26 +10,43 @@
 
 .legal {
   --main-banner-height: 0rem;
-  background-color:rgba(0, 0, 0, 0.6755);
+  background-color: #{transparentize($primary-color, 0.333)};
   text-align:left;
 }
 
 html {
-  height:100%;
-  width: 100%;
+  @extend .m0;
+  @extend .fill;
+
   font-size: 20px;
   font-weight: 300;
-  @extend .m0;
 
   body {
     @extend .fill;
     @extend .position-relative;
     @extend .m0;
 
-    color: $primary-text-color;
-    background-color: $primary-background-color;
+    color: $primary-font-color;
     overflow: hidden;
     border: 0;
+  }
+
+  .page-footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around; 
+  }
+
+  .info-block {
+    padding:1rem;
+    text-align:left;
+    font-size:0.8rem;
+    display:inline-block;
+  }
+
+  .info-highlight {
+    color: var(--primary-highlight-color);
+    display: inline-block;
   }
 
   .hover-zoom {
@@ -38,7 +55,7 @@ html {
 
     &:hover {
       transform: scale(1.25, 1.25);
-      color: $primary-highlight-color;
+      color: var(--primary-highlight-color);
     }
   }
         

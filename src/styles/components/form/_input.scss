@@ -1,23 +1,23 @@
 .form-input-body {
   padding:0;
   border:none;
-  color: $primary-text-color;
+  color: $primary-font-color;
   z-index:2;
   flex:1;
   background-color:transparent;
-  font-size: var(--vp-form-text-size);
+  font-size: var(--default-font-size);
   min-width: 0;
-  font-family: 'VCR_OSD_MONO';
+  font-family: #{$primary-font-family};
   transition: all $transition-cubic-bezier-500;
 
   &::selection {
-    background: $tertiary-color;
-    color: $quinary-color;
+    background: $primary-font-color;
+    color: $secondary-font-color;
   }
 }
 
 .form-input-icon-underlay {
-  font-family: 'VCR_OSD_MONO';
+  font-family: #{$primary-font-family};
   position:absolute;
   top:0;
   left:0.5rem;

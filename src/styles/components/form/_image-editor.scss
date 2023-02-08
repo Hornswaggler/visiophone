@@ -1,11 +1,9 @@
-$default-image-editor-hw: 16rem;
-
 html {
   --image-editor-hw: $default-image-editor-hw;
 }
 
 .form-image-editor-title {
-  height: var(--form-input-title-height);
+  height: var(--input-info-container-height);
   font-size: var(--font-sm);
   text-align: left;
 
@@ -16,7 +14,6 @@ html {
   justify-content:center;
   overflow: hidden;
   height: var(--image-editor-height);
-
 
   .form-image-editor-resize-container {
     @extend .flex;
@@ -35,15 +32,39 @@ html {
     width: 100%;
     z-index: 1;
     flex: 1;
-    background-color: $primary-color;
+    background-color: var(--primary-background-color);
   }
 
   .form-image-editor-preview-container {
     @extend .position-relative;
     @extend .cursor-pointer;
 
+    height: var(--image-editor-height);
+
+    .form-image-editor-file-input {
+      @extend .image-icon;
+      @extend .position-absolute;
+      @extend .fill;
+      @extend .flex;
+      @extend .align-center;
+      @extend .justify-center;
+
+      z-index: 2;
+      
+      .image-icon {
+        font-size: 3rem;
+      }
+
+      input {
+        @extend .cover;
+        @extend .transparent;
+        @extend .cursor-pointer;
+
+      }
+    }
+
     &.show-icon {
-      background-color: rgba(17, 17, 17, 0.7);
+      background-color: #{transparentize($primary-color, 0.3)};
       .image-icon {
         z-index: 2;
         transition: 
@@ -86,27 +107,27 @@ html {
         height: var(--image-editor-height);
         width: var(--image-editor-height);
         
-        -webkit-user-select: none; /* Safari */
-        -ms-user-select: none; /* IE 10 and IE 11 */
+        -webkit-user-select: none;
+        -ms-user-select: none;
         user-select: none;
 
         &::-webkit-scrollbar-track {
           -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
           box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
           border-radius: 10px;
-          background-color: $primary-color;
+          background-color: var(--primary-background-color);
         }
 
         &::-webkit-scrollbar {
           width: 12px;
-          background-color: $primary-color;
+          background-color: var(--primary-background-color);
         }
 
         &::-webkit-scrollbar-thumb {
           border-radius: 10px;
           -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
           box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-          background-color: $quaternary-color;
+          background-color: var(--tertiary-background-color);
         } 
       }
 

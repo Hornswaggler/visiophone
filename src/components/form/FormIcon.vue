@@ -18,7 +18,7 @@ export default {
   props:{
     iconSize:{
       type: String,
-      default: 'var(--vp-input-min-height)',
+      default: 'var(--input-min-height)',
     },
     icon: {
       type: String,

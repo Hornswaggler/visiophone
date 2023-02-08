@@ -8,7 +8,7 @@
     @extend .align-center;
 
     .form-dropdown-item:nth-child(odd) {
-      background-color:$secondary-color;
+      background-color:var(--secondary-background-color);
     }
 
     .form-dropdown-item {
@@ -17,11 +17,10 @@
       @extend .align-center;
       @extend .p0;
 
-      background-color:$quaternary-color;
-      color: $quinary-color;
+      color: $secondary-font-color;
 
-      border-right: $default-border;
-      border-left: $default-border;
+      border-right: var(--default-border);
+      border-left: var(--default-border);
       
       overflow:hidden;
       transition: 
@@ -35,16 +34,16 @@
       height: 2rem;
 
       &:first-child {
-        border-top: $default-border;
+        border-top: var(--default-border);
       }
 
       &:last-child {
-        border-bottom: $default-border;
+        border-bottom: var(--default-border);
       }
 
       &:hover {
-        background-color: $secondary-color;
-        color: $primary-text-color;
+        background-color: var(--secondary-background-color);
+        color: $primary-font-color;
         transform: scale(1.2);
         opacity: 1;
         z-index:1;

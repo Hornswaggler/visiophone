@@ -1,17 +1,17 @@
 <template>
   <div
-    class="form-panel"
+    class="collapsible-panel"
   >
     <div
-      class="form-panel-header"
+      class="collapsible-panel-header"
       @click="onTogglePanelClicked"
     >
-      <slot style="display: inline-block;" name="header"></slot>
+      <slot name="header"></slot>
     </div>
     <div
       ref="collapsiblePanelContent"
       :style="{height: clientHeight, opacity: collapsedInternal ? 0 : 1 }"
-      class="form-panel-content add-sample-panel "
+      class="collapsible-panel-content add-sample-panel "
     >
       <slot name="content"></slot>
     </div>

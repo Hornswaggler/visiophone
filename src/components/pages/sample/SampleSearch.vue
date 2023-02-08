@@ -4,17 +4,15 @@
   >
     <template v-slot:header>
       <div class="search-header">
-        <div style="width:50%;" class="flex-1 flex">
+        <div class="flex-1 flex">
           <form-input
-            class="header-search-input"
-            style="padding:0;border:none;"
+            class="header-search-input p0 border-none"
             :on-changed="onSearchChanged"
           />
           <div class="header-search-input-background"></div>
         </div>
 
         <div
-          style="width:50%;"
           class="flex justify-end icon-group"
         >
           <bootleg-list-icon

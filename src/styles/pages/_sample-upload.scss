@@ -1,6 +1,10 @@
 .sample-upload {
   height:calc(100% - var(--main-banner-height));
-
+  .scrolling-container {
+    .scrolling-container-scrollable-content {
+      height: calc(100% - var(--sample-pack-upload-height));
+    }
+  }
   @include for-size(xs) {
     height:calc(100% - var(--mobile-footer-height) - var(--main-banner-height));
   }
@@ -10,13 +14,6 @@
     .show {
       cursor: initial;
     }
-  }
-
-  .sample-pack-header {
-    @extend .flex; 
-    @extend .justify-space-between;
-    @extend .vp-form-row;
-    height: var(--sample-upload-height);
   }
 
   .add-sample-panel {
@@ -32,7 +29,7 @@
     }
   }
 
-  .form-panel {
+  .collapsible-panel {
     &:not(:first-child) {
       padding-top: 0.5rem;
     }

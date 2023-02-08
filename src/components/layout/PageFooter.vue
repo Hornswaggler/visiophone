@@ -49,10 +49,3 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.page-footer-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-around; 
-}
-</style>

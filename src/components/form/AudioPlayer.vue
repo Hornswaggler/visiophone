@@ -1,6 +1,6 @@
 <template>
-  <div style="display:flex;">
-    <span style="flex:1;" @click="loadAudio">:D</span>
+  <div class="flex">
+    <span class="flex-1" @click="loadAudio">:D</span>
     <div>asdf</div>
     <audio controls :src="src">
     </audio>

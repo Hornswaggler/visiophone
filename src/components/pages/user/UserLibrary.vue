@@ -49,7 +49,7 @@
 
 
 
-        <div class="vp-form-row" style="text-align:left;">
+        <div class="vp-form-row text-align-left">
           <h3 @click="isGridView = !isGridView">
             Purchases
           </h3>
@@ -157,6 +157,3 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-
-</style>

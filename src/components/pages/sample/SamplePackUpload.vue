@@ -4,7 +4,7 @@
       <div class="form-base flex-1"
         :style="{ backgroundColor: `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})` }">
         <div class="add-sample-panel">
-          <div class="form-column" style="padding-left:0;">
+          <div class="form-column pl0">
             <div class="vp-form-row">
               <form-input
                 fieldName="name"
@@ -22,7 +22,7 @@
               />
             </div>
           </div>
-          <div class="form-column" style="padding-right:0;">
+          <div class="form-column pr0">
             <div class="vp-form-row user-settings-image-container">
               <form-image-editor
                 class="flex-1"
@@ -211,6 +211,3 @@ export default {
 
 }
 </script>
-<style>
-
-</style>

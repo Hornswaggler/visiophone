@@ -11,9 +11,21 @@
   user-select: none;          
 }
 
- .text-align-left {
+.rounded-corners-md {
+  border-radius: 12px;
+}
+
+.rounded-corners-sm {
+  border-radius: 8px;
+}
+
+.border-none {
+  border: none;
+}
+
+.text-align-left {
   text-align: left;
- }
+}
 
 .fill-height {
   height: 100%;
@@ -26,19 +38,6 @@
 .fill {
   @extend .fill-height;
   @extend .fill-width;
-}
-
-.fill-screen-width {
-  width: 100%;
-}
-
-.fill-screen-height {
-  height: 100%;
-}
-
-.fill-screen {
-  @extend .fill-screen-height;
-  @extend .fill-screen-width;
 }
 
 .flex {
@@ -101,6 +100,10 @@
   justify-content: space-around;
 }
 
+.justify-space-evenly {
+  justify-content: space-evenly;
+}
+
 .justify-center {
   justify-content:center;
 }
@@ -132,6 +135,14 @@
 .p0 {
   padding: 0;
   padding-left: 0;
+  padding-right: 0;
+}
+
+.pl0 {
+  padding-left: 0;
+}
+
+.pr0 {
   padding-right: 0;
 }
 

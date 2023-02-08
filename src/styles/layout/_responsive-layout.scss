@@ -7,9 +7,17 @@
       width: 15%;
       height: 100%;
     };
-    background-color: $primary-color;
+    background-color: var(--primary-background-color);
     height: 0;
     width: 0;
+  }
+
+  .site-name {
+    @extend .mt0;
+    @extend .flex;
+    @extend .flex-column;
+    @extend .align-center;
+    @extend .justify-space-around;
   }
 
   .responsive-layout-body {
@@ -30,8 +38,9 @@
     .menu-overlay {
       @extend .position-absolute;
       @extend .absolute-fill;
+
       height: 100%;
-      background-color: $primary-color;
+      background-color: var(--primary-background-color);
       z-index: -1;
     }
 
@@ -42,31 +51,35 @@
       width: var(--responsive-layoutside-navigation-width);
 
       opacity: 0.87;
-      background-color: $tertiary-background-color;
+      background-color: var(--primary-background-color);
 
       .side-navigation-option {
         @extend .flex;
         @extend .align-center;
+        @extend .rounded-corners-md;
+        @extend .justify-space-evenly;
 
-        width: 100%;
-
-        border-top: $default-border;
-
-        border-radius: 10px;
-        font-family: 'VCR_OSD_MONO';
-        max-height: var(--vp-input-min-height);
-        min-height: var(--vp-input-min-height);
-        background-color: $secondary-background-color;
-        justify-content: space-evenly;
-        margin-top: 1rem;
-        padding: 0.2rem 0;
-        transition: all $transition-linear-180;
         cursor: pointer;
 
+        font-family: #{$primary-font-family};
+
+        max-height: var(--input-min-height);
+        min-height: var(--input-min-height);
+        width: 100%;
+
+        margin-top: 1rem;
+        padding: 0.2rem 0;
+
+        background-color: var(--navigation-option-background-color);
+        border-top: var(--default-border);
+
+
+        transition: all $transition-linear-180;
+        
         &:not(.selected) {
           &:hover {
-            background-color: $primary-text-color;
-            color: $quinary-color;
+            background-color: $primary-font-color;
+            color: $secondary-font-color;
           }
         }
 
@@ -81,7 +94,7 @@
 
       @include for-size(xs) {
         display: none;
-        background-color: $quaternary-color;
+        background-color: var(--tertiary-background-color);
         .logo-container {
           display: none;
         }
@@ -132,7 +145,7 @@
     }
 
     .page-footer-container {
-      background-color:rgba(0, 0, 0, 0.737);
+      background-color: #{transparentize($primary-color, 0.4)};
       height: var(--mobile-footer-height);
       display: none;
       align-items: center;
@@ -164,4 +177,29 @@
       }
     }
   }
+}
+
+.logo-container {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+  .animated-text {
+    font-size: 1.4rem;
+    background: linear-gradient(180deg, #2cd8d5 0%, #9fafd3 50%, #5a2288 100%);
+    animation: animated_text 10s ease infinite;
+    background-size: 300%;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    letter-spacing: 0rem;
+  }
+}
+
+@keyframes animated_text {
+	0% { background-position: 0px 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0px 50%; }
 }

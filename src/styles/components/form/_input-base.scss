@@ -1,7 +1,8 @@
 .form-input-error-container {
   @extend .flex;
   @extend .justify-end;
-  height: var(--form-input-error-height);
+
+  height: var(--input-info-container-height);
   opacity: 0;
   transition: opacity $transition-cubic-bezier-250;
 
@@ -11,7 +12,7 @@
 
   .form-input-error {
     display: inline-block;
-    color: $primary-error-color;
+    color: var(--primary-error-color);
     font-size:0.7rem;
     text-align: left;
     padding-left: 1rem;
@@ -25,7 +26,6 @@
     }
 
     &:last-child{
-            
       &::after {
         content: ''
       }
@@ -41,15 +41,15 @@
 
   .form-input-title {
     text-align: left;
-    height: var(--form-input-title-height);
-    color: $primary-text-color;
+    height: var(--input-info-container-height);
+    color: $primary-font-color;
     font-size: var(--font-sm);
   }
 
   .form-input-base {
-    margin: 0 var(--form-input-border-size);
-    color: $primary-text-color;
-    outline: solid var(--form-input-border-size) $secondary-color;
+    margin: 0 var(--input-border-size);
+    color: $primary-font-color;
+    outline: solid var(--input-border-size) var(--secondary-background-color);
    
   
     .form-input-container {
@@ -60,6 +60,7 @@
       .form-input-title-container {
         @extend .flex; 
         @extend .justify-start;
+
         position:absolute;
         z-index: 3;
         top:0;
@@ -69,13 +70,15 @@
   
       .form-input-body-container {
         @extend .flex;
-        overflow: hidden;
-        font-size: var(--vp-form-text-size);
-        background-color: var(--vp-input-background-color);
+        @extend .flex-column;
+        @extend .overflow-hidden;
         flex:2;
-        flex-direction:column;
-        min-height: var(--vp-input-min-height);
-        font-family: "VCR_OSD_MONO";
+
+        font-size: var(--default-font-size);
+        background-color: var(--vp-input-background-color);
+  
+        min-height: var(--input-min-height);
+        font-family: #{$primary-font-family};
       }
     }
   }
