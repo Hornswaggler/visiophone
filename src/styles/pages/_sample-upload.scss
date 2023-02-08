@@ -1,0 +1,53 @@
+.sample-upload {
+  height:calc(100% - var(--main-banner-height));
+  .scrolling-container {
+    .scrolling-container-scrollable-content {
+      height: calc(100% - var(--sample-pack-upload-height));
+    }
+  }
+  @include for-size(xs) {
+    height:calc(100% - var(--mobile-footer-height) - var(--main-banner-height));
+  }
+
+  .delete-button {
+    cursor: pointer;
+    .show {
+      cursor: initial;
+    }
+  }
+
+  .add-sample-panel {
+    @extend .flex;
+    @extend .fill-width;
+    flex-direction: column;
+
+    @include for-size(md) {
+      flex-direction: row;
+      .vp-form:first-child {
+        padding-top: 0;
+      }
+    }
+  }
+
+  .collapsible-panel {
+    &:not(:first-child) {
+      padding-top: 0.5rem;
+    }
+  }
+
+  @extend .flex-column;
+  .form-base {
+    .form-column {
+      @include for-size(md) {
+        &:first-child {
+          padding-right: 0.25rem;
+          padding-left: 0.5rem
+        }
+        &:last-child {
+          padding-left: 0.25rem;
+          padding-right: 0.5rem
+        }
+      }
+    }
+  }
+}      

@@ -2,21 +2,24 @@
   @extend .flex;
   @extend .align-center;
   @extend .justify-center;
-  
-  height: 2em;
 
-  font: normal 100%/1.4 $text-font-stack;
-  border: $default-border;
-  color: $tertiary-color;
+  font: normal 100%/1.4 var(--text-font-stack);
+  border: var(--default-border);
+  color: $primary-font-color;
 
   transition: all $transition-cubic-bezier-250;
 
   cursor:pointer;
   
-  background-color: var(--vp-form-button-background-color);
+  background-color: var(--secondary-font-color);
+
+  &.sm{
+    height: 1rem;
+    width: 1rem; 
+  }
 
   &:hover {
-    background-color: var(--vp-form-button-hover-background-color);
-    color: $secondary-text-color;
+    background-color: var(--primary-font-color);
+    color: $secondary-font-color;
   }
 }

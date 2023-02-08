@@ -1,12 +1,12 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import App from './App.vue';
 import Glitch from 'vue-glitch';
 import vueDebounce from 'vue-debounce';
 import ProgressBar from 'vuejs-progress-bar';
 import VueParticles from 'vue-particles';
 import store from './store/';
 import router from '/src/router';
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faPlay,
   faGem,
@@ -24,10 +24,14 @@ import {
   faCloudArrowUp,
   faHeartMusicCameraBolt,
   faCaretUp,
-  faCaretDown
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+  faCaretDown,
+  faMaximize,
+  faWindowMinimize,
+  faImage
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import config from '/src/config';
+
 
 library.add(faPlay);
 library.add(faGem);
@@ -46,6 +50,9 @@ library.add(faCloudArrowUp);
 library.add(faHeartMusicCameraBolt);
 library.add(faCaretUp);
 library.add(faCaretDown);
+library.add(faMaximize);
+library.add(faWindowMinimize);
+library.add(faImage);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 

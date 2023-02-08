@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="display:flex;">
+    <div class="flex">
       <div
         ref="flexEl"
         :style="currentFlexStyle"
@@ -79,5 +79,3 @@ export default {
 
 }
 </script>
-<style lang="scss">
-</style>

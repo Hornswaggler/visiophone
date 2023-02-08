@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="https://visiophone.wtf/style.css" data-preload="true">
+  <link rel="stylesheet" href="http://localhost:8080/style.css" data-preload="true">
   <title>Visiophone (╯°□°)╯︵ ┻━┻</title>
 </head>
 <body>
@@ -9,67 +9,92 @@
     <div class="bg-gradient"></div>
     <div class="responsive-layout">
       <div class="responsive-margin"></div>
-      <div class="responsive-layout-body page-body flex justify-center align-center">
-        <div class="b2c-template">
+      <div class="responsive-layout-body  flex justify-center align-center">
+        <div class="page-body">
+          <div class="scrolling-container">
+            <div class="scrolling-container-scrollable-content">
+              <div class="scrolling-container-content">
 
-          <img 
-            data-tenant-branding-logo="true"
-            alt="Company Logo"
-            src="https://www.visiophone.wtf/assets/Animated-Visio-Man.ae0814fd.gif"
-          />
+              <div class="b2c-template">
+                <img 
+                  data-tenant-branding-logo="true"
+                  alt="Company Logo"
+                  src="https://www.visiophone.wtf/assets/Animated-Visio-Man.ae0814fd.gif"
+                />
 
-          <div 
-            id="api"
-            data-name="Unified"
-          >
-            <div class="heading">
-              <h1 role="heading">Sign in</h1>
+                <div 
+                  id="api"
+                  data-name="Unified"
+                >
+                  <div class="heading">
+                    <h1 role="heading">Sign in</h1>
+                  </div>
+                  <form id="localAccountForm" action="JavaScript:void(0);" class="localAccount"
+                    aria-label="Sign in with your email address">
+                    <div class="intro">
+                      <h2 aria-level="1">
+                        It is dangerous to go alone, <br /> TAKE THIS!
+                      </h2>
+                    </div>
+                    <div class="error pageLevel" aria-hidden="true" role="alert" style="display:none;">
+                      <p></p>
+                    </div>
+                    <div class="entry">
+                      <div class="entry-item">
+                        <label for="email">
+                          Email Address
+                        </label>
+                        <div class="error itemLevel" aria-hidden="true" role="alert">
+                          <p>BOOOO</p>
+                        </div>
+                        <input 
+                          type="email" 
+                          id="email" 
+                          name="Email Address" 
+                          title="Please enter a valid Email Address"
+                          pattern="^[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+(?:\.[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+                          autofocus="" 
+                          placeholder="Email Address" 
+                          aria-label="Email Address">
+                      </div>
+                      <div class="entry-item">
+                        <div class="password-label">
+                          <label for="password">Password</label>
+                          <u>
+                            <a 
+                              id="forgotPassword"
+                              href="/visiophone.wtf/B2C_1_SIGN_IN/api/CombinedSigninAndSignup/forgotPassword?csrf_token=dmp1WkxuNnQ5aUsyQ3pxMGhUWjdTcFhseU44UW1aVGJBeHoxQ1IvSWE0Y1ljRitmRGdQYk9NaWtUSUdxcXdDK3Y2cFh2UW11TmlFcWNDME91WE9ibmc9PTsyMDIzLTAxLTExVDE2OjQ2OjA5LjE1MzYxMDNaO0VOYVVGdkkzZWhVWnlWWS84RnlhbXc9PTt7Ik9yY2hlc3RyYXRpb25TdGVwIjoxfQ==&amp;tx=StateProperties=eyJUSUQiOiI0ZmE5NjI5Yy02ZjBiLTRhOTgtYmU4MS0yNDI0NDM0MGJkNGUifQ&amp;p=B2C_1_SIGN_IN"
+                            >
+                              Forgot your password?
+                            </a>
+                          </u>
+                        </div>
+                        <div 
+                          class="error itemLevel" 
+                          aria-hidden="true" 
+                          style="display: none;"
+                        >
+                          <p role="alert"></p>
+                        </div>
+                        <input type="password" id="password" name="Password" placeholder="Password" aria-label="Password"
+                          autocomplete="current-password" aria-required="true">
+                      </div>
+                      <div class="working"></div>
+
+
+                      <div class="buttons">
+                        <button id="next" type="submit" form="localAccountForm">Sign in</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
-            <form id="localAccountForm" action="JavaScript:void(0);" class="localAccount"
-              aria-label="Sign in with your email address">
-              <div class="intro">
-                <h2 aria-level="1">
-                  It is dangerous to go alone, <br /> TAKE THIS!
-                </h2>
-              </div>
-              <div class="error pageLevel" aria-hidden="true" role="alert" style="display:none;">
-                <p></p>
-              </div>
-              <div class="entry">
-                <div class="entry-item">
-                  <label for="email">
-                    Email Address
-                  </label>
-                  <div class="error itemLevel" aria-hidden="true" role="alert">
-                    <p>BOOOO</p>
-                  </div>
-                  <input type="email" id="email" name="Email Address" title="Please enter a valid Email Address"
-                    pattern="^[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+(?:\.[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
-                    autofocus="" placeholder="Email Address" aria-label="Email Address">
-                </div>
-                <div class="entry-item">
-                  <div class="password-label">
-                    <label for="password">Password</label>
-                    <u><a id="forgotPassword"
-                        href="/visiophone.wtf/B2C_1_SIGN_IN/api/CombinedSigninAndSignup/forgotPassword?csrf_token=dmp1WkxuNnQ5aUsyQ3pxMGhUWjdTcFhseU44UW1aVGJBeHoxQ1IvSWE0Y1ljRitmRGdQYk9NaWtUSUdxcXdDK3Y2cFh2UW11TmlFcWNDME91WE9ibmc9PTsyMDIzLTAxLTExVDE2OjQ2OjA5LjE1MzYxMDNaO0VOYVVGdkkzZWhVWnlWWS84RnlhbXc9PTt7Ik9yY2hlc3RyYXRpb25TdGVwIjoxfQ==&amp;tx=StateProperties=eyJUSUQiOiI0ZmE5NjI5Yy02ZjBiLTRhOTgtYmU4MS0yNDI0NDM0MGJkNGUifQ&amp;p=B2C_1_SIGN_IN">Forgot
-                        your password?</a></u>
-                  </div>
-                  <div class="error itemLevel" aria-hidden="true" style="display: none;">
-                    <p role="alert"></p>
-                  </div>
-                  <input type="password" id="password" name="Password" placeholder="Password" aria-label="Password"
-                    autocomplete="current-password" aria-required="true">
-                </div>
-                <div class="working"></div>
-
-
-                <div class="buttons">
-                  <button id="next" type="submit" form="localAccountForm">Sign in</button>
-                </div>
-              </div>
-            </form>
+            </div>
           </div>
-        </div>
+
+      </div>
+
       </div>
       <div class="responsive-margin"></div>
     </div>

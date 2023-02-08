@@ -2,6 +2,8 @@ import Vue from 'vue';
 import {securePostForm, securePostJson, secureGet, axios } from '/src/axios.js';
 import config from '/src/config.js';
 import auth from '/src/auth';
+import {slugs} from '/src/slugs';
+
 const {STRIPE_ACCOUNT_STATUS} = config;
 
 //TODO: Localstorage access should be in persistence layer!
@@ -18,7 +20,6 @@ export const makeNewUser = () => ({
   purchases: []
 });
 
-
 export default {
   namespaced: true,
   state: () => makeNewUser(),
@@ -29,21 +30,21 @@ export default {
     },
 
     refreshProfileImg({state:{avatarId}, commit}){
-      commit('profileImg', `${config.VITE_AVATAR_URI}${avatarId}.png?${new Date().getTime()}`);
+      commit('profileImg', `${config.VITE_AVATAR_URI}${avatarId}.png`);
     },
 
     async uploadUserProfile({commit}, {blob}) {
       const fd = new FormData();
       fd.append('file',blob,'fakename.png');
-      const { data } = await securePostForm(axios, fd, {slug: `set_user_profile`});
+      const { data } = await securePostForm(axios, fd, {slug: slugs.UserProfileSet});
       commit('_id', data._id);
     },
 
     async getStripeProfile({ state, commit }) {
       const {data:{isStripeApproved, stripeId, uploads}} =  await securePostJson(
         axios, 
-        { accountId: state.accountId }, 
-        { slug: 'get_stripe_profile' }
+        {}, 
+        { slug: slugs.StripeProfileGet }
       );
 
       commit('uploads', uploads);
@@ -52,7 +53,7 @@ export default {
     },
 
     async getPurchases({commit}){
-      const {data} = await secureGet(axios, {slug: 'get_purchases'});
+      const {data} = await secureGet(axios, {slug: slugs.PurchaseGet});
       commit('purchases', data);
     },
 
@@ -68,7 +69,12 @@ export default {
     },
 
     async handleProvisionReturn({commit, state:{stripeId}}){
-      const {data:{isStripeApproved: isStripeApproved}} = await securePostJson(axios, {stripeId}, {slug: 'provision_stripe_standard_return'});
+      const {data:{isStripeApproved: isStripeApproved}} = 
+        await securePostJson(
+          axios, 
+          {stripeId}, 
+          {slug: slugs.StripeProvisionUserReturn}
+        );
       commit('isStripeApproved', isStripeApproved);
     },
 
@@ -124,7 +130,6 @@ export default {
       state.profileImg = profileImg;
     },
 
-
     uploads(state, uploads){
       Vue.set(state, 'uploads', uploads);
     },
@@ -132,7 +137,6 @@ export default {
     purchases(state, purchases) {
       Vue.set(state, 'purchases'  , purchases);
     },
-
 
     _id(state, _id) {
       state._id = _id;

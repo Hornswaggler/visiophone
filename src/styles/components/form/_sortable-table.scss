@@ -1,18 +1,100 @@
 .sortable-table {
   @extend .flex;
-  @extend .justify-center;
 
   flex-wrap: wrap;
   flex-direction: row;
+  justify-content: center;
 
-  &.isGridView {
-    justify-content: initial;
+
+
+  .sortable-table-row {
+    @extend .rounded-corners-md;
+
+    @include hover-zoom(1.1);
+
+    height: calc(var(--sortable-table-grid-view-image-hw));
+    width: calc(var(--sortable-table-grid-view-image-hw));
+
+    transition: 
+      height $transition-cubic-bezier-500, 
+      width $transition-cubic-bezier-500,
+      transform $transition-cubic-bezier-500;
+
+    margin-top: 0.75rem;
+    margin-left: 0.75rem;
+
+    -webkit-box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
+    -moz-box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
+    box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
+
+    .sortable-column-row {
+      @extend .flex;
+
+      cursor: pointer;
+      border-radius: 8px;
+      overflow: hidden;
+
+      transition: background-color $transition-cubic-bezier-250;
+
+      .sortable-column {
+        @extend .flex;
+        @extend .align-center;
+        @extend .justify-center;
+
+        .sortable-table-cell {
+          text-align:left;
+          font-size:large;
+          position: relative;
+          width: 0%;
+
+          &.grid-image {
+            height: var(--sortable-table-grid-view-image-hw);
+            width: var(--sortable-table-grid-view-image-hw);
+
+            transition: 
+              height $transition-cubic-bezier-500, 
+              width $transition-cubic-bezier-500;
+
+            .form-image {
+              @extend .fill;
+            }
+          }
+
+          .sortable-table-cell-content {
+            @extend .flex;
+            @extend .align-center;
+            @extend .fill-height;
+            @extend .overflow-hidden;
+
+            word-break:keep-all;
+            white-space: nowrap;
+          }
+        }
+      }
+    };
+  }
+
+  &.isListView {
+    justify-content: flex-start;
     @extend .flex-column;
 
     .sortable-table-row {
-      @extend .fill;
-      padding: 0;
-  
+      @extend .fill-width;
+      @include alternate-colors($primary-color, $secondary-color, 0.8);
+
+      :not(:first-child) {
+        padding-left: 0.5rem;
+      }
+
+      height: var(--sortable-table-list-view-image-hw);
+      
+      margin-top: 0.25rem;
+      margin-left: 0;
+
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+
       &:hover {
         transform:none;
       }
@@ -22,91 +104,48 @@
       }
 
       .sortable-column-row {
-        height: var(--vp-cover-art-hw);
-      }
+        min-height: var(--sortable-table-list-view-image-hw);
+        .sortable-column {
+          @extend .overflow-hidden;
 
-      .form-image {
-        height: var(--vp-cover-art-hw);
-        width: var(--vp-cover-art-hw);
-      }
-    }
-  }
-
-  .sortable-table-row {
-    transition: all $transition-cubic-bezier-250;
-
-    height:var(--vp-cover-art-hw-expanded);
-    width: var(--vp-cover-art-hw-expanded);
-    margin-top:0.5em;
-    padding: 0.5em;
-
-    &:hover {
-      transform:scale(1.1);
-    }
-
-    .sortable-column-row {
-      @extend .flex;
-      cursor: pointer;
-      border-radius: 8px;
-      overflow-x: hidden;
-      transition: background-color $transition-cubic-bezier-250;
-      background-color: $tertiary-background-color;
-    
-      &:hover {
-        background-color: $secondary-background-color;
-      }
-    
-      .sortable-column {
-        @extend .flex;
-        @extend .align-center;
-        @extend .justify-center;
-
-        .sortable-table-cell {
-          height: var(--vp-cover-art-hw);
-          text-align:left;
-          font-size:large;
-          position: relative;
-          width:100%;
-          overflow:hidden;
-
-          .sortable-table-cell-overflow {
-            white-space:nowrap;
-            position:absolute;
-            top:0;
-            bottom:0;
-            left:0;
-            right:0;
-          }
-
-          .sortable-table-cell-content {
-            @extend .flex;
-            position: relative;
-            height: 100%;
-            @extend .align-center;
+          .sortable-table-cell {
+            @extend .fill;
+            &.grid-image {
+              height: var(--sortable-table-list-view-image-hw);
+              width: var(--sortable-table-list-view-image-hw);
+            }
           }
         }
       }
-    };
+    }
   }
 }
 
 .sortable-table-header {
   @extend .flex;
 
-  height: 1.5em;
-  background-color:black;
+  height: var(--sortable-table-column-name-height);
   
   .sortable-table-header-column {
     @extend .flex;
     @extend .justify-start;
+
+    z-index: 1;
     cursor: pointer;
 
-    background-color: $primary-color;
-    transition: all $transition-cubic-bezier-250;
+    :not(:first-child) {
+      padding-left: 0.2rem;
+    }
+
+    min-height: var(--sortable-table-list-view-image-hw);
+    min-width: var(--sortable-table-list-view-image-hw);
+    transition: transform $transition-cubic-bezier-250;
 
     &:hover {
-      transform: scale(1.05);
-      background-color:$quaternary-color;
+      transform: scale(1.025);
+      background-color: var(--tertiary-background-color);
+      opacity: 1;
+      z-index: 2;
     }
 
     .sortable-table-header-sort-options {
@@ -114,7 +153,7 @@
       @extend .flex-column; 
       @extend .justify-center;
 
-      padding-left:0.5em;
+      padding-left: 0.5rem;
       opacity:0;
       transition: color $transition-cubic-bezier-250;
 
@@ -127,18 +166,17 @@
       }
 
       .sortable-table-header-form-icon {
-        color: $primary-background-color;
-        font-size:0.8em;
+        font-size:0.8rem;
         height:25%;
         user-select: none;
 
         &:hover{
-          color: $primary-text-color;
+          color: $primary-font-color;
         }
 
         &.selected {
           opacity:1;
-          color: $tertiary-color;
+          color: $primary-font-color;
         }
       }
     }

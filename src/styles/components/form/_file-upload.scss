@@ -4,28 +4,28 @@
   @extend .align-center;
 
   .form-file-upload-button {
-    padding: 0 0.5em;
+    padding: 0 0.5rem;
     cursor: pointer;
     @extend .flex;
     @extend .align-center;
     height: 100%;
+    font-size: 0.8rem;
     transition: all $transition-cubic-bezier-250;
-    background-color: var(--vp-form-button-background-color);
+    background-color: var(--secondary-font-color);
 
     &:hover {
-      background-color: var(--vp-form-button-hover-background-color);
-      color:$quinary-color;
+      background-color: var(--primary-font-color);
+      color:$secondary-font-color;
       z-index: 2;
     }
   }
 
   .form-file-upload-button-spacer {
-    height:2em;
+    max-height: 1rem;
+    overflow-y: hidden;
     flex:1;
-    border-left: $default-border;
     overflow: hidden;
-    line-height: 2;
     text-align:left;
-    padding: 0 0.5em;
+    padding-left: 0.5rem;
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="flex align-center" 
+    class="flex align-center fill" 
   >
     <slot name="pre-content" />
     <font-awesome-icon 
@@ -18,7 +18,7 @@ export default {
   props:{
     iconSize:{
       type: String,
-      default: '1.5em',
+      default: 'var(--input-min-height)',
     },
     icon: {
       type: String,

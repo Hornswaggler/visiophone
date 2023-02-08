@@ -1,13 +1,56 @@
+.form-input-error-container {
+  @extend .flex;
+  @extend .justify-end;
+
+  height: var(--input-info-container-height);
+  opacity: 0;
+  transition: opacity $transition-cubic-bezier-250;
+
+  &.hasError {
+    opacity: 1;
+  }
+
+  .form-input-error {
+    display: inline-block;
+    color: var(--primary-error-color);
+    font-size:0.7rem;
+    text-align: left;
+    padding-left: 1rem;
+    
+    &::after {
+      content: ','
+    }
+
+    &:first-child{
+      padding-left: 0;
+    }
+
+    &:last-child{
+      &::after {
+        content: ''
+      }
+    }
+  }
+}
+
 .form-input-base-container {
-  height: 100%;
-  width: 100%;
   @extend .flex;
   @extend .flex-column;
+  height: 100%;
+  width: 100%;
+
+  .form-input-title {
+    text-align: left;
+    height: var(--input-info-container-height);
+    color: $primary-font-color;
+    font-size: var(--font-sm);
+  }
 
   .form-input-base {
-    color: $primary-text-color;
-    border: solid 2px $secondary-color;
-    min-height: var(--vp-input-min-height);
+    margin: 0 var(--input-border-size);
+    color: $primary-font-color;
+    outline: solid var(--input-border-size) var(--secondary-background-color);
+   
   
     .form-input-container {
       @extend .flex;
@@ -17,36 +60,29 @@
       .form-input-title-container {
         @extend .flex; 
         @extend .justify-start;
+
         position:absolute;
+        z-index: 3;
         top:0;
         left:0;
         align-content: flex-start;
-      
-        .form-input-title {
-          margin-top: -0.85em;
-          margin-left: 1em;
-          height:1em;
-          color: $primary-text-color;
-          font-size: 0.8em;
-          opacity:0.8;
-        }
       }
   
       .form-input-body-container {
         @extend .flex;
-        font-size: var(--vp-form-text-size);
-        background-color: var(--vp-input-background-color);
+        @extend .flex-column;
+        @extend .overflow-hidden;
         flex:2;
-        flex-direction:column;
-        min-height: var(--vp-input-min-height);
-        font-family: "VCR_OSD_MONO";
+
+        font-size: var(--default-font-size);
+        background-color: var(--vp-input-background-color);
+  
+        min-height: var(--input-min-height);
+        font-family: #{$primary-font-family};
       }
     }
   }
 
-  .form-input-error {
-    color: $primary-error-color;
-    font-size:0.7em;
-    text-align: left;
-  }
+
+
 }

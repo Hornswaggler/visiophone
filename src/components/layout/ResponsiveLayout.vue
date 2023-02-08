@@ -3,15 +3,28 @@
     <div class="responsive-margin" />
 
     <div class="responsive-layout-body">
-      <slot name="side-panel" />
-      <slot name="content" />
+      <side-navigation />
+      <div class="responsive-layout-body-content">
+        <Header />
+        <router-view class="page-body"/>
+        <page-footer/>
+      </div>
     </div>
 
     <div class="responsive-margin" />
   </div>
 </template>
 <script>
+import Header from '@/components/layout/Header.vue';
+import SideNavigation from '@/components/layout/SideNavigation.vue';
+import PageFooter from '@/components/layout/PageFooter.vue';
+
 export default {
   name: 'ResponsiveLayout',
+  components: {
+    Header,
+    SideNavigation,
+    PageFooter
+  }
 }
 </script>

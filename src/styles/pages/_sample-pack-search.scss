@@ -1,0 +1,12 @@
+.sample-pack-search-page {
+  height: calc(100% - var(--main-banner-height));
+  &.scrolling-container {
+    .scrolling-container-scrollable-content {
+      height: calc(100% - var(--sample-pack-search-header-height));
+    }
+  }
+  @include for-size(xs) {
+    height: calc(100% - var(--main-banner-height) - var(--mobile-footer-height));
+  }
+
+}

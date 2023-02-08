@@ -1,12 +1,9 @@
 .form-image {
-  height: var(--vp-cover-art-hw-expanded);
-  width: var(--vp-cover-art-hw-expanded);
+  @extend .rounded-corners-sm;
 
-  min-height:var(--vp-cover-art-hw);
-  min-width:var(--vp-cover-art-hw);
+  min-height:var(--sortable-table-list-view-image-hw);
+  min-width:var(--sortable-table-list-view-image-hw);
   
-  border-radius:8px;
-
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;

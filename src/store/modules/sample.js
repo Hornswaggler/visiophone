@@ -1,64 +1,60 @@
+import {encodeFormBlob} from '/src/store/modules/form';
 import Vue from 'vue';
 import {axios, securePostJson, securePostForm} from '/src/axios.js';
 import config from '/src/config.js';
 import moment from 'moment';
+import { slugs } from '/src/slugs';
 
 const DEFAULT_SAMPLE = {
   _id: null,
   name:'',
-  fileId: '',
+  sampleFile: {},
   tag: '',
   description: '',
   seller: '',
   bpm: '120.0',
   cost: "100",
-  imgUrl:'',
   clipUri:'',
   fileName:'',
   key: ''
 };
 
+//TODO: Move into data model class...
 export const makeNewSample = (
   {
     _id,
     name = '',
-    fileId = '',
     tag = '',
     description = '',
     seller = '',
     bpm = '120.0',
-    cost = "100",
-    imgUrl = '', 
-    clipUri = '', 
+    cost = "",
+    clipUri = '',
+    sampleFile = {},
     fileName = '',
     key = ''
   } = DEFAULT_SAMPLE) => (
   {
     _id,
     name,
-    fileId,
     tag,
     description,
     seller,
     bpm,
     cost,
-    imgUrl,
-    clipUri, 
+    clipUri,
+    sampleFile,
     fileName,
     key
 });
 
+//TODO: Move into factory pattern
 export const makeSampleFromResult = ({sample, isNew = false}) => {
   const newSample = {
     ...makeNewSample({...sample}),
     ...sample,
     lastRefresh: moment().valueOf(),
   };
-
-  let imgUrl= newSample.imgUrl || '';
-  if(newSample._id && !isNew) {
-    imgUrl=`${config.VITE_COVER_ART_URI}${newSample._id}.png`;
-  }
 
   let clipUri = newSample.clipUri || '';
   if(newSample._id && !isNew) {
@@ -70,7 +66,7 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
     imgUrl,
     clipUri
   };
-}
+};
 
 export const SORT_TYPES = {
   LIST: 'LIST',
@@ -84,58 +80,10 @@ export default {
     sortAsc: true,
     sampleForEdit: {},
     isLoaded: false,
-    formData: {},
-    fileBuffer: {},
     samples: {},
     nextResultIndex: 0,
     query: '',
-    sortType: SORT_TYPES.LIST,
-    samplePurchaseUrl: config['VITE_API_SAMPLE_PURCHASE'],
-    sampleTableDefinition: {
-      columns: [
-        { 
-          ratio:'1',
-          name:'Image',
-          isSort: false,
-          show:false
-        },
-        { 
-          ratio:'2',
-          name: 'Title',
-          path: 'description',
-          isSort: true,
-          show: true
-        },
-        {
-          ratio:'2',
-          name: 'Genre',
-          path: 'tag',
-          isSort: true,
-          show: true
-        },
-        {
-          ratio:'1',
-          name: 'BPM',
-          path: 'bpm',
-          isSort: true,
-          show: true
-        },
-        {
-          ratio:'1',
-          name: 'Cost',
-          path: 'cost',
-          isSort: false,
-          show: true
-
-        },
-        {
-          ratio:'1',
-          name: 'Buy',
-          isSort: false,
-          show: false
-        }
-      ].map((col, _id) => ({...col, _id}))
-    }
+    sortType: SORT_TYPES.LIST
   }),
   getters: {
     sampleArray({samples, nextResultIndex, sortBy, sortAsc}) {
@@ -181,15 +129,18 @@ export default {
       await dispatch('search', {query, index: _nextResultIndex});
     },
 
-    async uploadSample({dispatch}, {sampleData, sample, image, imageSrc}) {
-      let fd = new FormData();
-      fd.append('sample',sample);
-      fd.append('image', image);
-      fd.append('data', JSON.stringify(sampleData));
+    async uploadSample(ctx, {sample}){
+      let form = new FormData();
 
-      const {data} = await securePostForm(axios, fd, {slug: `${config.VITE_API_SAMPLE_UPLOAD_URI}`});
-      data.imgUrl = imageSrc;
-      return dispatch('addSamples', {samples: [data], index: 1, isNew: true});
+      const sampleFileName = encodeFormBlob({ form, key: `sample`, blob: sample.sampleBlob });
+      const sampleRequest = {
+        ...sample,
+        sampleFileName
+      };
+
+      form.append('data', JSON.stringify(sampleRequest));
+
+      await securePostForm(axios, form, {slug: slugs.SampleUpload});
     },
 
     setIsLoaded({commit}, isLoaded){
@@ -218,10 +169,11 @@ export default {
       if(query === _query && _nextResultIndex < 0) return;
 
       const {
-        data:{ samples, nextResultIndex }} = await securePostJson(
+        data:{ samples, nextResultIndex }
+      } = await securePostJson(
         axios,
         JSON.stringify({query, index}),
-        { slug: `${config.VITE_API_SAMPLE_SEARCH_URI}` }
+        { slug: slugs.SampleSearch }
       );
 
       commit('assignObject', {key: 'query', value: query});

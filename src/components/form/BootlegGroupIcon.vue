@@ -6,7 +6,7 @@
   >
     <font-awesome-icon 
       icon="fas fa-grip" 
-      style="margin-bottom:-0.666em;"
+      style="margin-bottom: -1.025rem;"
     />
     <font-awesome-icon icon="fas fa-grip" />
   </div>

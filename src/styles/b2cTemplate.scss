@@ -1,13 +1,13 @@
 @charset "UTF-8";
 @use "sass:color";
 
+@import 'mixins';
 @import 'variables';
 @import 'helpers';
 @import 'base';
 @import 'fonts';
 @import 'typography';
 @import 'forms';
-@import 'mixins';
 @import 'shapes';
 @import 'animations';
 @import 'gradients';
@@ -28,16 +28,25 @@
 @import './components/form/redirect-button';
 @import './components/form/carousel';
 
+#app {
+  --main-banner-height: 0rem;
+}
+
 .b2c-template {
-  max-width: 50em;
+  --main-banner-height: 0rem;
+  font-size: 1rem;
   background: rgba(128, 128, 128, 0.46);
-  padding: 2em;
-  font: "VCR_OSD_MONO", "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Monaco", monospace;
-  border-radius: 1em;
+  padding: 2rem;
+  font: #{$primary-font-family}, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Monaco", monospace;
+  border-radius: 1rem;
   text-shadow: 1px 2px 8px #2b1414a4;
 
+  @include for-size(xs) {
+    font-size: 3rem;
+  }
+
   img {
-    max-height: 3em;
+    max-height: 3rem;
   }
 
   #api {
@@ -48,15 +57,14 @@
   }
 
   .entry {
-
     .entry-item {
       input {
         background-color: transparent;
         padding: 0;
-        font: "VCR_OSD_MONO", "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Monaco", monospace;
+        font: #{$primary-font-family}, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Monaco", monospace;
         width: 100%;
         border: solid 2px rgb(158, 158, 158);
-        font-size: 1em;
+        font-size: 1rem;
         color: white;
       }
     }
@@ -66,10 +74,10 @@
       justify-content: flex-end;
 
       button {
-        height: 2em;
+        height: 2rem;
         background-color: black;
         color: white;
-        font-size: 1em;
+        font-size: 1rem;
         cursor: pointer;
         transition: all 250ms ease-in-out;
 
@@ -77,16 +85,15 @@
           color: black;
           background-color: white;
         }
-
       }
     }
 
     .entry-item , .buttons {
-      margin-top: 1em;
+      margin-top: 1rem;
     }
 
     .entry-item :first {
-      margin-top: 0em;
+      margin-top: 0rem;
     }
   }
   
@@ -99,7 +106,7 @@
   }
   
   .error p {
-    font-size: 0.75em;
+    font-size: 0.75rem;
     color: #eac22a;
     margin-bottom: 0;
   }
@@ -111,7 +118,7 @@
 
       a {
         color: rgb(44, 240, 30);
-        font-size: 0.75em;
+        font-size: 0.75rem;
       }
     }
 

@@ -1,30 +1,32 @@
 <template>
   <div class="form-input-base-container">
+    <div class="form-input-title">
+      <slot name="title" />
+    </div>
     <div class="form-input-base">
-      <div
-        class="form-input-container"
-      >
-        <div class="form-input-title-container">
-          <div class="form-input-title">
-            <slot name="title" />
-          </div>
-        </div>
+      <div class="form-input-container">
         <div class="form-input-body-container">
           <slot name="input" />
         </div>
       </div>
     </div>
-    <div
-      v-for="error in errors[fieldName]"
-      :key="error.id"
-      class="form-input-error"
+
+    <div 
+      class="form-input-error-container"
+      :class="{hasError}"
     >
-      {{error.msg}}
+      <div
+        v-for="error in errors[fieldName]"
+        :key="error.id"
+        class="form-input-error"
+      >
+        {{error.msg}}
+      </div>
     </div>
   </div>
 </template>
 <script>
-import {mapState, mapGetters} from 'vuex';
+import {mapState} from 'vuex';
 
 const defaultValidations = () => ({
   required: false
@@ -35,6 +37,15 @@ export default {
   data: () => ({
     validInternal: defaultValidations(),
   }),
+  computed: {
+    ...mapState('form', ['errors']),
+    hasError(){
+      if(this.errors != null && this.fieldName != null && this.errors[this.fieldName] != null){
+        return ((this.errors[this.fieldName]) || []).length > 0;
+      }
+      return [];
+    }
+  },
   props:{
     title: {
       type: String,
@@ -44,37 +55,9 @@ export default {
       type:String,
       default: ''
     },
-    blurred: {
-      type: Boolean,
-      default: false
-    },
     fieldName: {
       type: String,
       default: ''
-    },
-  },
-  computed:{
-    ...mapState('form', ['errors']),
-    ...mapGetters('form', ['currentForm']),
-    validations(){
-      return this.currentForm[this.title];
-    }
-  },
-  mounted() {
-    this.$watch('value', async newValue => {
-      this.updateState(newValue);
-    });
-    this.$watch('blurred', () => this.updateState(this.value));
-
-    Object.assign(this.validInternal, {
-      ...defaultValidations(),
-      ...this.validations
-    });
-  },
-  methods: {
-    async updateState(newValue){
-      await this.$store.dispatch('form/setField', {field: this.fieldName, value: newValue})
-      this.$store.dispatch('form/validateField', {field: this.fieldName});
     },
   }
 }

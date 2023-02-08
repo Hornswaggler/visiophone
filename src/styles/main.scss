@@ -1,19 +1,20 @@
 @charset "UTF-8";
 @use "sass:color";
 
+@import 'mixins';
 @import 'variables';
 @import 'helpers';
 @import 'base';
 @import 'fonts';
 @import 'typography';
 @import 'forms';
-@import 'mixins';
 @import 'shapes';
 @import 'animations';
 @import 'gradients';
 @import './components/overlay';
 @import './layout/responsive-layout';
 @import './components/scrolling-container';
+
 @import './components/form/base';
 @import './components/form/sortable-table';
 @import './components/form/dropdown';
@@ -27,6 +28,14 @@
 @import './components/form/image';
 @import './components/form/redirect-button';
 @import './components/form/carousel';
+@import './components/form/toggle-select';
+@import './components/form/collapsible-panel';
+
 @import './layout/responsive-layout-header';
 @import './layout/default-page-layout';
 @import './pages/sample-search';
+@import './pages/sample-upload';
+@import './pages/sample-pack-search';
+@import './pages/user-library';
+@import './pages/user-settings';
+

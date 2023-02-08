@@ -26,9 +26,6 @@ router.beforeEach((to, from, next) => {
     });
   }
 
-  const headerHeight = to.meta.headerHeight || '--default-search-header-height';
-  store.dispatch('app/onSetCssProperty', {key: '--search-header-height', value: `var(${headerHeight})`});
-
   if(to.path === '/') {
     return router.push({
       ...to,

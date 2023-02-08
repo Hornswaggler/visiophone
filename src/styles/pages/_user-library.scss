@@ -1,0 +1,11 @@
+.user-library-page {
+  height: calc(100% - var(--main-banner-height));
+  &.scrolling-container {
+    .scrolling-container-scrollable-content {
+      height: 100%;
+    }
+  }
+  @include for-size(xs) {
+    height: calc(100% - var(--main-banner-height) - var(--mobile-footer-height) );
+  }
+}

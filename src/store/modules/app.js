@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import scrollIntoView from 'scroll-into-view-if-needed'
 import config from '/src/config';
 import {DEFAULT_ROUTE} from '@/router/routeNames';
 import {
@@ -43,10 +44,11 @@ export default {
         id: 1,
         accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
       },
+      // TODO: Fix this...
       {
 
         title: 'Upload',
-        slug: `/${SAMPLE_UPLOAD}`,
+        slug: `/${SAMPLE_UPLOAD}/pack`,
         icon:'fa-cloud-arrow-up',
         id: 2,
         accountStatus: [APPROVED]
@@ -95,6 +97,24 @@ export default {
 
     setSideNavigationMenuItems({commit}, sideNavigationMenuItems) {
       commit('assignObject', {key: 'sideNavigationMenuItems', value: sideNavigationMenuItems});
+    },
+
+    scrollToElement(context, element){
+      scrollIntoView(element, {
+        behavior: 'smooth', 
+        scrollMode: 'if-needed'
+      });
+    },
+
+    scrollToFirstError({dispatch}){
+      const errors = [...document.getElementsByClassName('form-input-error')]
+      .map(el=>({offsetTop: el.offsetTop, el}))
+      .sort(({offsetTop:a}, {offsetTop:b}) => a - b)
+      .map(({el}) => el);
+
+      if(errors.length > 0){
+        dispatch('scrollToElement', errors[0]);
+      }
     }
   },
 

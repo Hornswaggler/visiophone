@@ -11,7 +11,7 @@
       <select 
         v-model="internalValue"
         class="form-select"
-        @change="onChange"
+        @change="({target:{value}}) => onChangeHandler(value)"
       >
         <option 
           v-for="option in internalOptions"
@@ -47,7 +47,7 @@ export default {
       type: Array,
       default: () => []
     },
-    changeHandler: {
+    onChanged: {
       type: Function,
       default: () => {}
     }
@@ -57,12 +57,15 @@ export default {
     internalValue: ''
   }),
   mounted(){
-    this.internalValue = this.value;
-    this.internalOptions = this.options;
+    this.$nextTick(() => {
+      this.internalValue = this.value;
+      this.internalOptions = this.options;
+    });
   },
   methods:{
-    onChange({target:{value}}) {
-      this.changeHandler(value);
+    onChangeHandler(value) {
+      this.onChanged(value);
+      this.$store.dispatch('form/validateField', {field: this.fieldName, value});
     }
   }
 }

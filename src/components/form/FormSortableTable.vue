@@ -1,7 +1,7 @@
 <template>
   <div
     class="sortable-table"
-    :class="{isGridView: isGridView}"
+    :class="{isListView}"
   >
     <div
       v-for="row in data"
@@ -24,9 +24,9 @@ export default {
       type: Array,
       default: () => []
     },
-    isGridView:{
+    isListView:{
       type: Boolean,
-      default: false
+      default: true
     }
   },
 }

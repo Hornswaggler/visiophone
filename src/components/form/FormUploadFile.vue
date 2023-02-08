@@ -11,7 +11,7 @@
     <template
       v-slot:input
     >
-      <div class="form-file-upload">
+      <div class="form-file-upload form-input-body">
         <span
           class="form-file-upload-button"
           @click="handleBrowseUpload"
@@ -70,13 +70,15 @@ export default {
       default: ''
     }
   },
-  computed: {
-    ...mapState('sample', ['sampleForEdit'])
-  },
   methods:{
     onInputChanged({target:{files}}) {
-      this.fileName = (files[0] && files[0].name) || '';
-      this.changeHandler(files[0]);
+      const file = files[0];
+      const clipUri = URL.createObjectURL(file);
+
+      this.changeHandler({clipUri, file});    
+      this.fileName = (file && file.name) || '';
+
+      this.$store.dispatch('form/validateField', {field: this.fieldName, clipUri});
     },
     handleBrowseUpload() {
       this.$refs.file.focus();

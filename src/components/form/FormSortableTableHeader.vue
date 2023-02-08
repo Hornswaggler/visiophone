@@ -3,7 +3,7 @@
     <div
       v-for="(column, index) in tableDefinition.columns"
       :key="column.id"
-      class="sortable-table-header-column"
+      class="sortable-table-header-column noselect"
       :style="{ flex: column.ratio }"
       :class="{ selected }"
       @click="handleColumnClicked(column, index)"
@@ -11,6 +11,9 @@
       <div>
         <div v-if="column.show">
           {{ column.name }}
+        </div>
+        <div v-else>
+          &nbsp;
         </div>
       </div>
       <div

@@ -11,12 +11,13 @@
       v-slot:input
     >
       <div class="form-textarea-container">
-        <!-- TODO: Expose rows as a prop... -->
         <textarea
-          :rows="rows" 
+          :rows="rows"
           v-model="internalValue"
+          v-debounce="onChangeHandler"
           class="form-textarea"
           type="text"
+          @blur="onChangeHandler(internalValue)"
         />
       </div>
     </template>
@@ -53,21 +54,16 @@ export default {
   data: () => ({
     internalValue:''
   }),
-  watch:{
-    internalValue(val){
-      this.onChanged(val);
-    },
-    value(value){
-      if(!this.internalValue) this.internalValue = value;
-    }
-  },
   mounted() {
-    this.internalValue = this.value;
+    this.$nextTick(() => {
+      this.internalValue = this.value;
+    });
   },
   methods:{
-    emitOnChange(){
-      this.onChanged();
-    }
+    onChangeHandler(value){
+      this.onChanged(value);
+      this.$store.dispatch('form/validateField', {field: this.fieldName, value});
+    },
   }
 }
 </script>

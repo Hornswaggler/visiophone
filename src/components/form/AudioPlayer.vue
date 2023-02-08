@@ -1,14 +1,14 @@
 <template>
-  <div style="display:flex;">
-    <span style="flex:1;" @click="loadAudio">:D</span>
+  <div class="flex">
+    <span class="flex-1" @click="loadAudio">:D</span>
     <div>asdf</div>
     <audio controls :src="src">
     </audio>
     <canvas
       ref="canvas"
       style="
-        height:2em;
-        width:10em;
+        height:2rem;
+        width:10rem;
         background-color:purple"
     />
     

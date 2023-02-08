@@ -1,57 +1,86 @@
 .scrolling-container {
-  height: calc(100% - var(--main-banner-height));
+  height: 100%;
   width: 100%;
 
+  .search-header {
+    @extend .flex;
+    height: 2rem;
+
+    &>*{
+      width: 50%;
+    }
+  }
+
+  .header-search-input {
+    .form-input-base {
+      border:0;
+      .form-input-body {
+        padding-left: 1rem;
+      }
+      .form-input-icon-underlay {
+        left: 1rem;
+      }
+    }
+  }
+
+  
+
   @include for-size(xs) {
-    height: calc(100% - var(--mobile-footer-height) - var(--main-banner-height));
     padding: 0;
     justify-content: center;
     align-items: center;
     padding: 0;
+
+    .scrolling-container-scrollable-content {
+      // height: calc(100% - var(--sample-pack-upload-height) - var(--mobile-footer-height));
+    }
   }
 
   .scrolling-container-header {
-    width:100%;
+    background-color:rgba(0, 0, 0, 0.734);
+    padding: 0 1rem;
+    overflow: hidden;
     .icon-group {
-      height: 2em;
-      padding: 0 0.5em;
+      height: 2rem;
+      padding: 0 0.5rem;
       padding-right: 20px;
     }
-  }
+  } 
   
   .scrolling-container-scrollable-content {
     @extend .flex;
     @extend .flex-column;
+    @extend .fill;
 
-    height: calc(100% - var(--search-header-height));
-    width:100%;
-    border-radius: 6px;
-    flex: 1;
-    background-color: $primary-background-color;
     overflow-y: auto;
+    flex: 1;
+
+    .scrolling-container-content {
+      @extend .flex;
+      @extend .flex-column;
+      @extend .flex-1;
+      @extend .p1;
+      background-color: #5c5e7336;
+      box-shadow: 10px 10px 23px -3px rgba(0,0,0,0.25) inset;
+    }
 
     &::-webkit-scrollbar-track {
       -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
       box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
       border-radius: 10px;
-      background-color: $primary-color;
+      background-color: var(--primary-background-color);
     }
-
+  
     &::-webkit-scrollbar {
       width: 12px;
-      background-color: $quinary-color;
+      background-color: $secondary-font-color;
     }
-
+  
     &::-webkit-scrollbar-thumb {
       border-radius: 10px;
-      -webkit-box-shadow: inset 0 0 6px $primary-shadow-inset;
-      box-shadow: inset 0 0 6px $primary-shadow-inset;
-      background-color: $primary-background-color;
+      -webkit-box-shadow: inset 0 0 6px var(--primary-shadow-inset);
+      box-shadow: inset 0 0 6px var(--primary-shadow-inset);
+      background-color: var(--scrollbar-color);
     }
-
-    .scrolling-container-content {
-      padding: 1em;
-    }
-
   }
 }

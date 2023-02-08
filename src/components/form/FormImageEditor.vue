@@ -1,31 +1,54 @@
 <template>
+<div>
+  <div
+    v-if="title != ''"
+    class="form-image-editor-title"
+  >
+      {{ title }}
+  </div>
   <div class="form-image-editor-container">
     <div ref="form-image-editor-resize-container">
       <canvas
-        id="fred"
+        class="hidden"
         ref="otherCanvas"
         crossorigin="anonymous"
-        class="hidden"
         :height="imageWidth > imageHeight ? imageHeight : imageWidth"
         :width="imageWidth > imageHeight ? imageHeight : imageWidth"
       />
     </div>
     <div class="form-image-editor-image-spacer">
       &nbsp;
-    </div>    
-    <div class="form-image-editor-preview-container position-relative">
-      <div class="position-absolute fill-height">
-        <img
-          ref="image"
-          class="form-image-editor-preview-img"
-          :src="internalImgSrc"
-          :style="{
-            transform: isWide ? tranlslateX : translateY,
-            width: containerWidth,
-            height: containerHeight,
-          }"
-        >
-      </div>  
+    </div>
+    
+    <div
+      class="form-image-editor-preview-container"
+      :class="{ ['show-icon']: imgPreviewSrc === ''}"
+    >
+      <div class="form-image-editor-file-input">
+        <input
+          type="file"
+          @change="onInputChanged"
+        />
+        <div class="image-icon noselect">
+          <font-awesome-icon icon="fa-solid fa-image" />
+        </div>
+      </div>
+
+      <div class="position-absolute fill flex ">
+        <div class="position-absolute fill-height">
+          <img
+            ref="image"
+            class="form-image-editor-preview-img"
+            :src="imgPreviewSrc"
+            :style="{
+              transform: isWide ? tranlslateX : translateY,
+              width: containerWidth,
+              height: containerHeight,
+            }"
+          >
+        </div>
+      </div>
+
       <div
         ref="form-image-editor-preview-pane"
         class="form-image-editor-preview"
@@ -33,9 +56,10 @@
         <div
           ref="scroll-panel"
           class="form-image-editor-preview-mask"
-          :style="{ 
+          :style="{
             overflowX,
-            overflowY
+            overflowY,
+            cursor: isMousedown ? 'grab' : 'pointer'
           }"
         >
           <div
@@ -55,9 +79,20 @@
     </div>
     <div class="form-image-editor-image-spacer" />
   </div>
+  <div :class="{hasError}" class="form-input-error-container">
+    <div 
+      v-for="error in errors[fieldName]"
+      :key="error.id"
+      class="form-input-error"
+    >
+      {{error.msg}}
+    </div>
+  </div>
+</div>
 </template>
 <script>
 import Vue from 'vue';
+import { mapState } from 'vuex';
 import { debounce } from 'vue-debounce';
 import {IMAGE_MIME_TYPE} from '@/config';
 
@@ -66,9 +101,17 @@ const DEFAULT_LENS_SIZE = 'var(--image-editor-hw)';
 export default {
   name:'FormImageEditor',
   props:{
-    imgSrc:{
+    value:{
       type: String,
       default:''
+    },
+    fieldName: {
+      type: String,
+      default: ''
+    },
+    title: {
+      type: String,
+      default: ''
     },
     changeHandler:{
       type: Function,
@@ -76,7 +119,8 @@ export default {
     }
   },
   data: () => ({
-    debounce: debounce((callback, val) => callback && callback(val), 20),
+    imgUrl:'',
+    debounce: debounce((callback, val) => callback && callback(val), 250),
     offsetX: 0,
     offsetY: 0,
     imageWidth: 0,
@@ -84,14 +128,19 @@ export default {
     actualWidth: 0,
     actualHeight: 0,
     isWide: true,
+
+    imagePreviewBlob: {},
     imageBlob: {},
-    internalImgSrc: '',
+
+    imgPreviewSrc: '',
     containerWidth: 'initial',
     containerHeight: '100%',
-    theBestSprite: {},
-    isLoading: true
+    isLoading: true,
+    IMAGE_MIME_TYPE,
+    isMousedown: false,
   }),
   computed: {
+    ...mapState('form', ['errors']),
     overflowX() {
       return this.isWide ? 'scroll' : 'hidden';
     },
@@ -99,7 +148,7 @@ export default {
       return this.isWide ? 'hidden' : 'scroll';
     },
     height() {
-      return this.isWide ? DEFAULT_LENS_SIZE : `${this.imageHeight}px`; 
+      return this.isWide ? DEFAULT_LENS_SIZE : `${this.imageHeight}px`;
     },
     width() {
       return this.isWide ? `${this.imageWidth}px` : DEFAULT_LENS_SIZE;
@@ -110,69 +159,97 @@ export default {
     translateY() {
       return `translateY(calc(${(this.offsetY * 2) * -1}px)`;
     },
+    hasError(){
+      if(this.errors != null && this.fieldName != null && this.errors[this.fieldName] != null){
+        return ((this.errors[this.fieldName]) || []).length > 0;
+      }
+      return [];
+    }
   },
   watch:{
-    imgSrc(){
+    value(){
       if(!this.isLoading) this.imgSourceChanged();
     }
   },
   async mounted() {
+
+    this.$refs['scroll-panel'].addEventListener('mousemove', ({movementX, movementY}) => {
+      if(this.isMousedown) {
+        this.$refs['scroll-panel'].scrollLeft -= movementX;
+        this.$refs['scroll-panel'].scrollTop -= movementY;
+      }
+    });
+    this.$refs['scroll-panel'].addEventListener('mousedown', () => this.onMousedownChanged(true));
+    document.addEventListener('mouseup', () => this.onMousedownChanged(false));
+
     this.$nextTick(() => {
-      this.internalImgSrc = this.imgSrc;
+      this.imgPreviewSrc = this.value;
       this.isLoading = false;
 
       this.$refs['scroll-panel'].addEventListener('scroll', this.handleScroll);
-      this.$refs['image'].addEventListener('load', this.domImgLoaded);
+      this.$refs['image'].addEventListener('load', this.onPreviewImageLoaded);
     });
   },
   beforeDestroy() {
     this.$refs['scroll-panel'].removeEventListener('scroll', this.handleScroll);
-    this.$refs['image'].removeEventListener('load', this.domImgLoaded)
-
+    this.$refs['image'].removeEventListener('load', this.onPreviewImageLoaded);
+    this.$refs['scroll-panel'].removeEventListener('mousemove', this.onPreviewImageLoaded)
+    document.removeEventListener('mouseup', this.onMousedownChanged);
   },
   methods: {
-    async domImgLoaded(ev){
+    onMousedownChanged(isMousedown){
+      this.isMousedown = isMousedown;
+    },
+    onInputChanged({target:{files}}) {
+      const file = files[0];
+      const clipUri = URL.createObjectURL(file);
+
+      this.imagePreviewBlob = file;
+      this.imgPreviewSrc = clipUri;
+
+      this.imgSourceChanged(clipUri);
+      this.fileName = (file && file.name) || '';
+
+       //TODO: Fix This validation
+       this.$store.dispatch('form/validateField', {field: this.fieldName, clipUri});
+    },
+
+    async onPreviewImageLoaded(ev){
       const {scrollWidth, scrollHeight} = ev.target;
 
       this.$nextTick(() => {
         this.imageWidth = scrollWidth;
         this.imageHeight = scrollHeight;
-
-        this.$nextTick(() => {
-          this.redrawImage();
-        });
+        this.redrawCanvas();
       })
     },
-    
+
     async imgSourceChanged(){
       Vue.set(this, 'imageBlob', new Image());
       this.imageBlob.crossOrigin = "anonymous";
 
       const {width, height} = await this.loadImage({sprite: this.imageBlob});
+
       this.isWide = width > height;
       this.actualWidth = width;
       this.actualHeight = height;
 
       this.containerHeight = this.isWide ? '100%' : 'initial';
       this.containerWidth = this.isWide ?  'initial': '100%';
-      
-      this.$nextTick(() => {
-        this.internalImgSrc = this.imgSrc;
-      });
     },
-    
-    onSpriteLoaded(){
+
+    onSpriteLoaded() {
+      //TODO: don't fire this unless the dom is loaded...
+
       const ctx = this.$refs['otherCanvas'].getContext("2d");
       ctx.clearRect(0, 0, this.actualWidth, this.actualHeight);
-
-      const self = this;
 
       var ratio = this.actualWidth / this.actualHeight;
       var width = this.imageWidth;
       var height = width / ratio;
 
       ctx.drawImage(
-        this.theBestSprite, -1 * this.offsetX,
+        this.imageBlob, -1 * this.offsetX,
         (this.offsetY * 2) * -1,
         width,
         height
@@ -180,28 +257,31 @@ export default {
 
       this.$nextTick(() => {
         this.$refs['otherCanvas'].toBlob( async blob => {
-          const file = new File([blob], 'fakename.png', {type: IMAGE_MIME_TYPE});
-          this.changeHandler(file);
+          
+          const file = new File([blob], this.imagePreviewBlob.name, {type: IMAGE_MIME_TYPE});
+          const clipUri = URL.createObjectURL(file);
+
+          this.changeHandler({file, clipUri});
         });
       });
     },
 
-    redrawImage() {
+    redrawCanvas() {
       if(!this.isLoading) {
-        Vue.set(this, 'theBestSprite', new Image());
-        this.theBestSprite.onload = this.onSpriteLoaded;
-        this.theBestSprite.src = this.imgSrc;
+        const self = this;
+        this.debounce(() => {
+          Vue.set(this, 'imageBlob', new Image());
+          this.imageBlob.onload = this.onSpriteLoaded;
+          this.imageBlob.src = this.imgPreviewSrc;
+        })
+        
       }
     },
 
     handleScroll({target:{scrollLeft:offsetX, scrollTop:offsetY}}){
-      this.debounce && this.debounce(() => this.handleScrollDebounce({offsetX, offsetY}));
-    },
-  
-    handleScrollDebounce({offsetX, offsetY}){
       this.offsetX = offsetX;
       this.offsetY = offsetY;
-      this.redrawImage();
+      this.redrawCanvas();
     },
 
     loadImage({sprite}){
@@ -214,7 +294,7 @@ export default {
             return reject(sprite);
           }
         });
-        sprite.src = self.imgSrc;
+        sprite.src = self.imgPreviewSrc;
       });
     },
   }

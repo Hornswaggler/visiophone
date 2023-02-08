@@ -1,0 +1,25 @@
+{
+  "name": {
+    "required": true,
+    "max-length": 48
+  },
+  "clipUri":{
+    "required": true
+  },
+  "tag":{
+    "required": true
+  },
+  "cost": {
+    "gte": 100,
+    "lte": 99999999,
+    "required": true
+  },
+  "bpm": {
+    "gt": 0,
+    "required": true
+  },
+  "description": {
+    "max-length": 256,
+    "required": true
+  }
+}

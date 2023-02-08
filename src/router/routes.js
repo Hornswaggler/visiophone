@@ -1,8 +1,10 @@
-import DefaultPageLayout from '/src/components/layout/DefaultPageLayout.vue';
+import ResponsiveLayout from '/src/components/layout/ResponsiveLayout.vue';
 import UserSettings from '/src/components/pages/user/UserSettings.vue';
 import UserLibrary from '/src/components/pages/user/UserLibrary.vue'
 import SampleUpload from '/src/components/pages/sample/SampleUpload.vue';
-import Search from '/src/components/pages/sample/SampleSearch.vue';
+import SamplePackUpload from '/src/components/pages/sample/SamplePackUpload.vue';
+import SingleSampleUpload from '/src/components/pages/sample/SingleSampleUpload.vue';
+import SamplePackSearch from '/src/components/pages/sample/SamplePackSearch.vue';
 import UserStripeStandardReturn from '/src/components/pages/user/UserStripeStandardReturn.vue';
 import SamplePurchaseReturn from '/src/components/pages/sample/SamplePurchaseReturn.vue';
 import LandingPage from '/src/components/layout/LandingPage.vue';
@@ -23,7 +25,7 @@ import {
 export default [
   {
     path:'/',
-    component: DefaultPageLayout,
+    component: ResponsiveLayout,
     children:[
       {
         path: `/${AUTH}`,
@@ -37,18 +39,28 @@ export default [
       },
       {
         path: '',
-        component: Search
+        component: SamplePackSearch
       },
       {
-        path: SAMPLE_SEARCH,
-        component: Search,
-        meta: {
-          headerHeight: '--sample-search-header-height'
-        }
+        path: `/${SAMPLE_SEARCH}`,
+        component: SamplePackSearch,
       },
       {
         path: SAMPLE_UPLOAD,
-        component: SampleUpload
+        name: SAMPLE_UPLOAD,
+        component: SampleUpload,
+        children:[
+          {
+            path: 'Single',
+            name: 'Single',
+            component: SingleSampleUpload
+          },
+          {
+            path: 'Pack',
+            name: 'Pack',
+            component: SamplePackUpload
+          }
+        ]
       },
       {
         path: PURCHASE_SAMPLE_RETURN,

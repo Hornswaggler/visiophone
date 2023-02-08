@@ -4,18 +4,15 @@
   >
     <template v-slot:header>
       <div class="search-header">
-        <div style="width:50%;" class="flex-1 flex">
+        <div class="flex-1 flex">
           <form-input
-            class="header-search-input"
-            style="padding:0;border:none;"
+            class="header-search-input p0 border-none"
             :on-changed="onSearchChanged"
           />
-              
           <div class="header-search-input-background"></div>
         </div>
 
         <div
-          style="width:50%;" 
           class="flex justify-end icon-group"
         >
           <bootleg-list-icon
@@ -38,7 +35,7 @@
     <template v-slot:scrolling-content>
       <form-sortable-table
         :data="sampleArray"
-        :is-grid-view="!isGridView"
+        :is-list-view="isListTypeSelected"
       >
         <template v-slot:row="{ row: sample }">
           <sortable-table-row
@@ -72,13 +69,13 @@
             </template>
             <template v-slot:Buy>
               <form-redirect-button
-                :action="samplePurchaseUrl"
+                :action="samplePurchaseUri"
                 :idToken="idToken"
                 :payload="JSON.stringify([sample.priceId])"
               >
                 <template v-slot:content>
                   <form-icon
-                    icon-size="1em"
+                    icon-size="1rem"
                     class="vp-icon flex justify-end align-end download-icon"
                     icon="fa-plus"
                   />
@@ -95,6 +92,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import {SORT_TYPES} from '@/store/modules/sample';
+import {slugs, getUriForSlug} from '@/slugs';
 import FormImage from '@/components/form/FormImage.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import FormSortableTable from '@/components/form/FormSortableTable.vue';
@@ -108,6 +106,7 @@ import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
 import AudioPlayer from '@/components/form/AudioPlayer.vue';
 import FormRedirectButton from '@/components/form/FormRedirectButton.vue';
 import Carousel from '@/components/form/Carousel.vue';
+import {sampleTableDefinition} from '@/components/pages/sample/sampleTableDefinition';
 
 export default {
   name:'SampleSearch',
@@ -128,10 +127,12 @@ export default {
   },
   data: () => ({
     page: 0,
+    samplePurchaseUri: getUriForSlug(slugs.SamplePurchase),
+    sampleTableDefinition
   }),
   computed: {
     ...mapGetters('sample', ['sampleArray']),
-    ...mapState('sample', ['isLoaded', 'sortType', 'sampleTableDefinition', 'samplePurchaseUrl']),
+    ...mapState('sample', ['isLoaded', 'sortType']),
     ...mapState('user', ['idToken']),
 
     isGridView() {

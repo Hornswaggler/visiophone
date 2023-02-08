@@ -1,7 +1,7 @@
 <template>
   <div class="responsive-layout-side-navigation">
     <div class="flex-1 p1">
-      <div style="margin-top:0;display:flex;flex-direction: column;align-items: center;justify-content: space-around;">
+      <div class="site-name">
         <site-logo />
       </div>
 
@@ -39,7 +39,7 @@ export default {
     SiteLogo
   },
   data: () => ({
-    inputWidth: '10em',
+    inputWidth: '10rem',
     menuItems: {
       logout:{
         displayName: 'Log Out',

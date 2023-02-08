@@ -2,6 +2,7 @@ import Vue from 'vue';
 import user from './user';
 import app from './app';
 import sample from './sample';
+import samplePack from './samplePack';
 import dropdown from './dropdown';
 import form from './form';
 
@@ -9,6 +10,7 @@ const store = {
   user,
   app,
   sample,
+  samplePack,
   dropdown,
   form
 };
@@ -39,8 +41,6 @@ const mutations = {
     Vue.set(state, key, value);
   }
 };
-
-
 
 const result = Object.keys(store).reduce((acc, key) => {
   acc[key] = {
