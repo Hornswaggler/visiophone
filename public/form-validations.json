@@ -1,0 +1,20 @@
+{
+  "samplePack": {
+    "name": {
+      "required": true,
+      "max-length": 256
+    },
+    "description": {
+      "required": true
+    },
+    "imgUrl": {
+      "required": true
+    },
+    "samples": {
+      "type": "sample-type[]"
+    }
+  },
+  "sample": {
+    "type": "sample-type"
+  }
+}

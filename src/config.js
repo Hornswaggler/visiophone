@@ -14,6 +14,7 @@ const properties = [
   'VITE_AUTH_SIGN_UP_SIGN_IN_POLICY_KEY',
   'VITE_AUTH_SIGN_UP_SIGN_IN_REDIRECT_URI',
   'VITE_APP_TITLE',
+  'VITE_VALIDATION_DEFINITION_URI'
 ];
 
 const env = import.meta.env;

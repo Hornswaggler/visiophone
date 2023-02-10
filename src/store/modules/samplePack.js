@@ -118,23 +118,23 @@ export default {
     },
     async uploadSamplePack(ctx, {samplePack, imageBlob}) {
       const form = new FormData();
-      const imageFileName = encodeFormBlob({ form, key: uuidv4(), blob: imageBlob });
+      const imgUrl = encodeFormBlob({ form, key: uuidv4(), blob: imageBlob });
 
       const samplePackRequest = {
         name: samplePack.name,
         description: samplePack.description,
-        imageFileName,
-        sampleRequests: []
+        imgUrl,
+        samples: []
       }
 
-      const keys = Object.keys(samplePack.sampleData);
+      const keys = Object.keys(samplePack.samples);
       for(let i = 0; i < keys.length; i++) {
-        const sample = samplePack.sampleData[keys[i]];
-        const sampleFileName = encodeFormBlob({ form, key: `sample-${sample._tempId}`, blob: sample.sampleBlob });
+        const sample = samplePack.samples[keys[i]];
+        const clipUri = encodeFormBlob({ form, key: `sample-${sample._tempId}`, blob: sample.sampleBlob });
       
-        samplePackRequest.sampleRequests.push({
+        samplePackRequest.samples.push({
           ...sample,
-          sampleFileName
+          clipUri
         });
       }
 

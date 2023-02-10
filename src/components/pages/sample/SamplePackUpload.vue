@@ -36,7 +36,7 @@
         </div>
 
         <collapsible-panel
-          v-for="(sample, key) in samplePack.sampleData"
+          v-for="(sample, key) in samplePack.samples"
           :collapsed="samplePanelState[key]"
           :key="key"
           :on-changed="value => onPanelChanged({ key, value })"
@@ -54,7 +54,7 @@
           </template>
           <template v-slot:content>
             <sample-editor
-              :field-prefix="`sampleData.${key}`"
+              :field-prefix="`samples.${key}`"
               :sample="sample"
               :on-changed="({key, value}) => onChanged({key, value, sample})"
             />
@@ -132,7 +132,7 @@ export default {
       description: '',
       name: '',
       imgUrl: '',
-      sampleData: {}
+      samples: {}
     },
     imageSrc: '',
     samplePanelState: {},
@@ -151,13 +151,13 @@ export default {
   },
   methods:{
     deleteSample(key) {
-      Vue.delete(this.samplePack.sampleData, key)
+      Vue.delete(this.samplePack.samples, key)
     },
     onPanelChanged({key, value}){
       this.samplePanelState[key] = value;
     },
     onChanged({key, value, sample:{_tempId}}){
-      Vue.set(this.samplePack.sampleData[_tempId], key, value);
+      Vue.set(this.samplePack.samples[_tempId], key, value);
     },
     onThumbnailGenerated({ file, clipUri }) {
       Vue.set(this, 'imageBlob', file);
@@ -165,7 +165,7 @@ export default {
     },
     addSample({scrollToElement = false}) {
       const _tempId = uuidv4();
-      Vue.set(this.samplePack.sampleData, _tempId, {
+      Vue.set(this.samplePack.samples, _tempId, {
         _tempId,
         ...makeNewSample()
       });
