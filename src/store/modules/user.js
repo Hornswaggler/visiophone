@@ -41,7 +41,7 @@ export default {
     },
 
     async getStripeProfile({ state, commit }) {
-      const {data:{isStripeApproved, stripeId, uploads}} =  await securePostJson(
+      const {data:{isStripeApproved, stripeId, uploads}} = await securePostJson(
         axios, 
         {}, 
         { slug: slugs.StripeProfileGet }
@@ -65,17 +65,9 @@ export default {
 
       await dispatch('refreshProfileImg');
       await dispatch('getStripeProfile');
-      await dispatch('getPurchases');
-    },
 
-    async handleProvisionReturn({commit, state:{stripeId}}){
-      const {data:{isStripeApproved: isStripeApproved}} = 
-        await securePostJson(
-          axios, 
-          {stripeId}, 
-          {slug: slugs.StripeProvisionUserReturn}
-        );
-      commit('isStripeApproved', isStripeApproved);
+      //TODO: Don't retrieve these until user navigates to page...
+      await dispatch('getPurchases');
     },
 
     async logout({commit }) {

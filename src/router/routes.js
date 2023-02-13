@@ -5,7 +5,6 @@ import SampleUpload from '/src/components/pages/sample/SampleUpload.vue';
 import SamplePackUpload from '/src/components/pages/sample/SamplePackUpload.vue';
 import SingleSampleUpload from '/src/components/pages/sample/SingleSampleUpload.vue';
 import SamplePackSearch from '/src/components/pages/sample/SamplePackSearch.vue';
-import UserStripeStandardReturn from '/src/components/pages/user/UserStripeStandardReturn.vue';
 import SamplePurchaseReturn from '/src/components/pages/sample/SamplePurchaseReturn.vue';
 import LandingPage from '/src/components/layout/LandingPage.vue';
 import config from '/src/config.js';
@@ -73,10 +72,6 @@ export default [
       {
         path: USER_SETTINGS,
         component: UserSettings
-      },
-      {
-        path: PROVISION_STRIPE_STANDARD_RETURN,
-        component: UserStripeStandardReturn
       }
     ]
   }
