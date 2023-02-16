@@ -6,39 +6,39 @@ import config from '/src/config';
 export const client = new _msal.PublicClientApplication(msalConfig);
 
 export const getAccessToken = async (homeAccountId = '') => {
-  const tokenRequest = {..._tokenRequest};
+  const tokenRequest = { ..._tokenRequest };
   tokenRequest['account'] = client.getAccountByHomeId(homeAccountId);
   return await client.acquireTokenSilent(tokenRequest);
 };
 
 const handleResponse = async (response) => {
   if (response !== null) {
-    store.dispatch('user/handleUserLogon', await getAccessToken(response.account.homeAccountId))
+    const accessToken = await getAccessToken(response.account.homeAccountId);
+    store.dispatch('user/handleUserLogon', accessToken);
   } else {
-      selectAccount();
+    selectAccount();
   }
-}
+};
 
 client.handleRedirectPromise()
   .then(response => {
-      if (response) {
-          if (response.idTokenClaims[config.VITE_AUTH_SIGN_UP_SIGN_IN_POLICY_KEY].toUpperCase() === config.VITE_AUTH_SIGN_UP_SIGN_IN_POLICY_NAME.toUpperCase()) {
-              handleResponse(response);
-          }
+    if (response) {
+      if (response.idTokenClaims[config.VITE_AUTH_SIGN_UP_SIGN_IN_POLICY_KEY].toUpperCase() === config.VITE_AUTH_SIGN_UP_SIGN_IN_POLICY_NAME.toUpperCase()) {
+        handleResponse(response);
       }
+    }
   })
   .catch(error => {
-      //Consume
+    //Consume
   });
 
 export const logon = async () => {
   const accounts = client.getAllAccounts();
-
-  if(accounts.length > 0) {
+  if (accounts.length > 0) {
     //TODO: Fix this, check the policies on the accounts / match the one this app is looking for
     return accounts[0];
   }
-  
+
   return await client.loginRedirect(loginRequest);
 };
 
@@ -52,6 +52,4 @@ export default {
   getAccessToken,
   logon,
   logOff
-}
-
-
+};

@@ -1,59 +1,41 @@
 .sortable-table {
   @extend .flex;
-
+  
+  padding:1rem;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
 
-
-
   .sortable-table-row {
     @extend .rounded-corners-md;
 
-    @include hover-zoom(1.1);
-
-    height: calc(var(--sortable-table-grid-view-image-hw));
-    width: calc(var(--sortable-table-grid-view-image-hw));
-
-    transition: 
-      height $transition-cubic-bezier-500, 
-      width $transition-cubic-bezier-500,
-      transform $transition-cubic-bezier-500;
-
-    margin-top: 0.75rem;
-    margin-left: 0.75rem;
-
-    -webkit-box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
-    -moz-box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
-    box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
+    transition: all  $transition-cubic-bezier-500;
 
     .sortable-column-row {
       @extend .flex;
 
+      height:100%;
       cursor: pointer;
       border-radius: 8px;
       overflow: hidden;
 
-      transition: background-color $transition-cubic-bezier-250;
-
       .sortable-column {
-        @extend .flex;
         @extend .align-center;
         @extend .justify-center;
 
+
+
         .sortable-table-cell {
-          text-align:left;
-          font-size:large;
+          text-align: left;
+          font-size: large;
           position: relative;
           width: 0%;
 
           &.grid-image {
-            height: var(--sortable-table-grid-view-image-hw);
-            width: var(--sortable-table-grid-view-image-hw);
+            height: 100%;
+            width: 100%;
 
-            transition: 
-              height $transition-cubic-bezier-500, 
-              width $transition-cubic-bezier-500;
+            transition: height $transition-cubic-bezier-250, width $transition-cubic-bezier-250;
 
             .form-image {
               @extend .fill;
@@ -72,6 +54,49 @@
         }
       }
     };
+  }
+
+  &.isGridView {
+    .sortable-table-row {
+      width: calc(33.3% - (2 * var(--sortable-table-grid-padding)));
+
+      @include for-size(xs) {
+        width: calc(50% - (2 * var(--sortable-table-grid-padding)));
+      }
+
+      @include for-size(md) {
+        width: calc(25% - (2 * var(--sortable-table-grid-padding)));
+      }
+
+      @include for-size(lg) {
+        width: calc(25% - (2 * var(--sortable-table-grid-padding)));
+      }
+
+      @include for-size(xl) {
+        width: calc(14.28% - (2 * var(--sortable-table-grid-padding)));
+      }
+
+      padding: var(--sortable-table-grid-padding);
+      aspect-ratio: 1;
+
+      .sortable-column-row {
+        @include hover-zoom(1.1);
+
+        transition: transform $transition-cubic-bezier-250;
+
+        -webkit-box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
+        -moz-box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
+        box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.34);
+
+        .sortable-column {
+          &:first-child {
+            width:100%;
+            height:100%;
+          }
+          width:0;
+        }
+      }
+    }
   }
 
   &.isListView {
@@ -108,6 +133,7 @@
         .sortable-column {
           @extend .overflow-hidden;
 
+          width:initial;
           .sortable-table-cell {
             @extend .fill;
             &.grid-image {

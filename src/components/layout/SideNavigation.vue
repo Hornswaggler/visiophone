@@ -1,115 +1,39 @@
 <template>
   <div class="responsive-layout-side-navigation">
-    <div class="flex-1 p1">
+    <div class="flex-1">
       <div class="site-name">
         <site-logo />
       </div>
-
       <div
-        v-for="option in sideNavigationItemsForUser"
-        :key="option._id"
+        v-for="option in navigationItemsForUser"
+        :key="option.slug"
         class="side-navigation-option"
-        :class="{ selected: sideNavigationIndex === option.id }"
-        @click="onMenuItemSelected(option)"
+        :class="{ selected: currentSlug === option.slug }"
+        @click="onNavigationItemClicked(option.slug)"
       >
-        <font-awesome-icon 
-          class="form-icon"
-          :icon="option.icon"
-        />
+        <img :src="option.icon">
         <div>{{ option.title }}</div>
       </div>
-    </div>
-    <div class="flex-1 flex flex-column justify-end p1 ">
-      <img
-        class="circle"
-        :src="profileImg"
-        @click="onUserMenuClicked"
-      >
     </div>
   </div>
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
 import SiteLogo from './SiteLogo.vue';
-import { AUTH } from '@/router/routeNames';
 
 export default {
   name:'SideNavigation',
   components:{
     SiteLogo
   },
-  data: () => ({
-    inputWidth: '10rem',
-    menuItems: {
-      logout:{
-        displayName: 'Log Out',
-        handler: async ({$store, $router}) => {
-          await $store.dispatch('app/hideOverlay');
-          await $store.dispatch(
-            'dropdown/hideDropdown',
-            {
-              showLoading: false, 
-              opacity: '0'
-            }
-          );
-          if (await $store.dispatch('user/logout')) {
-
-            $router.push(`/${AUTH}`);
-          }
-        }
-      }
-    }
-  }),
-  props:{
-    changeHandler:{
-      type: Function,
-      default: () => {}
-    },
-    link:{
-      type: String,
-      default:'/sample'
-    }
-  },
   computed:{
-    ...mapState('app',['sideNavigationMenuItems', 'sideNavigationIndex', 'showMenu']),
-    ...mapState('user', ['profileImg']),
-    ...mapGetters('user',['stripeAccountStatus']),
-    sideNavigationItemsForUser(){
-      return this.sideNavigationMenuItems
-        .filter(m =>  m.accountStatus.includes(this.stripeAccountStatus));
-    }
+    ...mapGetters('nav', ['navigationItemsForUser']),
+    ...mapState('nav', ['currentSlug']),
   },
-  methods:{
-    async onUserMenuClicked(e) {
-      this.$store.dispatch('app/showOverlay', { showLoading: false, opacity: '0.9' });
 
-      const { clientX = 0, clientY = 0 } = e;
-
-      await this.$store.dispatch('dropdown/showDropdown', {
-        clientX: `${clientX}px`,
-        clientY: `${clientY}px`,
-        menuItems: this.menuItems,
-        onChanged: this.onFormDropdownChanged
-      });
-
-      this.$nextTick(() => {
-        this.$store.commit('dropdown/setItemWidth', this.inputWidth);
-      });
-
-    },
-    async onFormDropdownChanged() {
-      await this.$store.dispatch('dropdown/hideDropdown', { showLoading: false, opacity: '0' });
-    },
-
-    onMenuItemSelected({id,slug}) {
-      if(this.sideNavigationIndex !== id) {
-        this.$store.commit('app/setSideNavigationIndex', id )
-        this.$router.push(slug);
-      }
-      this.changeHandler();
-    },
-    goHome(){
-      this.$router.push(this.link);
+  methods: {
+    onNavigationItemClicked(slug) {
+      this.$store.dispatch('nav/navigateToSlug', slug);
     }
   }
 }

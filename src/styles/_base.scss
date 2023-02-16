@@ -1,6 +1,7 @@
 #app {
   @extend .fill; 
   @extend .m0;
+  @extend .position-relative;
 
   text-align: left;
   z-index:50;

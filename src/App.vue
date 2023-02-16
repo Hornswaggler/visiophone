@@ -2,12 +2,11 @@
   <div
     ref="app"
     id="app"
-    class="app-content-container"
   >
     <background />
     <form-dropdown />
     <loading />
-    <router-view />
+    <router-view v-if="authenticated" />
   </div>
 </template>
 
@@ -28,42 +27,20 @@ export default {
   },
 
   computed: {
-    ...mapState('user', ['authenticated', 'isStripeApproved']),
-    ...mapState('app', ['targetUrl', 'sideNavigationMenuItems', 'loading'])
+    ...mapState('user', ['authenticated'])
   },
 
   async mounted() {
-    
-    this.$store.dispatch('app/setOnSetCssProperty', this.onSetCssProperty);
-
-    //TODO: fix this nonsense...
-    this.$router.beforeEach((stuff, from, next) => {
-      const {path} = stuff;
-
-      this.$store.commit(
-        'app/setSideNavigationIndex',
-        this.sideNavigationMenuItems.findIndex(({slug}) => slug === path) || 0
-      );
-      next();
-    });
     await axiosInit();
 
-    try{
+    try {
       await this.$store.dispatch('user/logon');
     }catch(e) {
       //consume
     }
   },
 
-  watch:{
-    authenticated(newAuthenticated){
-      if(newAuthenticated) this.$router.push(this.targetUrl);
-    },
-  }, 
   methods:{
-    onSetCssProperty({key, value}){
-      this.$refs['app'].style.setProperty(key, value);
-    },
     //TODO: Are we using this???
     initializePersistentStorage() {
       for(let i = 0; i < config.PERSISTENT_MUTATIONS.length; i++) {
@@ -84,8 +61,6 @@ export default {
 
       this.$store.subscribe((context, state) => {
         const {type} = context;
-        const index = type.indexOf('/');
-        const module = index ? type.slice(0, index) : type;
 
         if(config.PERSISTENT_MUTATIONS.includes(type)) {
           const path = type.split('/');

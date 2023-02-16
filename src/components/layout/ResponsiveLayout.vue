@@ -1,7 +1,5 @@
 <template>
   <div class="responsive-layout">
-    <div class="responsive-margin" />
-
     <div class="responsive-layout-body">
       <side-navigation />
       <div class="responsive-layout-body-content">
@@ -10,8 +8,6 @@
         <page-footer/>
       </div>
     </div>
-
-    <div class="responsive-margin" />
   </div>
 </template>
 <script>

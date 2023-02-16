@@ -1,15 +1,5 @@
-import Vue from 'vue';
 import scrollIntoView from 'scroll-into-view-if-needed'
-import config from '/src/config';
 import {DEFAULT_ROUTE} from '@/router/routeNames';
-import {
-  SAMPLE_UPLOAD,
-  SAMPLE_SEARCH,
-  USER_SETTINGS,
-  USER_LIBRARY,
-} from '/src/router/routeNames';
-
-const {STRIPE_ACCOUNT_STATUS:{NO_ACCOUNT, PENDING, APPROVED}} = config;
 
 const overlayOptionDefaults = () => ({
   showLoading: false,
@@ -20,7 +10,6 @@ export default {
   namespaced: true,
   
   state: () => ({
-    onSetCssProperty: () => {},
     isLoading: false,
     loading: false,
     showOverlay: false,
@@ -29,40 +18,6 @@ export default {
     opacity: '0',
     targetUrl:`/${DEFAULT_ROUTE}`,
     sideNavigationIndex: 0,
-    sideNavigationMenuItems: [
-      {
-        title: 'Browse',
-        slug: `/${SAMPLE_SEARCH}`,
-        icon:'fa-house',
-        id: 0,
-        accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
-      },
-      {
-        icon: 'fa-heart-music-camera-bolt',
-        title: 'Library',
-        slug: `/${USER_LIBRARY}`,
-        id: 1,
-        accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
-      },
-      // TODO: Fix this...
-      {
-
-        title: 'Upload',
-        slug: `/${SAMPLE_UPLOAD}/pack`,
-        icon:'fa-cloud-arrow-up',
-        id: 2,
-        accountStatus: [APPROVED]
-      },
-      {
-        icon: 'fa-gear',
-        title: 'Settings',
-        slug: `/${USER_SETTINGS}`,
-        id: 3,
-        accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
-      },
-
-    ],
-    showMenu: false
   }),
 
   getters:{
@@ -75,13 +30,6 @@ export default {
   },
 
   actions: {
-    onSetCssProperty({state:{onSetCssProperty}}, {key, value}){
-      onSetCssProperty({key, value});
-    },
-
-    setOnSetCssProperty({commit}, onSetCssProperty) {
-      commit('onSetCssProperty', onSetCssProperty);
-    },
 
     showOverlay({commit}, {showLoading, opacity} = overlayOptionDefaults()) {
       commit('setLoading', showLoading);
@@ -119,14 +67,6 @@ export default {
   },
 
   mutations: {
-    onSetCssProperty(state, onSetCssProperty){
-      Vue.set(state, 'onSetCssProperty', onSetCssProperty);
-    },
-
-    setShowMenu(state, showMenu) {
-      state.showMenu = showMenu;
-    },
-  
     isLoading(state, loading) {
       state.loading = loading;
     },
@@ -150,6 +90,5 @@ export default {
     setSideNavigationIndex(state, sideNavigationIndex) {
       state.sideNavigationIndex = sideNavigationIndex;
     }
-  
   }
 }

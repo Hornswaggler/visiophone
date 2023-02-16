@@ -1,25 +1,24 @@
 export const AUTH = 'auth';
 
 export const SAMPLE_UPLOAD = 'upload';
-export const SAMPLE_SEARCH = 'search';
+export const SAMPLE = 'samples'
 
-export const USER = 'user';
+export const SAMPLE_MODE_PARAM = ':mode';
+export const SAMPLE_EXPLORE = `${SAMPLE}/explore`;
+export const SAMPLE_SEARCH = `${SAMPLE}/search`;
+
 export const USER_SETTINGS = 'settings';
 export const USER_LIBRARY = 'library';
-export const PROVISION_STRIPE_STANDARD_REFRESH = 'provision-stripe-standard-refresh';
-export const PROVISION_STRIPE_STANDARD_RETURN = 'provision-stripe-standard-return';
-export const PURCHASE_SAMPLE_RETURN = 'purchase-sample-return'
 
-export const DEFAULT_ROUTE = SAMPLE_SEARCH;
+export const DEFAULT_ROUTE = SAMPLE_EXPLORE;
 
 export default {
   AUTH,
+  SAMPLE,
   SAMPLE_UPLOAD,
-  USER,
+  SAMPLE_EXPLORE,
+  SAMPLE_SEARCH,
   USER_SETTINGS,
   USER_LIBRARY,
-  PROVISION_STRIPE_STANDARD_REFRESH,
-  PROVISION_STRIPE_STANDARD_RETURN,
   DEFAULT_ROUTE,
-  PURCHASE_SAMPLE_RETURN
 };

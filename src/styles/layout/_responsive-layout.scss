@@ -2,11 +2,14 @@
   @extend .fill;
   @extend .flex;
 
+  background-color: var(--primary-background-color);
+
   .responsive-margin {
     @include for-size(xl) {
       width: 15%;
       height: 100%;
     };
+
     background-color: var(--primary-background-color);
     height: 0;
     width: 0;
@@ -50,41 +53,53 @@
 
       width: var(--responsive-layoutside-navigation-width);
 
-      opacity: 0.87;
-      background-color: var(--primary-background-color);
-
       .side-navigation-option {
         @extend .flex;
         @extend .align-center;
-        @extend .rounded-corners-md;
-        @extend .justify-space-evenly;
 
         cursor: pointer;
 
         font-family: #{$primary-font-family};
+        font-size: 1rem;
 
         max-height: var(--input-min-height);
         min-height: var(--input-min-height);
         width: 100%;
-
+        color: $primary-font-color;
         margin-top: 1rem;
-        padding: 0.2rem 0;
-
-        background-color: var(--navigation-option-background-color);
-        border-top: var(--default-border);
-
 
         transition: all $transition-linear-180;
-        
+
+        &>*{
+          margin-left: 1rem;
+        }
+
+        img {
+          height: 0.75rem;
+          width: 0.75rem;
+          filter: invert(0);
+          transition: all $transition-linear-180;
+        }
+
         &:not(.selected) {
           &:hover {
             background-color: $primary-font-color;
             color: $secondary-font-color;
+
+            img {
+              filter: invert(1);
+            }
           }
         }
 
         &.selected {
-          background: linear-gradient(to top, rgba(180, 180, 180, 0.503), rgba(255, 255, 255, 0.839));
+          font-weight: bold;
+          font-size: 1.2rem;
+
+          img {
+            height: 0.9rem;
+            width: 0.9rem;
+          }
         }
       }
 
@@ -180,13 +195,19 @@
 }
 
 .logo-container {
+  height: var(--main-banner-height);
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url('/logo.svg');
+
   display:flex;
   justify-content: center;
   align-items: center;
 
   .animated-text {
     font-size: 1.4rem;
-    background: linear-gradient(180deg, #2cd8d5 0%, #9fafd3 50%, #5a2288 100%);
+    background: #{$logo-font-gradient};
     animation: animated_text 10s ease infinite;
     background-size: 300%;
 

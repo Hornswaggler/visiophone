@@ -1,6 +1,6 @@
 <template>
   <div class="page-footer-container">
-    <div
+    <!-- <div
       v-for="option in sideNavigationItemsForUser"
       :key="option._id"
       @click="onMenuItemSelected(option)"
@@ -8,7 +8,7 @@
       <form-icon
         :icon="option.icon"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -30,10 +30,10 @@ export default {
     ...mapState('app',['sideNavigationMenuItems', 'sideNavigationIndex']),
     ...mapGetters('user',['stripeAccountStatus']),
 
-    sideNavigationItemsForUser(){
-      return this.sideNavigationMenuItems
-        .filter(m =>  m.accountStatus.includes(this.stripeAccountStatus));
-    }
+    // sideNavigationItemsForUser(){
+    //   return this.sideNavigationMenuItems
+    //     .filter(m =>  m.accountStatus.includes(this.stripeAccountStatus));
+    // }
   },
   methods:{
     navigate(slug){

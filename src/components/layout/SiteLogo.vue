@@ -1,8 +1,5 @@
 <template>
   <div class="logo-container">
-    <div class="animated-text lg-logo">
-      VISIOPHONE
-    </div>
   </div>
 </template>
 

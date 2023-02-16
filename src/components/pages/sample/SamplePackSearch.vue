@@ -4,7 +4,7 @@
     :on-scroll-limit-reached="onScrollLimitReached"
   >
     <template v-slot:header>
-      <div class="search-header">
+      <!-- <div class="search-header">
         <div class="flex-1 flex">
           <form-input
             class="header-search-input border-none p0"
@@ -25,7 +25,8 @@
             :selected="!isListTypeSelected"
           />
         </div>
-      </div>
+      </div> -->
+
       <form-sortable-table-header
         :table-definition="samplePackTableDefinition"
         :on-column-clicked="onColumnClicked"
@@ -36,14 +37,36 @@
     <template v-slot:scrolling-content>
       <form-sortable-table
         :data="samplePackArray"
-        :is-list-view="isListTypeSelected"
+        :is-list-view="routeParams.mode === 'search'"
       >
         <template v-slot:row="{ row: samplePack }">
           <sortable-table-row
             :table-definition="samplePackTableDefinition"
           >
             <template v-slot:Image>
-              <form-sortable-table-cell class="grid-image">
+              <form-sortable-table-cell
+                class="grid-image position-relative"
+              >
+                <div
+                  class="position-absolute flex flex-column p025"
+                  style="
+                    font-size: 0.8rem;
+                    background-color: #00000078;
+                    top:75%;
+                    bottom:0;
+                    left:0;
+                    right:0;"
+                >
+                  <div style="
+                    color: var(--primary-highlight-color);"
+                  >
+                    {{ samplePack.name }}
+                  </div>
+                  <div>
+                    {{ samplePack.description }}
+                  </div>
+                </div>
+
                 <form-image
                   :url="`${samplePack.imgUrl}`"
                 />
@@ -59,6 +82,18 @@
                 {{ samplePack.description }}
                 <!-- <audio-player :sample="sample" /> -->
               </form-sortable-table-cell>
+            </template>
+            <template v-slot:Purchase>
+              <div 
+                style="padding: 0 0.25rem;"
+                @click="addSamplePackToCart(samplePack)"
+              >
+                <form-icon
+                  icon-size="1rem"
+                  class="vp-icon flex justify-end align-end download-icon"
+                  icon="fa-plus"
+                />
+              </div>
             </template>
           </sortable-table-row>
         </template>
@@ -87,7 +122,7 @@ import { samplePackTableDefinition } from '@/components/pages/sample/samplePackT
 
 export default {
   name:'SampleSearch',
-  components:{
+  components: {
     FormImage,
     FormSortableTable,
     FormIcon,
@@ -117,6 +152,10 @@ export default {
 
     isListTypeSelected(){
       return this.sortType === SORT_TYPES.LIST;
+    },
+
+    routeParams() {
+      return this.$route.params;
     }
   },
 
@@ -135,6 +174,10 @@ export default {
   },
 
   methods: {
+    addSamplePackToCart(samplePack) {
+      this.$store.dispatch('cart/addSamplePackToCart', samplePack);
+    },
+
     onScrollLimitReached(){
       this.$store.dispatch('samplePack/loadMoreSamples');
     },

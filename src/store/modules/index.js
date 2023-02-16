@@ -5,6 +5,8 @@ import sample from './sample';
 import samplePack from './samplePack';
 import dropdown from './dropdown';
 import form from './form';
+import cart from './cart';
+import nav from './nav';
 
 const store = {
   user,
@@ -12,7 +14,9 @@ const store = {
   sample,
   samplePack,
   dropdown,
-  form
+  form,
+  cart,
+  nav
 };
 
 const initFromStorage = context => {
