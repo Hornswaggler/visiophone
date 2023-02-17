@@ -10,6 +10,7 @@ export const slugs = {
 
   SamplePackUpload: "F_SamplePackUpload",
   SamplePackSearch: "F_SamplePackSearch",
+  SamplePackGetById: "F_SamplePackGetById",
 
   StripeProfileGet: "F_StripeProfileGet",
   StripeProvisionUser: "F_StripeProvisionUser",

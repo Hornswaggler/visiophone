@@ -46,6 +46,7 @@
             <template v-slot:Image>
               <form-sortable-table-cell
                 class="grid-image position-relative"
+                :on-click="() => onSamplePackSelected(samplePack._id)"
               >
                 <div
                   class="position-absolute flex flex-column p025"
@@ -57,10 +58,15 @@
                     left:0;
                     right:0;"
                 >
-                  <div style="
-                    color: var(--primary-highlight-color);"
+                  <div 
+                    style="color: var(--primary-highlight-color);"
                   >
                     {{ samplePack.name }}
+                  </div>
+                  <div 
+                    style="color: #6aef6ae3;"
+                  >
+                    {{ samplePack.cost }}
                   </div>
                   <div>
                     {{ samplePack.description }}
@@ -119,6 +125,9 @@ import AudioPlayer from '@/components/form/AudioPlayer.vue';
 import FormRedirectButton from '@/components/form/FormRedirectButton.vue';
 import Carousel from '@/components/form/Carousel.vue';
 import { samplePackTableDefinition } from '@/components/pages/sample/samplePackTableDefinition';
+import { SAMPLE_PACK_DETAILS } from '@/router/routeNames';
+
+// import SamplePackView from '@/components/pages/sample/SamplePackView.vue';
 
 export default {
   name:'SampleSearch',
@@ -135,7 +144,7 @@ export default {
     AudioPlayer,
     FormRedirectButton,
     Carousel,
-    FormInput
+    FormInput,
   },
   data: () => ({
     page: 0,
@@ -174,6 +183,9 @@ export default {
   },
 
   methods: {
+    onSamplePackSelected(id) {
+      this.$router.push(`/${SAMPLE_PACK_DETAILS}/${id}`);
+    },
     addSamplePackToCart(samplePack) {
       this.$store.dispatch('cart/addSamplePackToCart', samplePack);
     },

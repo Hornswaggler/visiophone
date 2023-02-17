@@ -1,5 +1,7 @@
 <template>
-  <div class="header-container flex justify-end">
+  <div class="header-container flex">
+    <div class="flex-1">
+    </div>
     <div class="pr1 flex align-center">
       <img
         class="circle "
@@ -14,11 +16,12 @@
     :elements="headerElements"
   >
     <div class="fill flex justify-end"></div>
-  </carousel> -->
+  </carousel>
+-->
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapState, mapGetters} from 'vuex';
 import Carousel from '@/components/form/Carousel.vue';
 
 const headerElements = [
@@ -57,6 +60,7 @@ export default {
   }),
   computed:{
     ...mapState('user', ['profileImg']),
+    ...mapGetters('nav', ['breadcrumbs'])
   },
   methods: {
     async onUserMenuClicked(e) {

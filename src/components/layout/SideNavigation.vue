@@ -8,7 +8,7 @@
         v-for="option in navigationItemsForUser"
         :key="option.slug"
         class="side-navigation-option"
-        :class="{ selected: currentSlug === option.slug }"
+        :class="{ selected: isItemSelected(option)}"
         @click="onNavigationItemClicked(option.slug)"
       >
         <img :src="option.icon">
@@ -32,6 +32,18 @@ export default {
   },
 
   methods: {
+    isItemSelected(option){
+      if(this.currentSlug === option.slug){
+        return true;
+      } else {
+        const children = (option.children || []);
+        for(let i = 0; i < children.length; i++){
+          if(this.currentSlug.includes(children[i].slug)) return true;
+        }
+      }
+
+      return false;
+    },
     onNavigationItemClicked(slug) {
       this.$store.dispatch('nav/navigateToSlug', slug);
     }

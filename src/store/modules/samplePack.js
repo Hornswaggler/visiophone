@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import {axios, securePostForm, securePostJson} from '/src/axios.js';
+import {axios, securePostForm, secureGet, securePostJson} from '/src/axios.js';
 import moment from 'moment';
 import {encodeFormBlob} from '/src/store/modules/form';
 import {slugs} from '/src/slugs';
@@ -21,6 +21,18 @@ const DEFAULT_SAMPLE_PACK = {
   samples: []
 };
 
+export const getSamplePackCost = samplePack => {
+  if(samplePack == null || samplePack.samples == null) {
+    return '';
+  }
+
+  const total = samplePack.samples.reduce((acc,sample) => {
+    acc += sample.cost;
+    return acc;
+  }, 0);
+  return `$ ${total/100}`;
+};
+
 //TODO: Move into data model class...
 export const makeNewSamplePack = (
   {
@@ -29,14 +41,13 @@ export const makeNewSamplePack = (
     description = '',
     imgUrl ='',
     samples = []
-  } = DEFAULT_SAMPLE_PACK) => (
-  {
+  } = DEFAULT_SAMPLE_PACK) => ({
     _id,
     name,
     description,
     imgUrl,
     samples
-});
+  });
 
 //TODO: Move into factory pattern
 export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
@@ -44,6 +55,7 @@ export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
     ...makeNewSamplePack({...samplePack}),
     imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
     lastRefresh: moment().valueOf(),
+    cost: getSamplePackCost(samplePack)
   };
 
   return {
@@ -60,6 +72,7 @@ export default {
     samplePacks: {},
     sortAsc: true,
     sortBy:'name',
+    selectedSamplePack: {}
   }),
   getters: {
     samplePackArray({samplePacks, sortBy, sortAsc}) {
@@ -76,6 +89,18 @@ export default {
       return dispatch('search', {page});
     },
 
+    async getSamplePackById({state:{samplePacks}, dispatch, commit}, id) {
+      let selectedSamplePack;
+      if(samplePacks != '' && samplePacks[id]){
+        selectedSamplePack = samplePacks[id];
+      } else {
+        const {data} = await secureGet(axios, {slug: `${slugs.SamplePackGetById}/${id}`});
+        selectedSamplePack = await dispatch('addSamplePack', data);
+      }
+      commit('selectedSamplePack', selectedSamplePack);
+      return selectedSamplePack;
+    },
+
     async loadMoreSamples({dispatch, state:{nextResultIndex: _nextResultIndex, query, samples: _samples}}) {
       //TODO Endpoints should come from env
       await dispatch('search', {query, index: _nextResultIndex});
@@ -89,7 +114,7 @@ export default {
         commit('assignObject', { key: 'sortAsc', value: true} );
       }
       else {
-        commit('assignObject', { key: 'sortAsc', value: !sortAsc} );
+        commit('assignObject', { key: 'sortAsc', value: !sortAsc});
       }
     },
     async search({ dispatch, commit, state:{ nextResultIndex: _nextResultIndex, query: _query = '' }}, { query = '', index = 0 }) {
@@ -106,12 +131,17 @@ export default {
       commit('assignObject', {key: 'nextResultIndex', value: nextResultIndex});
       dispatch('addSamplePacks', {newSamplePacks: data, index});
     },
+    async addSamplePack({dispatch}, samplePack) {
+      return (await dispatch('addSamplePacks', {newSamplePacks: [samplePack]}))[0];
+    },
     addSamplePacks({commit, state:{samplePacks}}, {newSamplePacks, isNew = false, index = 0}){
       const initSamplePacks = newSamplePacks.map(samplePack => makeSamplePackFromResult({samplePack, isNew}));
+
       const result = initSamplePacks.reduce((acc, samplePack) => {
           acc[samplePack._id] = samplePack;
           return acc;
         }, {});
+
       commit('samplePacks', index > 0 ? {...samplePacks,  ...result } : {...result});
 
       return initSamplePacks;
@@ -162,6 +192,9 @@ export default {
     },
     isLoaded(state, value) {
       state.isLoaded = value;
+    },
+    selectedSamplePack(state, selectedSamplePack){
+      Vue.set(state, 'selectedSamplePack', selectedSamplePack);
     }
   }
 }

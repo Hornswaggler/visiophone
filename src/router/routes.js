@@ -5,19 +5,20 @@ import SampleUpload from '/src/components/pages/sample/SampleUpload.vue';
 import SamplePackUpload from '/src/components/pages/sample/SamplePackUpload.vue';
 import SingleSampleUpload from '/src/components/pages/sample/SingleSampleUpload.vue';
 import SamplePackSearch from '/src/components/pages/sample/SamplePackSearch.vue';
+import SamplePackView from '/src/components/pages/sample/SamplePackView.vue';
 import LandingPage from '/src/components/layout/LandingPage.vue';
 import config from '/src/config.js';
 
-const {VITE_APP_TITLE,} = config;
+const {VITE_APP_TITLE} = config;
 
 import {
-  SAMPLE,
+  DEFAULT_ROUTE,
+  AUTH,
+  SAMPLE_PACK_DETAILS_ROOT,
+  SAMPLE_PACK_TABLE_ROOT,
   SAMPLE_UPLOAD,
-  SAMPLE_MODE_PARAM,
-  SAMPLE_EXPLORE,
   USER_SETTINGS,
   USER_LIBRARY,
-  AUTH
 } from '/src/router/routeNames';
 
 export default [
@@ -36,12 +37,16 @@ export default [
         }
       },
       {
-        path: `/${SAMPLE}/${SAMPLE_MODE_PARAM}`,
-        component: SamplePackSearch,
+        path: '',
+        redirect: `/${DEFAULT_ROUTE}`,
       },
       {
-        path: '',
-        redirect: `/${SAMPLE_EXPLORE}`
+        path: `/${SAMPLE_PACK_TABLE_ROOT}`,
+        component: SamplePackSearch
+      },
+      {
+        path: `/${SAMPLE_PACK_DETAILS_ROOT}`,
+        component: SamplePackView
       },
       {
         path: SAMPLE_UPLOAD,
@@ -76,7 +81,7 @@ export default [
       },
       {
         path :'*',
-        redirect: `/${SAMPLE_EXPLORE}`
+        redirect: `/${DEFAULT_ROUTE}`
       }
     ]
   }

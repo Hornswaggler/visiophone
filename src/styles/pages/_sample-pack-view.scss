@@ -1,0 +1,40 @@
+.sample-pack-view-page {
+  @extend .position-relative;
+
+  height:calc(100% - var(--main-banner-height));
+  
+  .backdrop {
+    @extend .position-absolute;
+    @extend .cover;
+
+    opacity: 0.25;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .backdrop-filter {
+      @extend .fill;
+      backdrop-filter: blur(4.5rem) saturate(141%);
+    }
+  }
+
+  --sortable-table-list-view-image-hw: 4rem;
+
+  .sortable-table {
+    padding:0;
+    .sortable-table-row {
+
+      border-radius:0;
+      .sortable-column-row {
+        border-radius:0;
+      }
+    }
+  }
+
+  .form-image {
+    height: var(--responsive-layoutside-navigation-width);
+    width: var(--responsive-layoutside-navigation-width);
+    
+    border-radius: 0;
+  }
+}
