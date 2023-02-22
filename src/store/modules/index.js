@@ -7,6 +7,7 @@ import dropdown from './dropdown';
 import form from './form';
 import cart from './cart';
 import nav from './nav';
+import audioPlayer from './audioPlayer';
 
 const store = {
   user,
@@ -16,7 +17,8 @@ const store = {
   dropdown,
   form,
   cart,
-  nav
+  nav,
+  audioPlayer
 };
 
 const initFromStorage = context => {

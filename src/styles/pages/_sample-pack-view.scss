@@ -1,8 +1,8 @@
 .sample-pack-view-page {
   @extend .position-relative;
 
-  height:calc(100% - var(--main-banner-height));
-  
+  height: calc(100% - var(--main-banner-height) - var(--page-footer-height));
+
   .backdrop {
     @extend .position-absolute;
     @extend .cover;
@@ -23,7 +23,6 @@
   .sortable-table {
     padding:0;
     .sortable-table-row {
-
       border-radius:0;
       .sortable-column-row {
         border-radius:0;

@@ -3,7 +3,6 @@
   @extend .flex;
 
   background-color: var(--primary-background-color);
-
   .responsive-margin {
     @include for-size(xl) {
       width: 15%;
@@ -66,7 +65,10 @@
         min-height: var(--input-min-height);
         width: 100%;
         color: $primary-font-color;
-        margin-top: 1rem;
+
+        &:not(:first-child) {
+          margin-top: 1rem;
+        }
 
         transition: all $transition-linear-180;
 
@@ -159,18 +161,6 @@
       }
     }
 
-    .page-footer-container {
-      background-color: #{transparentize($primary-color, 0.4)};
-      height: var(--mobile-footer-height);
-      display: none;
-      align-items: center;
-      justify-content: space-around;
-
-      @include for-size(xs) {
-        display: flex;
-      }
-    }
-
     .sample-detail-container {
       &.isGridView {
         .sample-detail-image-card {
@@ -181,7 +171,6 @@
             }
           }
         }
-
         .sample-details {
           @extend .p0;
 

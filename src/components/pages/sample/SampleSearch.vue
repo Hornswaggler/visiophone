@@ -54,7 +54,6 @@
             <template v-slot:Genre>
               <form-sortable-table-cell>
                 {{ sample.tag }}
-                <!-- <audio-player :sample="sample" /> -->
               </form-sortable-table-cell>
             </template>
             <template v-slot:BPM>
@@ -103,7 +102,6 @@ import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
 import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
 import FormSortableTableHeader from '../../form/FormSortableTableHeader.vue';
 import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
-import AudioPlayer from '@/components/form/AudioPlayer.vue';
 import FormRedirectButton from '@/components/form/FormRedirectButton.vue';
 import Carousel from '@/components/form/Carousel.vue';
 import {sampleTableDefinition} from '@/components/pages/sample/sampleTableDefinition';
@@ -120,7 +118,6 @@ export default {
     BootlegGroupIcon,
     FormSortableTableHeader,
     FormSortableTableCell,
-    AudioPlayer,
     FormRedirectButton,
     Carousel,
     FormInput

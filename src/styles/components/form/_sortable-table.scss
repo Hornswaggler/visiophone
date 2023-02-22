@@ -105,7 +105,21 @@
 
     .sortable-table-row {
       @extend .fill-width;
-      @include alternate-colors($primary-color, $secondary-color, 0.8);
+
+      &:nth-child(even) {
+        .sortable-column-row{
+          background-color: transparentize($primary-color, 0.8);
+ 
+          
+
+        }
+      }
+      &:nth-child(odd) {
+        .sortable-column-row {
+          background-color: transparentize($secondary-color, 0.8);
+ 
+        }
+      }
 
       :not(:first-child) {
         padding-left: 0.5rem;
@@ -129,6 +143,15 @@
       }
 
       .sortable-column-row {
+        &.selected {
+          background-color: $primary-color;
+        }
+        &:hover {
+          background-color: $secondary-color;
+        }
+
+        transition: background-color $transition-cubic-bezier-250;
+
         min-height: var(--sortable-table-list-view-image-hw);
         .sortable-column {
           @extend .overflow-hidden;

@@ -51,8 +51,20 @@ export const makeNewSamplePack = (
 
 //TODO: Move into factory pattern
 export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
+  const samples = [...(samplePack.samples || [])].map(sample => ({
+    ...{
+      ...sample,
+      imgUrl: samplePack.imgUrl
+    },
+    clipUri: `${config.VITE_CLIP_URI}${sample._id}.ogg`,
+    imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
+  }));
+
   const newSamplePack = {
-    ...makeNewSamplePack({...samplePack}),
+    ...makeNewSamplePack({
+      ...samplePack,
+      samples
+    }),
     imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
     lastRefresh: moment().valueOf(),
     cost: getSamplePackCost(samplePack)

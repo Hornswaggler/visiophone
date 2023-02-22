@@ -1,5 +1,5 @@
 <template>
-  <div class="sortable-column-row">
+  <div class="sortable-column-row" @click="onClick">
     <div
       v-for="column in tableDefinition.columns"
       :key="column._id"
@@ -17,6 +17,10 @@ export default {
   props:{
     tableDefinition:{
       type: Object,
+      default: () => {}
+    }, 
+    onClick:{
+      type: Function,
       default: () => {}
     }
   }

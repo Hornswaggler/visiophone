@@ -31,6 +31,16 @@
   height: 100%;
 }
 
+.border-left {
+  margin-left: -1px;
+  border-left: var(--default-border-width) var(--default-border-color) solid;
+}
+
+.border-top {
+  margin-top: -1px;
+  border-top: var(--default-border-width) var(--default-border-color) solid;
+}
+
 .fill-width {
   width: 100%;
 }

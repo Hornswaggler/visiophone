@@ -1,11 +1,23 @@
 <template>
   <div class="responsive-layout-side-navigation">
-    <div class="flex-1">
-      <div class="site-name">
+    
+    <div class="site-name">
         <site-logo />
-      </div>
+    </div>
+    <div class="flex-1 flex flex-column pb1">
       <div
-        v-for="option in navigationItemsForUser"
+        v-for="option in topNavItems"
+        :key="option.slug"
+        class="side-navigation-option"
+        :class="{ selected: isItemSelected(option)}"
+        @click="onNavigationItemClicked(option.slug)"
+      >
+        <img :src="option.icon">
+        <div>{{ option.title }}</div>
+      </div>
+      <div class="flex-1">&nbsp;</div>
+      <div
+        v-for="option in bottomNavItems"
         :key="option.slug"
         class="side-navigation-option"
         :class="{ selected: isItemSelected(option)}"
@@ -29,6 +41,12 @@ export default {
   computed:{
     ...mapGetters('nav', ['navigationItemsForUser']),
     ...mapState('nav', ['currentSlug']),
+    topNavItems() {
+      return this.navigationItemsForUser.filter(option => option.slug !== '/settings')
+    },
+    bottomNavItems() {
+      return this.navigationItemsForUser.filter(option => option.slug === '/settings')
+    }
   },
 
   methods: {

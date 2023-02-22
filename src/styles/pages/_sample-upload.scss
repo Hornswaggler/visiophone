@@ -6,7 +6,7 @@
     }
   }
   @include for-size(xs) {
-    height:calc(100% - var(--mobile-footer-height) - var(--main-banner-height));
+    height:calc(100% - var(--page-footer-height) - var(--main-banner-height));
   }
 
   .delete-button {

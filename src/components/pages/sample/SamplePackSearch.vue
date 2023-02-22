@@ -121,13 +121,10 @@ import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
 import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
 import FormSortableTableHeader from '../../form/FormSortableTableHeader.vue';
 import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
-import AudioPlayer from '@/components/form/AudioPlayer.vue';
 import FormRedirectButton from '@/components/form/FormRedirectButton.vue';
 import Carousel from '@/components/form/Carousel.vue';
 import { samplePackTableDefinition } from '@/components/pages/sample/samplePackTableDefinition';
 import { SAMPLE_PACK_DETAILS } from '@/router/routeNames';
-
-// import SamplePackView from '@/components/pages/sample/SamplePackView.vue';
 
 export default {
   name:'SampleSearch',
@@ -141,7 +138,6 @@ export default {
     BootlegGroupIcon,
     FormSortableTableHeader,
     FormSortableTableCell,
-    AudioPlayer,
     FormRedirectButton,
     Carousel,
     FormInput,

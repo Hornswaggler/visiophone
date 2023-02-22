@@ -4,6 +4,8 @@ $secondary-color: rgb(158, 158, 158);
 $primary-font-color: rgb(226, 226, 226) !default;
 $secondary-font-color: rgb(17, 17, 17);
 
+$primary-border-color: #777777;
+
 $transition-cubic-bezier-250: 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 $transition-linear-180: 0.18s linear;
 $transition-cubic-bezier-500: 500ms cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -28,7 +30,9 @@ body {
   --font-sm: 0.8rem;
   --select-option-font-size: 1.2rem;
 
-  --default-border: solid #{$primary-font-color} 1px;
+  --default-border-width: 1px;
+  --default-border-color: #{$primary-border-color};
+  --default-border: solid #{$primary-font-color} var(--default-border-width);
 
   --primary-highlight-color: rgba(20, 234, 253, 0.95);
   --primary-error-color: #c13809;
@@ -47,7 +51,7 @@ body {
   --sortable-table-grid-padding: 0.5rem;
 
   --main-banner-height: 2.5rem;
-  --mobile-footer-height: 2.5rem;
+  --page-footer-height: 3.5rem;
 
   --sample-pack-upload-height: 1.5rem;
   --sample-pack-search-header-height: 

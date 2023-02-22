@@ -51,14 +51,13 @@ export default {
             }
           );
           if (await $store.dispatch('user/logout')) {
-
             $router.push(`/${AUTH}`);
           }
         }
       }
     },
   }),
-  computed:{
+  computed: {
     ...mapState('user', ['profileImg']),
     ...mapGetters('nav', ['breadcrumbs'])
   },

@@ -1,5 +1,8 @@
 .page-body {
   @extend .fill-width;
+  @extend .border-left;
+  
+  height: calc(100% - var(--main-banner-height) - var(--page-footer-height));
   background-color: var(--primary-background-color);
   position: relative;
 }
