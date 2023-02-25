@@ -15,7 +15,8 @@ const properties = [
   'VITE_AUTH_SIGN_UP_SIGN_IN_REDIRECT_URI',
   'VITE_APP_TITLE',
   'VITE_VALIDATION_DEFINITION_URI',
-  'VITE_BASE_URL'
+  'VITE_BASE_URL',
+  'VITE_CART_MODAL_TIMEOUT'
 ];
 
 const env = import.meta.env;

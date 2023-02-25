@@ -1,10 +1,10 @@
 import Vue from 'vue';
-import {securePostForm, securePostJson, secureGet, axios } from '/src/axios.js';
+import {securePostForm, securePostJson, secureGet, securePost, axios } from '/src/axios.js';
 import config from '/src/config.js';
 import auth from '/src/auth';
 import {slugs} from '/src/slugs';
 
-const {STRIPE_ACCOUNT_STATUS} = config;
+const {STRIPE_ACCOUNT_STATUS, AUDIO_MIME_TYPE} = config;
 
 //TODO: Localstorage access should be in persistence layer!
 export const makeNewUser = () => ({
@@ -60,9 +60,25 @@ export default {
       return isStripeApproved;
     },
 
-    async getPurchases({commit}){
+    async getPurchases({commit}) {
       const {data} = await secureGet(axios, {slug: slugs.PurchaseGet});
       commit('purchases', data);
+    },
+
+    async getPurchasedSample(context, {sample}){
+
+      const {_id} = sample;      
+      const {data:uri} = await securePost(axios, 'text/plain', JSON.stringify(`${_id}.wav`), {slug: slugs.GetPurchasedSample});
+      const {data} = await secureGet(axios, { responseType: 'blob', uri, auth: false });
+
+      const blob = new Blob([await data.arrayBuffer()], { type: data.type });
+      const url = URL.createObjectURL(blob);
+
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = `${_id}.wav`;
+      document.body.appendChild(a);
+      a.click();
     },
 
     async handleUserLogon({commit, dispatch, getters:{stripeAccountStatus}}, tokenResponse){

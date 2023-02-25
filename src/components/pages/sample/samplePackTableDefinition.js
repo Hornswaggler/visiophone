@@ -14,9 +14,16 @@ export const samplePackTableDefinition = {
       show:true
     },
     {
-      ratio: '1',
+      ratio: '2',
       name: 'Description',
       path: 'description',
+      isSort: true,
+      show:true
+    },
+    {
+      ratio: '1',
+      name: 'Cost',
+      path: 'cost',
       isSort: true,
       show:true
     },

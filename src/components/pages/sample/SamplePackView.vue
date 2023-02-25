@@ -12,7 +12,7 @@
               {{ selectedSamplePack.name }}
             </div>
             <div style="color: #6aef6ae3;" class="font-bold">
-              {{ selectedSamplePack.cost }}
+              {{ selectedSamplePack.costFormatted }}
             </div>
             <div style="opacity: 0.8;font-size: 1rem;">
               {{ samplePackSeller }}
@@ -21,6 +21,17 @@
               {{ selectedSamplePack.description }}
             </div>
           </div>
+          <div class="flex flex-1 justify-end">
+            <div @click="addSamplePackToCart">
+              <form-icon
+                style="height:1.5rem;width:1.5rem;"
+                icon-size="1rem"
+                class="vp-icon flex justify-center align-center download-icon"
+                icon="fa-plus"
+              />
+            </div>
+          </div>
+          
         </div>
         <div class="pt1">
           <form-sortable-table :data="selectedSamplePack.samples" :is-list-view="true">
@@ -97,6 +108,9 @@ export default {
     this.$store.dispatch('audioPlayer/addSamplesToQueue', this.selectedSamplePack.samples)
   },
   methods:{
+    addSamplePackToCart(){
+      this.$store.dispatch('cart/addSamplePackToCart', this.selectedSamplePack);
+    },
     onSampleClicked({_id}){
       this.$store.dispatch('audioPlayer/playSample', {_id})
     }

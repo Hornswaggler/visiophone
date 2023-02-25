@@ -13,6 +13,14 @@
                 :on-changed="name => samplePack.name = name"
               />
             </div>
+            <div class="vp-form-row flex-column flex">
+              <form-number-input
+                title="cost"
+                fieldName="cost"
+                :value="samplePack.cost"
+                :on-changed="cost => samplePack.cost = cost"
+              />
+            </div>
             <div class="vp-form-row">
               <form-input
                 fieldName="description"
@@ -96,6 +104,7 @@ import FormInput from '@/components/form/FormInput.vue';
 import FormImageEditor from '@/components/form/FormImageEditor.vue';
 import { v4 as uuidv4 } from 'uuid';
 import { makeNewSample } from '@/store/modules/sample';
+import { makeNewSamplePack } from '@/store/modules/samplePack';
 import CollapsiblePanel from '../../form/CollapsiblePanel.vue';
 import { AUDIO_MIME_TYPE, IMAGE_MIME_TYPE } from '@/config';
 import TextAreaInput from '@/components/form/TextAreaInput.vue';
@@ -128,12 +137,7 @@ export default {
   data: () => ({
     colors: { r: 255, g: 0, b: 0 },
     isSamplePack: true,
-    samplePack: {
-      description: '',
-      name: '',
-      imgUrl: '',
-      samples: {}
-    },
+    samplePack: makeNewSamplePack({samples: {}}),
     imageSrc: '',
     samplePanelState: {},
     AUDIO_MIME_TYPE,
@@ -145,7 +149,7 @@ export default {
       return this.colors.rgba || { r: 0, g: 0, b: 0, a: 0 };
     },
   },
-  mounted(){
+  mounted() {
     this.addSample({scrollToElement: false});
     this.$store.dispatch('form/initialize', { formName: 'samplePack' });
   },

@@ -8,7 +8,7 @@
       :class="{ selected }"
       @click="handleColumnClicked(column, index)"
     >
-      <div>
+      <div class="flex align-center">
         <div v-if="column.show">
           {{ column.name }}
         </div>

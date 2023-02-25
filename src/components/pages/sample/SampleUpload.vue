@@ -28,7 +28,7 @@ export default {
 
   //TODO: Fix this...
   data: () => ({
-    options: ['Pack','Single'],
+    options: ['Pack',/*'Single'*/],
     selectedUploadType: 'Pack',
     initialIndex: 0
   }),

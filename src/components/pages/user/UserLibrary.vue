@@ -24,7 +24,7 @@
                 </template>
                 <template v-slot:Name>
                   <form-sortable-table-cell>
-                    {{sample.name}}
+                    <a href="http://localhost:7071/api/F_GetPurchasedSample" download>{{sample.name}}</a>
                   </form-sortable-table-cell>
                 </template>
                 <template v-slot:Title>
@@ -51,7 +51,7 @@
 
         <div class="vp-form-row text-align-left">
           <h3 @click="isGridView = !isGridView">
-            Purchases
+            Purchases : {{ purchases }}
           </h3>
         </div>
 
@@ -60,13 +60,15 @@
           :data="purchases"
           :is-grid-view="true"
         >
-          <template v-slot:row="{ row:sample }">
-            <sortable-table-row 
+          <template v-slot:row="{ row: sample }">
+            <sortable-table-row
               class="sortable-column-row" 
               :class="{expanded : !isGridView}"
               :table-definition="tableDefinition"
+              :on-click="() => onPurchaseClicked(sample)"
             >
               <template v-slot:Image>
+                
                 <form-image 
                   class="search-album-art" 
                   :class="{expanded: !isGridView}" 
@@ -152,8 +154,13 @@ export default {
       ].map((col, _id) => ({...col, _id}))
     }
   }),
-  computed:{
+  computed: {
     ...mapState('user',['uploads', 'isStripeApproved', 'purchases']),
+  },
+  methods: {
+    onPurchaseClicked(sample) {
+      this.$store.dispatch('user/getPurchasedSample', {sample});
+    }
   }
 }
 </script>

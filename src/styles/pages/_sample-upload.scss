@@ -1,12 +1,10 @@
 .sample-upload {
-  height:calc(100% - var(--main-banner-height));
-  .scrolling-container {
-    .scrolling-container-scrollable-content {
-      height: calc(100% - var(--sample-pack-upload-height));
-    }
+  .sample-pack-header {
+    height: var(--sample-pack-header-height);
   }
-  @include for-size(xs) {
-    height:calc(100% - var(--page-footer-height) - var(--main-banner-height));
+
+  .scrolling-container {
+    height: calc(100% - var(--sample-pack-header-height));
   }
 
   .delete-button {

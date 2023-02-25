@@ -4,7 +4,7 @@ export const slugs = {
   PurchaseCompleteReturn: "F_PurchaseCompleteReturn",
   PurchaseGet: "F_PurchaseGet",
 
-  SamplePurchase: "F_SamplePurchase",
+  SamplePackPurchase: "F_SamplePackPurchase",
   SampleSearch: "F_SampleSearch",
   SampleUpload: "F_SampleUpload",
 
@@ -17,6 +17,8 @@ export const slugs = {
   StripeProvisionUserReturn: "F_StripeProvisionUserReturn",
 
   UserProfileSet: "F_UserProfileSet",
+
+  GetPurchasedSample: "F_GetPurchasedSample"
 }
 
 export const getUriForSlug = slug => `${config.VITE_API_BASE_URL}${slug}`;

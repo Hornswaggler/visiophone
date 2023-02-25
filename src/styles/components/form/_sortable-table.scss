@@ -172,7 +172,9 @@
 
 .sortable-table-header {
   @extend .flex;
+  @extend .align-center;
 
+  font-size: 0.9rem;
   height: var(--sortable-table-column-name-height);
   
   .sortable-table-header-column {

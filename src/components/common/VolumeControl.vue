@@ -1,6 +1,9 @@
 <template>
   <div class="volume-controls flex align-center justify-end">
-    {{ percentComplete }}
+    <render-svg
+      :rawSVG="playButtonSvg"
+      class="fill-height flex align-center pr1"
+    ></render-svg>
     <div
       ref="volumeControls"
       class="volume-controls-container"
@@ -22,11 +25,16 @@
 </template>
 
 <script>
+import RenderSvg from '@/components/common/RenderSvg.vue';
 import { debounce } from 'vue-debounce';
 import { mapGetters } from 'vuex';
+import playButtonSvg from '@/assets/high-volume.svg?raw';
 
 export default {
   name: 'VolumeControl',
+  components:{
+    RenderSvg
+  },
   props:{
     onChanged:{
       type: Function,
@@ -35,6 +43,7 @@ export default {
   },
   data: () => ({
     debounce: debounce((callback, val) => callback && callback(val), 5),
+    playButtonSvg,
     time: 0,
     isMouseDown: false,
     offsetX: 0,

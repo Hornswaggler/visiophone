@@ -18,7 +18,8 @@ const DEFAULT_SAMPLE_PACK = {
   name:'',
   description: '',
   imgUrl:'',
-  samples: []
+  cost: '100.00',
+  samples: {}
 };
 
 export const getSamplePackCost = samplePack => {
@@ -26,28 +27,24 @@ export const getSamplePackCost = samplePack => {
     return '';
   }
 
+  if(samplePack.cost !== 0) {
+    return samplePack.cost;
+  }
+
   const total = samplePack.samples.reduce((acc,sample) => {
     acc += sample.cost;
     return acc;
   }, 0);
-  return `$ ${total/100}`;
+
+  return total;
 };
 
 //TODO: Move into data model class...
-export const makeNewSamplePack = (
-  {
-    _id,
-    name = '',
-    description = '',
-    imgUrl ='',
-    samples = []
-  } = DEFAULT_SAMPLE_PACK) => ({
-    _id,
-    name,
-    description,
-    imgUrl,
-    samples
-  });
+export const makeNewSamplePack = () => ({...DEFAULT_SAMPLE_PACK});
+
+const formatCost = cost => {
+  return `$ ${(cost / 100).toFixed(2)}`;
+};
 
 //TODO: Move into factory pattern
 export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
@@ -60,6 +57,18 @@ export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
     imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
   }));
 
+  const cost = getSamplePackCost(samplePack);
+
+  const newResult = {
+    ...makeNewSamplePack(),
+    ...samplePack,
+    samples,
+    imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
+    lastRefresh: moment().valueOf(),
+    cost,
+    costFormatted: formatCost(cost)
+  };
+
   const newSamplePack = {
     ...makeNewSamplePack({
       ...samplePack,
@@ -67,12 +76,11 @@ export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
     }),
     imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
     lastRefresh: moment().valueOf(),
-    cost: getSamplePackCost(samplePack)
+    cost,
+    costFormatted: formatCost()
   };
 
-  return {
-    ...newSamplePack
-  };
+  return newResult;
 };
 
 export default {
@@ -165,6 +173,7 @@ export default {
       const samplePackRequest = {
         name: samplePack.name,
         description: samplePack.description,
+        cost: samplePack.cost,
         imgUrl,
         samples: []
       }

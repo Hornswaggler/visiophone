@@ -89,6 +89,11 @@
                 <!-- <audio-player :sample="sample" /> -->
               </form-sortable-table-cell>
             </template>
+            <template v-slot:Cost>
+              <form-sortable-table-cell>
+                {{ samplePack.costFormatted }}
+              </form-sortable-table-cell>
+            </template>
             <template v-slot:Purchase>
               <div 
                 style="padding: 0 0.25rem;"

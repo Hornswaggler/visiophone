@@ -257,8 +257,8 @@ export default {
 
       this.$nextTick(() => {
         this.$refs['otherCanvas'].toBlob( async blob => {
-          
-          const file = new File([blob], this.imagePreviewBlob.name, {type: IMAGE_MIME_TYPE});
+          const newFileName = `${this.imagePreviewBlob.name.substring(0, this.imagePreviewBlob.name.lastIndexOf('.'))}.png`;
+          const file = new File([blob], newFileName, {type: 'image/png'});
           const clipUri = URL.createObjectURL(file);
 
           this.changeHandler({file, clipUri});

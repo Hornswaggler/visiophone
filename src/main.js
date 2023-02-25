@@ -28,7 +28,9 @@ import {
   faMaximize,
   faWindowMinimize,
   faImage,
-  faPause
+  faPause,
+  faShoppingCart,
+  faCartShopping
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import config from '/src/config';
@@ -55,6 +57,8 @@ library.add(faMaximize);
 library.add(faWindowMinimize);
 library.add(faImage);
 library.add(faPause);
+library.add(faShoppingCart);
+library.add(faCartShopping);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 

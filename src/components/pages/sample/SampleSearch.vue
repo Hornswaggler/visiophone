@@ -63,7 +63,7 @@
             </template>
             <template v-slot:Cost>
               <form-sortable-table-cell>
-                {{ `$${sample.cost * 0.01}` }}
+                {{ sample.costFormatted }}
               </form-sortable-table-cell>
             </template>
             <template v-slot:Buy>

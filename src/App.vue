@@ -2,10 +2,12 @@
   <div
     ref="app"
     id="app"
+    class="position-relative"
   >
     <background />
     <form-dropdown />
     <loading />
+    <shopping-cart-modal />
     <router-view v-if="authenticated" />
   </div>
 </template>
@@ -17,13 +19,15 @@ import config from '@/config';
 import Background from '@/components/layout/Background.vue';
 import Loading from '@/components/layout/Loading.vue';
 import FormDropdown from '@/components/form/FormDropdown.vue';
+import ShoppingCartModal from '@/components/common/ShoppingCartModal.vue';
 
 export default {
   name: 'App',
   components: {
     Loading,
     Background,
-    FormDropdown
+    FormDropdown,
+    ShoppingCartModal
   },
 
   computed: {

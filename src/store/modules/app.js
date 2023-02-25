@@ -17,7 +17,6 @@ export default {
     closeOverlayOnclick: true,
     opacity: '0',
     targetUrl:`/${DEFAULT_ROUTE}`,
-    sideNavigationIndex: 0,
   }),
 
   getters:{
@@ -85,10 +84,6 @@ export default {
   
     setTargetUrl(state, targetUrl) {
       state.targetUrl = targetUrl;
-    },
-  
-    setSideNavigationIndex(state, sideNavigationIndex) {
-      state.sideNavigationIndex = sideNavigationIndex;
     }
   }
 }

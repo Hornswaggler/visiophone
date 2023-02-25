@@ -1,5 +1,5 @@
 <template>
-  <div class="header-container flex">
+  <div class="header-container flex align-center noselect">
     <div class="flex-1">
     </div>
     <div class="pr1 flex align-center">
@@ -9,6 +9,14 @@
         @click="onUserMenuClicked"
       >
     </div>
+    <div class="pr1 flex align-center" ref="shoppingCartIcon">
+      <font-awesome-icon
+        icon="fa-shopping-cart"
+        class="cursor-pointer hover-zoom"
+        @click="onShoppingCartClicked"
+      />
+    </div>
+
   </div>
 <!-- 
   <carousel
@@ -61,7 +69,17 @@ export default {
     ...mapState('user', ['profileImg']),
     ...mapGetters('nav', ['breadcrumbs'])
   },
+  mounted() {
+    const { offsetHeight, offsetLeft } = this.$refs['shoppingCartIcon'];
+    this.$store.dispatch('cart/setDefaultOffsets', {offsetX: offsetLeft, offsetY: offsetHeight });
+  },
   methods: {
+    onShoppingCartClicked(event){
+      this.$store.dispatch('cart/toggleCartModal', {
+        clickX: event.pageX,
+        clickY: event.pageY
+      });
+    },
     async onUserMenuClicked(e) {
       this.$store.dispatch('app/showOverlay', { showLoading: false, opacity: '0.9' });
 

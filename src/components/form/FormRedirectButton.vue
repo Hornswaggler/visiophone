@@ -25,10 +25,11 @@
   </form>
 </template>
 <script>
+
 export default {
   name:'FormRedirectButton',
   data: () => ({
-    internalIdToken:"",
+    internalIdToken: "",
     internalPrices: ""
   }),
   props: {
@@ -45,6 +46,7 @@ export default {
       default: ""
     }
   },
+  
   mounted() {
     this.internalIdToken = this.idToken;
     this.internalPrices = JSON.stringify(this.prices);
