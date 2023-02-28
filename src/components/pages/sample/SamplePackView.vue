@@ -35,11 +35,11 @@
         </div>
         <div class="pt1">
           <form-sortable-table :data="selectedSamplePack.samples" :is-list-view="true">
-            <template v-slot:row="{ row: samplePack }">
+            <template v-slot:row="{ row: sample }">
               <sortable-table-row
                 :table-definition="samplePackTableDefinition"
-                :on-click="() => onSampleClicked(samplePack)"
-                :class="{selected: samplePack._id === nowPlaying._id}"
+                :on-click="() => onSampleClicked(sample)"
+                :class="{selected: sample._id === nowPlaying._id}"
               >
                 <template v-slot:Image>
                   <form-sortable-table-cell class="grid-image position-relative">
@@ -48,15 +48,16 @@
                 </template>
                 <template v-slot:Name>
                   <form-sortable-table-cell>
-                    {{ samplePack.name }}
+                    {{ sample.name }}
                   </form-sortable-table-cell>
                 </template>
                 <template v-slot:Description>
                   <form-sortable-table-cell>
-                    {{ samplePack.description }}
+                    {{ sample.description }}
                   </form-sortable-table-cell>
                 </template>
               </sortable-table-row>
+              
             </template>
           </form-sortable-table>
         </div>

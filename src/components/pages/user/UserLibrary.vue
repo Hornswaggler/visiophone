@@ -10,94 +10,19 @@
               Uploads
             </h3>
           </div>
-
-          <form-sortable-table 
-            :table-definition="tableDefinition" 
-            :data="uploads"
-          >
-            <template v-slot:row="{ row:sample }">
-              <sortable-table-row 
-                class="sortable-column-row"
-                :table-definition="tableDefinition"
-              >
-                <template v-slot:Image>
-                </template>
-                <template v-slot:Name>
-                  <form-sortable-table-cell>
-                    <a href="http://localhost:7071/api/F_GetPurchasedSample" download>{{sample.name}}</a>
-                  </form-sortable-table-cell>
-                </template>
-                <template v-slot:Title>
-                  <form-sortable-table-cell>
-                    {{ sample.description }}
-                  </form-sortable-table-cell>
-                </template>
-                <!-- <template v-slot:Genre>
-                  <form-sortable-table-cell>
-                    {{ sample.tag }}
-                  </form-sortable-table-cell>
-                </template>
-                <template v-slot:BPM>
-                  <form-sortable-table-cell>
-                    {{ sample.bpm }}
-                  </form-sortable-table-cell>
-                </template> -->
-              </sortable-table-row>
-            </template>
-          </form-sortable-table>
+          <sample-packs-detail-component
+            :samplePacks="uploads"
+          ></sample-packs-detail-component>
         </div>
-
-
 
         <div class="vp-form-row text-align-left">
           <h3 @click="isGridView = !isGridView">
-            Purchases : {{ purchases }}
+            Purchases
           </h3>
         </div>
-
-        <form-sortable-table 
-          :table-definition="tableDefinition" 
-          :data="purchases"
-          :is-grid-view="true"
-        >
-          <template v-slot:row="{ row: sample }">
-            <sortable-table-row
-              class="sortable-column-row" 
-              :class="{expanded : !isGridView}"
-              :table-definition="tableDefinition"
-              :on-click="() => onPurchaseClicked(sample)"
-            >
-              <template v-slot:Image>
-                
-                <form-image 
-                  class="search-album-art" 
-                  :class="{expanded: !isGridView}" 
-                  :url="`${sample.imgUrl}`" 
-                />
-              </template>
-              <template v-slot:Name>
-                <form-sortable-table-cell>
-                  {{sample.name}}
-                </form-sortable-table-cell>
-              </template>
-              <template v-slot:Title>
-                <form-sortable-table-cell>
-                  {{ sample.description }}
-                </form-sortable-table-cell>
-              </template>
-              <template v-slot:Genre>
-                <form-sortable-table-cell>
-                  {{ sample.tag }}
-                </form-sortable-table-cell>
-              </template>
-              <template v-slot:BPM>
-                <form-sortable-table-cell>
-                  {{ sample.bpm }}
-                </form-sortable-table-cell>
-              </template>
-            </sortable-table-row>
-          </template>
-        </form-sortable-table>
+        <sample-packs-detail-component
+          :samplePacks="purchases"
+        ></sample-packs-detail-component>
       </div>
     </template>
   </scrolling-container>
@@ -109,7 +34,9 @@ import FormSortableTable from '@/components/form/FormSortableTable.vue'
 import SortableTableRow from '@/components/form/SortableTableRow.vue';
 import ScrollingContainer from '@/components/layout/ScrollingContainer.vue';
 import FormImage from '@/components/form/FormImage.vue';
+import FormIcon from '@/components/form/FormIcon.vue';
 import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
+import SamplePacksDetailComponent from '@/components/common/SamplePacksDetailComponent.vue';
 
 export default {
   name:'UserLibrary',
@@ -118,49 +45,18 @@ export default {
     SortableTableRow,
     FormSortableTableCell,
     FormImage,
-    ScrollingContainer
+    FormIcon,
+    ScrollingContainer,
+    SamplePacksDetailComponent
   },
   data: () => ({
-    isGridView:true,
-    tableDefinition: {
-      columns: [
-        {
-          ratio:'1',
-          name:'Name',
-          isSort: false,
-          show: true
-        },
-        {
-          ratio:'2',
-          name: 'Title',
-          path: 'description',
-          isSort: true,
-          show: true
-        },
-        // {
-        //   ratio:'2',
-        //   name: 'Genre',
-        //   path: 'tag',
-        //   isSort: true,
-        //   show: true
-        // },
-        // {
-        //   ratio:'1',
-        //   name: 'BPM',
-        //   path: 'bpm',
-        //   isSort: true,
-        //   show: true
-        // }
-      ].map((col, _id) => ({...col, _id}))
-    }
+    isGridView: true,
   }),
   computed: {
     ...mapState('user',['uploads', 'isStripeApproved', 'purchases']),
   },
-  methods: {
-    onPurchaseClicked(sample) {
-      this.$store.dispatch('user/getPurchasedSample', {sample});
-    }
+  mounted(){
+    this.$store.dispatch('user/initializeLibrary');
   }
 }
 </script>

@@ -6,7 +6,7 @@
   "clipUri":{
     "required": true
   },
-  "tag":{
+  "tags":{
     "required": true
   },
   "bpm": {

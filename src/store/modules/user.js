@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import {securePostForm, securePostJson, secureGet, securePost, axios } from '/src/axios.js';
+import {makeSamplePackFromResult} from '@/store/modules/samplePack';
 import config from '/src/config.js';
 import auth from '/src/auth';
 import {slugs} from '/src/slugs';
@@ -16,8 +17,10 @@ export const makeNewUser = () => ({
   customUserName: '',
   isStripeApproved: false,
   stripeId: '',
+  isLibraryInitialized: false,
   uploads: [],
-  purchases: []
+  purchases: [],
+  libraryLinks: {}
 });
 
 export default {
@@ -46,14 +49,45 @@ export default {
       commit('_id', data._id);
     },
 
-    async getStripeProfile({ state, commit }) {
-      const {data:{isStripeApproved, stripeId, uploads}} = await securePostJson(
+    async initializeLibrary({commit, dispatch, state:{isLibraryInitialized}}){
+      if(!isLibraryInitialized){
+        Promise.all([
+          dispatch('getUploads'),
+          dispatch('getPurchases')
+        ]);
+      }
+    },
+
+    addLibrarySamplePackLinks({dispatch}, {samplePackId, links}) {
+      for(let i = 0; i < links.length; i++) {
+        const link = links[i]['link'];
+        const sampleId = links[i]['_id'];
+        dispatch('addLibrarySampleLink', {
+          samplePackId: samplePackId,
+          sampleId,
+          link
+        });
+      }
+    },
+
+    
+    addLibrarySampleLink({state:{libraryLinks}, commit}, {samplePackId, sampleId, link}) {
+      commit('libraryLinks', {
+        ...libraryLinks,
+        [samplePackId]: [
+          ...(libraryLinks[samplePackId] || []),
+          {sampleId, link}
+        ]
+      })
+    },
+
+    async getStripeProfile({ commit }) {
+      const {data:{isStripeApproved, stripeId}} = await securePostJson(
         axios, 
         {}, 
         { slug: slugs.StripeProfileGet }
       );
 
-      commit('uploads', uploads);
       commit('isStripeApproved', isStripeApproved);
       commit('stripeId', stripeId);
 
@@ -62,23 +96,47 @@ export default {
 
     async getPurchases({commit}) {
       const {data} = await secureGet(axios, {slug: slugs.PurchaseGet});
-      commit('purchases', data);
+      commit('purchases', data.map(samplePack => makeSamplePackFromResult({samplePack})));
     },
 
-    async getPurchasedSample(context, {sample}){
+    async getUploads({commit}){
+      const {data:{data}} = await securePostJson(
+        axios, 
+        {}, 
+        { slug: slugs.StripeUploadsGet }
+      );
+      commit('uploads', data.map(samplePack => makeSamplePackFromResult({samplePack})));
+    },
 
-      const {_id} = sample;      
-      const {data:uri} = await securePost(axios, 'text/plain', JSON.stringify(`${_id}.wav`), {slug: slugs.GetPurchasedSample});
-      const {data} = await secureGet(axios, { responseType: 'blob', uri, auth: false });
+    async getPurchasedSamplePack({state:{libraryLinks}, dispatch}, {samplePack:{_id}}){
+      if(!libraryLinks[_id]) {
+        const { data = [] } = await securePost(
+          axios,
+          'text/plain',
+          JSON.stringify(_id),
+          {slug: slugs.GetPurchasedSamplePack}
+        );
+        
+        dispatch('addLibrarySamplePackLinks',{
+          samplePackId: _id,
+          links: data.map(({Key, Value}) => ({_id: Key, link: Value}))
+        });
+      }
+      
+      return libraryLinks[_id];
+    },
 
-      const blob = new Blob([await data.arrayBuffer()], { type: data.type });
-      const url = URL.createObjectURL(blob);
+    async getPurchasedSample(context, { sample }){
+      const { _id } = sample;      
+      const { data: uri } = await securePost(
+        axios, 
+        'text/plain',
+        JSON.stringify(`${_id}.wav`),
+        {slug: slugs.GetPurchasedSample}
+      );
+      const { data } = await secureGet(axios, { responseType: 'blob', uri, auth: false });
 
-      var a = document.createElement("a");
-      a.href = url;
-      a.download = `${_id}.wav`;
-      document.body.appendChild(a);
-      a.click();
+      return data;
     },
 
     async handleUserLogon({commit, dispatch, getters:{stripeAccountStatus}}, tokenResponse){
@@ -88,11 +146,7 @@ export default {
       commit('authenticated', true);
 
       await dispatch('refreshProfileImg');
-      const result = await dispatch('getStripeProfile');
-
-      //TODO: Don't retrieve these until user navigates to page...
-      await dispatch('getPurchases');
-      await dispatch('nav/initialize', result ? 'APPROVED' : 'NO_ACCOUNT', {root:true})
+      await dispatch('nav/initialize', await dispatch('getStripeProfile') ? 'APPROVED' : 'NO_ACCOUNT', {root:true});
     },
 
     async logout({commit }) {
@@ -119,6 +173,9 @@ export default {
         return STRIPE_ACCOUNT_STATUS.APPROVED;
       }
       return STRIPE_ACCOUNT_STATUS.NO_ACCOUNT;
+    },
+    uploads(){
+
     }
   },
 
@@ -169,6 +226,9 @@ export default {
 
     idToken(state, idToken){
       Vue.set(state, 'idToken', idToken);
+    },
+    libraryLinks(state, libraryLinks) {
+      Vue.set(state, 'libraryLinks', libraryLinks);
     }
   }
 };

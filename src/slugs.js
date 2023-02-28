@@ -13,12 +13,14 @@ export const slugs = {
   SamplePackGetById: "F_SamplePackGetById",
 
   StripeProfileGet: "F_StripeProfileGet",
+  StripeUploadsGet: "F_StripeUploadsGet",
   StripeProvisionUser: "F_StripeProvisionUser",
   StripeProvisionUserReturn: "F_StripeProvisionUserReturn",
 
   UserProfileSet: "F_UserProfileSet",
 
-  GetPurchasedSample: "F_GetPurchasedSample"
+  GetPurchasedSample: "F_GetPurchasedSample",
+  GetPurchasedSamplePack: "F_GetPurchasedSamplePack"
 }
 
 export const getUriForSlug = slug => `${config.VITE_API_BASE_URL}${slug}`;

@@ -30,7 +30,8 @@ import {
   faImage,
   faPause,
   faShoppingCart,
-  faCartShopping
+  faCartShopping,
+  faFloppyDisk
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import config from '/src/config';
@@ -59,6 +60,7 @@ library.add(faImage);
 library.add(faPause);
 library.add(faShoppingCart);
 library.add(faCartShopping);
+library.add(faFloppyDisk);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 
