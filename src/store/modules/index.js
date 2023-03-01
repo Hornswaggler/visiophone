@@ -3,6 +3,7 @@ import user from './user';
 import app from './app';
 import sample from './sample';
 import samplePack from './samplePack';
+import samplePackEdit from './samplePackEdit';
 import dropdown from './dropdown';
 import form from './form';
 import cart from './cart';
@@ -14,6 +15,7 @@ const store = {
   app,
   sample,
   samplePack,
+  samplePackEdit,
   dropdown,
   form,
   cart,

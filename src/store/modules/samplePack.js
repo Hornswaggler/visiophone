@@ -1,87 +1,9 @@
 import Vue from 'vue';
-import {axios, securePostForm, secureGet, securePostJson} from '/src/axios.js';
-import moment from 'moment';
+import {axios, securePostForm, secureGet, securePostJson} from '/src/axios';
 import {encodeFormBlob} from '/src/store/modules/form';
 import {slugs} from '/src/slugs';
 import { v4 as uuidv4 } from 'uuid';
-import config from '/src/config';
-
-const {VITE_COVER_ART_URI} = config;
-
-export const SORT_TYPES = {
-  LIST: 'LIST',
-  GROUP: 'GROUP'
-};
-
-const DEFAULT_SAMPLE_PACK = {
-  _id: null,
-  name:'',
-  description: '',
-  imgUrl:'',
-  cost: '100.00',
-  samples: {}
-};
-
-export const getSamplePackCost = samplePack => {
-  if(samplePack == null || samplePack.samples == null) {
-    return '';
-  }
-
-  if(samplePack.cost !== 0) {
-    return samplePack.cost;
-  }
-
-  const total = samplePack.samples.reduce((acc,sample) => {
-    acc += sample.cost;
-    return acc;
-  }, 0);
-
-  return total;
-};
-
-//TODO: Move into data model class...
-export const makeNewSamplePack = () => ({...DEFAULT_SAMPLE_PACK});
-
-const formatCost = cost => {
-  return `$ ${(cost / 100).toFixed(2)}`;
-};
-
-//TODO: Move into factory pattern
-export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
-  const samples = [...(samplePack.samples || [])].map(sample => ({
-    ...{
-      ...sample,
-      imgUrl: samplePack.imgUrl
-    },
-    clipUri: `${config.VITE_CLIP_URI}${sample._id}.ogg`,
-    imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
-  }));
-
-  const cost = getSamplePackCost(samplePack);
-
-  const newResult = {
-    ...makeNewSamplePack(),
-    ...samplePack,
-    samples,
-    imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
-    lastRefresh: moment().valueOf(),
-    cost,
-    costFormatted: formatCost(cost)
-  };
-
-  const newSamplePack = {
-    ...makeNewSamplePack({
-      ...samplePack,
-      samples
-    }),
-    imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
-    lastRefresh: moment().valueOf(),
-    cost,
-    costFormatted: formatCost()
-  };
-
-  return newResult;
-};
+import { SORT_TYPES, makeSamplePackFromResult } from '/src/models/samplePackFactory';
 
 export default {
   namespaced: true,
@@ -137,6 +59,7 @@ export default {
         commit('assignObject', { key: 'sortAsc', value: !sortAsc});
       }
     },
+
     async search({ dispatch, commit, state:{ nextResultIndex: _nextResultIndex, query: _query = '' }}, { query = '', index = 0 }) {
       if(query === _query && _nextResultIndex < 0) return;
 
@@ -151,9 +74,11 @@ export default {
       commit('assignObject', {key: 'nextResultIndex', value: nextResultIndex});
       dispatch('addSamplePacks', {newSamplePacks: data, index});
     },
+
     async addSamplePack({dispatch}, samplePack) {
       return (await dispatch('addSamplePacks', {newSamplePacks: [samplePack]}))[0];
     },
+
     addSamplePacks({commit, state:{samplePacks}}, {newSamplePacks, isNew = false, index = 0}){
       const initSamplePacks = newSamplePacks.map(samplePack => makeSamplePackFromResult({samplePack, isNew}));
 
@@ -166,6 +91,7 @@ export default {
 
       return initSamplePacks;
     },
+
     async uploadSamplePack(ctx, {samplePack, imageBlob}) {
       const form = new FormData();
       const imgUrl = encodeFormBlob({ form, key: uuidv4(), blob: imageBlob });
@@ -197,9 +123,11 @@ export default {
         { slug: slugs.SamplePackUpload }
       );
     },
+
     setSortType({commit}, sortType){      
       commit('sortType', sortType);
     },
+
     setIsLoaded({commit}, isLoaded){
       commit('isLoaded', isLoaded);
     },
@@ -208,12 +136,15 @@ export default {
     samplePacks(state, value){
       Vue.set(state, 'samplePacks', value);
     },
+
     sortType(state, value) {
       state.sortType = value;
     },
+
     isLoaded(state, value) {
       state.isLoaded = value;
     },
+
     selectedSamplePack(state, selectedSamplePack){
       Vue.set(state, 'selectedSamplePack', selectedSamplePack);
     }

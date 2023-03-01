@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import {securePostForm, securePostJson, secureGet, securePost, axios } from '/src/axios.js';
-import {makeSamplePackFromResult} from '@/store/modules/samplePack';
+import {makeSamplePackFromResult} from '@/models/samplePackFactory';
 import config from '/src/config.js';
 import auth from '/src/auth';
 import {slugs} from '/src/slugs';

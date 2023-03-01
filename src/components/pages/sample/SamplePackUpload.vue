@@ -8,25 +8,25 @@
             <div class="vp-form-row">
               <form-input
                 fieldName="name"
-                :value="samplePack.name"
+                :value="samplePackForEdit.name"
                 title="sample pack name"
-                :on-changed="name => samplePack.name = name"
+                :on-changed="value => onSamplePackChanged({key: 'name', value})"
               />
             </div>
             <div class="vp-form-row flex-column flex">
               <form-number-input
                 title="cost"
                 fieldName="cost"
-                :value="samplePack.cost"
-                :on-changed="cost => samplePack.cost = cost"
+                :value="samplePackForEdit.cost"
+                :on-changed="value => onSamplePackChanged({key: 'cost', value})"
               />
             </div>
             <div class="vp-form-row">
               <form-input
                 fieldName="description"
-                :value="samplePack.description"
+                :value="samplePackForEdit.description"
                 title="sample pack description"
-                :on-changed="description => samplePack.description = description"
+                :on-changed="value => onSamplePackChanged({key: 'description', value})"
               />
             </div>
           </div>
@@ -36,7 +36,7 @@
                 class="flex-1"
                 fieldName="imgUrl"
                 title="sample pack image"
-                :img-src="imageSrc"
+                :value="{imgUrl: samplePackForEdit.imgUrl, imagePreviewBlob, imageBlob, imageFile}"
                 :change-handler="onThumbnailGenerated"
               />
             </div>
@@ -44,7 +44,7 @@
         </div>
 
         <collapsible-panel
-          v-for="(sample, key) in samplePack.samples"
+          v-for="(sample, key) in samplePackForEdit.samples"
           :collapsed="samplePanelState[key]"
           :key="key"
           :on-changed="value => onPanelChanged({ key, value })"
@@ -64,7 +64,7 @@
             <sample-editor
               :field-prefix="`samples.${key}`"
               :sample="sample"
-              :on-changed="({key, value}) => onChanged({key, value, sample})"
+              :on-changed="({key, value}) => onSampleChanged({key, value, sample})"
             />
           </template>
         </collapsible-panel>
@@ -100,13 +100,10 @@
 
 <script>
 import Vue from 'vue';
+import {mapState} from 'vuex';
 import FormInput from '@/components/form/FormInput.vue';
 import FormImageEditor from '@/components/form/FormImageEditor.vue';
-import { v4 as uuidv4 } from 'uuid';
-import { makeNewSample } from '@/store/modules/sample';
-import { makeNewSamplePack } from '@/store/modules/samplePack';
 import CollapsiblePanel from '../../form/CollapsiblePanel.vue';
-import { AUDIO_MIME_TYPE, IMAGE_MIME_TYPE } from '@/config';
 import TextAreaInput from '@/components/form/TextAreaInput.vue';
 import FormUploadFile from '@/components/form/FormUploadFile.vue';
 import FormSelect from '@/components/form/FormSelect.vue';
@@ -136,43 +133,40 @@ export default {
   },
   data: () => ({
     colors: { r: 255, g: 0, b: 0 },
-    isSamplePack: true,
-    samplePack: makeNewSamplePack({samples: {}}),
-    imageSrc: '',
     samplePanelState: {},
-    AUDIO_MIME_TYPE,
-    imageBlob: {},
-    tags: [...TAG_TYPES],
+    initialized: false
   }),
   computed: {
+    ...mapState('samplePackEdit', ['samplePackForEdit', 'imageBlob', 'imagePreviewBlob', 'imageFile']),
     rgba() {
       return this.colors.rgba || { r: 0, g: 0, b: 0, a: 0 };
     },
   },
   mounted() {
-    this.addSample({scrollToElement: false});
-    this.$store.dispatch('form/initialize', { formName: 'samplePack' });
+    if(!this.initialized) {
+      this.$store.dispatch('samplePackEdit/initialize');
+      this.$store.dispatch('form/initialize', { formName: 'samplePack' });
+      this.initialized = true;
+    }
   },
   methods:{
-    deleteSample(key) {
-      Vue.delete(this.samplePack.samples, key)
+    deleteSample(tempId) {
+      this.$store.dispatch('samplePackEdit/deleteSample', {tempId});
     },
     onPanelChanged({key, value}){
       this.samplePanelState[key] = value;
     },
-    onChanged({key, value, sample:{_tempId}}){
-      Vue.set(this.samplePack.samples[_tempId], key, value);
+    onSamplePackChanged({key,value}){
+      this.$store.dispatch('samplePackEdit/updateSamplePackProperty', {key, value});
     },
-    onThumbnailGenerated({ file, clipUri }) {
-      Vue.set(this, 'imageBlob', file);
-      Vue.set(this.samplePack, 'imgUrl', clipUri);
+    onSampleChanged({key, value, sample})  {
+      this.$store.dispatch('samplePackEdit/updateSampleProperty', {key, value, sample});
     },
-    addSample({scrollToElement = false}) {
-      const _tempId = uuidv4();
-      Vue.set(this.samplePack.samples, _tempId, {
-        _tempId,
-        ...makeNewSample()
-      });
+    onThumbnailGenerated({ clipUri: imgUrl, imageFile, imagePreviewBlob}) {
+      this.$store.dispatch('samplePackEdit/setSamplePackImage', {imgUrl, imageFile, imagePreviewBlob});
+    },
+    async addSample({scrollToElement = false}) {
+      const _tempId = await this.$store.dispatch('samplePackEdit/addSample');
 
       Vue.set(this.samplePanelState, _tempId, false);
       if(scrollToElement) {
@@ -182,15 +176,12 @@ export default {
       }
     },
     async handleSubmitForm() {
-      if (await this.$store.dispatch('form/validateForm', { formData: this.samplePack })) {
+      if (await this.$store.dispatch('form/validateForm', { formData: this.samplePackForEdit })) {
         try {
           this.$store.commit('app/isLoading', true);
-          const { samplePack, imageBlob, imageSrc } = this;
-
           await this.$store.dispatch('samplePack/uploadSamplePack', {
-            samplePack,
-            imageBlob,
-            imageSrc
+            samplePack: this.samplePackForEdit,
+            imageBlob: this.imagePreviewBlob,
           });
 
           //TODO: Uncomment once completed...

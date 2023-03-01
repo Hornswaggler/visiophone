@@ -115,7 +115,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import { SORT_TYPES } from '@/store/modules/sample';
+import { SORT_TYPES } from '@/models/sampleFactory';
 import FormImage from '@/components/form/FormImage.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import FormSortableTable from '@/components/form/FormSortableTable.vue';
