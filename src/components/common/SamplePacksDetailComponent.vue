@@ -6,9 +6,9 @@
   >
     <template v-slot:row="{ row: samplePack }">
       <a 
-        v-for="link in libraryLinks[samplePack._id]"
+        v-for="link in libraryLinks[samplePack.id]"
         :key="link.sampleId"
-        :ref="samplePack._id"
+        :ref="samplePack.id"
         :href="link.link"
       >
         {{link.sampleId}}
@@ -20,11 +20,11 @@
           class="sortable-column-row" 
           style="padding-left:0;"
           :class="{expanded : !isGridView}"
-          :on-click="() => toggleRowExpand(samplePack._id)" 
+          :on-click="() => toggleRowExpand(samplePack.id)" 
           :table-definition="tableDefinition"
         >
        
-        <!-- :on-click="() => toggleRowExpand(samplePack._id)" -->
+        <!-- :on-click="() => toggleRowExpand(samplePack.id)" -->
         <!-- :on-click="() => onPurchaseClicked(samplePack)" -->
 
           <template v-slot:Image>
@@ -65,7 +65,7 @@
         </sortable-table-row>
 
         <form-sortable-table
-          v-if="isExpanded(samplePack._id)"
+          v-if="isExpanded(samplePack.id)"
           :table-definition="sampleDefinition" 
           :data="samplePack.samples"
         >
@@ -120,7 +120,7 @@
               ref="links"
               href="http://localhost:8080/Crispy_Clap 1.wav"
               download
-            >{{ samplePack.samples.find(sample => sample._id)  }}</a>
+            >{{ samplePack.samples.find(sample => sample.id)  }}</a>
           </div> -->
         <!-- </div> -->
         <!-- <button 
@@ -247,7 +247,7 @@ export default {
         //   isSort: true,
         //   show: true
         // }
-      ].map((col, _id) => ({...col, _id}))
+      ].map((col, id) => ({...col, id}))
     }
   }),
   computed:{
@@ -269,15 +269,15 @@ export default {
     },
     async onPurchaseClicked(samplePack, event) {
       event.cancelBubble = true;
-      if(this.libraryLinks[samplePack._id] == null){
+      if(this.libraryLinks[samplePack.id] == null){
         await this.$store.dispatch('user/getPurchasedSamplePack', {samplePack});
       } 
 
       this.$nextTick(() => {
         this.$nextTick(() => {
-          for(let i = 0; i < this.$refs[samplePack._id].length; i++) {
+          for(let i = 0; i < this.$refs[samplePack.id].length; i++) {
             //TODO: UNCOMMENT!!!
-            // this.$refs[samplePack._id][i].click();
+            // this.$refs[samplePack.id][i].click();
           }
         });
       });

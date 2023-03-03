@@ -15,7 +15,7 @@
       >
         <option 
           v-for="option in internalOptions"
-          :key="option._id" 
+          :key="option.id" 
           class="form-select-option"
         >
           {{ option.name }}

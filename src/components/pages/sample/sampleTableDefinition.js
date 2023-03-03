@@ -40,7 +40,7 @@ export const sampleTableDefinition = {
       isSort: false,
       show: false
     }
-  ].map((col, _id) => ({...col, _id}))
+  ].map((col, id) => ({...col, id}))
 }
 
 export default {

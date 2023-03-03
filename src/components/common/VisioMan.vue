@@ -17,7 +17,7 @@
 </template>
 <script>
 const walking = new URL('../../assets/Walking_Animation_Visio_Lad.gif', import.meta.url).href
-const idle = new URL('../../assets/boy_idle_anim.gif', import.meta.url).href
+const idle = new URL('../../assets/boyidle_anim.gif', import.meta.url).href
 
 export default {
   name:'VisioMan',

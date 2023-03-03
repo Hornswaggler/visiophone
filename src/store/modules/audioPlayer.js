@@ -17,8 +17,8 @@ export default {
     addSamplesToQueue({commit}, samples){
       commit('addSamplesToQueue', samples);
     },
-    async playSample({commit, state:{queue}}, {_id}){
-      const index = queue.findIndex(sample => sample._id === _id);
+    async playSample({commit, state:{queue}}, {id}){
+      const index = queue.findIndex(sample => sample.id === id);
       commit('playWhenReady', true);
       commit('queuePosition', index);
     },

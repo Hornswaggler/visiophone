@@ -2,7 +2,7 @@ import moment from 'moment';
 import config from '/src/config.js';
 
 const DEFAULT_SAMPLE = {
-  _id: null,
+  id: null,
   name:'',
   sampleFile: {},
   tag: '',
@@ -17,7 +17,7 @@ const DEFAULT_SAMPLE = {
 
 export const makeNewSample = (
   {
-    _id,
+    id,
     name = '',
     tag = '',
     description = '',
@@ -30,7 +30,7 @@ export const makeNewSample = (
     key = ''
   } = DEFAULT_SAMPLE) => (
   {
-    _id,
+    id,
     name,
     tag,
     description,
@@ -51,8 +51,8 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
   };
 
   let clipUri = newSample.clipUri || '';
-  if(newSample._id && !isNew) {
-    clipUri = `${config.VITE_CLIP_URI}${newSample._id}.wav.ogg`;
+  if(newSample.id && !isNew) {
+    clipUri = `${config.VITE_CLIP_URI}${newSample.id}.wav.ogg`;
   }
 
   return {

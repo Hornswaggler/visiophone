@@ -10,7 +10,7 @@
   >
     <div 
       v-for="samplePack in items"
-      :key="samplePack._id"
+      :key="samplePack.id"
       class="flex"
     >
       <span class="flex-1">{{ samplePack.name }}</span>

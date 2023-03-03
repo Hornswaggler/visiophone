@@ -94,7 +94,7 @@ const TAG_TYPES = [
   { name: 'rnb' },
   { name: 'smooth influencercore' },
   { name: 'Influencing Influencercore' }
-].map((type, i) => ({ ...type, _id: i }));
+].map((type, i) => ({ ...type, id: i }));
 
 export default {
   name: 'SampleEditor',

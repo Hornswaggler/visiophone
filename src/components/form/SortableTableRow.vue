@@ -2,7 +2,7 @@
   <div class="sortable-column-row" @click="onClick">
     <div
       v-for="column in tableDefinition.columns"
-      :key="column._id"
+      :key="column.id"
       class="sortable-column"
       :style="{ flex: column.ratio }"
     >

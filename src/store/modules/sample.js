@@ -86,7 +86,7 @@ export default {
     addSamples({commit,state:{samples}}, {samples: newSamples, index = 0, isNew = false}){
       const initSamples = newSamples.map(sample => makeSampleFromResult({sample, isNew}));
       const result = initSamples.reduce((acc, sample) => {
-          acc[sample._id] = sample;
+          acc[sample.id] = sample;
           return acc;
         }, {});
       
