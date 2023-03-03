@@ -167,8 +167,8 @@ export default {
       return [];
     }
   },
-  watch:{
-    value(){
+  watch: {
+    value() {
       if(this.initialized) this.imgSourceChanged();
     }
   },
@@ -184,6 +184,7 @@ export default {
 
     this.$refs['scroll-panel'].addEventListener('mousedown', () => this.onMousedownChanged(true));
     document.addEventListener('mouseup', () => this.onMousedownChanged(false));
+    this.imgPreviewSrc = imgUrl;
 
     this.$nextTick(() => {
       if(imgUrl !== "") {
@@ -207,6 +208,8 @@ export default {
       this.isMousedown = isMousedown;
     },
     onInputChanged(file) {
+      if(file == null) return;
+
       const clipUri = URL.createObjectURL(file);
 
       this.imagePreviewBlob = file;
@@ -245,6 +248,8 @@ export default {
     },
 
     onSpriteLoaded() {
+      if(this.imagePreviewBlob.name == null) return;
+
       const ctx = this.$refs['otherCanvas'].getContext("2d");
       ctx.clearRect(0, 0, this.actualWidth, this.actualHeight);
 

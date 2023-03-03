@@ -48,7 +48,6 @@ export default {
       };
 
       commit('samplePack', result);
-      console.log('DELETED',result);
     }, 
 
     setSamplePackImage({commit, state:{samplePackForEdit }}, {imageFile, imgUrl, imagePreviewBlob }){

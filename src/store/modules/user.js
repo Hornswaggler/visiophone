@@ -35,7 +35,7 @@ export default {
       );
     },
 
-    refreshProfileImg({state:{avatarId}, commit}){
+    refreshProfileImg({state:{avatarId}, commit}) {
       commit(
         'profileImg',
         `${config.VITE_AVATAR_URI}${avatarId}.png`
@@ -100,12 +100,14 @@ export default {
     },
 
     async getUploads({commit}){
-      const {data:{data}} = await securePostJson(
+      const {data} = await securePostJson(
         axios, 
         {}, 
         { slug: slugs.StripeUploadsGet }
       );
-      commit('uploads', data.map(samplePack => makeSamplePackFromResult({samplePack})));
+      if(data.data != null){
+        commit('uploads', data.data.map(samplePack => makeSamplePackFromResult({samplePack})));
+      }
     },
 
     async getPurchasedSamplePack({state:{libraryLinks}, dispatch}, {samplePack:{_id}}){
