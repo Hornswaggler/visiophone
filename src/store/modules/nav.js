@@ -26,31 +26,31 @@ export default {
             slug: `${SAMPLE_PACK_DETAILS}`
           }
         ],
-        icon:'explore.svg',
+        icon:'assets/explore.svg',
         accountStatus: [NO_ACCOUNT, PENDING, APPROVED],
       },
       {
         title: 'Samples',
         slug: `/${SAMPLE_PACK_TABLE_SEARCH}`,
-        icon:'samples.svg',
+        icon:'assets/samples.svg',
         accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
       },
       {
         title: 'Library',
         slug: `/${USER_LIBRARY}`,
-        icon: 'library.svg',
+        icon: 'assets/library.svg',
         accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
       },
       {
         title: 'Upload',
         slug: `/${SAMPLE_UPLOAD}/pack`,
-        icon:'upload.svg',
+        icon:'assets/upload.svg',
         accountStatus: [APPROVED]
       },
       {
         title: 'Settings',
         slug: `/${USER_SETTINGS}`,
-        icon: 'settings.svg',
+        icon: 'assets/settings.svg',
         accountStatus: [NO_ACCOUNT, PENDING, APPROVED]
       },
     ].map(item => ({children: [], ...item}))
