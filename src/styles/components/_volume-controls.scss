@@ -1,0 +1,45 @@
+.volume-controls {
+  @extend .fill;
+
+  .volume-controls-container {
+    @extend .fill;
+    @extend .flex;
+    @extend .justify-end;
+    @extend .align-center;
+    @extend .position-relative;
+    width: 70%;
+
+    &.grabbing {
+        cursor: grabbing;
+    }
+
+    .volume-slider-bar {
+      height:0.3rem;
+      width: 100%;
+      border-radius: 1rem;
+      background-color: #ffffffa6;
+      z-index: -2;
+
+      .progress {
+        @extend .fill;
+        background-color: #6565db;
+        transition: width 100ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+    }
+
+    .volume-slider-knob {
+      @extend .circle;
+      @extend .position-absolute;
+
+      cursor: grab;
+      z-index: -1;
+
+      width: 1rem;
+      height: 1rem;
+
+      border: solid 0.1rem white;
+      background-color: black;
+      transition: left 100ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+  }
+}

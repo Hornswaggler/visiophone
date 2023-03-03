@@ -2,9 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from  '../store'
 import config from '/src/config.js';
-import { AUTH } from '/src/router/routeNames';
-import { DEFAULT_ROUTE } from '/src/router/routeNames';
-
 import routes from '/src/router/routes.js';
 
 Vue.use(Router);
@@ -14,25 +11,14 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  const authenticated = store.state.user.authenticated;
+  const {authenticated} = store.state.user;
   const isPublic = to.matched.some(record => record.meta.public);
 
   if (!isPublic && !authenticated) {
     store.commit('app/setTargetUrl', to.path);
-
-    return router.push({
-      path: `/${AUTH}`,
-      query: { redirect: to.fullPath }
-    });
   }
 
-  if(to.path === '/') {
-    return router.push({
-      ...to,
-      path: DEFAULT_ROUTE
-    });
-    ;
-  }
+  store.dispatch('nav/setCurrentSlug', to.path);
 
   next();
 });

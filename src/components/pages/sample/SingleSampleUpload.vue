@@ -27,7 +27,7 @@
 <script>
 import Vue from 'vue';
 import SampleEditor from './SampleEditor.vue';
-import { makeNewSample } from '@/store/modules/sample';
+import { makeNewSample } from '@/models/sampleFactory';
 
 export default {
   name: 'SingleSampleUpload',

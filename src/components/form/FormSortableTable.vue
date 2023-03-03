@@ -1,7 +1,7 @@
 <template>
   <div
     class="sortable-table"
-    :class="{isListView}"
+    :class="{isListView, isGridView: !isListView}"
   >
     <div
       v-for="row in data"

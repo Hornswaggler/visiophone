@@ -1,0 +1,4 @@
+<svg v-if="option.title === 'Library'" width="12" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M2.10466 0.25H2.84111V10.878H2.10466V0.25ZM0.25 0.25H0.986443V10.878H0.25V0.25ZM3.95933 0.25H4.69577V10.878H3.95933V0.25Z" fill="black" stroke="#FFFFFF" stroke-width="0.75"/>
+  <path d="M9.45968 10.6784L5.78551 0.705688L6.47654 0.451094L10.1507 10.4238L9.45968 10.6784Z" fill="black" stroke="#FFFFFF" stroke-width="0.75"/>
+</svg>

@@ -27,7 +27,11 @@ import {
   faCaretDown,
   faMaximize,
   faWindowMinimize,
-  faImage
+  faImage,
+  faPause,
+  faShoppingCart,
+  faCartShopping,
+  faFloppyDisk
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import config from '/src/config';
@@ -53,6 +57,10 @@ library.add(faCaretDown);
 library.add(faMaximize);
 library.add(faWindowMinimize);
 library.add(faImage);
+library.add(faPause);
+library.add(faShoppingCart);
+library.add(faCartShopping);
+library.add(faFloppyDisk);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 

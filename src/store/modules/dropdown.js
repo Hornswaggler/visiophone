@@ -11,8 +11,16 @@ export default {
 
   actions:{
     showDropdown({commit},{clientX, clientY, menuItems, itemWidth, onChanged}) {
-      commit('setPrimitive',{key: 'clientX', value: clientX});
-      commit('setPrimitive',{key: 'clientY', value: clientY});
+      //TODO: Fix this kludge... later...
+      const {clientWidth} = document.body;
+
+      let xpos = clientX;
+      if((clientX + 200) > clientWidth){
+        xpos = clientX - 200;
+      }
+
+      commit('setPrimitive',{key: 'clientX', value: `${xpos}px`});
+      commit('setPrimitive',{key: 'clientY', value: `${clientY}px`});
       commit('assignObject',{key: 'menuItems', value: menuItems});
       commit('assignObject', {key: 'onChanged', value: onChanged});
       commit('setPrimitive',{key: 'itemWidth', value: itemWidth});

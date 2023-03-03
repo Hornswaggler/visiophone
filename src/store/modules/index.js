@@ -3,16 +3,24 @@ import user from './user';
 import app from './app';
 import sample from './sample';
 import samplePack from './samplePack';
+import samplePackEdit from './samplePackEdit';
 import dropdown from './dropdown';
 import form from './form';
+import cart from './cart';
+import nav from './nav';
+import audioPlayer from './audioPlayer';
 
 const store = {
   user,
   app,
   sample,
   samplePack,
+  samplePackEdit,
   dropdown,
-  form
+  form,
+  cart,
+  nav,
+  audioPlayer
 };
 
 const initFromStorage = context => {

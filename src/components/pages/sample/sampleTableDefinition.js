@@ -1,12 +1,12 @@
 export const sampleTableDefinition = {
   columns: [
-    { 
+    {
       ratio:'1',
       name:'Image',
       isSort: false,
       show:false
     },
-    { 
+    {
       ratio:'2',
       name: 'Title',
       path: 'description',
@@ -33,7 +33,6 @@ export const sampleTableDefinition = {
       path: 'cost',
       isSort: false,
       show: true
-
     },
     {
       ratio:'1',

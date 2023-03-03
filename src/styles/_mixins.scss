@@ -2,7 +2,7 @@
   @if $size == xs {
     @media (max-width: 599px) { @content; }
   } @else if $size == sm {
-    @media (max-width: 899px) { @content; }
+    @media (min-width: 600px) { @content; }
   } @else if $size == md {
     @media (min-width: 900px) { @content; }
   } @else if $size == lg {
@@ -54,5 +54,13 @@
 @mixin hover-zoom($scale) {
   &:hover {
     transform:scale(#{$scale});
+  }
+}
+
+@mixin hover-filter-invert {
+  transition: filter #{$transition-cubic-bezier-250};
+  filter: invert(0);
+  &:hover {
+    filter: invert(1);
   }
 }

@@ -14,7 +14,9 @@
 @import './components/overlay';
 @import './layout/responsive-layout';
 @import './components/scrolling-container';
-
+@import './components/audio-player';
+@import './components/volume-controls';
+@import './components/page-footer';
 @import './components/form/base';
 @import './components/form/sortable-table';
 @import './components/form/dropdown';
@@ -38,4 +40,4 @@
 @import './pages/sample-pack-search';
 @import './pages/user-library';
 @import './pages/user-settings';
-
+@import './pages/sample-pack-view';

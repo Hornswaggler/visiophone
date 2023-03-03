@@ -35,6 +35,7 @@
                   <form-redirect-button
                     :action="accountUpgradeUri"
                     :idToken="idToken"
+                    :payload="returnUri"
                   >
                     <template v-slot:content>
                       <div class="vp-button fill-width">UPGRADE</div>
@@ -59,8 +60,17 @@
               >
                 <div class="fill-width">
                   <span class="info-block">
-                    Seller account access is pending authentication with Stripe, please sign into stripe and (maybe we should include a link to that? :|)
+                    Seller account access is pending authentication with Stripe.
                   </span>
+                  <form-redirect-button
+                    :action="accountUpgradeUri"
+                    :idToken="idToken"
+                    :payload="returnUri"
+                  >
+                    <template v-slot:content>
+                      <div class="vp-button fill-width">UPGRADE</div>
+                    </template>
+                  </form-redirect-button>
                 </div>
               </template>
             </form-input-base>
@@ -135,11 +145,14 @@ export default {
     imageSrc: '',
     profileImage: {},
     IMAGE_MIME_TYPE: config.IMAGE_MIME_TYPE,
-    accountUpgradeUri: getUriForSlug(slugs.StripeProvisionUser)
+    accountUpgradeUri: getUriForSlug(slugs.StripeProvisionUser),
   }),
   computed: {
     ...mapState('user',['customUserName', 'isStripeApproved', 'profileImg', 'idToken']),
-    ...mapGetters('user', ['stripeAccountStatus'])
+    ...mapGetters('user', ['stripeAccountStatus']),
+    returnUri() {
+      return JSON.stringify({returnUri: document.location.href});
+    }
   },
   mounted() {
     this.imageSrc = this.profileImg;

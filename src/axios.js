@@ -16,10 +16,10 @@ export const axios = _axios.create({
 
 export const axiosInit = async () => {
   return axios.interceptors.request.use((config) => ({
-    ...config, 
+    ...config,
     ...{
       headers: {
-        ...config.headers, 
+        ...config.headers,
       }
     }
   }));
@@ -33,33 +33,39 @@ const RESPONSE_TYPES = {
 
 const getIdToken = store => store.state['user']['idToken'];
 
-export const secureGet = (_axios, {responseType = RESPONSE_TYPES.DEFAULT,slug = '', uri = '' }) => _axios.get(
-  uri ? uri : `${config.VITE_API_BASE_URL}${slug}`, 
-  {
-    responseType,
-    headers: {
-      ..._axios.defaults.headers,
-      "Access-Control-Allow-Origin": '*',
-      Authorization: `Bearer ${getIdToken(store)}`,
-      "x-ms-version": '2021-06-08',
-      'x-ms-date': (new Date()).toGMTString(),
-      Accept: '*/*',
-    }
+export const secureGet = (_axios, {responseType = RESPONSE_TYPES.DEFAULT, slug = '', uri = '', auth = true }) => {
+  const headers = {
+    ..._axios.defaults.headers,
+    "Access-Control-Allow-Origin": '*',
+    Accept: '*/*',
+  };
+
+  if(auth) {
+    headers['Authorization'] = `Bearer ${getIdToken(store)}`;
+    headers['x-ms-version'] = '2021-06-08';
+    headers['x-ms-date'] = (new Date()).toGMTString();
   }
-);
+
+  return _axios.get(
+    uri ? uri : `${config.VITE_API_BASE_URL}${slug}`, 
+    {
+      responseType,
+      headers
+    }
+  )
+};
 
 export const securePost = (_axios, contentType, body, {slug}) => 
   _axios.post(slug, body, {
     headers: {
       ..._axios.defaults.headers,
       "Access-Control-Allow-Origin": '*',
-      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       "Content-Type": contentType,
       Authorization: `Bearer ${getIdToken(store)}`,
       "x-ms-version": '2021-06-08',
       'x-ms-date': (new Date()).toGMTString(),
       Accept: '*/*',
-
     }
   });
 

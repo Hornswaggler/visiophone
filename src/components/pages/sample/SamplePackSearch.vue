@@ -4,7 +4,7 @@
     :on-scroll-limit-reached="onScrollLimitReached"
   >
     <template v-slot:header>
-      <div class="search-header">
+      <!-- <div class="search-header">
         <div class="flex-1 flex">
           <form-input
             class="header-search-input border-none p0"
@@ -25,7 +25,8 @@
             :selected="!isListTypeSelected"
           />
         </div>
-      </div>
+      </div> -->
+
       <form-sortable-table-header
         :table-definition="samplePackTableDefinition"
         :on-column-clicked="onColumnClicked"
@@ -36,14 +37,42 @@
     <template v-slot:scrolling-content>
       <form-sortable-table
         :data="samplePackArray"
-        :is-list-view="isListTypeSelected"
+        :is-list-view="routeParams.mode === 'search'"
       >
         <template v-slot:row="{ row: samplePack }">
           <sortable-table-row
             :table-definition="samplePackTableDefinition"
           >
             <template v-slot:Image>
-              <form-sortable-table-cell class="grid-image">
+              <form-sortable-table-cell
+                class="grid-image position-relative"
+                :on-click="() => onSamplePackSelected(samplePack._id)"
+              >
+                <div
+                  class="position-absolute flex flex-column p025"
+                  style="
+                    font-size: 0.8rem;
+                    background-color: #00000078;
+                    top:75%;
+                    bottom:0;
+                    left:0;
+                    right:0;"
+                >
+                  <div 
+                    style="color: var(--primary-highlight-color);"
+                  >
+                    {{ samplePack.name }}
+                  </div>
+                  <div 
+                    style="color: #6aef6ae3;"
+                  >
+                    {{ samplePack.cost }}
+                  </div>
+                  <div>
+                    {{ samplePack.description }}
+                  </div>
+                </div>
+
                 <form-image
                   :url="`${samplePack.imgUrl}`"
                 />
@@ -60,6 +89,23 @@
                 <!-- <audio-player :sample="sample" /> -->
               </form-sortable-table-cell>
             </template>
+            <template v-slot:Cost>
+              <form-sortable-table-cell>
+                {{ samplePack.costFormatted }}
+              </form-sortable-table-cell>
+            </template>
+            <template v-slot:Purchase>
+              <div 
+                style="padding: 0 0.25rem;"
+                @click="addSamplePackToCart(samplePack)"
+              >
+                <form-icon
+                  icon-size="1rem"
+                  class="vp-icon flex justify-end align-end download-icon"
+                  icon="fa-plus"
+                />
+              </div>
+            </template>
           </sortable-table-row>
         </template>
       </form-sortable-table>
@@ -69,7 +115,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import { SORT_TYPES } from '@/store/modules/sample';
+import { SORT_TYPES } from '@/models/sampleFactory';
 import FormImage from '@/components/form/FormImage.vue';
 import FormInput from '@/components/form/FormInput.vue';
 import FormSortableTable from '@/components/form/FormSortableTable.vue';
@@ -80,14 +126,14 @@ import BootlegListIcon from '@/components/form/BootlegListIcon.vue';
 import BootlegGroupIcon from '@/components/form/BootlegGroupIcon.vue';
 import FormSortableTableHeader from '../../form/FormSortableTableHeader.vue';
 import FormSortableTableCell from '@/components/form/FormSortableTableCell.vue';
-import AudioPlayer from '@/components/form/AudioPlayer.vue';
 import FormRedirectButton from '@/components/form/FormRedirectButton.vue';
 import Carousel from '@/components/form/Carousel.vue';
 import { samplePackTableDefinition } from '@/components/pages/sample/samplePackTableDefinition';
+import { SAMPLE_PACK_DETAILS } from '@/router/routeNames';
 
 export default {
   name:'SampleSearch',
-  components:{
+  components: {
     FormImage,
     FormSortableTable,
     FormIcon,
@@ -97,10 +143,9 @@ export default {
     BootlegGroupIcon,
     FormSortableTableHeader,
     FormSortableTableCell,
-    AudioPlayer,
     FormRedirectButton,
     Carousel,
-    FormInput
+    FormInput,
   },
   data: () => ({
     page: 0,
@@ -117,6 +162,10 @@ export default {
 
     isListTypeSelected(){
       return this.sortType === SORT_TYPES.LIST;
+    },
+
+    routeParams() {
+      return this.$route.params;
     }
   },
 
@@ -135,6 +184,13 @@ export default {
   },
 
   methods: {
+    onSamplePackSelected(id) {
+      this.$router.push(`/${SAMPLE_PACK_DETAILS}/${id}`);
+    },
+    addSamplePackToCart(samplePack) {
+      this.$store.dispatch('cart/addSamplePackToCart', samplePack);
+    },
+
     onScrollLimitReached(){
       this.$store.dispatch('samplePack/loadMoreSamples');
     },

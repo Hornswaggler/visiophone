@@ -3,9 +3,11 @@
     class="form-dropdown"
     :ref="referenceName"
     :style="{ 
-      transform: `translate(${clientX}, ${clientY})`, 
+      top: clientY, 
+      left: clientX,
       width: itemWidth,
-      zIndex }"
+      zIndex
+    }"
   >
     <div class="flex flex-column form-dropdown-content">
       <div

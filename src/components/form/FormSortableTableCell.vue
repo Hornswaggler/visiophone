@@ -1,5 +1,8 @@
 <template>
-  <div class="sortable-table-cell">
+  <div 
+    class="sortable-table-cell"
+    @click="onClick"
+  >
       <div class="sortable-table-cell-content">
         <slot />
       </div>
@@ -7,6 +10,12 @@
 </template>
 <script>
 export default {
-  name:'FormSortableTableCell'
+  name:'FormSortableTableCell',
+  props:{
+    onClick:{
+      type: Function,
+      default: () => {}
+    }
+  }
 }
 </script>

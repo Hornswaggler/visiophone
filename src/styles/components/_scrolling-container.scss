@@ -30,10 +30,6 @@
     justify-content: center;
     align-items: center;
     padding: 0;
-
-    .scrolling-container-scrollable-content {
-      // height: calc(100% - var(--sample-pack-upload-height) - var(--mobile-footer-height));
-    }
   }
 
   .scrolling-container-header {
@@ -45,7 +41,7 @@
       padding: 0 0.5rem;
       padding-right: 20px;
     }
-  } 
+  }
   
   .scrolling-container-scrollable-content {
     @extend .flex;
@@ -59,7 +55,7 @@
       @extend .flex;
       @extend .flex-column;
       @extend .flex-1;
-      @extend .p1;
+     
       background-color: #5c5e7336;
       box-shadow: 10px 10px 23px -3px rgba(0,0,0,0.25) inset;
     }

@@ -6,6 +6,6 @@
     }
   }
   @include for-size(xs) {
-    height: calc(100% - var(--main-banner-height) - var(--mobile-footer-height) );
+    height: calc(100% - var(--main-banner-height) - var(--page-footer-height) );
   }
 }

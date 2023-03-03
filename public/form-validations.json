@@ -1,0 +1,25 @@
+{
+  "samplePack": {
+    "name": {
+      "required": true,
+      "max-length": 256
+    },
+    "description": {
+      "required": true
+    },
+    "imgUrl": {
+      "required": true
+    },
+    "cost": {
+      "gte": 100,
+      "lte": 99999999,
+      "required": true
+    },
+    "samples": {
+      "type": "sample-type[]"
+    }
+  },
+  "sample": {
+    "type": "sample-type"
+  }
+}

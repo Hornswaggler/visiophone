@@ -1,5 +1,5 @@
 .form-dropdown {
-  position: fixed;
+  position: absolute;
   @extend .flex;
   z-index:200;
 
@@ -16,6 +16,9 @@
       @extend .justify-center;
       @extend .align-center;
       @extend .p0;
+
+      //TODO: WTF... ???
+      width: 200px;
 
       color: $secondary-font-color;
 

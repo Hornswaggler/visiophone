@@ -1,0 +1,20 @@
+{
+  "name": {
+    "required": true,
+    "max-length": 48
+  },
+  "clipUri":{
+    "required": true
+  },
+  "tags":{
+    "required": true
+  },
+  "bpm": {
+    "gt": 0,
+    "required": true
+  },
+  "description": {
+    "max-length": 256,
+    "required": true
+  }
+}

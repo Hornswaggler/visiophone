@@ -1,24 +1,35 @@
 <template>
-  <div class="page-footer-container">
-    <div
-      v-for="option in sideNavigationItemsForUser"
-      :key="option._id"
-      @click="onMenuItemSelected(option)"
-    >
-      <form-icon
-        :icon="option.icon"
+  <div class="page-footer-container pl1 noselect pr1">
+    <audio-player
+      :volume="volume"
+    ></audio-player>
+    <div class="details flex">
+      <form-image
+        :url="`${nowPlaying.imgUrl}`"
       />
+      <div class="name">{{ nowPlaying.name }}</div>
     </div>
+    <volume-control
+      :on-changed="onVolumeChanged"
+    ></volume-control>
   </div>
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
+import AudioPlayer from '@/components/common/AudioPlayer.vue';
+import VolumeControl from '@/components/common/VolumeControl.vue';
 import FormIcon from '../form/FormIcon.vue';
+import RenderSvg from '@/components/common/RenderSvg.vue';
+import FormImage from '@/components/form/FormImage.vue';
 
 export default {
   name:'PageFooter',
-  components:{
-    FormIcon
+  components: {
+    AudioPlayer,
+    FormIcon,
+    RenderSvg,
+    FormImage,
+    VolumeControl
   },
   props:{
     menuItems:{
@@ -26,26 +37,16 @@ export default {
       default: () => {}
     }
   },
-  computed: {
-    ...mapState('app',['sideNavigationMenuItems', 'sideNavigationIndex']),
-    ...mapGetters('user',['stripeAccountStatus']),
-
-    sideNavigationItemsForUser(){
-      return this.sideNavigationMenuItems
-        .filter(m =>  m.accountStatus.includes(this.stripeAccountStatus));
-    }
+  data:() => ({
+    volume: 100,
+  }),
+  computed:{
+    ...mapGetters('audioPlayer', ['nowPlaying']),
   },
   methods:{
-    navigate(slug){
-      this.$router.push(slug);
-    },
-    onMenuItemSelected({id,slug}) {
-      if(this.sideNavigationIndex !== id) {
-        this.$store.commit('app/setSideNavigationIndex', id )
-        this.$router.push(slug);
-      }
-      this.changeHandler();
-    },
+    onVolumeChanged(volume){
+      this.volume = volume;
+    }
   }
 }
 </script>

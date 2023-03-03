@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import {parseValidators} from '/src/validation/validationFactory';
 import {validateBranch, validateField} from '/src/validation';
+import {axios} from '/src/axios';
+import config from '/src/config';
 
 export const encodeFormBlob = ({form, key, blob }) => {
   const filename = `${key}${blob.name.slice(blob.name.lastIndexOf('.'))}`;
@@ -11,17 +13,27 @@ export const encodeFormBlob = ({form, key, blob }) => {
 export default {
   namespaced: true,
   state: () => ({
-    forms: parseValidators(),
+    validators: {},
     selectedForm: '',
-    errors: []
+    errors: [],
+    isLoaded: false
   }),
   getters:{
-    currentForm({forms, selectedForm}) {
-      return selectedForm === '' ? {} : forms[selectedForm];
+    currentForm({validators, selectedForm}) {
+      return selectedForm === '' ? {} : validators[selectedForm];
     }
   },
   actions:{
-    initialize({commit}, {formName}) {
+    async initializeValidationDefinitions({commit}) {
+      const {data} = await axios.get(config.VITE_VALIDATION_DEFINITION_URI);
+      const result = parseValidators(data);
+      commit('validators',  parseValidators(data));
+
+      return true;
+    },
+
+    async initialize({commit, dispatch, state:{isLoaded}}, {formName}) {
+      if(!isLoaded) await dispatch('initializeValidationDefinitions');
       commit('selectedForm', formName);
       commit('errors', []);
     },
@@ -78,6 +90,9 @@ export default {
     },
     errors(state, errors) {
       Vue.set(state, 'errors', errors);
+    },
+    validators(state, validators){
+      state.validators = validators;
     }
   }
 }

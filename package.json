@@ -28,6 +28,7 @@
     "@vitejs/plugin-vue2": "^1.1.2",
     "terser": "^5.14.2",
     "vite": "^3.0.2",
-    "sass": "1.56.1"
+    "sass": "1.56.1",
+    "vite-svg-loader": "4.0.0"
   }
 }

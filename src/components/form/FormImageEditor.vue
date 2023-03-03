@@ -27,7 +27,7 @@
       <div class="form-image-editor-file-input">
         <input
           type="file"
-          @change="onInputChanged"
+          @change="({target:{files}}) => onInputChanged(files[0])"
         />
         <div class="image-icon noselect">
           <font-awesome-icon icon="fa-solid fa-image" />
@@ -102,8 +102,8 @@ export default {
   name:'FormImageEditor',
   props:{
     value:{
-      type: String,
-      default:''
+      type: Object,
+      default: {}
     },
     fieldName: {
       type: String,
@@ -131,13 +131,14 @@ export default {
 
     imagePreviewBlob: {},
     imageBlob: {},
+    imageFile: {},
 
     imgPreviewSrc: '',
     containerWidth: 'initial',
     containerHeight: '100%',
-    isLoading: true,
     IMAGE_MIME_TYPE,
     isMousedown: false,
+    initialized: false,
   }),
   computed: {
     ...mapState('form', ['errors']),
@@ -168,10 +169,11 @@ export default {
   },
   watch:{
     value(){
-      if(!this.isLoading) this.imgSourceChanged();
+      if(this.initialized) this.imgSourceChanged();
     }
   },
   async mounted() {
+    const {imgUrl, imageFile} = this.value;
 
     this.$refs['scroll-panel'].addEventListener('mousemove', ({movementX, movementY}) => {
       if(this.isMousedown) {
@@ -179,15 +181,19 @@ export default {
         this.$refs['scroll-panel'].scrollTop -= movementY;
       }
     });
+
     this.$refs['scroll-panel'].addEventListener('mousedown', () => this.onMousedownChanged(true));
     document.addEventListener('mouseup', () => this.onMousedownChanged(false));
 
     this.$nextTick(() => {
-      this.imgPreviewSrc = this.value;
-      this.isLoading = false;
-
+      if(imgUrl !== "") {
+        this.onInputChanged(imageFile);
+      }
+    
       this.$refs['scroll-panel'].addEventListener('scroll', this.handleScroll);
       this.$refs['image'].addEventListener('load', this.onPreviewImageLoaded);
+
+      this.initialized = true;
     });
   },
   beforeDestroy() {
@@ -200,11 +206,11 @@ export default {
     onMousedownChanged(isMousedown){
       this.isMousedown = isMousedown;
     },
-    onInputChanged({target:{files}}) {
-      const file = files[0];
+    onInputChanged(file) {
       const clipUri = URL.createObjectURL(file);
 
       this.imagePreviewBlob = file;
+      this.imageFile = file;
       this.imgPreviewSrc = clipUri;
 
       this.imgSourceChanged(clipUri);
@@ -214,7 +220,7 @@ export default {
        this.$store.dispatch('form/validateField', {field: this.fieldName, clipUri});
     },
 
-    async onPreviewImageLoaded(ev){
+    async onPreviewImageLoaded(ev) {
       const {scrollWidth, scrollHeight} = ev.target;
 
       this.$nextTick(() => {
@@ -239,8 +245,6 @@ export default {
     },
 
     onSpriteLoaded() {
-      //TODO: don't fire this unless the dom is loaded...
-
       const ctx = this.$refs['otherCanvas'].getContext("2d");
       ctx.clearRect(0, 0, this.actualWidth, this.actualHeight);
 
@@ -257,24 +261,22 @@ export default {
 
       this.$nextTick(() => {
         this.$refs['otherCanvas'].toBlob( async blob => {
-          
-          const file = new File([blob], this.imagePreviewBlob.name, {type: IMAGE_MIME_TYPE});
-          const clipUri = URL.createObjectURL(file);
+          const newFileName = `${this.imagePreviewBlob.name.substring(0, this.imagePreviewBlob.name.lastIndexOf('.'))}.png`;
+          const imagePreviewBlob = new File([blob], newFileName, {type: 'image/png'});
+          const clipUri = URL.createObjectURL(imagePreviewBlob);
 
-          this.changeHandler({file, clipUri});
+          this.changeHandler({imagePreviewBlob, clipUri, imageBlob: this.imageBlob, imageFile: this.imageFile});
         });
       });
     },
 
     redrawCanvas() {
-      if(!this.isLoading) {
-        const self = this;
+      if(this.initialized) {
         this.debounce(() => {
           Vue.set(this, 'imageBlob', new Image());
           this.imageBlob.onload = this.onSpriteLoaded;
           this.imageBlob.src = this.imgPreviewSrc;
         })
-        
       }
     },
 

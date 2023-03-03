@@ -1,7 +1,8 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from 'node:url';
 
-import { defineConfig, loadEnv, splitVendorChunkPlugin } from 'vite'
-import vue2 from '@vitejs/plugin-vue2'
+import { defineConfig, loadEnv, splitVendorChunkPlugin } from 'vite';
+import vue2 from '@vitejs/plugin-vue2';
+import svgLoader from 'vite-svg-loader';
 
 export default defineConfig(async ({command, mode}) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -20,12 +21,13 @@ export default defineConfig(async ({command, mode}) => {
     },
     plugins: [
       vue2(),
-      splitVendorChunkPlugin()
+      splitVendorChunkPlugin(),
+      svgLoader()
     ],
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     }
-  };
+  }
 });

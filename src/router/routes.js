@@ -5,21 +5,20 @@ import SampleUpload from '/src/components/pages/sample/SampleUpload.vue';
 import SamplePackUpload from '/src/components/pages/sample/SamplePackUpload.vue';
 import SingleSampleUpload from '/src/components/pages/sample/SingleSampleUpload.vue';
 import SamplePackSearch from '/src/components/pages/sample/SamplePackSearch.vue';
-import UserStripeStandardReturn from '/src/components/pages/user/UserStripeStandardReturn.vue';
-import SamplePurchaseReturn from '/src/components/pages/sample/SamplePurchaseReturn.vue';
+import SamplePackView from '/src/components/pages/sample/SamplePackView.vue';
 import LandingPage from '/src/components/layout/LandingPage.vue';
 import config from '/src/config.js';
 
 const {VITE_APP_TITLE} = config;
 
 import {
+  DEFAULT_ROUTE,
+  AUTH,
+  SAMPLE_PACK_DETAILS_ROOT,
+  SAMPLE_PACK_TABLE_ROOT,
   SAMPLE_UPLOAD,
-  SAMPLE_SEARCH,
   USER_SETTINGS,
   USER_LIBRARY,
-  PROVISION_STRIPE_STANDARD_RETURN,
-  PURCHASE_SAMPLE_RETURN,
-  AUTH
 } from '/src/router/routeNames';
 
 export default [
@@ -39,11 +38,15 @@ export default [
       },
       {
         path: '',
+        redirect: `/${DEFAULT_ROUTE}`,
+      },
+      {
+        path: `/${SAMPLE_PACK_TABLE_ROOT}`,
         component: SamplePackSearch
       },
       {
-        path: `/${SAMPLE_SEARCH}`,
-        component: SamplePackSearch,
+        path: `/${SAMPLE_PACK_DETAILS_ROOT}`,
+        component: SamplePackView
       },
       {
         path: SAMPLE_UPLOAD,
@@ -53,18 +56,20 @@ export default [
           {
             path: 'Single',
             name: 'Single',
-            component: SingleSampleUpload
+            component: SingleSampleUpload,
+            meta: {
+              isSellerRoute: true
+            },
           },
           {
             path: 'Pack',
             name: 'Pack',
-            component: SamplePackUpload
+            component: SamplePackUpload,
+            meta: {
+              isSellerRoute: true
+            },
           }
         ]
-      },
-      {
-        path: PURCHASE_SAMPLE_RETURN,
-        component: SamplePurchaseReturn
       },
       {
         path: USER_LIBRARY,
@@ -75,8 +80,8 @@ export default [
         component: UserSettings
       },
       {
-        path: PROVISION_STRIPE_STANDARD_RETURN,
-        component: UserStripeStandardReturn
+        path :'*',
+        redirect: `/${DEFAULT_ROUTE}`
       }
     ]
   }

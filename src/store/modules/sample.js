@@ -1,77 +1,9 @@
 import {encodeFormBlob} from '/src/store/modules/form';
 import Vue from 'vue';
 import {axios, securePostJson, securePostForm} from '/src/axios.js';
-import config from '/src/config.js';
-import moment from 'moment';
 import { slugs } from '/src/slugs';
 
-const DEFAULT_SAMPLE = {
-  _id: null,
-  name:'',
-  sampleFile: {},
-  tag: '',
-  description: '',
-  seller: '',
-  bpm: '120.0',
-  cost: "100",
-  clipUri:'',
-  fileName:'',
-  key: ''
-};
-
-//TODO: Move into data model class...
-export const makeNewSample = (
-  {
-    _id,
-    name = '',
-    tag = '',
-    description = '',
-    seller = '',
-    bpm = '120.0',
-    cost = "",
-    clipUri = '',
-    sampleFile = {},
-    fileName = '',
-    key = ''
-  } = DEFAULT_SAMPLE) => (
-  {
-    _id,
-    name,
-    tag,
-    description,
-    seller,
-    bpm,
-    cost,
-    clipUri,
-    sampleFile,
-    fileName,
-    key
-});
-
-//TODO: Move into factory pattern
-export const makeSampleFromResult = ({sample, isNew = false}) => {
-  const newSample = {
-    ...makeNewSample({...sample}),
-    ...sample,
-    lastRefresh: moment().valueOf(),
-  };
-
-  let clipUri = newSample.clipUri || '';
-  if(newSample._id && !isNew) {
-    clipUri = `${config.VITE_CLIP_URI}${newSample._id}.wav.ogg`;
-  }
-
-  return {
-    ...newSample,
-    imgUrl,
-    clipUri
-  };
-};
-
-export const SORT_TYPES = {
-  LIST: 'LIST',
-  GROUP: 'GROUP'
-};
+import { SORT_TYPES, makeSampleFromResult} from '@/models/sampleFactory';
 
 export default {
   namespaced: true,
