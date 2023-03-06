@@ -83,7 +83,7 @@ export default {
       const initSamplePacks = newSamplePacks.map(samplePack => makeSamplePackFromResult({samplePack, isNew}));
 
       const result = initSamplePacks.reduce((acc, samplePack) => {
-          acc[samplePack._id] = samplePack;
+          acc[samplePack.id] = samplePack;
           return acc;
         }, {});
 

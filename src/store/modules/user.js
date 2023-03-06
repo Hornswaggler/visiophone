@@ -9,7 +9,7 @@ const {STRIPE_ACCOUNT_STATUS, AUDIO_MIME_TYPE} = config;
 
 //TODO: Localstorage access should be in persistence layer!
 export const makeNewUser = () => ({
-  _id: localStorage._id || null,
+  id: localStorage.id || null,
   authenticated: false,
   idToken: '',
   avatarId: localStorage.avatarId || '',
@@ -35,7 +35,7 @@ export default {
       );
     },
 
-    refreshProfileImg({state:{avatarId}, commit}){
+    refreshProfileImg({state:{avatarId}, commit}) {
       commit(
         'profileImg',
         `${config.VITE_AVATAR_URI}${avatarId}.png`
@@ -46,7 +46,7 @@ export default {
       const fd = new FormData();
       fd.append('file',blob,'fakename.png');
       const { data } = await securePostForm(axios, fd, {slug: slugs.UserProfileSet});
-      commit('_id', data._id);
+      commit('id', data.id);
     },
 
     async initializeLibrary({commit, dispatch, state:{isLibraryInitialized}}){
@@ -61,7 +61,7 @@ export default {
     addLibrarySamplePackLinks({dispatch}, {samplePackId, links}) {
       for(let i = 0; i < links.length; i++) {
         const link = links[i]['link'];
-        const sampleId = links[i]['_id'];
+        const sampleId = links[i]['id'];
         dispatch('addLibrarySampleLink', {
           samplePackId: samplePackId,
           sampleId,
@@ -100,46 +100,52 @@ export default {
     },
 
     async getUploads({commit}){
-      const {data:{data}} = await securePostJson(
+      const {data} = await securePostJson(
         axios, 
         {}, 
         { slug: slugs.StripeUploadsGet }
       );
-      commit('uploads', data.map(samplePack => makeSamplePackFromResult({samplePack})));
+      if(data.data != null){
+        commit('uploads', data.data.map(samplePack => makeSamplePackFromResult({samplePack})));
+      }
     },
 
-    async getPurchasedSamplePack({state:{libraryLinks}, dispatch}, {samplePack:{_id}}){
-      if(!libraryLinks[_id]) {
+    async getPurchasedSamplePack({state:{libraryLinks}, dispatch}, {samplePack:{id}}){
+      if(!libraryLinks[id]) {
         const { data = [] } = await securePost(
           axios,
           'text/plain',
-          JSON.stringify(_id),
+          JSON.stringify(id),
           {slug: slugs.GetPurchasedSamplePack}
         );
         
         dispatch('addLibrarySamplePackLinks',{
-          samplePackId: _id,
-          links: data.map(({Key, Value}) => ({_id: Key, link: Value}))
+          samplePackId: id,
+          links: data.map(({Key, Value}) => ({id: Key, link: Value}))
         });
       }
       
-      return libraryLinks[_id];
+      return libraryLinks[id];
     },
 
     async getPurchasedSample(context, { sample }){
-      const { _id } = sample;      
+      const { id } = sample;
       const { data: uri } = await securePost(
         axios, 
         'text/plain',
-        JSON.stringify(`${_id}.wav`),
+        JSON.stringify(`${id}.wav`),
         {slug: slugs.GetPurchasedSample}
       );
+      
       const { data } = await secureGet(axios, { responseType: 'blob', uri, auth: false });
 
       return data;
     },
 
     async handleUserLogon({commit, dispatch, getters:{stripeAccountStatus}}, tokenResponse){
+
+      console.log('id: ',  tokenResponse.idTokenClaims.oid);
+
       commit('idToken', tokenResponse.idToken);
       commit('customUserName', tokenResponse.account.name);
       commit('avatarId', tokenResponse.idTokenClaims.oid);
@@ -212,8 +218,8 @@ export default {
       Vue.set(state, 'purchases'  , purchases);
     },
 
-    _id(state, _id) {
-      state._id = _id;
+    id(state, id) {
+      state.id = id;
     },
 
     isStripeApproved(state, isStripeApproved) {

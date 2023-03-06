@@ -39,7 +39,7 @@
               <sortable-table-row
                 :table-definition="samplePackTableDefinition"
                 :on-click="() => onSampleClicked(sample)"
-                :class="{selected: sample._id === nowPlaying._id}"
+                :class="{selected: sample.id === nowPlaying.id}"
               >
                 <template v-slot:Image>
                   <form-sortable-table-cell class="grid-image position-relative">
@@ -112,8 +112,8 @@ export default {
     addSamplePackToCart(){
       this.$store.dispatch('cart/addSamplePackToCart', this.selectedSamplePack);
     },
-    onSampleClicked({_id}){
-      this.$store.dispatch('audioPlayer/playSample', {_id})
+    onSampleClicked({id}){
+      this.$store.dispatch('audioPlayer/playSample', {id})
     }
   }
 }

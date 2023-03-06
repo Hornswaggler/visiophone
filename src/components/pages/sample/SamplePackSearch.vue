@@ -46,7 +46,7 @@
             <template v-slot:Image>
               <form-sortable-table-cell
                 class="grid-image position-relative"
-                :on-click="() => onSamplePackSelected(samplePack._id)"
+                :on-click="() => onSamplePackSelected(samplePack.id)"
               >
                 <div
                   class="position-absolute flex flex-column p025"

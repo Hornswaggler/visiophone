@@ -5,7 +5,7 @@
   >
     <div
       v-for="row in data"
-      :key="row._id"
+      :key="row.id"
       class="sortable-table-row"
     >
       <slot

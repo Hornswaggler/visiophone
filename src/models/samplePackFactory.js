@@ -4,7 +4,7 @@ const {VITE_COVER_ART_URI} = config;
 
 
 const DEFAULT_SAMPLE_PACK = {
-  _id: null,
+  id: null,
   name:'',
   description: '',
   imgUrl:'',
@@ -46,8 +46,8 @@ export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
       ...sample,
       imgUrl: samplePack.imgUrl
     },
-    clipUri: `${config.VITE_CLIP_URI}${sample._id}.ogg`,
-    imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
+    clipUri: `${config.VITE_CLIP_URI}${sample.id}.ogg`,
+    imgUrl: `${VITE_COVER_ART_URI}${samplePack.id}.png`,
   }));
 
   const cost = getSamplePackCost(samplePack);
@@ -56,7 +56,7 @@ export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
     ...makeNewSamplePack(),
     ...samplePack,
     samples,
-    imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
+    imgUrl: `${VITE_COVER_ART_URI}${samplePack.id}.png`,
     lastRefresh: moment().valueOf(),
     cost,
     costFormatted: formatCost(cost)
@@ -67,7 +67,7 @@ export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
       ...samplePack,
       samples
     }),
-    imgUrl: `${VITE_COVER_ART_URI}${samplePack._id}.png`,
+    imgUrl: `${VITE_COVER_ART_URI}${samplePack.id}.png`,
     lastRefresh: moment().valueOf(),
     cost,
     costFormatted: formatCost()

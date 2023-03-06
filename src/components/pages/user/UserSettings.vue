@@ -8,7 +8,7 @@
           <div class="vp-form-row">
             <form-image-editor
               class="flex-3"
-              :value="imageSrc"
+              :value="{imgUrl: profileImg}"
               :change-handler="onImageChanged"
             />
           </div>
