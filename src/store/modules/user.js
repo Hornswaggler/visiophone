@@ -142,10 +142,7 @@ export default {
       return data;
     },
 
-    async handleUserLogon({commit, dispatch, getters:{stripeAccountStatus}}, tokenResponse){
-
-      console.log('id: ',  tokenResponse.idTokenClaims.oid);
-
+    async handleUserLogon({commit, dispatch}, tokenResponse){
       commit('idToken', tokenResponse.idToken);
       commit('customUserName', tokenResponse.account.name);
       commit('avatarId', tokenResponse.idTokenClaims.oid);
