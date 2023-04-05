@@ -1,11 +1,12 @@
 <template>
   <div
     class="overlay"
-    :class="{ show: showOverlay }"
+    :class="{ show }"
     @click="onOverlayClicked"
   >
+    <!-- This is the loading component.... -->
+
     <div
-      v-if="loading"
       class="lds-facebook"
     >
       <div />

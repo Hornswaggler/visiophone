@@ -58,7 +58,7 @@ export default {
     loadMoreSamples(){
       const { scrollHeight , scrollTop , clientHeight } = this.$refs.scrollingContainer;
 
-      if(scrollHeight - scrollTop - clientHeight < 1  ) {
+      if(scrollHeight - scrollTop - clientHeight < 1 ) {
         this.onScrollLimitReached();
       }
     }

@@ -8,7 +8,7 @@ const DEFAULT_SAMPLE_PACK = {
   name:'',
   description: '',
   imgUrl:'',
-  cost: '100.00',
+  cost: '10.00',
   samples: {}
 };
 

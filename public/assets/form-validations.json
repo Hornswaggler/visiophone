@@ -11,7 +11,7 @@
       "required": true
     },
     "cost": {
-      "gte": 100,
+      "gte": 10,
       "lte": 99999999,
       "required": true
     },

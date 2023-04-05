@@ -9,12 +9,11 @@
           :on-changed="name => onChanged({key: 'name', value: name })"
         />
       </div>
-
       <div class="vp-form-row mt0">
-        <form-input
-          title="key"
+        <form-select title="key"
           :fieldName="`${fieldPrefixInternal}key`" 
-          :value="sampleInternal.key" 
+          :options="keys" 
+          :value="sampleInternal.key"
           :on-changed="key => onChanged({key: 'key', value: key })"
         />
       </div>
@@ -53,14 +52,6 @@
         />
       </div>
 
-      <div class="vp-form-row flex-column flex">
-        <form-number-input
-          title="cost" 
-          :fieldName="`${fieldPrefixInternal}cost`"
-          :value="sampleInternal.cost"
-          :on-changed="cost => onChanged({key: 'cost', value: cost })"
-        />
-      </div>
 
       <div class="vp-form-row">
         <form-number-input 
@@ -96,6 +87,21 @@ const TAG_TYPES = [
   { name: 'Influencing Influencercore' }
 ].map((type, i) => ({ ...type, id: i }));
 
+const KEYS = [
+  { name: 'A' },
+  { name: 'A#/Bb' },
+  { name: 'B' },
+  { name: 'C' },
+  { name: 'C#/Db' },
+  { name: 'D' },
+  { name: 'D#/Eb' },
+  { name: 'E' },
+  { name: 'F' },
+  { name: 'F#/Gb' },
+  { name: 'G' },
+  { name: 'G#/Ab' },
+];
+
 export default {
   name: 'SampleEditor',
   components:{
@@ -109,6 +115,7 @@ export default {
     sampleInternal: {},
     AUDIO_MIME_TYPE,
     tags: [...TAG_TYPES],
+    keys: [ ...KEYS ],
     fieldPrefixInternal: '',
   }),
   props:{

@@ -5,14 +5,14 @@ const DEFAULT_SAMPLE = {
   id: null,
   name:'',
   sampleFile: {},
-  tag: '',
+  tag: 'InfluencerCore',
   description: '',
   seller: '',
   bpm: '120.0',
   cost: "100",
   clipUri:'',
   fileName:'',
-  key: ''
+  key: 'C'
 };
 
 export const makeNewSample = (

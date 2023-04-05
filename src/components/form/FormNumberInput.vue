@@ -10,14 +10,17 @@
     <template
       v-slot:input
     >
-      <input
-        step="0.01"
-        v-model="internalValue"
-        class="form-input-body"
-        type="number"
-        v-debounce="onChangeHandler"
-        @blur="onChangeHandler(internalValue)"
-      >
+      <span class="flex">
+        <span v-if="prefix!=''">{{ prefix }}&nbsp;</span>
+        <input
+          step="0.01"
+          v-model="internalValue"
+          class="form-input-body"
+          type="number"
+          v-debounce="onChangeHandler"
+          @blur="onChangeHandler(internalValue)"
+        >
+      </span>
     </template>
   </form-input-base>
 </template>
@@ -45,6 +48,10 @@ export default {
     value:{
       type: String,
       default: "0"
+    },
+    prefix: {
+      type: String,
+      default:''
     },
     onChanged:{
       type: Function,

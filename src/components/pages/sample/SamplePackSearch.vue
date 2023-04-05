@@ -66,7 +66,7 @@
                   <div 
                     style="color: #6aef6ae3;"
                   >
-                    {{ samplePack.cost }}
+                    $&nbsp;{{ samplePack.cost }}
                   </div>
                   <div>
                     {{ samplePack.description }}

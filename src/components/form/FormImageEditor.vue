@@ -27,6 +27,7 @@
       <div class="form-image-editor-file-input">
         <input
           type="file"
+          :accept="IMAGE_MIME_TYPE"
           @change="({target:{files}}) => onInputChanged(files[0])"
         />
         <div class="image-icon noselect">
