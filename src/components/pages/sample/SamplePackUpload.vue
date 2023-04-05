@@ -1,5 +1,5 @@
 <template>
-<div>
+  <div>
     <div>
       <div class="form-base flex-1"
         :style="{ backgroundColor: `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})` }">
@@ -15,8 +15,9 @@
             </div>
             <div class="vp-form-row flex-column flex">
               <form-number-input
-                title="cost"
+                title="price"
                 fieldName="cost"
+                :prefix="'$'"
                 :value="samplePackForEdit.cost"
                 :on-changed="value => onSamplePackChanged({key: 'cost', value})"
               />
@@ -96,7 +97,8 @@
         </div>
       </div>
     </div>
-  </div></template>
+  </div>
+</template>
 
 <script>
 import Vue from 'vue';
@@ -178,18 +180,17 @@ export default {
     async handleSubmitForm() {
       if (await this.$store.dispatch('form/validateForm', { formData: this.samplePackForEdit })) {
         try {
-          this.$store.commit('app/isLoading', true);
+          this.$store.dispatch('app/showOverlay');
           await this.$store.dispatch('samplePack/uploadSamplePack', {
             samplePack: this.samplePackForEdit,
             imageBlob: this.imagePreviewBlob,
           });
 
-          //TODO: Uncomment once completed...
-          // this.$router.push('/search');
+          this.$router.push('/sample-pack/explore');
         } catch (e) {
           console.error(e);
         } finally {
-          this.$store.commit('app/isLoading', false);
+          this.$store.dispatch('app/hideOverlay');
         }
       } else {
         this.onCollapseExpandAll(false);
