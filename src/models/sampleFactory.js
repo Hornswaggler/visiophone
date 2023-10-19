@@ -52,7 +52,7 @@ export const makeSampleFromResult = ({sample, isNew = false}) => {
 
   let clipUri = newSample.clipUri || '';
   if(newSample.id && !isNew) {
-    clipUri = `${config.VITE_CLIP_URI}${newSample.id}.wav.ogg`;
+    clipUri = `${config.VITE_CLIP_URI}${newSample.id}.mp3`;
   }
 
   return {

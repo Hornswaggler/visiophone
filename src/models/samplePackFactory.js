@@ -2,7 +2,6 @@ import moment from 'moment';
 import config from '/src/config';
 const {VITE_COVER_ART_URI} = config;
 
-
 const DEFAULT_SAMPLE_PACK = {
   id: null,
   name:'',
@@ -46,7 +45,7 @@ export const makeSamplePackFromResult = ({samplePack, isNew = false}) => {
       ...sample,
       imgUrl: samplePack.imgUrl
     },
-    clipUri: `${config.VITE_CLIP_URI}${sample.id}.ogg`,
+    clipUri: `${config.VITE_CLIP_URI}${sample.id}.mp3`,
     imgUrl: `${VITE_COVER_ART_URI}${samplePack.id}.png`,
   }));
 

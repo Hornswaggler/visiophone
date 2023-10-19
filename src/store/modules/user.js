@@ -53,7 +53,9 @@ export default {
       if(!isLibraryInitialized){
         Promise.all([
           dispatch('getUploads'),
-          dispatch('getPurchases')
+          dispatch('getPurchases'),
+          //Todo: Implement this w/ Push notification(s)
+          // dispatch('getTransactions')
         ]);
       }
     },
@@ -69,7 +71,6 @@ export default {
         });
       }
     },
-
     
     addLibrarySampleLink({state:{libraryLinks}, commit}, {samplePackId, sampleId, link}) {
       commit('libraryLinks', {
@@ -109,6 +110,15 @@ export default {
         commit('uploads', data.data.map(samplePack => makeSamplePackFromResult({samplePack})));
       }
     },
+
+    //TODO: Implmenent w/ push notification(s)
+    // async getTransactions(){
+    //   console.log('Getting Transactions');
+    //   const result = await secureGet(
+    //     axios,
+    //     { slug: 'F_SamplePackTransactionStatus' }
+    //   );
+    // },
 
     async getPurchasedSamplePack({state:{libraryLinks}, dispatch}, {samplePack:{id}}){
       if(!libraryLinks[id]) {
