@@ -1,0 +1,139 @@
+@charset "UTF-8";
+@use "sass:color";
+
+@import '../src/styles/mixins';
+@import '../src/styles/variables';
+@import '../src/styles/helpers';
+@import '../src/styles/base';
+@import '../src/styles/fonts';
+@import '../src/styles/typography';
+@import '../src/styles/forms';
+@import '../src/styles/shapes';
+@import '../src/styles/animations';
+@import '../src/styles/gradients';
+@import '../src/styles/layout/responsive-layout';
+@import '../src/styles/layout/responsive-layout-header';
+@import '../src/styles/components/scrolling-container';
+@import '../src/styles/components/form/base';
+@import '../src/styles/components/form/sortable-table';
+@import '../src/styles/components/form/dropdown';
+@import '../src/styles/components/form/input';
+@import '../src/styles/components/form/input-base';
+@import '../src/styles/components/form/select';
+@import '../src/styles/components/form/image-editor';
+@import '../src/styles/components/form/textarea';
+@import '../src/styles/components/form/file-upload';
+@import '../src/styles/components/form/button';
+@import '../src/styles/components/form/image';
+@import '../src/styles/components/form/redirect-button';
+@import '../src/styles/components/form/carousel';
+
+#app {
+  --main-banner-height: 0rem;
+}
+
+
+.scrolling-container {
+  .scrolling-container-scrollable-content {
+    .scrolling-container-content {
+      background-color: var(--primary-background-color);
+    }
+  }
+}  
+
+.b2c-template {
+  --main-banner-height: 0rem;
+  background: rgba(128, 128, 128, 0.46);
+
+  padding: 2rem;
+  font: 1rem #{$primary-font-family}, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Monaco", monospace;
+  border-radius: 1rem;
+  text-shadow: 1px 2px 8px #2b1414a4;
+  width: 75%;
+
+  @include for-size(xs) {
+    width: calc(100% - 4rem);
+  }
+
+  img {
+    max-height: 3rem;
+  }
+
+  #api {
+    text-align: start;
+    .heading {
+      display: none;
+    }
+  }
+
+  .entry {
+    .entry-item {
+      input {
+        background-color: transparent;
+        padding: 0;
+        font: 1rem #{$primary-font-family}, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Monaco", monospace;
+        width: 100%;
+        border: solid 2px rgb(158, 158, 158);
+        font-size: 1rem;
+        color: white;
+      }
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: flex-end;
+
+      button {
+        height: 2rem;
+        background-color: black;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 250ms ease-in-out;
+
+        &:hover {
+          color: black;
+          background-color: white;
+        }
+      }
+    }
+
+    .entry-item , .buttons {
+      margin-top: 1rem;
+    }
+
+    .entry-item :first {
+      margin-top: 0rem;
+    }
+  }
+  
+  label {
+    display: none;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  .error p {
+    font-size: 0.75rem;
+    color: #eac22a;
+    margin-bottom: 0;
+  }
+  
+  .password-label {
+    u {
+      display: flex;
+      justify-content: flex-end;
+
+      a {
+        color: rgb(44, 240, 30);
+        font-size: 0.75rem;
+      }
+    }
+
+  }
+}
+
+
+

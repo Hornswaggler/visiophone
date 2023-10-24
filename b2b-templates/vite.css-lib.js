@@ -1,1 +1,1 @@
-import * as styles from '../src/styles/b2cTemplate.scss';
+import * as styles from './b2cTemplate.scss';
